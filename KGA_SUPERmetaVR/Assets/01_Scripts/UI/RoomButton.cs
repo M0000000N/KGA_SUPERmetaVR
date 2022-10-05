@@ -9,9 +9,8 @@ using UnityEngine.UI;
 public class RoomButton : MonoBehaviourPunCallbacks
 {
     [SerializeField] TextMeshProUGUI RoomNameText;
-    [SerializeField] TextMeshProUGUI memberText;
-    
-    Button roomButton;
+    [SerializeField] TextMeshProUGUI memberText;    
+    private Button roomButton;
     public RoomInfo RoomInfo { get; private set; }
     private void Start()
     {
@@ -32,7 +31,6 @@ public class RoomButton : MonoBehaviourPunCallbacks
         //    logText.text = "닉네임을 입력하세요";
         //    return;
         //}
-
         PhotonNetwork.JoinRoom(RoomInfo.Name);
     }
 }

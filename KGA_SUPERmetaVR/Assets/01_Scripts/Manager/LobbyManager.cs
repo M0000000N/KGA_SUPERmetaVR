@@ -17,13 +17,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] Button randomJoinButton;
     [SerializeField] Button createRoomButton;
 
-    [Header("½ºÅ©·Ñ ºä")]
-    [SerializeField] Button PlusButton;
-
-    [SerializeField] ScrollRect scrollRect;
-    [SerializeField] Transform roomBtnParent;
-    [SerializeField] RoomButton roomBtnPref;
-
     private List<RoomButton> roomButtons = new List<RoomButton>();
 
     [Header("¹æ¸¸µé±â ÆË¾÷")]
@@ -56,29 +49,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         deactivateJoinButton("Á¢¼ÓÁß");
     }
 
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        foreach (RoomInfo info in roomList)
-        {
-            if (info.RemovedFromList) // ·ë Áö¿üÀ» ¶§
-            {
-                int index = roomButtons.FindIndex(x => x.RoomInfo.Name == info.Name);
-                if(index != -1)
-                {
-                    Destroy(roomButtons[index].gameObject);
-                    roomButtons.RemoveAt(index);
-                }
-            }
-            else // ·ë Ãß°¡ÇßÀ» ¶§
-            {
-                RoomButton listing = (RoomButton)Instantiate(roomBtnPref, roomBtnParent);
-                if (listing != null)
-                {
-                    listing.SetRoomInfo(info);
-                }
-            }
-        }
-    }
 
     private void deactivateJoinButton(string message)
     {

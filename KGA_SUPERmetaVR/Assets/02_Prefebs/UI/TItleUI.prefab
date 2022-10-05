@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1229953856258166523}
   - component: {fileID: 1229953856258166526}
+  - component: {fileID: 6249578827152139410}
   - component: {fileID: 1229953856258166525}
   - component: {fileID: 1229953856258166524}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: RoomList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,6 +49,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1229953856258166522}
   m_CullTransparentMesh: 1
+--- !u!114 &6249578827152139410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229953856258166522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec94202d2db389e4e90e1202fab1f55e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomBtnParent: {fileID: 1229953856418177324}
+  roomBtnPref: {fileID: 6335303861324093436, guid: ed0b563385c1f834ba7e89430dd86605, type: 3}
 --- !u!114 &1229953856258166525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -579,7 +594,7 @@ GameObject:
   - component: {fileID: 1229953856617946059}
   - component: {fileID: 1229953856617946058}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: TItleUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
