@@ -110,6 +110,7 @@ public class DataBase : SingletonBehaviour<DataBase>
         sqlcmdall("UPDATE " + _tableName + " SET " + _updateTimeColumn + "= NOW() WHERE " + _findColum + "= '" + _findData + "'");
     }
 
+    // 데이터 찾기
     public DataTable FindDB(string _tableName, string _findColumn, string _checkColumn, string _checkData)
     {
         DataTable dataTable = selsql("SELECT " + _findColumn + " FROM " + _tableName + " WHERE " + _checkColumn + "='" + _checkData + "'");

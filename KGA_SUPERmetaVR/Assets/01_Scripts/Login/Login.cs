@@ -5,6 +5,10 @@ using TMPro;
 
 public class Login : MonoBehaviour
 {
+    // 테스트용 임시코드
+    PlayerData playerData;
+    //
+
     [Header("로그인")]
     public TMP_InputField LoginID;
     public TMP_InputField LoginPW;
@@ -33,6 +37,10 @@ public class Login : MonoBehaviour
         if (DataBase.Instance.Login(LoginID.text, LoginPW.text))
         {
             UnityEngine.Debug.Log("로그인에 성공했습니다.");
+            playerData.GetDataBase();
+            UnityEngine.Debug.Log($"ID : {playerData.ID}");
+            UnityEngine.Debug.Log($"NickName : {playerData.Nickname}");
+            UnityEngine.Debug.Log($"Coin : {playerData.Coin}");
         }
     }
 
