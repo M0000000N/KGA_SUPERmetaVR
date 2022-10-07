@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class RoomButton : MonoBehaviourPunCallbacks
 {
-    [SerializeField] TextMeshProUGUI RoomNameText;
+    [SerializeField] TextMeshProUGUI roomNameText;
     [SerializeField] TextMeshProUGUI memberText;    
     private Button roomButton;
     public RoomInfo RoomInfo { get; private set; }
@@ -20,7 +20,7 @@ public class RoomButton : MonoBehaviourPunCallbacks
     public void SetRoomInfo(RoomInfo _roomInfo)
     {
         RoomInfo = _roomInfo;
-        RoomNameText.text = _roomInfo.Name;
+        roomNameText.text = _roomInfo.Name;
         memberText.text = $"{_roomInfo.PlayerCount} / {_roomInfo.MaxPlayers}";
     }
 
