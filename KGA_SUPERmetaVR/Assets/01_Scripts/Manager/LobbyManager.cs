@@ -118,8 +118,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // 마스터 서버에 접속중이라면 룸 접속 실행
         if (PhotonNetwork.IsConnected)
         {
-            Data data = FindObjectOfType<Data>();
-            data.Nickname = nickname.text;
+            //Data data = FindObjectOfType<Data>();
+            //data.Nickname = nickname.text;
 
 
             PhotonNetwork.JoinRandomRoom();
