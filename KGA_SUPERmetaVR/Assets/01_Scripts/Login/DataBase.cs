@@ -15,6 +15,7 @@ public static class UserTableInfo
     public static readonly string TableName = "UserData";
     public static readonly string ID = "UserID";
     public static readonly string PW = "UserPW";
+    public static readonly string Coin = "Coin";
     public static readonly string NickName = "NickName";
     public static readonly string JoinDate = "JoinDate";
     public static readonly string AccessDate = "AccessDate";
@@ -102,10 +103,14 @@ public class DataBase : SingletonBehaviour<DataBase>
     public void UpdateDB(string _tableName, string _updateColumn, string _updateData, string _findColum, string _findData)
     {
         sqlcmdall("UPDATE " + _tableName + " SET " + _updateColumn + "= '" + _updateData + "' WHERE " + _findColum + "= '" + _findData + "'");
-
     }
 
-    public DataTable SelectDB(string _tableName, string _findColumn, string _checkColumn, string _checkData)
+    public void UpdateDB(string _tableName, string _updateTimeColumn, string _findColum, string _findData)
+    {
+        sqlcmdall("UPDATE " + _tableName + " SET " + _updateTimeColumn + "= NOW() WHERE " + _findColum + "= '" + _findData + "'");
+    }
+
+    public DataTable FindDB(string _tableName, string _findColumn, string _checkColumn, string _checkData)
     {
         DataTable dataTable = selsql("SELECT " + _findColumn + " FROM " + _tableName + " WHERE " + _checkColumn + "='" + _checkData + "'");
         return dataTable;
@@ -117,7 +122,7 @@ public class DataBase : SingletonBehaviour<DataBase>
         // 입력값 SQL Injection 방지 및 패스워드 암호화 (솔팅 + 해싱)
         string securityPW = SHA512Hash(_pw + securityString);
 
-        DataTable dataTable = SelectDB(UserTableInfo.TableName, UserTableInfo.PW, UserTableInfo.ID, _id);
+        DataTable dataTable = FindDB(UserTableInfo.TableName, UserTableInfo.PW, UserTableInfo.ID, _id);
 
         if (dataTable.Rows.Count > 0)
         {
@@ -127,7 +132,7 @@ public class DataBase : SingletonBehaviour<DataBase>
                 {
                     UnityEngine.Debug.Log("로그인에 성공했습니다.");
 
-                    UpdateDB(UserTableInfo.TableName, UserTableInfo.AccessDate, "NOW()", UserTableInfo.ID, _id);
+                    UpdateDB(UserTableInfo.TableName, UserTableInfo.AccessDate, UserTableInfo.ID, _id);
                     return true;
                 }
                 else
