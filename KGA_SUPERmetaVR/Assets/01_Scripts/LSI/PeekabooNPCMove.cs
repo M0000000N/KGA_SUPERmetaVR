@@ -19,12 +19,12 @@ public class PeekabooNPCMove : MonoBehaviour
     #endregion
 
     private NavMeshAgent agent;
-    public float moveRangeMinX;
-    public float moveRangeMaxX;
-    public float moveRangeMinY;
-    public float moveRangeMaxY;
-    public float moveRangeMinZ;
-    public float moveRangeMaxZ;
+    private float moveRangeMinX;
+    private float moveRangeMaxX;
+    private float moveRangeMinY;
+    private float moveRangeMaxY;
+    private float moveRangeMinZ;
+    private float moveRangeMaxZ;
 
     void Awake()
     {
