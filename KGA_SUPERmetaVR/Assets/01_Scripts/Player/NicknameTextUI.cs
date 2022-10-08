@@ -47,13 +47,13 @@ public class NicknameTextUI : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Start()
     {
-        Data data = FindObjectOfType<Data>();
-        if (photonView.IsMine)
-        {
-            Nickname = data.Nickname;
-            ClickCount = 0;
-            photonView.RPC("SetNickname", RpcTarget.Others, Nickname);
-        }
+        //Data data = FindObjectOfType<Data>();
+        //if (photonView.IsMine)
+        //{
+        //    Nickname = data.Nickname;
+        //    ClickCount = 0;
+        //    photonView.RPC("SetNickname", RpcTarget.Others, Nickname);
+        //}
     }
     void Update()
     {
