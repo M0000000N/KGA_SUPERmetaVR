@@ -4,7 +4,7 @@ using System.Data;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerData
+public class PlayerData : MonoBehaviour
 {
     string id;
     public string ID { get { return id; } set { id = value; } }
