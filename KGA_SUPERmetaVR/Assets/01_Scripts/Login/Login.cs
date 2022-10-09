@@ -27,7 +27,7 @@ public class Login : MonoBehaviour
             UnityEngine.Debug.Log("비밀번호가 일치하지 않습니다.");
             return;
         }
-        else if(DataBase.Instance.CheckUse(UserTableInfo.NickName,CreateNickName.text))
+        else if(DataBase.Instance.CheckUse(UserTableInfo.nickname,CreateNickName.text))
         DataBase.Instance.CreateUser(CreateID.text, CreatePW.text, CreateNickName.text);
     }
 
@@ -60,13 +60,13 @@ public class Login : MonoBehaviour
     PlayerData playerData = new PlayerData();
     public void GetDataBase()
     {
-        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.TableName, "*", UserTableInfo.ID, playerData.ID);
+        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*", UserTableInfo.user_id, playerData.ID);
         if (dataTable.Rows.Count > 0)
         {
             foreach (DataRow row in dataTable.Rows)
             {
-                playerData.Nickname = row[UserTableInfo.NickName].ToString();
-                playerData.Coin =  int.Parse(row[UserTableInfo.Coin].ToString());
+                playerData.Nickname = row[UserTableInfo.nickname].ToString();
+                playerData.Coin =  int.Parse(row[UserTableInfo.coin].ToString());
             }
         }
     }
