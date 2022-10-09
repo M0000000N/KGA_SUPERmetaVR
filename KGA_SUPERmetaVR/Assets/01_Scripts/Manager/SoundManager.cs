@@ -34,7 +34,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
         sePlayer = new AudioSource[audioPlayer.Length - 1];
 
         bgmPlayer = audioPlayer[0]; // 가장 위는 BGM
-        for (int i = 3; i < audioPlayer.Length; i++) // 나머지는 SE
+        for (int i = 1; i < audioPlayer.Length; i++) // 나머지는 SE
         {
             sePlayer[i-1] = audioPlayer[i];
             if (sePlayer.Length < i) break;
