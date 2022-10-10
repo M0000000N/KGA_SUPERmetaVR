@@ -5,9 +5,15 @@ using UnityEngine;
 public class NPCMoveTester : MonoBehaviour
 {
     [SerializeField]
-    private PeekabooNPCMove move;
+    private int numberOfNPC;
 
+    private PeekabooNPCMove[] NPCs;
     private bool inputMouseLeftButton = false;
+
+    void Awake()
+    {
+        NPCs = GetComponentsInChildren<PeekabooNPCMove>();
+    }
 
     void Update()
     {
@@ -15,7 +21,10 @@ public class NPCMoveTester : MonoBehaviour
 
         if (inputMouseLeftButton)
         {
-            move.Move();
+            for (int i = 0; i < numberOfNPC; i++)
+            {
+                NPCs[i].Move();
+            }
         }
     }
 }

@@ -35,6 +35,7 @@ public class PeekabooNPCMove : MonoBehaviour
         moveRangeMaxY = mapData[1] / 2;
         moveRangeMinZ = -(mapData[2] / 2);
         moveRangeMaxZ = mapData[2] / 2;
+        agent.destination = transform.position;
     }
 
     public void Move()
