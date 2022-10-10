@@ -10,21 +10,6 @@ using MySql.Data.MySqlClient;
 using System.Security.Cryptography; // SHA512 해싱을 위함
 using System.Text; // StringBuilder를 사용하기 위함
 
-public static class UserTableInfo
-{
-    public static readonly string table_name = "UserData";
-
-    public static readonly string user_id = "user_id";
-    public static readonly string user_pw = "user_pw";
-
-    public static readonly string nickname = "nickname";
-    public static readonly string coin = "coin";
-
-    public static readonly string create_at = "create_at"; // join_date와 동일
-    public static readonly string update_at = "update_at"; // 최근 정보가 변경된 시점
-    public static readonly string is_delete = "is_delete";
-}
-
 public class DataBase : SingletonBehaviour<DataBase>
 {
     MySqlConnection sqlconnection = null;
@@ -36,9 +21,6 @@ public class DataBase : SingletonBehaviour<DataBase>
     [SerializeField] string sqlDatabasePW;
 
     string securityString = "뒷간"; // 솔팅을 위한 암호
-
-
-
 
     void sqlConnect()
     {
@@ -96,7 +78,6 @@ public class DataBase : SingletonBehaviour<DataBase>
         }
         return stringBuilder.ToString();
     }
-
 
     // SQL
     public void InsertDB(string _tableName, string _column, string _data)

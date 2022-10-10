@@ -57,9 +57,10 @@ public class CustomizingUI : MonoBehaviour
         CheckButton.onClick.AddListener(OnClickCheckButton);
         LeftButton.onClick.AddListener(OnClickLeftButton);
         RightButton.onClick.AddListener(OnClickRightButton);
+
         for (int i = 0; i < CharacterButton.Length; i++)
         {
-            CharacterButton[i].onClick.AddListener(OnClickCharacterButton);
+            CharacterButton[i].onClick.AddListener(() => OnClickCharacterButton(i));
         }
         //Character1Button.onClick.AddListener(OnClickCharacter1Button);
         //Character2Button.onClick.AddListener(OnClickCharacter2Button);
@@ -68,12 +69,11 @@ public class CustomizingUI : MonoBehaviour
         //Character5Button.onClick.AddListener(OnClickCharacter5Button);        
     }
 
-
-
     public void OnClickCheckButton()
     {
         gameObject.SetActive(false);
     }
+
     public void OnClickLeftButton()
     {
         if (pageNumber <= 0) return;
@@ -84,6 +84,7 @@ public class CustomizingUI : MonoBehaviour
 
         RefreshUI();
     }
+
     public void OnClickRightButton()
     {
         if (Character.Length <= characterCountInPage * (pageNumber + 1)) return;
@@ -99,11 +100,19 @@ public class CustomizingUI : MonoBehaviour
         //Character4.gameObject.SetActive(true);
         //Character5.gameObject.SetActive(true);
     }
-    public void OnClickCharacterButton()
+
+    public void OnClickCharacterButton(int _characterNumber)
     {
-        // player.Character1 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
+        GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter = _characterNumber;
+        // UI º¯°æ
+
     }
 
+
+    //public void OnClickCharacter1Button()
+    //{
+    //    // player.Character1 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
+    //}
     //public void OnClickCharacter2Button()
     //{
     //    // player.Character2 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
@@ -124,10 +133,10 @@ public class CustomizingUI : MonoBehaviour
 
     public void RefreshUI()
     {
-        ChangePage();
+        ChangePageUI();
     }
 
-    public void ChangePage()
+    public void ChangePageUI()
     {
         for (int i = 0; i < Character.Length; i++)
         {
@@ -138,6 +147,14 @@ public class CustomizingUI : MonoBehaviour
                 continue;
             }
             Character[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void ChangeCharacterUI()
+    {
+        for (int i = 0; i < Character.Length; i++)
+        {
+
         }
     }
 }
