@@ -24,8 +24,8 @@ public class PeekabooNPC : MonoBehaviour
     public bool isLooking;
     public bool isLookingAround;
     public Quaternion firstRotation;
-    public Quaternion leftSideRotation;
-    public Quaternion rightSideRotation;
+    public Quaternion leftSideAngle;
+    public Quaternion rightSideAngle;
 
     void Awake()
     {
@@ -65,6 +65,7 @@ public class PeekabooNPC : MonoBehaviour
 
         lookingTarget = _other.gameObject;
         isLooking = true;
+        StopAllCoroutines();
     }
 
     void OnTriggerExit(Collider _other)
@@ -79,21 +80,20 @@ public class PeekabooNPC : MonoBehaviour
     IEnumerator LookingAroundCoroutine()
     {
         firstRotation = transform.rotation;
-        leftSideRotation = firstRotation;
-        leftSideRotation.y -= 40;
-        rightSideRotation = firstRotation;
-        rightSideRotation.y += 40;
+        Vector3 rotateLeftSide = new Vector3(0f, -90f, 0f);
+        leftSideAngle = transform.rotation * Quaternion.Euler(rotateLeftSide);
+        Vector3 rotateRightSide = new Vector3(0f, 90f, 0f);
+        rightSideAngle = transform.rotation * Quaternion.Euler(rotateRightSide);
         float elapsedTimeInCoroutine = 0f;
 
         while (true)
         {
             yield return null;
             elapsedTimeInCoroutine += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(firstRotation, leftSideRotation, elapsedTime / turnLeftSideTime);
+            transform.rotation = Quaternion.Lerp(firstRotation, leftSideAngle, elapsedTimeInCoroutine / turnLeftSideTime);
 
             if (turnLeftSideTime <= elapsedTimeInCoroutine)
             {
-                transform.rotation = leftSideRotation;
                 elapsedTimeInCoroutine = 0f;
                 break;
             }
@@ -105,11 +105,10 @@ public class PeekabooNPC : MonoBehaviour
         {
             yield return null;
             elapsedTimeInCoroutine += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(leftSideRotation, firstRotation, elapsedTime / turnLeftSideTime);
+            transform.rotation = Quaternion.Lerp(leftSideAngle, firstRotation, elapsedTimeInCoroutine / turnLeftSideTime);
 
             if (turnLeftSideTime <= elapsedTimeInCoroutine)
             {
-                transform.rotation = firstRotation;
                 elapsedTimeInCoroutine = 0f;
                 break;
             }
@@ -119,11 +118,10 @@ public class PeekabooNPC : MonoBehaviour
         {
             yield return null;
             elapsedTimeInCoroutine += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(firstRotation, rightSideRotation, elapsedTime / turnRightSideTime);
+            transform.rotation = Quaternion.Lerp(firstRotation, rightSideAngle, elapsedTimeInCoroutine / turnRightSideTime);
 
             if (turnRightSideTime <= elapsedTimeInCoroutine)
             {
-                transform.rotation = rightSideRotation;
                 elapsedTimeInCoroutine = 0f;
                 break;
             }
@@ -135,11 +133,10 @@ public class PeekabooNPC : MonoBehaviour
         {
             yield return null;
             elapsedTimeInCoroutine += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(rightSideRotation, firstRotation, elapsedTime / turnRightSideTime);
+            transform.rotation = Quaternion.Lerp(rightSideAngle, firstRotation, elapsedTimeInCoroutine / turnRightSideTime);
 
             if (turnRightSideTime <= elapsedTimeInCoroutine)
             {
-                transform.rotation = firstRotation;
                 elapsedTimeInCoroutine = 0f;
                 break;
             }
