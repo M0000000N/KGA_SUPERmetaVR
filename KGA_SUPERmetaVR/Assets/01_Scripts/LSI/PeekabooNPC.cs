@@ -17,6 +17,7 @@ public class PeekabooNPC : MonoBehaviour
     [SerializeField]
     private float rightSideWaitTime;
 
+    private PeekabooNPCFSM myFSM;
     private PeekabooNPCMove npcMove;
     private float elapsedTime;
 
@@ -29,6 +30,7 @@ public class PeekabooNPC : MonoBehaviour
 
     void Awake()
     {
+        myFSM = GetComponent<PeekabooNPCFSM>();
         npcMove = GetComponent<PeekabooNPCMove>();
         elapsedTime = 0f;
         lookingTarget = null;
@@ -51,9 +53,11 @@ public class PeekabooNPC : MonoBehaviour
             {
                 isLookingAround = true;
                 elapsedTime = 0f;
-                StartCoroutine(LookingAroundCoroutine());
+                // StartCoroutine(LookingAroundCoroutine());
             }
         }
+
+        myFSM.UpdateFSM();
     }
 
     void OnTriggerStay(Collider _other)
@@ -65,7 +69,7 @@ public class PeekabooNPC : MonoBehaviour
 
         lookingTarget = _other.gameObject;
         isLooking = true;
-        StopAllCoroutines();
+        // StopAllCoroutines();
     }
 
     void OnTriggerExit(Collider _other)

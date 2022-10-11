@@ -160,7 +160,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         logText.text = "방에 입장함";
 
-        PhotonNetwork.LoadLevel("01_Main");
+        PhotonNetwork.LoadLevel("07_NPC");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

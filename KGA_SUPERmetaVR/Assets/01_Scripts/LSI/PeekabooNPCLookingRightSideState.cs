@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PeekabooNPCLookingLeftSideState : PeekabooNPCState
+public class PeekabooNPCLookingRightSideState : PeekabooNPCState
 {
     private float viewAngleHalf;
     private Vector3 rotateVector3;
@@ -12,7 +12,7 @@ public class PeekabooNPCLookingLeftSideState : PeekabooNPCState
     public override void OnEnter()
     {
         viewAngleHalf = myFSM.getMyData.ViewAngle / 2;
-        rotateVector3 = new Vector3(0f, -viewAngleHalf, 0f);
+        rotateVector3 = new Vector3(0f, viewAngleHalf, 0f);
         initialQuaternion = transform.rotation;
         targetQuaternion = transform.rotation * Quaternion.Euler(rotateVector3);
 
@@ -31,9 +31,8 @@ public class PeekabooNPCLookingLeftSideState : PeekabooNPCState
 
     private IEnumerator RotateToTargetQuaternionCoroutine(Quaternion _target)
     {
-        Debug.Log("좌측 시야각으로 이동중!");
         Quaternion initialQuaternion = transform.rotation;
-        float  elapsedTime = 0f;
+        float elapsedTime = 0f;
 
         while (elapsedTime <= myFSM.getMyData.LeftAngleReachTime)
         {
@@ -50,7 +49,6 @@ public class PeekabooNPCLookingLeftSideState : PeekabooNPCState
 
     private IEnumerator RotateToInitialQuaternionCoroutine(Quaternion _target)
     {
-        Debug.Log("다시 원래 시야각으로 돌아가야지~");
         Quaternion initialQuaternion = transform.rotation;
         float elapsedTime = 0f;
 
@@ -64,12 +62,11 @@ public class PeekabooNPCLookingLeftSideState : PeekabooNPCState
 
         transform.rotation = targetQuaternion;
 
-        myFSM.ChangeState(PEEKABOONPCSTATE.LOOKINGRIGHTSIDE);
+        myFSM.ChangeState(PEEKABOONPCSTATE.IDLE);
     }
 
     private IEnumerator WaitForReturnQuaternionCoroutine(float _waitTime)
     {
-        Debug.Log("좌측 쳐다봐야지...");
         yield return new WaitForSeconds(_waitTime);
 
         targetQuaternion = initialQuaternion;

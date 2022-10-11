@@ -10,7 +10,9 @@ public class PeekabooNPCData : ScriptableObject
     public float RightAngleReachTime { get { return rightAngleReachTime; } }
     public float LookingLeftSideTime { get { return lookingLeftSideTime; } }
     public float LookingRightSideTime { get { return lookingRightSideTime; } }
-    public float WaitTimeForNextAnimation { get { return waitTimeForNextAnimationRoutine; } }
+    public float MinWaitTimeForNextAnimation { get { return minWaitTimeForNextAnimationRoutine; } }
+    public float MaxWaitTimeForNextAnimation { get { return maxWaitTimeForNextAnimationRoutine; } }
+    public int AnimationRoutineStartProbability { get { return animationRoutineStartProbability; } }
 
     [SerializeField]
     private float viewAngle;
@@ -23,7 +25,9 @@ public class PeekabooNPCData : ScriptableObject
     [SerializeField]
     private float lookingRightSideTime;
     [SerializeField]
-    private float waitTimeForNextAnimationRoutine;
+    private float minWaitTimeForNextAnimationRoutine;
     [SerializeField]
-    private float animationRoutineStartProbability;
+    private float maxWaitTimeForNextAnimationRoutine;
+    [SerializeField]
+    private int animationRoutineStartProbability;
 }
