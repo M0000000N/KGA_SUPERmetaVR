@@ -8,98 +8,153 @@ using Photon.Realtime;
 
 public class CustomizingUI : MonoBehaviour
 {
+    int pageNumber;
+    int characterCountInPage;
+
     [SerializeField] Button CheckButton;
     [SerializeField] Button LeftButton;
     [SerializeField] Button RightButton;
 
-    [SerializeField] GameObject Character1;
-    [SerializeField] GameObject Character2;
-    [SerializeField] GameObject Character3;
-    [SerializeField] GameObject Character4;
-    [SerializeField] GameObject Character5;
+    [SerializeField] GameObject[] Character;
+    //[SerializeField] GameObject Character1;
+    //[SerializeField] GameObject Character2;
+    //[SerializeField] GameObject Character3;
+    //[SerializeField] GameObject Character4;
+    //[SerializeField] GameObject Character5;
 
-    private Button Character1Button;
-    private Button Character2Button;
-    private Button Character3Button;
-    private Button Character4Button;
-    private Button Character5Button;
+    Button[] CharacterButton;
+    //private Button Character1Button;
+    //private Button Character2Button;
+    //private Button Character3Button;
+    //private Button Character4Button;
+    //private Button Character5Button;
 
-    private void Awake()
+    void Awake()
     {
-        Character1Button = Character1.GetComponentInChildren<Button>(); 
-        Character2Button = Character2.GetComponentInChildren<Button>();
-        Character3Button = Character3.GetComponentInChildren<Button>();
-        Character4Button = Character4.GetComponentInChildren<Button>();
-        Character5Button = Character5.GetComponentInChildren<Button>();
+        CharacterButton = new Button[Character.Length];
+        for (int i = 0; i < Character.Length; i++)
+        {
+            CharacterButton[i] = Character[i].GetComponentInChildren<Button>();
+        }
+        //Character1Button = Character1.GetComponentInChildren<Button>(); 
+        //Character2Button = Character2.GetComponentInChildren<Button>();
+        //Character3Button = Character3.GetComponentInChildren<Button>();
+        //Character4Button = Character4.GetComponentInChildren<Button>();
+        //Character5Button = Character5.GetComponentInChildren<Button>();
 
-        Character4.gameObject.SetActive(false);
-        Character5.gameObject.SetActive(false);
-
-        LeftButton.interactable = false;
-        Character2Button.interactable = false;
-        Character3Button.interactable = false;
-        Character4Button.interactable = false;
-        Character5Button.interactable = false;
+        Initialize();
     }
 
-    private void Start()
+    public void Initialize()
+    {
+        pageNumber = 0;
+        characterCountInPage = 3;
+        RefreshUI();
+    }
+
+    void Start()
     {
         CheckButton.onClick.AddListener(OnClickCheckButton);
         LeftButton.onClick.AddListener(OnClickLeftButton);
         RightButton.onClick.AddListener(OnClickRightButton);
-        Character1Button.onClick.AddListener(OnClickCharacter1Button);
-        Character2Button.onClick.AddListener(OnClickCharacter2Button);
-        Character3Button.onClick.AddListener(OnClickCharacter3Button);
-        Character4Button.onClick.AddListener(OnClickCharacter4Button);
-        Character5Button.onClick.AddListener(OnClickCharacter5Button);        
+
+        for (int i = 0; i < CharacterButton.Length; i++)
+        {
+            CharacterButton[i].onClick.AddListener(() => OnClickCharacterButton(i));
+        }
+        //Character1Button.onClick.AddListener(OnClickCharacter1Button);
+        //Character2Button.onClick.AddListener(OnClickCharacter2Button);
+        //Character3Button.onClick.AddListener(OnClickCharacter3Button);
+        //Character4Button.onClick.AddListener(OnClickCharacter4Button);
+        //Character5Button.onClick.AddListener(OnClickCharacter5Button);        
     }
 
     public void OnClickCheckButton()
     {
         gameObject.SetActive(false);
     }
+
     public void OnClickLeftButton()
     {
+        if (pageNumber <= 0) return;
+
         LeftButton.interactable = false;
         RightButton.interactable = true;
+        pageNumber--;
 
-        Character1.gameObject.SetActive(true);
-        Character2.gameObject.SetActive(true);
-        Character3.gameObject.SetActive(true);
-        Character4.gameObject.SetActive(false);
-        Character5.gameObject.SetActive(false);
+        RefreshUI();
     }
+
     public void OnClickRightButton()
     {
+        if (Character.Length <= characterCountInPage * (pageNumber + 1)) return;
+
         LeftButton.interactable = true;
         RightButton.interactable = false;
+        pageNumber++;
 
-        Character1.gameObject.SetActive(false);
-        Character2.gameObject.SetActive(false);
-        Character3.gameObject.SetActive(false);
-        Character4.gameObject.SetActive(true);
-        Character5.gameObject.SetActive(true);
-    }
-    public void OnClickCharacter1Button()
-    {
-        // player.Character1 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
-    }
-    public void OnClickCharacter2Button()
-    {
-        // player.Character2 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
-    }
-    public void OnClickCharacter3Button()
-    {
-        // player.Character3 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
-    }
-    public void OnClickCharacter4Button()
-    {
-        // player.Character4 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
+        RefreshUI();
+        //Character1.gameObject.SetActive(false);
+        //Character2.gameObject.SetActive(false);
+        //Character3.gameObject.SetActive(false);
+        //Character4.gameObject.SetActive(true);
+        //Character5.gameObject.SetActive(true);
     }
 
-    public void OnClickCharacter5Button()
+    public void OnClickCharacterButton(int _characterNumber)
     {
-        // player.Character5 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
+        GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter = _characterNumber;
+        // UI º¯°æ
+
     }
 
+
+    //public void OnClickCharacter1Button()
+    //{
+    //    // player.Character1 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
+    //}
+    //public void OnClickCharacter2Button()
+    //{
+    //    // player.Character2 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
+    //}
+    //public void OnClickCharacter3Button()
+    //{
+    //    // player.Character3 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
+    //}
+    //public void OnClickCharacter4Button()
+    //{
+    //    // player.Character4 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
+    //}
+
+    //public void OnClickCharacter5Button()
+    //{
+    //    // player.Character5 ¸ðµ¨Å°°í ³ª¸ÓÁö ´Ù ²¨
+    //}
+
+    public void RefreshUI()
+    {
+        ChangePageUI();
+    }
+
+    public void ChangePageUI()
+    {
+        for (int i = 0; i < Character.Length; i++)
+        {
+            // À¯Àú°¡ °¡Áö°í ÀÖ³ª¿ä ¾ø³ª¿ä
+            if (characterCountInPage * pageNumber <= i && i < characterCountInPage * (pageNumber + 1))
+            {
+                Character[i].gameObject.SetActive(true);
+                continue;
+            }
+            Character[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void ChangeCharacterUI()
+    {
+        for (int i = 0; i < Character.Length; i++)
+        {
+
+        }
+    }
 }

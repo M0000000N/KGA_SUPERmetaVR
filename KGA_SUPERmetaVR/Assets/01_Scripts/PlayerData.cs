@@ -14,4 +14,20 @@ public class PlayerData : MonoBehaviour
 
     int coin;
     public int Coin { get { return coin; } set { coin = value; } }
+
+    PlayerPeekabooData playerPeekabooData;
+    public PlayerPeekabooData PlayerPeekabooData { get { return playerPeekabooData; } set { playerPeekabooData = value; } }
+
+}
+
+[System.Serializable]
+public class PlayerPeekabooData
+{
+    // 은닉화시키면 Json파싱에 사용할 수 없는 이슈로 Public 선언
+
+    public int SelectCharacter;
+    //public int SelectCharacter { get { return selectCharacter; } set { selectCharacter = value; } }
+
+    public int[] Character;
+    //public int[] Character { get { return character; } set { character = value; } }
 }

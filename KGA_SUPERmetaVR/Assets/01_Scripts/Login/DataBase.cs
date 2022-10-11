@@ -10,17 +10,6 @@ using MySql.Data.MySqlClient;
 using System.Security.Cryptography; // SHA512 해싱을 위함
 using System.Text; // StringBuilder를 사용하기 위함
 
-public static class UserTableInfo
-{
-    public static readonly string TableName = "UserData";
-    public static readonly string ID = "UserID";
-    public static readonly string PW = "UserPW";
-    public static readonly string Coin = "Coin";
-    public static readonly string NickName = "NickName";
-    public static readonly string JoinDate = "JoinDate";
-    public static readonly string AccessDate = "AccessDate";
-}
-
 public class DataBase : SingletonBehaviour<DataBase>
 {
     MySqlConnection sqlconnection = null;
@@ -32,9 +21,6 @@ public class DataBase : SingletonBehaviour<DataBase>
     [SerializeField] string sqlDatabasePW;
 
     string securityString = "뒷간"; // 솔팅을 위한 암호
-
-
-
 
     void sqlConnect()
     {
@@ -93,27 +79,27 @@ public class DataBase : SingletonBehaviour<DataBase>
         return stringBuilder.ToString();
     }
 
-
     // SQL
     public void InsertDB(string _tableName, string _column, string _data)
     {
-        sqlcmdall("INSERT INTO " + _tableName + " (" + _column + ") VALUES (" + _data + ")");
+        sqlcmdall($"INSERT INTO {_tableName} ({_column}) VALUES ({_data})");
     }
 
     public void UpdateDB(string _tableName, string _updateColumn, string _updateData, string _findColum, string _findData)
     {
-        sqlcmdall("UPDATE " + _tableName + " SET " + _updateColumn + "= '" + _updateData + "' WHERE " + _findColum + "= '" + _findData + "'");
+        sqlcmdall($"UPDATE {_tableName} SET {_updateColumn} = '{_updateData}' WHERE {_findColum} = '{_findData}'");
+        UpdateAt(_tableName, _findColum, _findData);
     }
 
-    public void UpdateDB(string _tableName, string _updateTimeColumn, string _findColum, string _findData)
+    public void UpdateAt(string _tableName, string _findColum, string _findData)
     {
-        sqlcmdall("UPDATE " + _tableName + " SET " + _updateTimeColumn + "= NOW() WHERE " + _findColum + "= '" + _findData + "'");
+        sqlcmdall($"UPDATE {_tableName} SET {UserTableInfo.update_at} = NOW() WHERE {_findColum} = '{_findData}'");
     }
 
     // 데이터 찾기
     public DataTable FindDB(string _tableName, string _findColumn, string _checkColumn, string _checkData)
     {
-        DataTable dataTable = selsql("SELECT " + _findColumn + " FROM " + _tableName + " WHERE " + _checkColumn + "='" + _checkData + "'");
+        DataTable dataTable = selsql($"SELECT {_findColumn} FROM {_tableName} WHERE {_checkColumn} = '{_checkData}'");
         return dataTable;
     }
 
@@ -123,17 +109,17 @@ public class DataBase : SingletonBehaviour<DataBase>
         // 입력값 SQL Injection 방지 및 패스워드 암호화 (솔팅 + 해싱)
         string securityPW = SHA512Hash(_pw + securityString);
 
-        DataTable dataTable = FindDB(UserTableInfo.TableName, UserTableInfo.PW, UserTableInfo.ID, _id);
+        DataTable dataTable = FindDB(UserTableInfo.table_name, UserTableInfo.user_pw, UserTableInfo.user_id, _id);
 
         if (dataTable.Rows.Count > 0)
         {
             foreach (DataRow row in dataTable.Rows)
             {
-                if (securityPW == row[UserTableInfo.PW].ToString())
+                if (securityPW == row[UserTableInfo.user_pw].ToString())
                 {
                     UnityEngine.Debug.Log("로그인에 성공했습니다.");
+                    UpdateAt(UserTableInfo.table_name, UserTableInfo.user_id, _id);
 
-                    UpdateDB(UserTableInfo.TableName, UserTableInfo.AccessDate, UserTableInfo.ID, _id);
                     return true;
                 }
                 else
@@ -152,12 +138,13 @@ public class DataBase : SingletonBehaviour<DataBase>
     // 회원 가입
     public void CreateUser(string _id, string _pw, string _nickName)
     {
-        if (CheckUse(UserTableInfo.ID,_id))
+        if (CheckUse(UserTableInfo.user_id,_id))
         {
             // 입력값 SQL Injection 방지 및 패스워드 암호화 (솔팅 + 해싱)
             string securityPW = SHA512Hash(_pw + securityString);
 
-            InsertDB(UserTableInfo.TableName, $"{UserTableInfo.ID}, {UserTableInfo.PW}, {UserTableInfo.NickName}, {UserTableInfo.JoinDate}", $"'{_id}','{securityPW}','{_nickName}', NOW()");
+            // 생성시 create_at, update_at 설정을 포함해준다.
+            InsertDB(UserTableInfo.table_name, $"{UserTableInfo.user_id}, {UserTableInfo.user_pw}, {UserTableInfo.nickname}, {UserTableInfo.create_at}, {UserTableInfo.update_at}", $"'{_id}','{securityPW}','{_nickName}', NOW(), NOW()");
 
             UnityEngine.Debug.Log("ID :" + _id);
             UnityEngine.Debug.Log("PW :" + securityPW);
@@ -171,7 +158,7 @@ public class DataBase : SingletonBehaviour<DataBase>
     {
         // 입력할 수 있는 아이디/닉네임인가
         
-        DataTable dataTable = selsql($"SELECT {UserTableInfo.ID} FROM {UserTableInfo.TableName} WHERE {_column} = '{_id}'");
+        DataTable dataTable = selsql($"SELECT {UserTableInfo.user_id} FROM {UserTableInfo.table_name} WHERE {_column} = '{_id}'");
 
         if (dataTable.Rows.Count == 0)
         {
