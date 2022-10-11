@@ -5,20 +5,18 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 
-
-
 public class CreateRoomUI : MonoBehaviourPunCallbacks
 {
     [Header("¹öÆ°")]
-    [SerializeField] Button CreateButton;
-    [SerializeField] Button ExitButton;
+    [SerializeField] Button createButton;
+    [SerializeField] Button exitButton;
 
     [SerializeField] Toggle isPrivateRoom;
 
     private void Awake()
     {
-        CreateButton.onClick.AddListener(OnClickCreateButton);
-        ExitButton.onClick.AddListener(OnClickExitButton);
+        createButton.onClick.AddListener(OnClickCreateButton);
+        exitButton.onClick.AddListener(OnClickExitButton);
 
         isPrivateRoom.isOn = false;
     }

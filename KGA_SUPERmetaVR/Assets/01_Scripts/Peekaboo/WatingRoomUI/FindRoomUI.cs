@@ -10,8 +10,8 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
 {
     [Header("방찾기")]
     [SerializeField] TMP_InputField roomNumber;
-    [SerializeField] Button FindButton;
-    [SerializeField] Button ExitButton;
+    [SerializeField] Button findButton;
+    [SerializeField] Button exitButton;
 
     [Header("비밀번호 입력")]
     [SerializeField] GameObject passwordInputUI;
@@ -19,16 +19,16 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] Button cancelButton;
     private TMP_InputField passWord;
 
-    [Header("알림")]
-    [SerializeField] GameObject alramUI;
-    private Button yesButton;
-
     private void Awake()
     {
-        FindButton.onClick.AddListener(OnClickFindButton);
-        ExitButton.onClick.AddListener(OnClickExitButton);
+        findButton.onClick.AddListener(OnClickFindButton);
+        exitButton.onClick.AddListener(OnClickExitButton);
     }
 
+    private void Start()
+    {
+        passwordInputUI.SetActive(false);
+    }
     public void OnClickFindButton()
     {
         // 방 찾을거임
