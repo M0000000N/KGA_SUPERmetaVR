@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Spwner : MonoBehaviour
+public class PeekabooSpwner : MonoBehaviour
 {
     [SerializeField]
     private GameObject prefab;
@@ -45,7 +45,7 @@ public class Spwner : MonoBehaviour
 
 
         Debug.Log("¸¸µé¾îÁü");
-        var monster = EnemyObjectPool.GetObject(transform);
+        var monster = PeekabooEnemyObjectPool.GetObject(transform);
         transform.position = new Vector3(0f, 0f, 0f);
 
     }

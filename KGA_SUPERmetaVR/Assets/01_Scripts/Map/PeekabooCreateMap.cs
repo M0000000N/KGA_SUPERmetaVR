@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
 
-public class CreateMap : MonoBehaviour
+public class PeekabooCreateMap : MonoBehaviour
 {
     [SerializeField]
     private int mapSize;
@@ -12,7 +12,7 @@ public class CreateMap : MonoBehaviour
     [SerializeField]
     private GameObject mapPrefab;
     [SerializeField]
-    private Spwner spwner;
+    private PeekabooSpwner spwner;
 
     [SerializeField]
     private float mapLength;
@@ -26,10 +26,10 @@ public class CreateMap : MonoBehaviour
     private void Awake()
     {
         map = new List<Vector3>();
-        CreateMaps(mapSize);
+        CreateMap(mapSize);
     }
 
-    private void CreateMaps(int _mapsize)
+    private void CreateMap(int _mapsize)
     {
         for (int x = 0; x < _mapsize; x++)
         {

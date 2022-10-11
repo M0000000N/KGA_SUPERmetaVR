@@ -9,7 +9,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public GameObject PlayerPrefeb;
     public Button exitButton;
     [SerializeField]
-    private CreateMap createMap;
+    private PeekabooCreateMap createMap;
 
     private int playerCount;
     

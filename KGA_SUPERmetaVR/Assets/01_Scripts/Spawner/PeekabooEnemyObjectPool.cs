@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class EnemyObjectPool : MonoBehaviour
+public class PeekabooEnemyObjectPool : MonoBehaviour
 {
-    private static EnemyObjectPool instance;
+    private static PeekabooEnemyObjectPool instance;
 
     [SerializeField]
     private GameObject poolingObjectPrefab;
     [SerializeField]
-    private Spwner spwner;
+    private PeekabooSpwner spwner;
 
     private Queue<DummyEnemy> poolingObjectQueue = new Queue<DummyEnemy>();
 
