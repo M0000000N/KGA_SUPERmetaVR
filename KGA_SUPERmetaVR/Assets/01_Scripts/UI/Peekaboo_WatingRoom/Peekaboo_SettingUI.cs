@@ -6,8 +6,6 @@ using TMPro;
 
 public class Peekaboo_SettingUI : MonoBehaviour
 {
-
-
     [Header("BGM")]
     [SerializeField] Slider bgmSlider;
     [SerializeField] TextMeshProUGUI bgmValue;

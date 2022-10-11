@@ -6,24 +6,16 @@ using TMPro;
 
 public class NotificationPopupUI : MonoBehaviour
 {
-    TextMeshProUGUI TitleName;
-
     [SerializeField] TextMeshProUGUI titleName;
     [SerializeField] TextMeshProUGUI description;
     [SerializeField] Button yesButton;
-    TextMeshProUGUI yesButtonText;
+    [SerializeField] TextMeshProUGUI yesButtonText;
 
-    // Start is called before the first frame update
-    void Start()
+    public void OpenNotificationPopupUI(int _id)
     {
-        yesButtonText = yesButton.GetComponent<TextMeshProUGUI>();
-    }
-
-    public void OpenNotificationPopupUI(string _titleName, string _description, string _buttonText)
-    {
-        titleName.text = _titleName;
-        description.text = _description;
-        yesButtonText.text = _buttonText;
+        titleName.text = StaticData.GetNotificationData(_id).Title;
+        description.text = StaticData.GetNotificationData(_id).Description;
+        yesButtonText.text = StaticData.GetNotificationData(_id).Buttontext;
         gameObject.SetActive(true);
     }
 

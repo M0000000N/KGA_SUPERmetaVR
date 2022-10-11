@@ -28,8 +28,9 @@ public class Peekaboo_WatingRoomUIManager : SingletonBehaviour<Peekaboo_WatingRo
         ExitUI.gameObject.SetActive(false);
     }
 
-    public void OpenNotificationPopupUI(string _id)
+    // ¾Ë¸² ÆË¾÷ UI
+    public void OpenNotificationPopupUI(int _id)
     {
-        // notificationPopupUI.OpenNotificationPopupUI()
+        notificationPopupUI.OpenNotificationPopupUI(_id);
     }
 }

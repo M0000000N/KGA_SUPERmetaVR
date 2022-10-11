@@ -10,7 +10,7 @@ using System.Collections.Generic;
 /// can be serialized onto an asset data file.
 /// 
 [System.Serializable]
-public class NotificationUI : ScriptableObject 
+public class Notification : ScriptableObject 
 {	
     [HideInInspector] [SerializeField] 
     public string SheetName = "";
@@ -19,7 +19,7 @@ public class NotificationUI : ScriptableObject
     public string WorksheetName = "";
     
     // Note: initialize in OnEnable() not here.
-    public NotificationUIData[] dataArray;
+    public NotificationData[] dataArray;
     
     void OnEnable()
     {		
@@ -32,7 +32,7 @@ public class NotificationUI : ScriptableObject
         //    because OnEnable is called whenever Unity builds.
         // 		
         if (dataArray == null)
-            dataArray = new NotificationUIData[0];
+            dataArray = new NotificationData[0];
 
     }
     

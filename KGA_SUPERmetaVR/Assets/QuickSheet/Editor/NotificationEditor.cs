@@ -9,12 +9,12 @@ using UnityQuickSheet;
 ///
 /// !!! Machine generated code !!!
 ///
-[CustomEditor(typeof(NotificationUI))]
-public class NotificationUIEditor : BaseExcelEditor<NotificationUI>
+[CustomEditor(typeof(Notification))]
+public class NotificationEditor : BaseExcelEditor<Notification>
 {	    
     public override bool Load()
     {
-        NotificationUI targetData = target as NotificationUI;
+        Notification targetData = target as Notification;
 
         string path = targetData.SheetName;
         if (!File.Exists(path))
@@ -25,7 +25,7 @@ public class NotificationUIEditor : BaseExcelEditor<NotificationUI>
         ExcelQuery query = new ExcelQuery(path, sheet);
         if (query != null && query.IsValid())
         {
-            targetData.dataArray = query.Deserialize<NotificationUIData>().ToArray();
+            targetData.dataArray = query.Deserialize<NotificationData>().ToArray();
             EditorUtility.SetDirty(targetData);
             AssetDatabase.SaveAssets();
             return true;
