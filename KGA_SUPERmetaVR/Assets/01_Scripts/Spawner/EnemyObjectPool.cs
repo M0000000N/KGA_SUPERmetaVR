@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class EnemyObjectPool : MonoBehaviour
 {
-    private static EnemyObjectPool Instance;
+    private static EnemyObjectPool instance;
 
     [SerializeField]
     private GameObject poolingObjectPrefab;
@@ -15,7 +16,7 @@ public class EnemyObjectPool : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        instance = this;
     }
 
     private void Start()
@@ -24,7 +25,8 @@ public class EnemyObjectPool : MonoBehaviour
     }
     private DummyEnemy CreateNewObject(Transform _transform)
     {
-        var newobj = Instantiate(poolingObjectPrefab, _transform).GetComponent<DummyEnemy>();
+        
+        var newobj = PhotonNetwork.Instantiate(poolingObjectPrefab.name, _transform.position,Quaternion.identity).GetComponent<DummyEnemy>();
         newobj.gameObject.SetActive(false);
         return newobj;
     }
@@ -39,16 +41,16 @@ public class EnemyObjectPool : MonoBehaviour
 
     public static DummyEnemy GetObject(Transform _transform)
     {
-        if (Instance.poolingObjectQueue.Count > 0)
+        if (instance.poolingObjectQueue.Count > 0)
         {
-            var obj = Instance.poolingObjectQueue.Dequeue();
+            var obj = instance.poolingObjectQueue.Dequeue();
             obj.transform.SetParent(null);
             obj.gameObject.SetActive(true);
             return obj;
         }
         else
         {
-            var newobj = Instance.CreateNewObject(_transform);
+            var newobj = instance.CreateNewObject(_transform);
             newobj.transform.SetParent(null);
             newobj.gameObject.SetActive(true);
             return newobj;
@@ -58,7 +60,7 @@ public class EnemyObjectPool : MonoBehaviour
     public static void ReturnObject(DummyEnemy _enemy)
     {
         _enemy.gameObject.SetActive(false);
-        _enemy.transform.SetParent(Instance.transform);
-        Instance.poolingObjectQueue.Enqueue(_enemy);
+        _enemy.transform.SetParent(instance.transform);
+        instance.poolingObjectQueue.Enqueue(_enemy);
     }
 }
