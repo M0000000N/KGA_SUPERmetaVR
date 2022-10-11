@@ -11,16 +11,18 @@ public class GameManager : SingletonBehaviour<GameManager>
     [SerializeField]
     private PeekabooCreateMap createMap;
 
+    public PeekabooCreateMap CreateMap { get { return createMap; } }
+
     private int playerCount;
     
     public void Start()
     {
         playerCount = 2 * createMap.MapSize * createMap.MapSize;
         //테스트용
-        for (int i = 0; i < 15; i++)
-        {
-            PlayerSpawn();
-        }
+        //for (int i = 0; i < 15; i++)
+        //{
+        //    PlayerSpawn();
+        //}
         //
         PlayerSpawn();
 

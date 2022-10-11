@@ -11,8 +11,6 @@ public class PeekabooSpwner : MonoBehaviour
     private int NPCcount;
 
     public int NPCCount { get { return NPCcount; } }
-    [SerializeField]
-    private float maxDistance = 5f;
 
     private NavMeshAgent navMeshAgent;
 
@@ -35,11 +33,11 @@ public class PeekabooSpwner : MonoBehaviour
         }
     }
 
-    void Spawn(Vector3 _mapPosition)
+    private void Spawn(Vector3 _mapPosition)
     {
 
-        Vector3 spawnPosition = GetRandomPointOnNavMesh(_mapPosition, maxDistance);
-
+        Vector3 spawnPosition = GetRandomPointOnNavMesh(_mapPosition);
+        Debug.Log($"{spawnPosition}");
         spawnPosition += Vector3.up * 1f;
         transform.position = spawnPosition;
 
@@ -50,12 +48,15 @@ public class PeekabooSpwner : MonoBehaviour
 
     }
 
-    private Vector3 GetRandomPointOnNavMesh(Vector3 _center, float _maxdistance)
+    private Vector3 GetRandomPointOnNavMesh(Vector3 _center)
     {
-        Vector3 randomPos = Random.insideUnitSphere * _maxdistance + _center;
+        float randomPositionX = Random.Range(_center.x - (GameManager.Instance.CreateMap.MapLength / 2) + 1, _center.x + (GameManager.Instance.CreateMap.MapLength /2) - 1);
+        float randomPositionZ = Random.Range(_center.z - (GameManager.Instance.CreateMap.MapLength / 2) + 1, _center.z + (GameManager.Instance.CreateMap.MapLength /2) - 1);
+        Vector3 randomPosition = new Vector3(randomPositionX, _center.y, randomPositionZ);
+
         NavMeshHit hit;
 
-        NavMesh.SamplePosition(randomPos, out hit, _maxdistance, NavMesh.AllAreas);
+        NavMesh.SamplePosition(randomPosition, out hit, 1f, NavMesh.AllAreas);
 
 
         return hit.position;
