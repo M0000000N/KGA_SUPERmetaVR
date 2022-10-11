@@ -21,16 +21,16 @@ public class StaticData : SingletonBehaviour<StaticData>
     }
     // ---------------------------------------------------------------------------------------
 
-    [SerializeField] Notification notification;
-    public static NotificationData[] NotificationData { get { return Instance.notification.dataArray; } }
+    [SerializeField] NoticePopup noticePopup;
+    public static NoticePopupData[] NoticePopupData { get { return Instance.noticePopup.dataArray; } }
 
-    public static NotificationData GetNotificationData(int _id)
+    public static NoticePopupData GetNotificationData(int _id)
     {
-        for (int i = 0; i < NotificationData.Length; i++)
+        for (int i = 0; i < NoticePopupData.Length; i++)
         {
-            if (NotificationData[i].Id == _id)
+            if (NoticePopupData[i].Id == _id)
             {
-                return NotificationData[i];
+                return NoticePopupData[i];
             }
         }
         return null;

@@ -7,11 +7,11 @@ using UnityQuickSheet;
 ///
 /// !!! Machine generated code !!!
 ///
-public class NotificationAssetPostprocessor : AssetPostprocessor 
+public class NoticePopupAssetPostprocessor : AssetPostprocessor 
 {
     private static readonly string filePath = "Assets/Sheet/Data.xlsx";
-    private static readonly string assetFilePath = "Assets/Sheet/Notification.asset";
-    private static readonly string sheetName = "Notification";
+    private static readonly string assetFilePath = "Assets/Sheet/NoticePopup.asset";
+    private static readonly string sheetName = "NoticePopup";
     
     static void OnPostprocessAllAssets (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     {
@@ -20,16 +20,16 @@ public class NotificationAssetPostprocessor : AssetPostprocessor
             if (!filePath.Equals (asset))
                 continue;
                 
-            Notification data = (Notification)AssetDatabase.LoadAssetAtPath (assetFilePath, typeof(Notification));
+            NoticePopup data = (NoticePopup)AssetDatabase.LoadAssetAtPath (assetFilePath, typeof(NoticePopup));
             if (data == null) {
-                data = ScriptableObject.CreateInstance<Notification> ();
+                data = ScriptableObject.CreateInstance<NoticePopup> ();
                 data.SheetName = filePath;
                 data.WorksheetName = sheetName;
                 AssetDatabase.CreateAsset ((ScriptableObject)data, assetFilePath);
                 //data.hideFlags = HideFlags.NotEditable;
             }
             
-            //data.dataArray = new ExcelQuery(filePath, sheetName).Deserialize<NotificationData>().ToArray();		
+            //data.dataArray = new ExcelQuery(filePath, sheetName).Deserialize<NoticePopupData>().ToArray();		
 
             //ScriptableObject obj = AssetDatabase.LoadAssetAtPath (assetFilePath, typeof(ScriptableObject)) as ScriptableObject;
             //EditorUtility.SetDirty (obj);
@@ -37,7 +37,7 @@ public class NotificationAssetPostprocessor : AssetPostprocessor
             ExcelQuery query = new ExcelQuery(filePath, sheetName);
             if (query != null && query.IsValid())
             {
-                data.dataArray = query.Deserialize<NotificationData>().ToArray();
+                data.dataArray = query.Deserialize<NoticePopupData>().ToArray();
                 ScriptableObject obj = AssetDatabase.LoadAssetAtPath (assetFilePath, typeof(ScriptableObject)) as ScriptableObject;
                 EditorUtility.SetDirty (obj);
             }
