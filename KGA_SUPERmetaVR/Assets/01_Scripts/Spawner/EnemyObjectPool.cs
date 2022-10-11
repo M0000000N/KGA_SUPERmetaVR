@@ -22,22 +22,22 @@ public class EnemyObjectPool : MonoBehaviour
     {
         Initalize(spwner.NPCCount, gameObject.transform);
     }
-    private DummyEnemy CreateNewObject(Transform transform)
+    private DummyEnemy CreateNewObject(Transform _transform)
     {
-        var newobj = Instantiate(poolingObjectPrefab, transform).GetComponent<DummyEnemy>();
+        var newobj = Instantiate(poolingObjectPrefab, _transform).GetComponent<DummyEnemy>();
         newobj.gameObject.SetActive(false);
         return newobj;
     }
 
-    private void Initalize(int count, Transform transform)
+    private void Initalize(int _count, Transform _transform)
     {
-        for (int i = 0; i < count; ++i)
+        for (int i = 0; i < _count; ++i)
         {
-            poolingObjectQueue.Enqueue(CreateNewObject(transform));
+            poolingObjectQueue.Enqueue(CreateNewObject(_transform));
         }
     }
 
-    public static DummyEnemy GetObject(Transform transform)
+    public static DummyEnemy GetObject(Transform _transform)
     {
         if (Instance.poolingObjectQueue.Count > 0)
         {
@@ -48,17 +48,17 @@ public class EnemyObjectPool : MonoBehaviour
         }
         else
         {
-            var newobj = Instance.CreateNewObject(transform);
+            var newobj = Instance.CreateNewObject(_transform);
             newobj.transform.SetParent(null);
             newobj.gameObject.SetActive(true);
             return newobj;
         }
     }
 
-    public static void ReturnObject(DummyEnemy enemy)
+    public static void ReturnObject(DummyEnemy _enemy)
     {
-        enemy.gameObject.SetActive(false);
-        enemy.transform.SetParent(Instance.transform);
-        Instance.poolingObjectQueue.Enqueue(enemy);
+        _enemy.gameObject.SetActive(false);
+        _enemy.transform.SetParent(Instance.transform);
+        Instance.poolingObjectQueue.Enqueue(_enemy);
     }
 }

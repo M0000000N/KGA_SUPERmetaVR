@@ -20,12 +20,12 @@ public class Spwner : MonoBehaviour
 
     private void Start()
     {
-        _navMeshAgent = GetComponentInChildren<NavMeshAgent>();
+        //_navMeshAgent = GetComponentInChildren<NavMeshAgent>();
 
-        for (int i = 0; i < NPCCount; i++)
-        {
-            spawn();
-        }
+        //for (int i = 0; i < NPCCount; i++)
+        //{
+        //    spawn();
+        //}
     } 
 
     private void Update()
@@ -36,11 +36,20 @@ public class Spwner : MonoBehaviour
         //    spawn();
         //}
     }
+    public void firstSpawn(Vector3 _mapPosition)
+    {
+        _navMeshAgent = GetComponentInChildren<NavMeshAgent>();
 
-    void spawn()
+        for (int i = 0; i < NPCCount; i++)
+        {
+            spawn(_mapPosition);
+        }
+    }
+
+    void spawn(Vector3 _mapPosition)
     {
         
-        Vector3 spawnPosition = GetRandomPointOnNavMesh(transform.position, MaxDistance);
+        Vector3 spawnPosition = GetRandomPointOnNavMesh(_mapPosition, MaxDistance);
 
         spawnPosition += Vector3.up * 1f;
         transform.position = spawnPosition;
@@ -57,12 +66,12 @@ public class Spwner : MonoBehaviour
         //
     }
 
-    private Vector3 GetRandomPointOnNavMesh(Vector3 center, float maxdistance)
+    private Vector3 GetRandomPointOnNavMesh(Vector3 _center, float _maxdistance)
     {
-        Vector3 randomPos = Random.insideUnitSphere * maxdistance + center;
+        Vector3 randomPos = Random.insideUnitSphere * _maxdistance + _center;
         NavMeshHit hit;
 
-        NavMesh.SamplePosition(randomPos, out hit, maxdistance, NavMesh.AllAreas);
+        NavMesh.SamplePosition(randomPos, out hit, _maxdistance, NavMesh.AllAreas);
 
         
         return hit.position;
