@@ -24,6 +24,8 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] GameObject findingRoomImage;
     private Button XButton;
 
+
+
     private void Awake()
     {
         // coin = DB.Coin

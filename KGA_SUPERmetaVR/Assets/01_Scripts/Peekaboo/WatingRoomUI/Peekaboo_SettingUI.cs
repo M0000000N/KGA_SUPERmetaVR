@@ -16,7 +16,6 @@ public class Peekaboo_SettingUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI seValue;
     float sePreviousSetting;
 
-
     [Header("MIC")]
     [SerializeField] Slider micSlider;
     [SerializeField] TextMeshProUGUI micValue;
