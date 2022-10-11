@@ -44,7 +44,6 @@ public class Login : MonoBehaviour
     }
     // 테스트 코드
 
-
     public void Create()
     {
         if (CreatePW.text != CreatePWCheck.text)
@@ -57,8 +56,6 @@ public class Login : MonoBehaviour
             DataBase.Instance.CreateUser(CreateID.text, CreatePW.text, CreateNickName.text);
 
             // 테스트 코드
-
-
             peekabooLogin.SavePeekabooData();
             UnityEngine.Debug.Log("피카부!");
             // 테스트 코드
@@ -99,7 +96,7 @@ public class Login : MonoBehaviour
         CreateUI.SetActive(false);
     }
 
-    // 테스트를 위한 코드
+    // 테스트 코드
     public void GetDataBase()
     {
         DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*", UserTableInfo.user_id, GameManager.Instance.PlayerData.ID);
@@ -112,5 +109,5 @@ public class Login : MonoBehaviour
             }
         }
     }
-    //
+    // 테스트 코드
 }

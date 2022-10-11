@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class Sound
 {
-    public string soundName;
-    public AudioClip clip;
+    public string SoundName;
+    public AudioClip Clip;
 }
 
 public class SoundManager : SingletonBehaviour<SoundManager>
@@ -47,10 +47,10 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     {
         for (int i = 0; i < bgmSoundList.Length; i++)
         {
-            if (_soundName == bgmSoundList[i].soundName)
+            if (_soundName == bgmSoundList[i].SoundName)
             {
-                if (bgmPlayer.clip == bgmSoundList[i].clip) return;
-                bgmPlayer.clip = bgmSoundList[i].clip;
+                if (bgmPlayer.clip == bgmSoundList[i].Clip) return;
+                bgmPlayer.clip = bgmSoundList[i].Clip;
                 bgmPlayer.Play();
                 return;
             }
@@ -62,13 +62,13 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     {
         for (int i = 0; i < seSoundList.Length; i++)
         {
-            if (_soundName == seSoundList[i].soundName)
+            if (_soundName == seSoundList[i].SoundName)
             {
                 for (int x = 0; x < seSoundList.Length; x++)
                 {
                     if (sePlayer[x].isPlaying == false)
                     {
-                        sePlayer[x].clip = seSoundList[i].clip;
+                        sePlayer[x].clip = seSoundList[i].Clip;
                         sePlayer[x].Play();
                         return;
                     }

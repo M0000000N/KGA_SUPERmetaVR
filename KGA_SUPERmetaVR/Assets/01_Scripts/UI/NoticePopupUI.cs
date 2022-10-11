@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class NotificationPopupUI : MonoBehaviour
+public class NoticePopupUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI titleName;
     [SerializeField] TextMeshProUGUI description;
