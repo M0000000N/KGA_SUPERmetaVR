@@ -14,6 +14,7 @@ public class Peekaboo_WatingRoomUIManager : SingletonBehaviour<Peekaboo_WatingRo
     public CustomizingUI CustomizingUI;
     public ExitUI ExitUI;
     public NoticePopupUI NoticePopupUI;
+    public Peekaboo_SettingUI SettingUI;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class Peekaboo_WatingRoomUIManager : SingletonBehaviour<Peekaboo_WatingRo
         CustomizingUI.gameObject.SetActive(false);
         ExitUI.gameObject.SetActive(false);
         NoticePopupUI.gameObject.SetActive(false);
+        SettingUI.gameObject.SetActive(false);
     }
 
     // ¾Ë¸² ÆË¾÷ UI

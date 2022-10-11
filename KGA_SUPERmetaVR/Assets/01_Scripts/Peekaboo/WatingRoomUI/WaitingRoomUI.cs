@@ -18,6 +18,7 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] Button customizingButton;
     [SerializeField] Button randomJoinButton;
     [SerializeField] Button createRoomButton;
+    [SerializeField] Button settingButton;
 
     [Header("¹æ Ã£±â")]
     [SerializeField] GameObject findingRoomImage;
@@ -39,7 +40,8 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
         customizingButton.onClick.AddListener(OnClickCustomizingButton);
         randomJoinButton.onClick.AddListener(OnClickRandomJoinButton);
         createRoomButton.onClick.AddListener(OnClickCreateRoomButton);
-        XButton.onClick.AddListener(OnClickXButton);        
+        XButton.onClick.AddListener(OnClickXButton);
+        settingButton.onClick.AddListener(OnClickSettingButton);
     }
 
     public void OnClickExitButton()
@@ -78,6 +80,11 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
         //{
         //    PhotonNetwork.ConnectUsingSettings();
         //}
+    }
+
+    public void OnClickSettingButton()
+    {
+        Peekaboo_WatingRoomUIManager.Instance.SettingUI.gameObject.SetActive(true);
     }
 
     public void OnClickXButton()
