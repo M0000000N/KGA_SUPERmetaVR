@@ -6,7 +6,7 @@ using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
 
-public class CustomizingUI : MonoBehaviour
+public class Peekaboo_CustomizingUI : MonoBehaviour
 {
     private int pageNumber;
     private int characterCountInPage;
@@ -44,6 +44,7 @@ public class CustomizingUI : MonoBehaviour
         {
             character[i] = Instantiate(characterBase, characterBase.transform.parent);
             characterButton[i] = character[i].GetComponentInChildren<Button>();
+            character[i].GetComponent<Peekaboo_CustomizingCharacter>().CharacterName.text = StaticData.GetPeekabooCustomizingData(i).Ghostname;
         }
 
         RefreshUI();
