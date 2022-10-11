@@ -8,7 +8,7 @@ public class NPCMoveTester : MonoBehaviour
     private int numberOfNPC;
 
     private PeekabooNPCMove[] NPCs;
-    private bool inputMouseLeftButton = false;
+    private bool inputLeftMouseButton = false;
 
     void Awake()
     {
@@ -17,9 +17,9 @@ public class NPCMoveTester : MonoBehaviour
 
     void Update()
     {
-        inputMouseLeftButton = Input.GetKeyDown(KeyCode.Mouse0);
+        inputLeftMouseButton = Input.GetKeyDown(KeyCode.Mouse0);
 
-        if (inputMouseLeftButton)
+        if (inputLeftMouseButton)
         {
             for (int i = 0; i < numberOfNPC; i++)
             {

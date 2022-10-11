@@ -56,20 +56,20 @@ public class PeekabooNPC : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider _other)
     {
         if (isLooking)
         {
             return;
         }
 
-        lookingTarget = other.gameObject;
+        lookingTarget = _other.gameObject;
         isLooking = true;
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider _other)
     {
-        if (other == lookingTarget)
+        if (_other == lookingTarget)
         {
             lookingTarget = null;
             isLooking = false;
