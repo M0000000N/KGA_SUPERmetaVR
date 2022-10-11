@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
+using Photon.Pun;
 using OVR; 
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : MonoBehaviourPun
 {
     [SerializeField]
     private float walkSpeed;
@@ -13,10 +14,13 @@ public class PlayerMove : MonoBehaviour
     private float runSpeed;
     private float applySpeed; 
 
-    private bool isRun = false;
+    public bool isRun = false;
 
     [SerializeField]
-    private GameObject peekaboo; 
+    private GameObject peekaboo;
+
+    [SerializeField]
+    private Stamina stamina; 
 
     //플레이어 이동
     private float dirX = 0;
@@ -33,7 +37,7 @@ public class PlayerMove : MonoBehaviour
     {
         TryRun();
         walk();
-        //Attack();
+        Attack();
        // Attack2();
     }
 
@@ -78,41 +82,44 @@ public class PlayerMove : MonoBehaviour
     }
 
     public void TryRun()
-    {
-        if(OVRInput.Get(OVRInput.RawButton.B))
-        {
-            Running(); 
-        }
-        if(OVRInput.GetUp(OVRInput.RawButton.B))
-        {
-            RunningCancle(); 
-        }
+    {     
+            if (OVRInput.Get(OVRInput.RawButton.B) || Input.GetKey(KeyCode.Space))
+            {
+                Running();
+            }
+            if (OVRInput.GetUp(OVRInput.RawButton.B) || !Input.GetKey(KeyCode.Space))
+            {
+                RunningCancle();
+            }
+        
     }
 
     public void Running()
     {
         isRun = true;
         applySpeed = runSpeed;
+        stamina.DecreaseProgress(); 
     }
 
     public void RunningCancle()
     {
         isRun = false;
-        applySpeed = walkSpeed; 
+        applySpeed = walkSpeed;
+        stamina.IncreaseProgress();
     }
 
     public void Attack()
-    {       
-            peekaboo.SetActive(true);
-    }
-
-    public void Attack2()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("공격");
-            peekaboo.SetActive(true);
-        }
-
+        peekaboo.SetActive(true);
     }
+
+    //public void Attack2()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        Debug.Log("공격");
+    //        peekaboo.SetActive(true);
+    //    }
+
+    //}
 }

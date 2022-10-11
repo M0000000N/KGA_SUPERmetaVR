@@ -6,75 +6,109 @@ using UnityEngine.UI;
 public class Stamina : MonoBehaviour
 {
     [SerializeField]
-    private int sp;
-    private int currentSp;
+    private Color enabledColor;
+    [SerializeField]
+    private Color disabledColor; 
 
     [SerializeField]
-    private int spIncreaseSpeed = 10; 
+    private bool StartFull = false;
 
     [SerializeField]
-    private int spRechargeTime;
-    private int currentSpRechargeTime;
-
-    private bool spUsed;
+    private int maxValue;
 
     [SerializeField]
-    private Image[] image;
+    private int minValue;
 
-    float health, maxhealth = 100; 
+    [SerializeField]
+    private int currentValue;
+
+    [SerializeField]
+    private PlayerMove playermove;
+
+    private float elaspedTime1 = 0f;
+    private float elaspedTime2 = 0f;
+
+    List<Image> progressSteps;
+
     private void Start()
     {
-        currentSp = sp; 
+        maxValue = transform.childCount;
+
+        progressSteps = new List<Image>(); 
+
+        for(int i = maxValue - 1; i >= 0; --i)
+        {
+            progressSteps.Add(transform.GetChild(i).GetComponent<Image>());
+        }
+        InititateProgressBar(StartFull); 
     }
+
     private void Update()
     {
-        StaminaUpdate();
-        SPRechargeTime();
-        SPRecover(); 
+        
     }
-
-    public void StaminaUpdate()
+    void changeSpriteColor(int index, Color newcolor) // 함수 역할 정확하게 쓰기 
     {
-       for(int i = 0; i <image.Length; ++i)
+        progressSteps[index].GetComponent<Image>().color = newcolor;
+    }
+    public void InititateProgressBar(bool isFull) // Fill or Reset
+    {
+        if(isFull)
         {
-            image[i].enabled = !DisplayHealthPoint(health, i);
-        }
-    }
-
-    bool DisplayHealthPoint(float _health, int pointNumber)
-    {
-        return ((pointNumber * 10) >= _health);
-    }
-    public void DecreaseStamina(int _count)
-    {
-        spUsed = true;
-        currentSpRechargeTime = 0;
-
-        if (currentSp - _count > 0)
-        {
-            currentSp -= _count;
+          
+            for(int i = 0; i < maxValue; ++i)
+            {
+                changeSpriteColor(i, enabledColor); 
+            }
+            currentValue = maxValue;
         }
         else
-            currentSp = 0; 
-    }
-
-    private void SPRechargeTime()
-    {
-        if(spUsed)
         {
-            if (currentSpRechargeTime < spRechargeTime)
-                currentSpRechargeTime++;
-            else
-                spUsed = false; 
+            for(int i =0; i < maxValue; i++)
+            {
+                changeSpriteColor(i, disabledColor);
+            }
+            currentValue = 0; 
         }
     }
 
-    private void SPRecover()
+    public void IncreaseProgress()
     {
-        if(!spUsed && currentSp < sp)
+        if (currentValue == maxValue)
+            return;
+        else
         {
-            currentSp += spIncreaseSpeed; 
+            elaspedTime2 += Time.deltaTime;
+            if (elaspedTime2 >= 10f) // 시간을 변수로 받아서 쓰기 
+            {
+                changeSpriteColor(currentValue - 1, enabledColor);
+                currentValue++;
+                elaspedTime2 = 0f;
+            }
+
         }
+    }
+
+    public void DecreaseProgress()
+    {     
+        if (currentValue == minValue)
+            return;
+
+        else
+        {                        
+                elaspedTime1 += Time.deltaTime;
+                if (elaspedTime1 >= 0.5f)
+                {
+                    changeSpriteColor(currentValue - 1, disabledColor);
+                    currentValue--;
+                    elaspedTime1 = 0f; 
+                }           
+        }
+    }
+
+    public int GetProgress()
+    {
+        return currentValue; 
     }
 
 }
