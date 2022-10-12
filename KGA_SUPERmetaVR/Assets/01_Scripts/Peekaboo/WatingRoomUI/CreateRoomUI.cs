@@ -11,7 +11,11 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] Button createButton;
     [SerializeField] Button exitButton;
 
+    [Header("방 정보")]
     [SerializeField] Toggle isPrivateRoom;
+    [SerializeField] TMP_InputField roomNumInput;
+    [SerializeField] GameObject grayText;
+    private string roomNum = null;
 
     private void Awake()
     {
@@ -19,16 +23,34 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
         exitButton.onClick.AddListener(OnClickExitButton);
 
         isPrivateRoom.isOn = false;
+        grayText.SetActive(true);
+
+        roomNum = roomNumInput.text;
     }
 
     private void Update()
     {
+        if (roomNum.Length > 0 && Input.GetKeyDown(KeyCode.Return))
+        {
+            RooomName();
+        }
+
         if(isPrivateRoom.isOn)
         {
-            // 비밀방임
+            grayText.SetActive(false);
+        }
+        else
+        {
+            grayText.SetActive(true);
         }
     }
 
+    public void RooomName()
+    {
+        roomNum = roomNumInput.text;
+        PlayerPrefs.SetString("CurrentRoomName", roomNum);
+        Debug.Log(roomNum);
+    }
     public void OnClickCreateButton()
     {
         // 방 생성할거임
