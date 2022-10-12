@@ -6,63 +6,69 @@ using Photon.Pun;
 
 public class MAPDATA
 {
-    public int numberOfPlayersCreatedInZone;
-    public Vector3 mapposiotion;
-    public int numberOfNPCPlacedInZone = 0;
+    private int numberOfPlayersCreatedInZone;
+    public int NumberOfPlayersCreatedInZone { get { return numberOfPlayersCreatedInZone; } set { numberOfPlayersCreatedInZone = value; } }
+    private Vector3 mapPosition;
+    public Vector3 MapPosition { get { return mapPosition; } set { mapPosition = value; } }
+    private int numberOfNPCPlacedInZone;
+    public int NumberOfNPCPlacedInZone { get { return numberOfNPCPlacedInZone; } set { numberOfNPCPlacedInZone = value; } }
 }
 
 public class PeekabooCreateMap : MonoBehaviour
 {
+    [Header("맵 프리팹")]
     [SerializeField]
-    private int numberOfPlayersCreatedInZone;
+    private GameObject mapPrefab;
+
+    [Header("스포너 스크립트")]
+    [SerializeField]
+    private PeekabooSpawner spawner;
+
+    [Header("맵 가로 세로 크기")]
     [SerializeField]
     private int mapSizeX;
     [SerializeField]
     private int mapSizeZ;
-    //public int MapSizeX { get { return mapSizeX; } }
-    //public int MapSizeZ { get { return mapSizeZ; } }
-    [SerializeField]
-    private GameObject mapPrefab;
-    [SerializeField]
-    private PeekabooSpawner spawner;
 
-    //private int mapIndex;
-    [SerializeField]
-    private int maxCharcter;
-
-    [SerializeField]
-    private float mapLength;
-    public float MapLength { get { return mapLength; } }
-
-    private int numberOfNPCs;
-
-    private int mapSize;
+    [Header("테스트용 플레이어 수")]
     [SerializeField]
     private int numberOfPlayers;
 
-    private int maxNumberOfNPCs;
+    [Header("게임 시작시 각 구역에 스폰되는 최대 플레이어 수")]
+    [SerializeField]
+    private int numberOfPlayersCreatedInZone;
 
+    [Header("게임 시작시 각 구역에 존재하는 최대 캐릭터 수")]
+    [SerializeField]
+    private int maximumNumberOfCharactersInZone;
 
+    [Header("플레이어 한 명 당 생성되는 NPC수")]
     [SerializeField]
     private int numberOfNPCsProportionalToTheNumberOfPlayers;
 
+    private float mapLength;
+    public float MapLength { get { return mapLength; } }
 
-    private Dictionary<int,MAPDATA> mapData;
+    private int mapSize;
+    public int MapSize { get { return mapSize; } }
+    // 서버에서 플레이어 인원 받아오면 수정 예정
 
-    //public Dictionary<int, MAPDATA> MapData { get { return mapData; } }
+    private int maxNumberOfNPCs;
+
+    private Dictionary<int, MAPDATA> mapData;
+
+    public Dictionary<int, MAPDATA> MapData { get { return mapData; } }
 
 
     private void Awake()
     {
-        //mapIndex = 0;
-
         mapData = new Dictionary<int, MAPDATA>();
         CreateMap();
     }
 
     private void Start()
     {
-
+        mapLength = 20f;
         mapSize = mapSizeX * mapSizeZ;
         maxNumberOfNPCs = numberOfNPCsProportionalToTheNumberOfPlayers * numberOfPlayers;
         //테스트용
@@ -70,73 +76,65 @@ public class PeekabooCreateMap : MonoBehaviour
         {
             SpawnPlayer();
         }
-        //
-        //SpawnPlayer();
         SpawnNPC();
     }
 
     private void CreateMap()
     {
-        int mapindex = 0;
+        int mapIndex = 0;
         for (int x = 0; x < mapSizeX; x++)
         {
             for (int z = 0; z < mapSizeZ; z++)
             {
                 Vector3 mapPosition = new Vector3(x * mapLength, 0, z * mapLength);
-                PhotonNetwork.Instantiate(mapPrefab.name,mapPosition,Quaternion.identity);
-                
-                //spawner.FirstSpawn(mapPosition,5);
+                PhotonNetwork.Instantiate(mapPrefab.name, mapPosition, Quaternion.identity);
+
                 MAPDATA mapdata = new MAPDATA();
-                mapdata.numberOfPlayersCreatedInZone = numberOfPlayersCreatedInZone;
-                mapdata.mapposiotion = mapPosition;
-                mapdata.numberOfNPCPlacedInZone = 0;
-                mapData.Add(mapindex,mapdata);
-                mapindex++;
+                mapdata.NumberOfPlayersCreatedInZone = numberOfPlayersCreatedInZone;
+                mapdata.MapPosition = mapPosition;
+                mapdata.NumberOfNPCPlacedInZone = 0;
+                mapData.Add(mapIndex, mapdata);
+                mapIndex++;
             }
         }
     }
 
     private void SpawnPlayer()
     {
-        int randomPlayerposition = Random.Range(0, mapSize);
+        int randomPlayerIndex = Random.Range(0, mapSize);
 
-        float randomPosX = Random.Range(mapData[randomPlayerposition].mapposiotion.x - MapLength / 2, mapData[randomPlayerposition].mapposiotion.x + MapLength / 2);
-        float randomPosZ = Random.Range(mapData[randomPlayerposition].mapposiotion.z - MapLength / 2, mapData[randomPlayerposition].mapposiotion.z + MapLength / 2);
-        Vector3 randomPos = new Vector3(randomPosX, 1f, randomPosZ);
-        if (mapData[randomPlayerposition].numberOfPlayersCreatedInZone == 0)
+        float randomPositonX = Random.Range(mapData[randomPlayerIndex].MapPosition.x - MapLength / 2, mapData[randomPlayerIndex].MapPosition.x + MapLength / 2);
+        float randomPositonZ = Random.Range(mapData[randomPlayerIndex].MapPosition.z - MapLength / 2, mapData[randomPlayerIndex].MapPosition.z + MapLength / 2);
+        Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
+        if (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
         {
             SpawnPlayer();
         }
         else
         {
-            //Debug.Log($"{randomPlayerposition}");
-            GameObject playerObject = PhotonNetwork.Instantiate(GameManager.Instance.PlayerPrefeb.name, randomPos, Quaternion.identity);
-            --mapData[randomPlayerposition].numberOfPlayersCreatedInZone;
-            //Debug.Log($"남은 인원수 {mapData[randomPlayerposition].numberOfPlayersCreatedInZone}");
+            GameObject playerObject = PhotonNetwork.Instantiate(GameManager.Instance.PlayerPrefeb.name, randomPosition, Quaternion.identity);
+            --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
         }
-
     }
-
 
     private void SpawnNPC()
     {
         int mapindex = 0;
-       while (true)
+        while (true)
         {
-            if (maxNumberOfNPCs > 0 && mapindex < mapSizeX * mapSizeZ)
+            if (maxNumberOfNPCs > 0 && mapindex < mapSize)
             {
-                int numberOfRandomNPCSpawn = Random.Range(0, maxCharcter + 1 + (mapData[mapindex].numberOfPlayersCreatedInZone - numberOfPlayersCreatedInZone) - mapData[mapindex].numberOfNPCPlacedInZone);
+                int numberOfRandomNPCSpawn = Random.Range(0, maximumNumberOfCharactersInZone + 1 + (mapData[mapindex].NumberOfPlayersCreatedInZone - numberOfPlayersCreatedInZone) - mapData[mapindex].NumberOfNPCPlacedInZone);
                 if (maxNumberOfNPCs - numberOfRandomNPCSpawn < 0)
                 {
                     numberOfRandomNPCSpawn = maxNumberOfNPCs;
                 }
-                spawner.FirstSpawn(mapData[mapindex].mapposiotion, numberOfRandomNPCSpawn);
-                mapData[mapindex].numberOfNPCPlacedInZone += numberOfRandomNPCSpawn;
+                spawner.FirstSpawn(mapData[mapindex].MapPosition, numberOfRandomNPCSpawn);
+                mapData[mapindex].NumberOfNPCPlacedInZone += numberOfRandomNPCSpawn;
                 maxNumberOfNPCs -= numberOfRandomNPCSpawn;
-                Debug.Log($"맵데이타포지션 {mapindex},{numberOfRandomNPCSpawn},{mapData[mapindex].numberOfNPCPlacedInZone}, {maxNumberOfNPCs}");
                 mapindex++;
             }
-            else if (maxNumberOfNPCs > 0 && mapindex >= mapSizeX * mapSizeZ)
+            else if (maxNumberOfNPCs > 0 && mapindex >= mapSize)
             {
                 mapindex = 0;
                 SpawnNPC();
@@ -146,11 +144,5 @@ public class PeekabooCreateMap : MonoBehaviour
                 break;
             }
         }
-                
-       
-       
     }
-
-
-
 }

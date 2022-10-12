@@ -9,8 +9,6 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
 
     [SerializeField]
     private GameObject poolingObjectPrefab;
-    [SerializeField]
-    private PeekabooSpawner spwner;
 
     private Queue<DummyEnemy> poolingObjectQueue = new Queue<DummyEnemy>();
 
@@ -21,14 +19,13 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
 
     private void Start()
     {
-        //(spwner.NPCCount, gameObject.transform);
+
     }
     private DummyEnemy CreateNewObject(Transform _transform)
     {
-        
-        var newobj = PhotonNetwork.Instantiate(poolingObjectPrefab.name, _transform.position,Quaternion.identity).GetComponent<DummyEnemy>();
-        newobj.gameObject.SetActive(false);
-        return newobj;
+        var newObject = PhotonNetwork.Instantiate(poolingObjectPrefab.name, _transform.position, Quaternion.identity).GetComponent<DummyEnemy>();
+        newObject.gameObject.SetActive(false);
+        return newObject;
     }
 
     private void Initalize(int _count, Transform _transform)

@@ -45,9 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1526ecbb8c4a3040b399feed3bf4cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3508921457149811040, guid: ca14bcda80119e343992901262bf38e4, type: 3}
-  NPCcount: 20
-  MaxDistance: 12.5
 --- !u!114 &1503231487789294667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +58,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolingObjectPrefab: {fileID: 3508921457149811040, guid: ca14bcda80119e343992901262bf38e4, type: 3}
-  spwner: {fileID: 1503231487789294666}
 --- !u!114 &1526607586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +70,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7680f936f50820a4f9b51f44fa895d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: 3
   mapPrefab: {fileID: 3459224395579462551, guid: 1a5094e7de9a0b74bb57edd9e722afeb, type: 3}
-  spwner: {fileID: 1503231487789294666}
-  mapLength: 25
+  spawner: {fileID: 1503231487789294666}
+  mapSizeX: 2
+  mapSizeZ: 4
+  numberOfPlayers: 14
+  numberOfPlayersCreatedInZone: 2
+  maximumNumberOfCharactersInZone: 0
+  numberOfNPCsProportionalToTheNumberOfPlayers: 5
