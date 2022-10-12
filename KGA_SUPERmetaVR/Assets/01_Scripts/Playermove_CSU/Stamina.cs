@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Stamina : MonoBehaviour
 {
+   
     [SerializeField]
     private Color enabledColor;
     [SerializeField]
@@ -23,7 +24,14 @@ public class Stamina : MonoBehaviour
     private int currentValue;
 
     [SerializeField]
-    private PlayerMove playermove;
+    private float clickB = 0.2f;
+
+    [SerializeField]
+    private float outB = 3f; 
+
+
+    [SerializeField]
+    private PlayMove_Photon playerPhoton;
 
     private float elaspedTime1 = 0f;
     private float elaspedTime2 = 0f;
@@ -36,17 +44,13 @@ public class Stamina : MonoBehaviour
 
         progressSteps = new List<Image>(); 
 
-        for(int i = maxValue - 1; i >= 0; --i)
+        for(int i = 0; i < maxValue; ++i)
         {
             progressSteps.Add(transform.GetChild(i).GetComponent<Image>());
         }
         InititateProgressBar(StartFull); 
     }
 
-    private void Update()
-    {
-        
-    }
     void changeSpriteColor(int index, Color newcolor) // 함수 역할 정확하게 쓰기 
     {
         progressSteps[index].GetComponent<Image>().color = newcolor;
@@ -54,8 +58,7 @@ public class Stamina : MonoBehaviour
     public void InititateProgressBar(bool isFull) // Fill or Reset
     {
         if(isFull)
-        {
-          
+        {       
             for(int i = 0; i < maxValue; ++i)
             {
                 changeSpriteColor(i, enabledColor); 
@@ -79,13 +82,13 @@ public class Stamina : MonoBehaviour
         else
         {
             elaspedTime2 += Time.deltaTime;
-            if (elaspedTime2 >= 10f) // 시간을 변수로 받아서 쓰기 
-            {
-                changeSpriteColor(currentValue - 1, enabledColor);
-                currentValue++;
-                elaspedTime2 = 0f;
-            }
 
+            if (elaspedTime2 >= outB) // 시간을 변수로 받아서 쓰기 // 0 ~ 8까지 
+            {
+                currentValue++;
+                changeSpriteColor(currentValue - 1, enabledColor);
+                elaspedTime2 = 0f;
+            }          
         }
     }
 
@@ -93,16 +96,15 @@ public class Stamina : MonoBehaviour
     {     
         if (currentValue == minValue)
             return;
-
         else
-        {                        
-                elaspedTime1 += Time.deltaTime;
-                if (elaspedTime1 >= 0.5f)
-                {
-                    changeSpriteColor(currentValue - 1, disabledColor);
-                    currentValue--;
-                    elaspedTime1 = 0f; 
-                }           
+        {
+            elaspedTime1 += Time.deltaTime;
+            if (elaspedTime1 > clickB)
+            {
+                changeSpriteColor(currentValue - 1, disabledColor);
+                currentValue--;
+                elaspedTime1 = 0f;
+            }
         }
     }
 
