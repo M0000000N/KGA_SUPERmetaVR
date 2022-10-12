@@ -10,7 +10,7 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
     [SerializeField]
     private GameObject poolingObjectPrefab;
     [SerializeField]
-    private PeekabooSpwner spwner;
+    private PeekabooSpawner spwner;
 
     private Queue<DummyEnemy> poolingObjectQueue = new Queue<DummyEnemy>();
 
@@ -21,7 +21,7 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
 
     private void Start()
     {
-        Initalize(spwner.NPCCount, gameObject.transform);
+        //(spwner.NPCCount, gameObject.transform);
     }
     private DummyEnemy CreateNewObject(Transform _transform)
     {

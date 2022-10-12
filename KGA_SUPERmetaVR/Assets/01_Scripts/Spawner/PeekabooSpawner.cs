@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PeekabooSpwner : MonoBehaviour
+public class PeekabooSpawner : MonoBehaviour
 {
     [SerializeField]
     private GameObject prefab;
@@ -14,6 +14,7 @@ public class PeekabooSpwner : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
 
+
     private void Start()
     {
 
@@ -23,11 +24,11 @@ public class PeekabooSpwner : MonoBehaviour
     {
 
     }
-    public void FirstSpawn(Vector3 _mapPosition)
+    public void FirstSpawn(Vector3 _mapPosition, int _randomSpawnNPC)
     {
         navMeshAgent = GetComponentInChildren<NavMeshAgent>();
-        int RandomNPC = Random.Range(0, NPCcount);
-        for (int i = 0; i < RandomNPC; i++)
+        //int RandomNPC = Random.Range(0, NPCcount);
+        for (int i = 0; i < _randomSpawnNPC; i++)
         {
             Spawn(_mapPosition);
         }
@@ -35,14 +36,13 @@ public class PeekabooSpwner : MonoBehaviour
 
     private void Spawn(Vector3 _mapPosition)
     {
-
         Vector3 spawnPosition = GetRandomPointOnNavMesh(_mapPosition);
-        Debug.Log($"{spawnPosition}");
+        //Debug.Log($"{spawnPosition}");
         spawnPosition += Vector3.up * 1f;
         transform.position = spawnPosition;
 
 
-        Debug.Log("¸¸µé¾îÁü");
+        //Debug.Log("¸¸µé¾îÁü");
         var monster = PeekabooEnemyObjectPool.GetObject(transform);
         transform.position = new Vector3(0f, 0f, 0f);
 
