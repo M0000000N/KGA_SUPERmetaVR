@@ -35,4 +35,5 @@ public class StaticData : SingletonBehaviour<StaticData>
         }
         return null;
     }
+    // ---------------------------------------------------------------------------------------
 }

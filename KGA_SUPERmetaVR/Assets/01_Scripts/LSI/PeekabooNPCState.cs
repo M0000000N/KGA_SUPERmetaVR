@@ -1,5 +1,5 @@
+
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class PeekabooNPCState : MonoBehaviour
@@ -14,4 +14,22 @@ public abstract class PeekabooNPCState : MonoBehaviour
     public abstract void OnEnter();
     public abstract void OnUpdate();
     public abstract void OnExit();
+}
+
+public static class UIMoveHelper
+{
+    public static IEnumerator DelayTransform(Transform trans, float delay)
+    {
+        float elapsedTime = 0.0f;
+
+        while (elapsedTime < delay)
+        {
+            elapsedTime += Time.deltaTime;
+            if(elapsedTime >= delay)
+            {
+                yield break;
+            }
+            yield return null;
+        }
+    }
 }

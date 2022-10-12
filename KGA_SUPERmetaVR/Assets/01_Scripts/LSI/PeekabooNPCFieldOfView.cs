@@ -6,21 +6,22 @@ public class PeekabooNPCFieldOfView : MonoBehaviour
 {
     [SerializeField]
     private float viewAngle;
-    [SerializeField]
-    private float viewDistance;
 
-    void Update()
+    private float viewAngleHalf;
+
+    private void Awake()
     {
-        Vector3 leftBoundary = DirectionFromAngle(-viewAngle / 2);
-        Vector3 rightBoundary = DirectionFromAngle(viewAngle / 2);
-
-        Debug.DrawLine(transform.position, transform.position + leftBoundary * viewDistance, Color.red);
-        Debug.DrawLine(transform.position, transform.position + rightBoundary * viewDistance, Color.red);
+        viewAngleHalf = viewAngle / 2;
     }
 
-    private Vector3 DirectionFromAngle(float angleY)
+    public bool CheckView(Vector3 _targetPosition)
     {
-        angleY += transform.eulerAngles.y;
-        return new Vector3(Mathf.Sin(angleY * Mathf.Deg2Rad), 0f, Mathf.Cos(angleY * Mathf.Deg2Rad));
+        float angleToTarget = Vector3.Angle(transform.forward, _targetPosition);
+        if (angleToTarget <= viewAngleHalf)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
