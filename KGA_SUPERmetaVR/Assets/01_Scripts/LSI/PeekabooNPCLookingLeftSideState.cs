@@ -26,7 +26,7 @@ public class PeekabooNPCLookingLeftSideState : PeekabooNPCState
 
     public override void OnExit()
     {
-
+        StopAllCoroutines();
     }
 
     private IEnumerator RotateToTargetQuaternionCoroutine(Quaternion _target)

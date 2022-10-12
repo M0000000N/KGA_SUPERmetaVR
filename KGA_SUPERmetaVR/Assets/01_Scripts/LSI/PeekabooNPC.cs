@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PeekabooNPC : MonoBehaviour
+public class PeekabooNPC : MonoBehaviour, IDamageable
 {
+    public bool IsInteracting { get { return isInteracting; } }
+    public Vector3 CounterAttackTarget { get; private set; }
+
     [SerializeField]
     private float rotateSpeed;
     [SerializeField]
@@ -24,6 +27,7 @@ public class PeekabooNPC : MonoBehaviour
     public GameObject lookingTarget;
     public bool isLooking;
     public bool isLookingAround;
+    private bool isInteracting;
     public Quaternion firstRotation;
     public Quaternion leftSideAngle;
     public Quaternion rightSideAngle;
@@ -147,5 +151,22 @@ public class PeekabooNPC : MonoBehaviour
         }
 
         isLookingAround = false;
+    }
+
+    public void TakeDamage(GameObject _attacker)
+    {
+        if (isInteracting)
+        {
+            return;
+        }
+
+        if (isInteracting)
+        {
+            return;
+        }
+
+        isInteracting = true;
+        myFSM.SetCounterAttackTarget(_attacker);
+        myFSM.ChangeState(PEEKABOONPCSTATE.TAKEDAMAGE);
     }
 }

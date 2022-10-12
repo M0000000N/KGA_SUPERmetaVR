@@ -13,6 +13,7 @@ public class PeekabooNPCData : ScriptableObject
     public float MinWaitTimeForNextAnimation { get { return minWaitTimeForNextAnimationRoutine; } }
     public float MaxWaitTimeForNextAnimation { get { return maxWaitTimeForNextAnimationRoutine; } }
     public int AnimationRoutineStartProbability { get { return animationRoutineStartProbability; } }
+    public float RotateToCounterAttackTarget { get { return rotateToCounterAttackTarget; } }
 
     [SerializeField]
     private float viewAngle;
@@ -30,4 +31,6 @@ public class PeekabooNPCData : ScriptableObject
     private float maxWaitTimeForNextAnimationRoutine;
     [SerializeField]
     private int animationRoutineStartProbability;
+    [SerializeField]
+    private float rotateToCounterAttackTarget;
 }
