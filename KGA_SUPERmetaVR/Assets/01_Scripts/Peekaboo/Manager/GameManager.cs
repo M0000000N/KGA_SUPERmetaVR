@@ -14,6 +14,26 @@ public class GameManager : SingletonBehaviour<GameManager>
         Initialize();
     }
 
+
+    public GameObject PlayerPrefeb;
+    public Button exitButton;
+    [SerializeField]
+    private PeekabooCreateMap createMap;
+    public PeekabooCreateMap CreateMap { get { return createMap; } }
+
+    public GameObject TestNPC;
+
+    public void Start()
+    {
+        exitButton.onClick.AddListener(OnClickExitButton);
+    }
+
+    private void OnClickExitButton()
+    {
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel("00_Title");
+    }
+
     public void Initialize()
     {
         playerData = new PlayerData();

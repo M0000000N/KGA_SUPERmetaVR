@@ -50,5 +50,20 @@ public class StaticData : SingletonBehaviour<StaticData>
         }
         return null;
     }
+    // ---------------------------------------------------------------------------------------
+    [SerializeField] NPC myNPC;
+    public static NPCData[] NPCData { get { return Instance.myNPC.dataArray; } }
 
+    public static NPCData GetNPCData(int _id)
+    {
+        for (int i = 0; i < NPCData.Length; i++)
+        {
+            if (NPCData[i].ID == _id)
+            {
+                return NPCData[i];
+            }
+        }
+
+        return null;
+    }
 }

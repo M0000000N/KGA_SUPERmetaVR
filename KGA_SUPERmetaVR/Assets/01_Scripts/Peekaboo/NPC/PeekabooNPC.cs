@@ -1,150 +1,84 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PeekabooNPC : MonoBehaviour
 {
     [SerializeField]
-    private float rotateSpeed;
-    [SerializeField]
-    private float lookingAroundCycle;
-    [SerializeField]
-    private float turnLeftSideTime;
-    [SerializeField]
-    private float leftSideWaitTime;
-    [SerializeField]
-    private float turnRightSideTime;
-    [SerializeField]
-    private float rightSideWaitTime;
+    private float waitTimeForNextMove;
 
-    private PeekabooNPCMove npcMove;
+    public bool IsLookingSomeone { get; private set; }
+    public bool IsInteracting { get; private set; }
+
+    private PeekabooNPCMove myMove;
+    private PeekabooNPCFieldOfView myView;
+    private PeekabooNPCFSM myFSM;
+    private SphereCollider myCollider;
+    private GameObject lookingTarget;
     private float elapsedTime;
 
-    public GameObject lookingTarget;
-    public bool isLooking;
-    public bool isLookingAround;
-    public Quaternion firstRotation;
-    public Quaternion leftSideRotation;
-    public Quaternion rightSideRotation;
-
-    void Awake()
+    private void Awake()
     {
-        npcMove = GetComponent<PeekabooNPCMove>();
-        elapsedTime = 0f;
+        IsLookingSomeone = false;
+        IsInteracting = false;
+
+        myMove = GetComponent<PeekabooNPCMove>();
+        myView = GetComponent<PeekabooNPCFieldOfView>();
+        myFSM = GetComponent<PeekabooNPCFSM>();
+        myCollider = GetComponent<SphereCollider>();
         lookingTarget = null;
-        isLooking = false;
+        elapsedTime = 0f;
     }
 
-    void Update()
+    private void Update()
     {
-        if (isLooking)
-        {
-            Vector3 rotateDirection = lookingTarget.transform.position - gameObject.transform.position;
-            transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.LookRotation(rotateDirection), rotateSpeed * Time.deltaTime);
-            return;
-        }
-
-        if (isLookingAround == false)
+        if (PhotonNetwork.IsMasterClient)
         {
             elapsedTime += Time.deltaTime;
-            if (lookingAroundCycle <= elapsedTime)
+            if (waitTimeForNextMove <= elapsedTime)
             {
-                isLookingAround = true;
+                myMove.SetNextDestination();
                 elapsedTime = 0f;
-                StartCoroutine(LookingAroundCoroutine());
+            }
+            if (IsLookingSomeone)
+            {
+                transform.LookAt(lookingTarget.transform);
+            }
+
+            myFSM.UpdateFSM();
+        }
+    }
+
+    private void OnTriggerStay(Collider _other)
+    {
+        if (IsLookingSomeone == false && _other.tag == "NPC")
+        {
+            if (myView.CheckView(_other.transform.position))
+            {
+                IsLookingSomeone = true;
+                if (myFSM.nowStateKey != PEEKABOONPCSTATE.IDLE)
+                {
+                    myFSM.ChangeState(PEEKABOONPCSTATE.IDLE);
+                }
+                lookingTarget = _other.gameObject;
             }
         }
     }
 
-    void OnTriggerStay(Collider _other)
+    private void OnTriggerExit(Collider _other)
     {
-        if (isLooking)
+        if (_other.gameObject == lookingTarget)
         {
-            return;
-        }
-
-        lookingTarget = _other.gameObject;
-        isLooking = true;
-    }
-
-    void OnTriggerExit(Collider _other)
-    {
-        if (_other == lookingTarget)
-        {
+            IsLookingSomeone = false;
             lookingTarget = null;
-            isLooking = false;
         }
     }
 
-    IEnumerator LookingAroundCoroutine()
+    public void TakeDamage(GameObject _attacker)
     {
-        firstRotation = transform.rotation;
-        leftSideRotation = firstRotation;
-        leftSideRotation.y -= 40;
-        rightSideRotation = firstRotation;
-        rightSideRotation.y += 40;
-        float elapsedTimeInCoroutine = 0f;
-
-        while (true)
-        {
-            yield return null;
-            elapsedTimeInCoroutine += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(firstRotation, leftSideRotation, elapsedTime / turnLeftSideTime);
-
-            if (turnLeftSideTime <= elapsedTimeInCoroutine)
-            {
-                transform.rotation = leftSideRotation;
-                elapsedTimeInCoroutine = 0f;
-                break;
-            }
-        }
-
-        yield return new WaitForSeconds(leftSideWaitTime);
-
-        while (true)
-        {
-            yield return null;
-            elapsedTimeInCoroutine += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(leftSideRotation, firstRotation, elapsedTime / turnLeftSideTime);
-
-            if (turnLeftSideTime <= elapsedTimeInCoroutine)
-            {
-                transform.rotation = firstRotation;
-                elapsedTimeInCoroutine = 0f;
-                break;
-            }
-        }
-
-        while (true)
-        {
-            yield return null;
-            elapsedTimeInCoroutine += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(firstRotation, rightSideRotation, elapsedTime / turnRightSideTime);
-
-            if (turnRightSideTime <= elapsedTimeInCoroutine)
-            {
-                transform.rotation = rightSideRotation;
-                elapsedTimeInCoroutine = 0f;
-                break;
-            }
-        }
-
-        yield return new WaitForSeconds(rightSideWaitTime);
-
-        while (true)
-        {
-            yield return null;
-            elapsedTimeInCoroutine += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(rightSideRotation, firstRotation, elapsedTime / turnRightSideTime);
-
-            if (turnRightSideTime <= elapsedTimeInCoroutine)
-            {
-                transform.rotation = firstRotation;
-                elapsedTimeInCoroutine = 0f;
-                break;
-            }
-        }
-
-        isLookingAround = false;
+        IsInteracting = true;
+        myFSM.SetCounterAttackTarget(_attacker);
+        myFSM.ChangeState(PEEKABOONPCSTATE.TAKEDAMAGE);
     }
 }
