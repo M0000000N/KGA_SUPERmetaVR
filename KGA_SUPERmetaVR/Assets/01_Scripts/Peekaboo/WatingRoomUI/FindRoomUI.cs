@@ -37,26 +37,29 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
             if (PhotonNetwork.JoinRoom(roomNumber.text + "_" + passWord.text))
             {
                 UnityEngine.Debug.Log("방 입장.");
+                Peekaboo_WatingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+                OnClickExitButton();
             }
             else
             {
                 Peekaboo_WatingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "방에 입장할 수 없습니다.", "확인"); // TODO : 나중에 데이터로 빼야함
             }
-            passwordInputUI.SetActive(false);
+            SetPopupButtonUI(false);
         }
         else
         {
             if(PhotonNetwork.JoinRoom(roomNumber.text))
             {
                 UnityEngine.Debug.Log("방 입장.");
+                Peekaboo_WatingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+                OnClickExitButton();
             }
             else
             {
-                passwordInputUI.SetActive(true);
+                SetPopupButtonUI(true);
             }
         }
     }
-
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -90,5 +93,8 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
         gameObject.SetActive(false);
     }
 
-
+    public void SetPopupButtonUI(bool _isActive)
+    {
+        passwordInputUI.SetActive(_isActive);
+    }
 }
