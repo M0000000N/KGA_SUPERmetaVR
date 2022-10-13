@@ -56,9 +56,7 @@ public class Login : MonoBehaviour
         {
             DataBase.Instance.CreateUser(CreateID.text, CreatePW.text, CreateNickName.text);
 
-            // 테스트 코드
-            peekabooLogin.SavePeekabooData();
-            // 테스트 코드
+
         }
     }
 
@@ -78,6 +76,10 @@ public class Login : MonoBehaviour
             //{
             //    UnityEngine.Debug.Log($"PeekabooCharacter : {GameManager.Instance.PlayerData.PlayerPeekabooData.Character[i]}");
             //}
+            // 테스트 코드
+
+            // 테스트 코드
+            peekabooLogin.SavePeekabooData();
             // 테스트 코드
         }
     }
