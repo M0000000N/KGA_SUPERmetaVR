@@ -40,24 +40,26 @@ public class PeekabooSpawner : MonoBehaviour
         Vector3 spawnPosition = GetRandomPointOnNavMesh(_mapPosition);
         spawnPosition += Vector3.up * 1f;
         transform.position = spawnPosition;
-
-        //Collider[] colls = Physics.OverlapSphere(transform.position, 5 , 1 << 6);
-        //foreach (Collider col in colls)
-        //{
-        //    col.GetComponentInChildren<CapsuleCollider>();
-        //    //Debug.Log("123");
-        //    if (col.gameObject.tag == "Enemy")
-        //    {
-        //        Debug.Log("123");
-        //        Spawn(_mapPosition);
-        //        break;
-        //    }
-        //    else
-        //    {
-        var monster = PeekabooEnemyObjectPool.GetObject(transform);
-        //transform.position = new Vector3(0f, 0f, 0f);
-        //    }
-        //}
+        int layerMask = LayerMask.GetMask("Enemy","Player");
+        Collider[] colls = Physics.OverlapSphere(transform.position, GameManager.Instance.CreateMap.DistanceBetweenCharactersCreated, layerMask);
+        if (colls.Length > 0)
+        {
+            foreach (Collider col in colls)
+            {
+                //Debug.Log("123");
+                if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Player")
+                {
+                    Spawn(_mapPosition);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            var monster = PeekabooEnemyObjectPool.GetObject(transform);
+            transform.position = new Vector3(0f, 0f, 0f);
+        }
+       
     }
 
     private void RespawnNPC(Vector3 _NPCposition)

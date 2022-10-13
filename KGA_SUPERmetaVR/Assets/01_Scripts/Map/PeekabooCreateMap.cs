@@ -46,6 +46,16 @@ public class PeekabooCreateMap : MonoBehaviour
     [SerializeField]
     private int numberOfNPCsProportionalToTheNumberOfPlayers;
 
+    [Header("처음 플레이어 생성시 플레이어간의 거리(값이 크면 오류 발생)")]
+    [SerializeField]
+    private float distanceBetweenPlayersCreated;
+
+    [Header("처음 NPC 생성시 캐릭터간의 거리(값이 크면 오류 발생)")]
+    [SerializeField]
+    private float distanceBetweenCharactersCreated;
+
+    public float DistanceBetweenCharactersCreated { get { return distanceBetweenCharactersCreated; } }
+
     private float mapLength;
     public float MapLength { get { return mapLength; } }
 
@@ -62,13 +72,13 @@ public class PeekabooCreateMap : MonoBehaviour
 
     private void Awake()
     {
+        mapLength = 20f;
         mapData = new Dictionary<int, MAPDATA>();
         CreateMap();
     }
 
     private void Start()
     {
-        mapLength = 20f;
         mapSize = mapSizeX * mapSizeZ;
         maxNumberOfNPCs = numberOfNPCsProportionalToTheNumberOfPlayers * numberOfPlayers;
         //테스트용
@@ -112,8 +122,25 @@ public class PeekabooCreateMap : MonoBehaviour
         }
         else
         {
-            GameObject playerObject = PhotonNetwork.Instantiate(GameManager.Instance.PlayerPrefeb.name, randomPosition, Quaternion.identity);
-            --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
+            int layerMask = LayerMask.GetMask("Player");
+            Collider[] colls = Physics.OverlapSphere(randomPosition, distanceBetweenPlayersCreated, layerMask);
+            if(colls.Length > 0)
+            {
+                foreach (Collider col in colls)
+                {
+                    if (col.gameObject.tag == "Player")
+                    {
+                        SpawnPlayer();
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                GameObject playerObject = PhotonNetwork.Instantiate(GameManager.Instance.PlayerPrefeb.name, randomPosition, Quaternion.identity);
+                --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
+            }
+            
         }
     }
 
