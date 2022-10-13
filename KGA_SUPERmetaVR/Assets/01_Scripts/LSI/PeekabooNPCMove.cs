@@ -16,13 +16,13 @@ public class PeekabooNPCMove : MonoBehaviour
 
     private void Awake()
     {
-        myAgent.GetComponent<NavMeshAgent>();
+        myAgent = GetComponent<NavMeshAgent>();
     }
 
     public void SetNextDestination()
     {
         float distance = Random.Range(minDistance, maxDistance);
-        Vector3 nextDestination = Random.insideUnitSphere * distance;
+        Vector3 nextDestination = transform.position + Random.insideUnitSphere * distance;
         myAgent.destination = nextDestination;
     }
 }

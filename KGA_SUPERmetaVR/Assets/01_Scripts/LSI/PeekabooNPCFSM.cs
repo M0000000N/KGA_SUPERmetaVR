@@ -5,26 +5,23 @@ using UnityEngine;
 public enum PEEKABOONPCSTATE
 {
     IDLE,
-    LOOKINGLEFTSIDE,
-    LOOKINGRIGHTSIDE,
+    LOOKINGLEFT,
+    LOOKINGRIGHT,
     TAKEDAMAGE,
 }
 
 public class PeekabooNPCFSM : MonoBehaviour
 {
-    public PeekabooNPCData getMyData { get { return myData; } }
     public PeekabooNPCState nowState { get; private set; }
+    public PEEKABOONPCSTATE nowStateKey { get; private set; }
     public Animator MyAnimator { get; private set; }
     public GameObject counterAttackTarget { get; private set; }
+    public PeekabooNPC myNPC { get; private set; }
 
-    [SerializeField]
-    private PeekabooNPCData myData;
-
-    private PeekabooNPC myNPC;
     private Dictionary<PEEKABOONPCSTATE, PeekabooNPCState> myStates;
     private PeekabooNPCIdleState idleState;
-    private PeekabooNPCLookingLeftSideState lookingLeftSideState;
-    private PeekabooNPCLookingRightSideState lookingRightSideState;
+    private PeekabooNPCLookingLeftState lookingLeftSideState;
+    private PeekabooNPCLookingRightState lookingRightSideState;
     private PeekabooNPCTakeDamageState takeDamageState;
 
     private void Awake()
@@ -32,14 +29,14 @@ public class PeekabooNPCFSM : MonoBehaviour
         myNPC = GetComponent<PeekabooNPC>();
         myStates = new Dictionary<PEEKABOONPCSTATE, PeekabooNPCState>();
         idleState = GetComponent<PeekabooNPCIdleState>();
-        lookingLeftSideState = GetComponent<PeekabooNPCLookingLeftSideState>();
-        lookingRightSideState = GetComponent<PeekabooNPCLookingRightSideState>();
+        lookingLeftSideState = GetComponent<PeekabooNPCLookingLeftState>();
+        lookingRightSideState = GetComponent<PeekabooNPCLookingRightState>();
         takeDamageState = GetComponent<PeekabooNPCTakeDamageState>();
         MyAnimator = GetComponent<Animator>();
 
         AddState(PEEKABOONPCSTATE.IDLE, idleState);
-        AddState(PEEKABOONPCSTATE.LOOKINGLEFTSIDE, lookingLeftSideState);
-        AddState(PEEKABOONPCSTATE.LOOKINGRIGHTSIDE, lookingRightSideState);
+        AddState(PEEKABOONPCSTATE.LOOKINGLEFT, lookingLeftSideState);
+        AddState(PEEKABOONPCSTATE.LOOKINGRIGHT, lookingRightSideState);
         AddState(PEEKABOONPCSTATE.TAKEDAMAGE, takeDamageState);
 
         ChangeState(PEEKABOONPCSTATE.IDLE);
@@ -58,6 +55,7 @@ public class PeekabooNPCFSM : MonoBehaviour
             nowState.OnExit();
         }
         nowState = myStates[_stateKey];
+        nowStateKey = _stateKey;
         nowState.OnEnter();
     }
 

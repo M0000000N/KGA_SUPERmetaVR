@@ -42,12 +42,12 @@ public class PeekabooNPCTakeDamageState : PeekabooNPCState
         Quaternion rotateQuaternion = Quaternion.Euler(new Vector3(0f, targetAngle, 0f));
         Quaternion targetQuaternion = transform.rotation * rotateQuaternion;
 
-        while (elapsedTime <= myFSM.getMyData.RotateToCounterAttackTarget)
+        while (elapsedTime <= StaticData.GetNPCData(15).VALUE)
         {
             yield return null;
 
             elapsedTime += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(initialQuaternion, targetQuaternion, elapsedTime / myFSM.getMyData.RotateToCounterAttackTarget);
+            transform.rotation = Quaternion.Lerp(initialQuaternion, targetQuaternion, elapsedTime / StaticData.GetNPCData(15).VALUE);
         }
 
         transform.rotation = targetQuaternion;

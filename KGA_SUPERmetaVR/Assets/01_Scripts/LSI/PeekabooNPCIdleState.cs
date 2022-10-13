@@ -4,54 +4,35 @@ using UnityEngine;
 
 public class PeekabooNPCIdleState : PeekabooNPCState
 {
-    private float waitTimeForNextAnimationRoutine;
+    [SerializeField]
+    private float routineStartMinTime;
+    [SerializeField]
+    private float routineStartMaxTime;
+
+    private float waitTimeForNextAnimation;
     private float elapsedTime;
 
     public override void OnEnter()
     {
-        Debug.Log("Idle 상태 돌입!");
-        float minTime = myFSM.getMyData.MinWaitTimeForNextAnimation;
-        float maxTime = myFSM.getMyData.MaxWaitTimeForNextAnimation;
-        waitTimeForNextAnimationRoutine = Random.Range(minTime, maxTime);
-
+        waitTimeForNextAnimation = Random.Range(routineStartMinTime, routineStartMaxTime);
         elapsedTime = 0f;
     }
 
     public override void OnUpdate()
     {
-        if (waitTimeForNextAnimationRoutine <= elapsedTime)
+        if (myFSM.myNPC.IsLookingSomeone == false)
         {
-            Debug.Log("시간 경과 ! : " + waitTimeForNextAnimationRoutine);
-
-            if (CheckProbability(myFSM.getMyData.AnimationRoutineStartProbability))
-            {
-                myFSM.ChangeState(PEEKABOONPCSTATE.LOOKINGLEFTSIDE);
-            }
-            else
-            {
-                Debug.Log("실패! Idle 상태로 돌아갑니다!");
-                myFSM.ChangeState(PEEKABOONPCSTATE.IDLE);
-            }
+            elapsedTime += Time.deltaTime;
         }
 
-        elapsedTime += Time.deltaTime;
+        if (waitTimeForNextAnimation <= elapsedTime)
+        {
+            myFSM.ChangeState(PEEKABOONPCSTATE.LOOKINGLEFT);
+        }
     }
 
     public override void OnExit()
     {
 
-    }
-
-    private bool CheckProbability(int _startProbability)
-    {
-        int randomValue = Random.Range(1, 101);
-        if (randomValue <= _startProbability)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 }

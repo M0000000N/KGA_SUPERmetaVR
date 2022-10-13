@@ -16,7 +16,8 @@ public class PeekabooNPCFieldOfView : MonoBehaviour
 
     public bool CheckView(Vector3 _targetPosition)
     {
-        float angleToTarget = Vector3.Angle(transform.forward, _targetPosition);
+        Vector3 direction = _targetPosition - transform.position;
+        float angleToTarget = Vector3.Angle(transform.forward, direction);
         if (angleToTarget <= viewAngleHalf)
         {
             return true;

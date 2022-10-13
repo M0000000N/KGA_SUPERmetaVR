@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PeekabooNPC : MonoBehaviour, IDamageable
+public class PeekabooNPC : MonoBehaviour
 {
+    [SerializeField]
+    private float waitTimeForNextMove;
+
     public bool IsLookingSomeone { get; private set; }
     public bool IsInteracting { get; private set; }
 
@@ -13,6 +16,7 @@ public class PeekabooNPC : MonoBehaviour, IDamageable
     private PeekabooNPCFSM myFSM;
     private SphereCollider myCollider;
     private GameObject lookingTarget;
+    private float elapsedTime;
 
     private void Awake()
     {
@@ -24,28 +28,48 @@ public class PeekabooNPC : MonoBehaviour, IDamageable
         myFSM = GetComponent<PeekabooNPCFSM>();
         myCollider = GetComponent<SphereCollider>();
         lookingTarget = null;
+        elapsedTime = 0f;
     }
 
     private void Update()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            elapsedTime += Time.deltaTime;
+            if (waitTimeForNextMove <= elapsedTime)
+            {
+                myMove.SetNextDestination();
+                elapsedTime = 0f;
+            }
+            if (IsLookingSomeone)
+            {
+                transform.LookAt(lookingTarget.transform);
+            }
 
+            myFSM.UpdateFSM();
+        }
     }
 
     private void OnTriggerStay(Collider _other)
     {
-        if (myView.CheckView(_other.transform.position))
+        if (IsLookingSomeone == false && _other.tag == "NPC")
         {
-            myCollider.enabled = false;
-            IsLookingSomeone = true;
-            lookingTarget = _other.GetComponent<GameObject>();
+            if (myView.CheckView(_other.transform.position))
+            {
+                IsLookingSomeone = true;
+                if (myFSM.nowStateKey != PEEKABOONPCSTATE.IDLE)
+                {
+                    myFSM.ChangeState(PEEKABOONPCSTATE.IDLE);
+                }
+                lookingTarget = _other.gameObject;
+            }
         }
     }
 
     private void OnTriggerExit(Collider _other)
     {
-        if (_other == lookingTarget)
+        if (_other.gameObject == lookingTarget)
         {
-            myCollider.enabled = true;
             IsLookingSomeone = false;
             lookingTarget = null;
         }
