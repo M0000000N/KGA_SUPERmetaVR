@@ -137,7 +137,7 @@ public class PeekabooCreateMap : MonoBehaviour
             }
             else
             {
-                GameObject playerObject = PhotonNetwork.Instantiate(GameManager.Instance.PlayerPrefeb.name, randomPosition, Quaternion.identity);
+                GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, randomPosition, Quaternion.identity);
                 --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
             }
             

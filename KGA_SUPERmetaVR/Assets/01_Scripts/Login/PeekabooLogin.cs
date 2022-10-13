@@ -11,7 +11,7 @@ public class PeekabooLogin : MonoBehaviour
     {
         playerPeekabooDataJson = JsonUtility.ToJson(GameManager.Instance.PlayerData.PlayerPeekabooData);
         UnityEngine.Debug.Log("playerPeekabooDataJson : " + playerPeekabooDataJson);
-        DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.peekaboo, playerPeekabooDataJson,UserTableInfo.user_id,GameManager.Instance.PlayerData.ID);
+        DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.peekaboo, playerPeekabooDataJson,UserTableInfo.user_id, GameManager.Instance.PlayerData.ID);
     }
 
     public void LoadPeekabooData()

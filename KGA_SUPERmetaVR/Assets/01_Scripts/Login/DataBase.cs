@@ -13,6 +13,7 @@ using System.Text; // StringBuilder를 사용하기 위함
 public class DataBase : SingletonBehaviour<DataBase>
 {
     MySqlConnection sqlconnection = null;
+    //MySqlDataReader
 
     [Header("AWS RDS 정보")]
     [SerializeField] string sqlDatabaseIP;

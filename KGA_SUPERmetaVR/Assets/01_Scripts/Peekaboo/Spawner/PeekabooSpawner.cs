@@ -41,7 +41,7 @@ public class PeekabooSpawner : MonoBehaviour
         spawnPosition += Vector3.up * 1f;
         transform.position = spawnPosition;
         int layerMask = LayerMask.GetMask("Enemy","Player");
-        Collider[] colls = Physics.OverlapSphere(transform.position, GameManager.Instance.CreateMap.DistanceBetweenCharactersCreated, layerMask);
+        Collider[] colls = Physics.OverlapSphere(transform.position, PeekabooGameManager.Instance.CreateMap.DistanceBetweenCharactersCreated, layerMask);
         if (colls.Length > 0)
         {
             foreach (Collider col in colls)
@@ -64,16 +64,16 @@ public class PeekabooSpawner : MonoBehaviour
 
     private void RespawnNPC(Vector3 _NPCposition)
     {
-        for (int i = 0; i < GameManager.Instance.CreateMap.MapSize; i++)
+        for (int i = 0; i < PeekabooGameManager.Instance.CreateMap.MapSize; i++)
         {
-            if (GameManager.Instance.CreateMap.MapData[i].MapPosition.x - GameManager.Instance.CreateMap.MapLength / 2 < _NPCposition.x && GameManager.Instance.CreateMap.MapData[i].MapPosition.x + GameManager.Instance.CreateMap.MapLength / 2 > _NPCposition.x && GameManager.Instance.CreateMap.MapData[i].MapPosition.z - GameManager.Instance.CreateMap.MapLength / 2 < _NPCposition.z && GameManager.Instance.CreateMap.MapData[i].MapPosition.z + GameManager.Instance.CreateMap.MapLength / 2 > _NPCposition.z)
+            if (PeekabooGameManager.Instance.CreateMap.MapData[i].MapPosition.x - PeekabooGameManager.Instance.CreateMap.MapLength / 2 < _NPCposition.x && PeekabooGameManager.Instance.CreateMap.MapData[i].MapPosition.x + PeekabooGameManager.Instance.CreateMap.MapLength / 2 > _NPCposition.x && PeekabooGameManager.Instance.CreateMap.MapData[i].MapPosition.z - PeekabooGameManager.Instance.CreateMap.MapLength / 2 < _NPCposition.z && PeekabooGameManager.Instance.CreateMap.MapData[i].MapPosition.z + PeekabooGameManager.Instance.CreateMap.MapLength / 2 > _NPCposition.z)
             {
                 while (true)
                 {
-                    int respawnNPCIndex = Random.Range(0, GameManager.Instance.CreateMap.MapSize);
+                    int respawnNPCIndex = Random.Range(0, PeekabooGameManager.Instance.CreateMap.MapSize);
                     if (respawnNPCIndex != i)
                     {
-                        Vector3 spawnPosition = GetRandomPointOnNavMesh(GameManager.Instance.CreateMap.MapData[respawnNPCIndex].MapPosition);
+                        Vector3 spawnPosition = GetRandomPointOnNavMesh(PeekabooGameManager.Instance.CreateMap.MapData[respawnNPCIndex].MapPosition);
                         spawnPosition += Vector3.up * 20f;
                         transform.position = spawnPosition;
                         var monster = PeekabooEnemyObjectPool.GetObject(transform);
@@ -87,8 +87,8 @@ public class PeekabooSpawner : MonoBehaviour
 
     private Vector3 GetRandomPointOnNavMesh(Vector3 _center)
     {
-        float randomPositionX = Random.Range(_center.x - (GameManager.Instance.CreateMap.MapLength / 2) + 1, _center.x + (GameManager.Instance.CreateMap.MapLength / 2) - 1);
-        float randomPositionZ = Random.Range(_center.z - (GameManager.Instance.CreateMap.MapLength / 2) + 1, _center.z + (GameManager.Instance.CreateMap.MapLength / 2) - 1);
+        float randomPositionX = Random.Range(_center.x - (PeekabooGameManager.Instance.CreateMap.MapLength / 2) + 1, _center.x + (PeekabooGameManager.Instance.CreateMap.MapLength / 2) - 1);
+        float randomPositionZ = Random.Range(_center.z - (PeekabooGameManager.Instance.CreateMap.MapLength / 2) + 1, _center.z + (PeekabooGameManager.Instance.CreateMap.MapLength / 2) - 1);
         Vector3 randomPosition = new Vector3(randomPositionX, _center.y, randomPositionZ);
 
         NavMeshHit hit;
