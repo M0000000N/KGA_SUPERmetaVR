@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class CreateRoomUI : MonoBehaviourPunCallbacks
 {
@@ -13,10 +14,10 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
 
     [Header("방 정보")]
     [SerializeField] Toggle isPrivateRoom;
-    [SerializeField] TMP_InputField roomNumInput;
+    [SerializeField] TMP_InputField passwordInput;
     [SerializeField] GameObject grayText;
-    private string roomNum = null;
-
+    private string password = null;
+    public RoomInfo RoomInfo { get; private set; }
     private void Awake()
     {
         createButton.onClick.AddListener(OnClickCreateButton);
@@ -25,35 +26,50 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
         isPrivateRoom.isOn = false;
         grayText.SetActive(true);
 
-        roomNum = roomNumInput.text;
+        //password = passwordInput.text;
     }
 
     private void Update()
     {
-        if (roomNum.Length > 0 && Input.GetKeyDown(KeyCode.Return))
+        if (passwordInput.text.Length > 0)
         {
-            RooomName();
+            SetPassword();
         }
 
-        if(isPrivateRoom.isOn)
+        if (isPrivateRoom.isOn)
         {
+            // private 방을 만든다.
             grayText.SetActive(false);
+            Peekaboo_WatingRoomUIManager.Instance.IsPrivateRoom = true;
+
         }
         else
         {
+            // public방을 만든다.
             grayText.SetActive(true);
+            Peekaboo_WatingRoomUIManager.Instance.IsPrivateRoom = false;
+
         }
     }
 
-    public void RooomName()
+    public void SetPassword()
     {
-        roomNum = roomNumInput.text;
-        PlayerPrefs.SetString("CurrentRoomName", roomNum);
-        Debug.Log(roomNum);
-    }
+        password = passwordInput.text;
+        Debug.Log(password);
+    } 
+
+
     public void OnClickCreateButton()
     {
-        // 방 생성할거임
+        if (isPrivateRoom.isOn)
+        {
+            LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName() + "_" + password);
+        }
+        else
+        {
+            LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName());
+        }
+       // LobbyManager.Instance.OnCreatedRoom();
     }
 
     public void OnClickExitButton()

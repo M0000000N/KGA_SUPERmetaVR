@@ -6,9 +6,9 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Realtime;
 
-public class LobbyManager : MonoBehaviourPunCallbacks
+public class LobbyManager : SingletonBehaviour<LobbyManager>
 {
-    //private string gameVersion = "1.0.4";
+    private string gameVersion = "1.0.4";
 
     //[Header("타이틀 화면")]
     //[SerializeField] TMP_InputField nickname;
@@ -26,24 +26,21 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     //private List<RoomButton> roomButtons = new List<RoomButton>();
 
-    [Header("방만들기 팝업")]
-    [SerializeField] GameObject createRoomPopUp;
-    [SerializeField] TMP_InputField createRoomName;
-    [SerializeField] Button createRoomButtonInPannel;
-    public string roomName;
-
     int index = 0; // 들어간 사람 숫자가 들어올 것
 
-    private static readonly RoomOptions RandomRoomOptions = new RoomOptions()
+    //private Dictionary<string>x
+    public List<PlayRoomUI> roomNameList = new List<PlayRoomUI>();
+    bool[] isEmptyRoomList = new bool[10000];
+
+    public readonly RoomOptions RoomOptions = new RoomOptions()
     {
-        MaxPlayers = 3
+        IsOpen = true,
+        IsVisible = true,
+        MaxPlayers = 14
     };
 
     private void Awake()
     {
-        createRoomName = createRoomPopUp.GetComponentInChildren<TMP_InputField>();
-        createRoomPopUp.SetActive(false);
-
         // 버튼 이벤트 메소드 연결
         //randomJoinButton.onClick.AddListener(OnClickRandomJoinButton);
         //createRoomButton.onClick.AddListener(OnClickCreateRoomButton);
@@ -53,33 +50,30 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         // 마스터 서버 연결시도
         PhotonNetwork.ConnectUsingSettings();
+        isEmptyRoomList[1] = true;
 
         //deactivateJoinButton("접속중");
     }
 
-    //public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    //{
-    //    foreach (RoomInfo info in roomList)
-    //    {
-    //        if (info.RemovedFromList) // 룸 지웠을 때
-    //        {
-    //            int index = roomButtons.FindIndex(x => x.RoomInfo.Name == info.Name);
-    //            if(index != -1)
-    //            {
-    //                Destroy(roomButtons[index].gameObject);
-    //                roomButtons.RemoveAt(index);
-    //            }
-    //        }
-    //        else // 룸 추가했을 때
-    //        {
-    //            RoomButton listing = (RoomButton)Instantiate(roomBtnPref, roomBtnParent);
-    //            if (listing != null)
-    //            {
-    //                listing.SetRoomInfo(info);
-    //            }
-    //        }
-    //    }
-    //}
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach (RoomInfo room in roomList)
+        {
+            if (room.RemovedFromList) // 룸 지웠을 때
+            {
+                int index = roomNameList.FindIndex(x => x.RoomInfo.Name == room.Name);
+                if (index != -1)
+                {
+                    isEmptyRoomList[index] = true;
+                }
+            }
+            else
+            {
+                PlayRoomUI playRoom = new PlayRoomUI();
+                playRoom.SetRoomInfo(room);
+            }
+        }
+    }
 
     //private void deactivateJoinButton(string message)
     //{
@@ -143,25 +137,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //    createRoomPopUp.SetActive(true);
     //}
 
-    //private void OnClickcreateRoomButtonInPannel()
-    //{
-    //    if (PhotonNetwork.IsConnected == false) return;
-    //    if (createRoomName.text.Length == 0)
-    //    {
-    //        logText.text = "방 이름을 입력하세요";
-    //        return;
-    //    }
+    public void CreateRoom(string _roomName)
+    {
+        if (PhotonNetwork.IsConnected == false) return;
+        // [To do]
+        // PhotonNetwork.NickName = GameManager.Instance.PlayerData.Nickname;
 
-    //    PhotonNetwork.JoinOrCreateRoom(createRoomName.text, RandomRoomOptions, TypedLobby.Default);
-
-    //    createRoomPopUp.SetActive(false);
-    //}
+        PhotonNetwork.JoinOrCreateRoom(_roomName, RoomOptions, TypedLobby.Default);
+    }
 
     public override void OnJoinedRoom()
     {
         // logText.text = "방에 입장함";
 
-        PhotonNetwork.LoadLevel("01_Main");
+        // PhotonNetwork.LoadLevel("01_Main");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -169,5 +158,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // logText.text = "빈 방이 없음, 새로운 방 생성..";
 
         // OnClickCreateRoomButton();
+    }
+
+    public string SetRoomName()
+    {
+        for (int i = 1; i <= 9999; i++)
+        {
+            if(isEmptyRoomList[i]) // 빈방
+            {
+                isEmptyRoomList[i] = false;
+                roomNameList.Add(new PlayRoomUI());
+                
+                return System.String.Format("{0:0000}", i);
+            }
+            else
+            {
+                return System.String.Format("{0:0000}", i);
+            }
+        }
+        return "0";
     }
 }

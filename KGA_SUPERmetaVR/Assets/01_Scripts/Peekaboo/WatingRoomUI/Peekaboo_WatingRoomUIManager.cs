@@ -8,17 +8,20 @@ using Photon.Realtime;
 
 public class Peekaboo_WatingRoomUIManager : SingletonBehaviour<Peekaboo_WatingRoomUIManager>
 {
-    public WaitingRoomUI WaitingRoomUI;
-    public CreateRoomUI CreateRoomUI;
-    public FindRoomUI FindRoomUI;
-    public CustomizingUI CustomizingUI;
-    public ExitUI ExitUI;
-    public NoticePopupUI NoticePopupUI;
+    public WaitingRoomUI      WaitingRoomUI;
+    public CreateRoomUI       CreateRoomUI;
+    public FindRoomUI         FindRoomUI;
+    public CustomizingUI      CustomizingUI;
+    public ExitUI             ExitUI;
+    public NoticePopupUI      NoticePopupUI;
     public Peekaboo_SettingUI SettingUI;
+
+    public bool IsPrivateRoom;
 
     private void Awake()
     {
         Initionalize();
+        IsPrivateRoom = false;
     }
     public void Initionalize()
     {
