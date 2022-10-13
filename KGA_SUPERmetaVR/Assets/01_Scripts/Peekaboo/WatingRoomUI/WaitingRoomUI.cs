@@ -66,22 +66,29 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
         Peekaboo_WatingRoomUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
     }
 
+    // 테스트 코드
+    public readonly RoomOptions RoomOptions = new RoomOptions()
+    {
+        IsOpen = true,
+        IsVisible = true,
+        MaxPlayers = 14
+    };
+
     public void OnClickRandomJoinButton()
     {
         findingRoomImage.SetActive(true);
 
-        // 마스터 서버에 접속중이라면 룸 접속 실행
-        //if (PhotonNetwork.IsConnected)
-        //{
-        //    //Data data = FindObjectOfType<Data>();
-        //    //data.Nickname = nickname.text;
-        //    //data.Coin = Coin.text;
-        //    PhotonNetwork.JoinRandomRoom();
-        //}
-        //else
-        //{
-        //    PhotonNetwork.ConnectUsingSettings();
-        //}
+        //테스트 코드
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.JoinOrCreateRoom("meta", RoomOptions, TypedLobby.Default);
+
+            PhotonNetwork.LoadLevel("01_Main");
+        }
+        else
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
     }
 
     public void OnClickSettingButton()
