@@ -18,13 +18,13 @@ public class Peekaboo_CustomizingUI : MonoBehaviour
     [SerializeField] private GameObject characterBase;
     [SerializeField] private GameObject[] character;
     
-    private Button[] characterButton;
+    //private Button[] characterButton;
     private int characterCount;
 
     private void Awake()
     {
         characterCount = StaticData.PeekabooCustiomizingData.Length;
-        characterButton = new Button[characterCount];
+        //characterButton = new Button[characterCount];
         character = new GameObject[characterCount];
 
         Initialize();
@@ -43,8 +43,11 @@ public class Peekaboo_CustomizingUI : MonoBehaviour
         for (int i = 0; i < StaticData.PeekabooCustiomizingData.Length; i++)
         {
             character[i] = Instantiate(characterBase, characterBase.transform.parent);
-            characterButton[i] = character[i].GetComponentInChildren<Button>();
+            //characterButton[i] = character[i].GetComponentInChildren<Button>();
             character[i].GetComponent<Peekaboo_CustomizingCharacter>().CharacterName.text = StaticData.GetPeekabooCustomizingData(i).Ghostname;
+            character[i].GetComponent<Peekaboo_CustomizingCharacter>().CharacterImage.sprite = Resources.Load<Sprite>("Image/Peekaboo/Character/" + StaticData.GetPeekabooCustomizingData(i).Ghostimage);
+            int index = i;
+            character[i].GetComponent<Peekaboo_CustomizingCharacter>().Button.onClick.AddListener(() => OnClickCharacterButton(index));
         }
 
         RefreshUI();
@@ -55,11 +58,6 @@ public class Peekaboo_CustomizingUI : MonoBehaviour
         checkButton.onClick.AddListener(OnClickCheckButton);
         leftButton.onClick.AddListener(OnClickLeftButton);
         rightButton.onClick.AddListener(OnClickRightButton);
-
-        for (int i = 0; i < characterButton.Length; i++)
-        {
-            characterButton[i].onClick.AddListener(() => OnClickCharacterButton(i));
-        }  
     }
 
     public void OnClickCheckButton()
@@ -89,36 +87,53 @@ public class Peekaboo_CustomizingUI : MonoBehaviour
         RefreshUI();
     }
 
-    public void OnClickCharacterButton(int _characterNumber)
+    public void OnClickCharacterButton(int _characterValue)
     {
-        GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter = _characterNumber;
+        UnityEngine.Debug.Log("_characterValue : " + _characterValue);
+        GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter = _characterValue;
+        RefreshUI();
     }
 
     public void RefreshUI()
     {
-        ChangePageUI();
-    }
-
-    public void ChangePageUI()
-    {
         for (int i = 0; i < characterCount; i++)
         {
-            // 유저가 가지고 있나요 없나요
-
-            if (characterCountInPage * pageNumber <= i && i < characterCountInPage * (pageNumber + 1))
-            {
-                character[i].gameObject.SetActive(true);
-                continue;
-            }
-            character[i].gameObject.SetActive(false);
+            ChangePageUI(i);
+            ChangeCharacterUI(i);
         }
     }
 
-    public void ChangeCharacterUI()
+    public void ChangePageUI(int _countNumber)
     {
-        for (int i = 0; i < characterCount; i++)
+        if (characterCountInPage * pageNumber <= _countNumber && _countNumber < characterCountInPage * (pageNumber + 1))
         {
+            character[_countNumber].gameObject.SetActive(true);
+        }
+        else
+        {
+            character[_countNumber].gameObject.SetActive(false);
+        }
+    }
 
+    public void ChangeCharacterUI(int _countNumber)
+    {
+        if (GameManager.Instance.PlayerData.PlayerPeekabooData.Character[_countNumber] > 0)
+        {
+            if (GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter == _countNumber)
+            {
+                character[_countNumber].GetComponent<Peekaboo_CustomizingCharacter>().Button.interactable = false;
+                character[_countNumber].GetComponent<Peekaboo_CustomizingCharacter>().ButtonText.text = "적용중";
+            }
+            else
+            {
+                character[_countNumber].GetComponent<Peekaboo_CustomizingCharacter>().Button.interactable = true;
+                character[_countNumber].GetComponent<Peekaboo_CustomizingCharacter>().ButtonText.text = "변경";
+            }
+        }
+        else
+        {
+            character[_countNumber].GetComponent<Peekaboo_CustomizingCharacter>().Button.interactable = false;
+            character[_countNumber].GetComponent<Peekaboo_CustomizingCharacter>().ButtonText.text = "미보유";
         }
     }
 }

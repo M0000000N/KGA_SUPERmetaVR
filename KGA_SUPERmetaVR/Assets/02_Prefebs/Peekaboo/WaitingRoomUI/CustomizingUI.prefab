@@ -282,6 +282,7 @@ GameObject:
   - component: {fileID: 3870307419903622836}
   - component: {fileID: 5370623165759208898}
   - component: {fileID: 323268809506502945}
+  - component: {fileID: 1566682230}
   m_Layer: 5
   m_Name: character
   m_TagString: Untagged
@@ -306,10 +307,10 @@ RectTransform:
   m_Father: {fileID: 4359892782159168724}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 115, y: -190}
-  m_SizeDelta: {x: 230, y: 380}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5370623165759208898
 CanvasRenderer:
@@ -349,6 +350,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1566682230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458343869648445938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 771e4811a2ee9434dbc8fc7d64672bc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  characterImage: {fileID: 8373225135372305690}
+  characterName: {fileID: 5642785704112713578}
+  characterState: {fileID: 7238719058584605575}
+  button: {fileID: 1360312563279500153}
+  buttonText: {fileID: 7238719058584605575}
 --- !u!1 &1707281478376392167
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +381,7 @@ GameObject:
   - component: {fileID: 4302480958610150416}
   - component: {fileID: 1360312563279500153}
   m_Layer: 5
-  m_Name: StateButton_1
+  m_Name: StateButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -622,7 +641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5187618463489495185
 RectTransform:
   m_ObjectHideFlags: 0

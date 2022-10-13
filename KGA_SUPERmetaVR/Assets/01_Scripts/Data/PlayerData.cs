@@ -23,11 +23,10 @@ public class PlayerData : MonoBehaviour
 [System.Serializable]
 public class PlayerPeekabooData
 {
-    // 은닉화시키면 Json파싱에 사용할 수 없는 이슈로 Public 선언
+    // private면 Json파싱에 사용할 수 없는 이슈로 Public 선언
 
     public int SelectCharacter;
     //public int SelectCharacter { get { return selectCharacter; } set { selectCharacter = value; } }
-
     public int[] Character;
     //public int[] Character { get { return character; } set { character = value; } }
 }
