@@ -21,7 +21,6 @@ public class Peekaboo_WatingRoomUIManager : SingletonBehaviour<Peekaboo_WatingRo
 
     private void Awake()
     {
-        Initionalize();
         IsPrivateRoom = false;
 
         WaitingRoomUI   = GetComponentInChildren<WaitingRoomUI>();
@@ -32,6 +31,11 @@ public class Peekaboo_WatingRoomUIManager : SingletonBehaviour<Peekaboo_WatingRo
         NoticePopupUI   = GetComponentInChildren<NoticePopupUI>();
         SettingUI       = GetComponentInChildren<Peekaboo_SettingUI>();
         PlayRoomUI      = GetComponentInChildren<PlayRoomUI>();
+    }
+    private void Start()
+    {
+        
+        Initionalize();
     }
     public void Initionalize()
     {

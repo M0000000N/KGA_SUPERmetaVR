@@ -64,10 +64,12 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
         if (isPrivateRoom.isOn)
         {
             LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName() + "_" + password);
+            Peekaboo_WatingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
         }
         else
         {
             LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName());
+            Peekaboo_WatingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
         }
        // LobbyManager.Instance.OnCreatedRoom();
     }
