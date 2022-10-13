@@ -10,7 +10,7 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
     [SerializeField]
     private GameObject poolingObjectPrefab;
 
-    private Queue<DummyEnemy> poolingObjectQueue = new Queue<DummyEnemy>();
+    private Queue<PeekabooNPC> poolingObjectQueue = new Queue<PeekabooNPC>();
 
     private void Awake()
     {
@@ -21,9 +21,9 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
     {
 
     }
-    private DummyEnemy CreateNewObject(Transform _transform)
+    private PeekabooNPC CreateNewObject(Transform _transform)
     {
-        var newObject = PhotonNetwork.Instantiate(poolingObjectPrefab.name, _transform.position, Quaternion.identity).GetComponent<DummyEnemy>();
+        var newObject = PhotonNetwork.Instantiate(poolingObjectPrefab.name, _transform.position, Quaternion.identity).GetComponent<PeekabooNPC>();
         newObject.gameObject.SetActive(false);
         return newObject;
     }
@@ -36,7 +36,7 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
         }
     }
 
-    public static DummyEnemy GetObject(Transform _transform)
+    public static PeekabooNPC GetObject(Transform _transform)
     {
         if (instance.poolingObjectQueue.Count > 0)
         {
@@ -54,7 +54,7 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
         }
     }
 
-    public static void ReturnObject(DummyEnemy _enemy)
+    public static void ReturnObject(PeekabooNPC _enemy)
     {
         _enemy.gameObject.SetActive(false);
         _enemy.transform.SetParent(instance.transform);

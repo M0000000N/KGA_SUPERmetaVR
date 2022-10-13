@@ -14,17 +14,17 @@ public class PeekabooSpawner : MonoBehaviour
 
     private void Update()
     {
-        // 리스폰 테스트용 삭제
-        elsptime += Time.deltaTime;
-        if (elsptime > 3f)
-        {
-            float x = Random.Range(-10f, 30f);
-            float z = Random.Range(-10f, 70f);
-            Vector3 npcPosition = new Vector3(x, 0, z);
-            RespawnNPC(npcPosition);
-            elsptime = -3000f;
-        }
-        //
+        //// 리스폰 테스트용 삭제
+        //elsptime += Time.deltaTime;
+        //if (elsptime > 3f)
+        //{
+        //    float x = Random.Range(-10f, 30f);
+        //    float z = Random.Range(-10f, 70f);
+        //    Vector3 npcPosition = new Vector3(x, 0, z);
+        //    RespawnNPC(npcPosition);
+        //    elsptime = -3000f;
+        //}
+        ////
     }
     public void FirstSpawn(Vector3 _mapPosition, int _randomSpawnNPC)
     {

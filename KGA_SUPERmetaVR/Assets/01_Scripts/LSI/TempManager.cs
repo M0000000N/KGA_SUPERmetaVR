@@ -29,6 +29,6 @@ public class TempManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("07_NPC");
+        PhotonNetwork.LoadLevel("01_Main");
     }
 }
