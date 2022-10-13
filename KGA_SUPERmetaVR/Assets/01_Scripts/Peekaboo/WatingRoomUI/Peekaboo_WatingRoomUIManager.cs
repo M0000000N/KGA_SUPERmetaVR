@@ -8,13 +8,14 @@ using Photon.Realtime;
 
 public class Peekaboo_WatingRoomUIManager : SingletonBehaviour<Peekaboo_WatingRoomUIManager>
 {
-    public WaitingRoomUI      WaitingRoomUI;
-    public CreateRoomUI       CreateRoomUI;
-    public FindRoomUI         FindRoomUI;
+    public WaitingRoomUI WaitingRoomUI;
+    public CreateRoomUI CreateRoomUI;
+    public FindRoomUI FindRoomUI;
     public Peekaboo_CustomizingUI CustomizingUI;
-    public ExitUI             ExitUI;
-    public NoticePopupUI      NoticePopupUI;
+    public ExitUI ExitUI;
+    public NoticePopupUI NoticePopupUI;
     public Peekaboo_SettingUI SettingUI;
+    public PlayRoomUI PlayRoomUI;
 
     public bool IsPrivateRoom;
 
@@ -22,6 +23,15 @@ public class Peekaboo_WatingRoomUIManager : SingletonBehaviour<Peekaboo_WatingRo
     {
         Initionalize();
         IsPrivateRoom = false;
+
+        WaitingRoomUI   = GetComponentInChildren<WaitingRoomUI>();
+        CreateRoomUI    = GetComponentInChildren<CreateRoomUI>();
+        FindRoomUI      = GetComponentInChildren<FindRoomUI>();
+        CustomizingUI   = GetComponentInChildren<Peekaboo_CustomizingUI>();
+        ExitUI          = GetComponentInChildren<ExitUI>();
+        NoticePopupUI   = GetComponentInChildren<NoticePopupUI>();
+        SettingUI       = GetComponentInChildren<Peekaboo_SettingUI>();
+        PlayRoomUI      = GetComponentInChildren<PlayRoomUI>();
     }
     public void Initionalize()
     {
@@ -32,6 +42,7 @@ public class Peekaboo_WatingRoomUIManager : SingletonBehaviour<Peekaboo_WatingRo
         ExitUI.gameObject.SetActive(false);
         NoticePopupUI.gameObject.SetActive(false);
         SettingUI.gameObject.SetActive(false);
+        PlayRoomUI.gameObject.SetActive(false);
     }
 
     // ¾Ë¸² ÆË¾÷ UI
