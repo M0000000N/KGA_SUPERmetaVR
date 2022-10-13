@@ -150,7 +150,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     {
         // logText.text = "방에 입장함";
 
-        // PhotonNetwork.LoadLevel("01_Main");
+        PhotonNetwork.LoadLevel("Peekaboo_InGame");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

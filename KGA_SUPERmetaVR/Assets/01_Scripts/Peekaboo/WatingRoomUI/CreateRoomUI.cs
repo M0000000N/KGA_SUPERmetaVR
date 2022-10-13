@@ -40,14 +40,14 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
         {
             // private 방을 만든다.
             grayText.SetActive(false);
-            Peekaboo_WatingRoomUIManager.Instance.IsPrivateRoom = true;
+            Peekaboo_WaitingRoomUIManager.Instance.IsPrivateRoom = true;
 
         }
         else
         {
             // public방을 만든다.
             grayText.SetActive(true);
-            Peekaboo_WatingRoomUIManager.Instance.IsPrivateRoom = false;
+            Peekaboo_WaitingRoomUIManager.Instance.IsPrivateRoom = false;
 
         }
     }
@@ -64,12 +64,12 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
         if (isPrivateRoom.isOn)
         {
             LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName() + "_" + password);
-            Peekaboo_WatingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+            Peekaboo_WaitingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
         }
         else
         {
             LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName());
-            Peekaboo_WatingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+            Peekaboo_WaitingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
         }
        // LobbyManager.Instance.OnCreatedRoom();
     }

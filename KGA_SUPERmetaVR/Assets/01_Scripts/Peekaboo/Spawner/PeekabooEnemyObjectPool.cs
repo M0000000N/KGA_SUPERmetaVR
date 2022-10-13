@@ -23,7 +23,7 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
     }
     private PeekabooNPC CreateNewObject(Transform _transform)
     {
-        var newObject = PhotonNetwork.Instantiate(poolingObjectPrefab.name, _transform.position, Quaternion.identity).GetComponent<PeekabooNPC>();
+        PeekabooNPC newObject = PhotonNetwork.Instantiate(poolingObjectPrefab.name, _transform.position, Quaternion.identity).GetComponent<PeekabooNPC>();
         newObject.gameObject.SetActive(false);
         return newObject;
     }

@@ -18,7 +18,7 @@ public class ExitUI : MonoBehaviour
     public void OnClickYesButton()
     {
         gameObject.SetActive(false);
-        Peekaboo_WatingRoomUIManager.Instance.WaitingRoomUI.gameObject.SetActive(false);
+        Peekaboo_WaitingRoomUIManager.Instance.WaitingRoomUI.gameObject.SetActive(false);
         // DKBB∑Œ ¿Ãµø
     }
 

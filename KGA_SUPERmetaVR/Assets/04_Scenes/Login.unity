@@ -1712,8 +1712,6 @@ GameObject:
   m_Component:
   - component: {fileID: 539555322}
   - component: {fileID: 539555321}
-  - component: {fileID: 539555323}
-  - component: {fileID: 539555324}
   m_Layer: 0
   m_Name: Script
   m_TagString: Untagged
@@ -1751,41 +1749,10 @@ Transform:
   - {fileID: 1303049343}
   - {fileID: 1886878706}
   - {fileID: 1380487372}
+  - {fileID: 1989195988}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &539555323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 539555320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d22c00a04b38bf43a8aa2ac4fd1ebbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoginID: {fileID: 355517251}
-  LoginPW: {fileID: 700288204}
-  LoginUI: {fileID: 1267412354}
-  CreateID: {fileID: 1618140623}
-  CreatePW: {fileID: 1276473427}
-  CreatePWCheck: {fileID: 318868628}
-  CreateNickName: {fileID: 36237384}
-  CreateUI: {fileID: 491560662}
---- !u!114 &539555324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 539555320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c0b92cfb1187e4294abddcdb122047, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &574111849
 GameObject:
   m_ObjectHideFlags: 0
@@ -2064,7 +2031,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 539555323}
+      - m_Target: {fileID: 1989195987}
         m_TargetAssemblyTypeName: Login, Assembly-CSharp
         m_MethodName: JoinPage
         m_Mode: 1
@@ -2506,7 +2473,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 539555323}
+      - m_Target: {fileID: 1989195987}
         m_TargetAssemblyTypeName: Login, Assembly-CSharp
         m_MethodName: CreatePage
         m_Mode: 1
@@ -2639,7 +2606,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 539555323}
+      - m_Target: {fileID: 1989195987}
         m_TargetAssemblyTypeName: Login, Assembly-CSharp
         m_MethodName: Create
         m_Mode: 1
@@ -3188,7 +3155,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 539555323}
+      - m_Target: {fileID: 1989195987}
         m_TargetAssemblyTypeName: Login, Assembly-CSharp
         m_MethodName: Join
         m_Mode: 1
@@ -3705,6 +3672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noticePopup: {fileID: 11400000, guid: d56e7bdfda089c3428e8776d726bb5b5, type: 2}
   peekabooCustiomizing: {fileID: 11400000, guid: 875b53b1dba6e184bb42276a7e464978, type: 2}
+  myNPC: {fileID: 11400000, guid: 2f9e0108bea3e284cbb6a8ab749769cc, type: 2}
 --- !u!1 &1380487371
 GameObject:
   m_ObjectHideFlags: 0
@@ -3745,7 +3713,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1380487371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a40751cc70a20e41bb6885832bd117c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f744f90583ea75439cd92e76d9ac939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1419147543
@@ -5760,3 +5728,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1908708202}
   m_CullTransparentMesh: 1
+--- !u!1 &1989195986
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1989195988}
+  - component: {fileID: 1989195987}
+  - component: {fileID: 1989195989}
+  m_Layer: 0
+  m_Name: login
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1989195987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989195986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d22c00a04b38bf43a8aa2ac4fd1ebbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoginID: {fileID: 355517251}
+  LoginPW: {fileID: 700288204}
+  LoginUI: {fileID: 1267412354}
+  CreateID: {fileID: 1618140623}
+  CreatePW: {fileID: 1276473427}
+  CreatePWCheck: {fileID: 318868628}
+  CreateNickName: {fileID: 36237384}
+  CreateUI: {fileID: 491560662}
+--- !u!4 &1989195988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989195986}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.18, y: -3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 539555322}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1989195989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989195986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c0b92cfb1187e4294abddcdb122047, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

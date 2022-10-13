@@ -48,22 +48,22 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickExitButton()
     {
-        Peekaboo_WatingRoomUIManager.Instance.ExitUI.gameObject.SetActive(true);
+        Peekaboo_WaitingRoomUIManager.Instance.ExitUI.gameObject.SetActive(true);
     }
 
     public void OnClickFindRoomButton()
     {
-        Peekaboo_WatingRoomUIManager.Instance.FindRoomUI.gameObject.SetActive(true);
+        Peekaboo_WaitingRoomUIManager.Instance.FindRoomUI.gameObject.SetActive(true);
     }
 
     public void OnClickCustomizingButton()
     {
-        Peekaboo_WatingRoomUIManager.Instance.CustomizingUI.gameObject.SetActive(true);
+        Peekaboo_WaitingRoomUIManager.Instance.CustomizingUI.gameObject.SetActive(true);
     }
 
     public void OnClickCreateRoomButton()
     {
-        Peekaboo_WatingRoomUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
+        Peekaboo_WaitingRoomUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
     }
 
     // 테스트 코드
@@ -83,7 +83,7 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.JoinOrCreateRoom("meta", RoomOptions, TypedLobby.Default);
 
-            PhotonNetwork.LoadLevel("01_Main");
+            PhotonNetwork.LoadLevel("Peekaboo_InGame");
         }
         else
         {
@@ -93,7 +93,7 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickSettingButton()
     {
-        Peekaboo_WatingRoomUIManager.Instance.SettingUI.gameObject.SetActive(true);
+        Peekaboo_WaitingRoomUIManager.Instance.SettingUI.gameObject.SetActive(true);
     }
 
     public void OnClickXButton()
