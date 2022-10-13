@@ -9,7 +9,7 @@ public class VRInput : BaseInput
     private Camera eventCamera = null;
 
     [SerializeField]
-    private OVRInput.Button clickButton = OVRInput.Button.PrimaryIndexTrigger;
+    private OVRInput.Button clickButton = OVRInput.Button.PrimaryHandTrigger;
 
     [SerializeField]
     private OVRInput.Controller controller = OVRInput.Controller.All;

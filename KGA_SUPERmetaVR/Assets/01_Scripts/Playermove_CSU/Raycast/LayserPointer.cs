@@ -27,7 +27,7 @@ public class LayserPointer : MonoBehaviour
         lineRenderer.SetPosition(1, CalculatedEnd());
     }
 
-    private Vector3 CalculatedEnd()
+    public Vector3 CalculatedEnd()
     {
         RaycastHit hit = CreateFowardRaycast();
         Vector3 endPosition = DefaultEnd(lineLength); 
@@ -39,8 +39,7 @@ public class LayserPointer : MonoBehaviour
         return endPosition; 
     }
 
-
-    private RaycastHit CreateFowardRaycast()
+    public RaycastHit CreateFowardRaycast()
     {
         RaycastHit hit;
         Ray ray = new Ray(transform.position, transform.forward);

@@ -24,6 +24,9 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     private Stamina stamina;
 
     [SerializeField]
+    private PointerEvents pointerEvents; 
+
+    [SerializeField]
     private Transform myCharacter;
 
     private bool isRun = false;
@@ -46,11 +49,6 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     {
         TryRun();
         Move();
-
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            Debug.Log("?");
-        }
     }
     public void Move()
     {
@@ -100,32 +98,33 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     public void TryRun()
     {
-        if (OVRInput.Get(OVRInput.RawButton.B) && OVRInput.Get(OVRInput.Touch.PrimaryThumbstick) || Input.GetKey(KeyCode.LeftShift)) 
-        {
-            Running();
-        }
+        if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0) 
+        Running();
+      
+        if(OVRInput.GetUp(OVRInput.RawButton.B) || stamina.GetProgress() == 0)
         RunningCancle();
     }
     public void Running()
     {
         isRun = true;
-        applySpeed = runSpeed;
         stamina.DecreaseProgress();
+        applySpeed = runSpeed;
     }
 
     public void RunningCancle()
     {
         isRun = false;
-        applySpeed = walkSpeed;
         stamina.IncreaseProgress();
+        applySpeed = walkSpeed;
     }
 
     public void Attack()
-    {
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) && (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger)))
-        {
-            Debug.Log("공격!"); 
-        }
+    {   
+            if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) && (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger)))
+            {
+              // pointerEvents.ImagePeekaboo();
+            }
+        
     }
 
     // 데이터 동기화를 위한 데이터 전송 및 수신 기능 

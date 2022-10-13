@@ -14,40 +14,49 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private Color downColor = Color.white;
     [SerializeField]
     private UnityEvent OnClick = new UnityEvent();
+    [SerializeField]
+    private int showPeekabooTime = 2;
+
+    [SerializeField]
+    private GameObject Peekaboo;
+
+    [SerializeField]
+    private PlayMove_Photon playermove; 
 
     private MeshRenderer meshRenderer = null;
     private void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
-        
+        meshRenderer = GetComponent<MeshRenderer>();      
+    }
+    private void Start()
+    {
+        Peekaboo.SetActive(false);   
     }
 
     public void OnPointerEnter(PointerEventData enventData)
     {
         meshRenderer.material.color = enterColor;
-        Debug.Log("1");
     }
 
     public void OnPointerExit(PointerEventData enventData)
     {
         meshRenderer.material.color = normalColor;
-        Debug.Log("2");
     }
     public void OnPointerDown(PointerEventData enventData)
     {
         meshRenderer.material.color = downColor;
-        Debug.Log("3");
     }
 
     public void OnPointerUp(PointerEventData enventData)
     {
         meshRenderer.material.color = enterColor;
-        Debug.Log("4");
     }
 
     public void OnPointerClick(PointerEventData enventData)
     {
         OnClick.Invoke();
-        Debug.Log("5"); 
+       
     }
-}
+ 
+
+ }

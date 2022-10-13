@@ -82,12 +82,11 @@ public class Stamina : MonoBehaviour
         else
         {
             elaspedTime2 += Time.deltaTime;
-
             if (elaspedTime2 >= outB) // 시간을 변수로 받아서 쓰기 // 0 ~ 8까지 
             {
+                elaspedTime2 = 0f;
                 currentValue++;
                 changeSpriteColor(currentValue - 1, enabledColor);
-                elaspedTime2 = 0f;
             }          
         }
     }
@@ -101,9 +100,9 @@ public class Stamina : MonoBehaviour
             elaspedTime1 += Time.deltaTime;
             if (elaspedTime1 > clickB)
             {
+                elaspedTime1 = 0f;
                 changeSpriteColor(currentValue - 1, disabledColor);
                 currentValue--;
-                elaspedTime1 = 0f;
             }
         }
     }

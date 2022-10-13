@@ -24,10 +24,14 @@ public class PlayerMove : MonoBehaviourPun
 
     //플레이어 이동
     private float dirX = 0;
-    private float dirZ = 0; 
+    private float dirZ = 0;
+
+    private Vector3 curDir;
 
     private void Start()
     {
+
+        curDir = Vector3.zero;
         applySpeed = walkSpeed;
         peekaboo.SetActive(false);
        
@@ -36,13 +40,42 @@ public class PlayerMove : MonoBehaviourPun
     private void Update()
     {
         TryRun();
-        walk();
+        Move();
+       // walk();
         Attack();
        // Attack2();
     }
 
     // 플레이어 이동
-    public void walk()
+
+    private void Move()
+    {
+
+        curDir = Vector3.zero;
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            curDir.x = -1;
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            curDir.x = 1;
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            curDir.z = 1;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            curDir.z = -1;
+        }
+
+        curDir.Normalize();
+        transform.position += curDir * (applySpeed * Time.deltaTime);
+    }
+
+public void walk()
     {
         dirX = 0; // 좌우
         dirZ = 0; // 상하 
@@ -83,15 +116,11 @@ public class PlayerMove : MonoBehaviourPun
 
     public void TryRun()
     {     
-            if (OVRInput.Get(OVRInput.RawButton.B) || Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space))
             {
                 Running();
             }
-            if (OVRInput.GetUp(OVRInput.RawButton.B) || !Input.GetKey(KeyCode.Space))
-            {
-                RunningCancle();
-            }
-        
+             RunningCancle();      
     }
 
     public void Running()
