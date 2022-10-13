@@ -9,6 +9,17 @@ using Photon.Realtime;
 public class PlayRoomUI : MonoBehaviour
 {
     public RoomInfo RoomInfo { get; private set; }
+
+    [SerializeField] Button exitButton;
+
+    private void Awake()
+    {
+        exitButton.onClick.AddListener(OnClickExitButton);
+    }
+    public void OnClickExitButton()
+    {
+        gameObject.SetActive(false);
+    }
     public void SetRoomInfo(RoomInfo _roomInfo)
     {
         RoomInfo = _roomInfo;

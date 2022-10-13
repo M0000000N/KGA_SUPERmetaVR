@@ -160,58 +160,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1229953856617946057, guid: bfaaa6a4916a58344b437dad4b20dd23, type: 3}
   m_PrefabInstance: {fileID: 462480283}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &357836197
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 357836199}
-  - component: {fileID: 357836198}
-  m_Layer: 0
-  m_Name: UIManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &357836198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 357836197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72c507fa1b51a6c458504cfb4c13a191, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WaitingRoomUI: {fileID: 19382794}
-  CreateRoomUI: {fileID: 132783783}
-  FindRoomUI: {fileID: 878630594}
-  CustomizingUI: {fileID: 2115522297}
-  ExitUI: {fileID: 1673122965}
-  NoticePopupUI: {fileID: 479216787}
-  SettingUI: {fileID: 378105915}
-  PlayRoomUI: {fileID: 462480284}
-  IsPrivateRoom: 0
---- !u!4 &357836199
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 357836197}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -58.79596, y: 79.41963, z: 338.86646}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &378105915 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7170547851423205843, guid: 66502d7f43076df4694c6089b7b938b1, type: 3}
@@ -1430,6 +1378,7 @@ GameObject:
   - component: {fileID: 5059769301254361126}
   - component: {fileID: 5059769301254361127}
   - component: {fileID: 5059769301254361124}
+  - component: {fileID: 5059769301254361128}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1481,6 +1430,27 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
+--- !u!114 &5059769301254361128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5059769301254361125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c507fa1b51a6c458504cfb4c13a191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WaitingRoomUI: {fileID: 19382794}
+  CreateRoomUI: {fileID: 132783783}
+  FindRoomUI: {fileID: 878630594}
+  CustomizingUI: {fileID: 2115522297}
+  ExitUI: {fileID: 1673122965}
+  NoticePopupUI: {fileID: 479216787}
+  SettingUI: {fileID: 378105915}
+  PlayRoomUI: {fileID: 462480284}
+  IsPrivateRoom: 0
 --- !u!224 &5059769301254361145
 RectTransform:
   m_ObjectHideFlags: 0
