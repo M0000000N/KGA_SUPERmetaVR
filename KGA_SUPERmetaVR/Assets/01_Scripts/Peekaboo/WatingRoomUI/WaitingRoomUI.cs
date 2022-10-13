@@ -28,8 +28,8 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        // coin = DB.Coin
-        // nickname = DB.Nickname
+        coin.text = GameManager.Instance.PlayerData.Coin.ToString();
+        nickname.text = GameManager.Instance.PlayerData.Nickname.ToString();
         findingRoomImage.SetActive(false);
 
         XButton = findingRoomImage.GetComponentInChildren<Button>();

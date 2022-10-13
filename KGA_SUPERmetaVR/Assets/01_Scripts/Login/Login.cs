@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
 public static class UserTableInfo
 {
@@ -57,7 +58,6 @@ public class Login : MonoBehaviour
 
             // 테스트 코드
             peekabooLogin.SavePeekabooData();
-            UnityEngine.Debug.Log("피카부!");
             // 테스트 코드
         }
     }
@@ -69,17 +69,15 @@ public class Login : MonoBehaviour
             UnityEngine.Debug.Log("로그인에 성공했습니다.");
             GameManager.Instance.PlayerData.ID = LoginID.text;
             GetDataBase();
-            UnityEngine.Debug.Log($"ID : {GameManager.Instance.PlayerData.ID}");
-            UnityEngine.Debug.Log($"NickName : {GameManager.Instance.PlayerData.Nickname}");
-            UnityEngine.Debug.Log($"Coin : {GameManager.Instance.PlayerData.Coin}");
 
+            PhotonNetwork.LoadLevel("Peekaboo_WaitingRoom");
             // 테스트 코드
-            peekabooLogin.LoadPeekabooData();
-            UnityEngine.Debug.Log($"Peekaboo : {GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter}");
-            for (int i = 0; i < GameManager.Instance.PlayerData.PlayerPeekabooData.Character.Length; i++)
-            {
-                UnityEngine.Debug.Log($"PeekabooCharacter : {GameManager.Instance.PlayerData.PlayerPeekabooData.Character[i]}");
-            }
+            //peekabooLogin.LoadPeekabooData();
+            //UnityEngine.Debug.Log($"Peekaboo : {GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter}");
+            //for (int i = 0; i < GameManager.Instance.PlayerData.PlayerPeekabooData.Character.Length; i++)
+            //{
+            //    UnityEngine.Debug.Log($"PeekabooCharacter : {GameManager.Instance.PlayerData.PlayerPeekabooData.Character[i]}");
+            //}
             // 테스트 코드
         }
     }

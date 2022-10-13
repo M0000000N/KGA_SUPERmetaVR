@@ -4,7 +4,7 @@ using System.Data;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerData : MonoBehaviour
+public class PlayerData
 {
     string id;
     public string ID { get { return id; } set { id = value; } }
@@ -17,7 +17,6 @@ public class PlayerData : MonoBehaviour
 
     PlayerPeekabooData playerPeekabooData;
     public PlayerPeekabooData PlayerPeekabooData { get { return playerPeekabooData; } set { playerPeekabooData = value; } }
-
 }
 
 [System.Serializable]
