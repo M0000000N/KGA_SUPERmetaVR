@@ -11,7 +11,7 @@ public class Peekaboo_WatingRoomUIManager : SingletonBehaviour<Peekaboo_WatingRo
     public WaitingRoomUI      WaitingRoomUI;
     public CreateRoomUI       CreateRoomUI;
     public FindRoomUI         FindRoomUI;
-    public CustomizingUI      CustomizingUI;
+    public Peekaboo_CustomizingUI CustomizingUI;
     public ExitUI             ExitUI;
     public NoticePopupUI      NoticePopupUI;
     public Peekaboo_SettingUI SettingUI;
