@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 
 public class CreateRoomUI : MonoBehaviourPunCallbacks
 {
@@ -15,47 +17,46 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
     [Header("방 정보")]
     [SerializeField] Toggle isPrivateRoom;
     [SerializeField] TMP_InputField passwordInput;
-    private string password = null;
     [SerializeField] GameObject grayText;
+    private string password = null; // 인풋값 저장위함
 
-    public CustomProperties CustomProperties;
     private void Awake()
     {
         createButton.onClick.AddListener(OnClickCreateButton);
         exitButton.onClick.AddListener(OnClickExitButton);
 
         isPrivateRoom.isOn = false;
-        grayText.SetActive(true);
         passwordInput.interactable = false;
+        grayText.SetActive(true);
     }
 
     private void Update()
     {
-        if (passwordInput.text.Length > 0)
+        if (passwordInput.text.Length > 0) // 번호 입력 시작 할 대 set시작
         {
             SetPassword();
         }
 
         if (isPrivateRoom.isOn)
         {
-            // private 방을 만든다.
-            grayText.SetActive(false); // 비밀번호 설정 가능
-            passwordInput.interactable = true;
-        }
-        else
-        {
-            // public방을 만든다.
+            // publicRoom
             grayText.SetActive(true);
             passwordInput.interactable = false;
         }
+        else
+        {
+            // privateRoom
+            grayText.SetActive(false);
+            passwordInput.interactable = true;
+        }
     }
 
-    public void SetPassword()
+    public void SetPassword() // TODO : 번호 규칙
     {
+        // if()
         password = passwordInput.text;
         Debug.Log(password);
     }
-
 
     public void OnClickCreateButton()
     {
@@ -63,17 +64,50 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
 
         if (isPrivateRoom.isOn)
         {
-            //LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName() + "_" + password);;
+            // publicRoom
+            LobbyManager.Instance.CreateRoom(CustomRoomOptions(false, null));
         }
         else
         {
-            //LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName());
+            // privateRoom
+            if(false)// 비밀번호 규칙과 다를 경우
+            {
+                // TODO : 나중에 데이터로 빼야함
+                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "비밀번호는 1자리 최대 8자리\n숫자만 사용 가능합니다.", "확인");
+                passwordInput.text = "";
+                return;
+            }
+            LobbyManager.Instance.CreateRoom(CustomRoomOptions(true, password));
         }
-        // LobbyManager.Instance.OnCreatedRoom();
     }
 
     public void OnClickExitButton()
     {
         gameObject.SetActive(false);
     }
+
+
+    public RoomOptions CustomRoomOptions(bool _isprivate, string _password)
+    {
+        RoomOptions roomOptions = new RoomOptions()
+        {
+            IsOpen = true,
+            IsVisible = true,
+            MaxPlayers = 14
+        };
+
+        roomOptions.CustomRoomProperties = new Hashtable()
+        {
+            { "isPrivate", _isprivate },
+            { "password", _password }
+        };
+
+        roomOptions.CustomRoomPropertiesForLobby = new string[]
+        {
+            "isPrivate", "password"
+        };
+        return roomOptions;
+    }
 }
+
+
