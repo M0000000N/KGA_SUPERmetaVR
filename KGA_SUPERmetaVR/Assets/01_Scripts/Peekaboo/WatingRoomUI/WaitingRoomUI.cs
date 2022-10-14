@@ -24,8 +24,6 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] GameObject findingRoomImage;
     private Button XButton;
 
-
-
     private void Awake()
     {
         coin.text = GameManager.Instance.PlayerData.Coin.ToString();
@@ -74,16 +72,19 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
         MaxPlayers = 14
     };
 
+    // 빠른매칭 버튼
     public void OnClickRandomJoinButton()
     {
         findingRoomImage.SetActive(true);
 
-        //테스트 코드
         if (PhotonNetwork.IsConnected)
         {
-            PhotonNetwork.JoinOrCreateRoom("meta", RoomOptions, TypedLobby.Default);
+            // 빠른 매칭
+            PhotonNetwork.JoinRandomRoom();
 
-            PhotonNetwork.LoadLevel("Peekaboo_InGame");
+            findingRoomImage.SetActive(false);
+            gameObject.SetActive(false);
+            // PhotonNetwork.JoinOrCreateRoom("meta", RoomOptions, TypedLobby.Default);
         }
         else
         {
@@ -100,6 +101,6 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
     {
         findingRoomImage.SetActive(false);
         // 포톤 PhotonNetwork.JoinRandomRoom() 중에 멈출 수 있는 방안 모색
-        //PhotonNetwork.LeaveRoom();
+        // PhotonNetwork.LeaveRoom();
     }
 }

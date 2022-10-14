@@ -15,9 +15,10 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
     [Header("방 정보")]
     [SerializeField] Toggle isPrivateRoom;
     [SerializeField] TMP_InputField passwordInput;
-    [SerializeField] GameObject grayText;
     private string password = null;
-    public RoomInfo RoomInfo { get; private set; }
+    [SerializeField] GameObject grayText;
+
+    public CustomProperties CustomProperties;
     private void Awake()
     {
         createButton.onClick.AddListener(OnClickCreateButton);
@@ -25,8 +26,7 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
 
         isPrivateRoom.isOn = false;
         grayText.SetActive(true);
-
-        //password = passwordInput.text;
+        passwordInput.interactable = false;
     }
 
     private void Update()
@@ -39,16 +39,14 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
         if (isPrivateRoom.isOn)
         {
             // private 방을 만든다.
-            grayText.SetActive(false);
-            Peekaboo_WaitingRoomUIManager.Instance.IsPrivateRoom = true;
-
+            grayText.SetActive(false); // 비밀번호 설정 가능
+        passwordInput.interactable = true;
         }
         else
         {
             // public방을 만든다.
             grayText.SetActive(true);
-            Peekaboo_WaitingRoomUIManager.Instance.IsPrivateRoom = false;
-
+        passwordInput.interactable = false;
         }
     }
 
@@ -61,15 +59,15 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickCreateButton()
     {
+        gameObject.SetActive(false);
+
         if (isPrivateRoom.isOn)
         {
-            LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName() + "_" + password);
-            Peekaboo_WaitingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+            //LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName() + "_" + password);;
         }
         else
         {
-            LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName());
-            Peekaboo_WaitingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+            //LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName());
         }
        // LobbyManager.Instance.OnCreatedRoom();
     }

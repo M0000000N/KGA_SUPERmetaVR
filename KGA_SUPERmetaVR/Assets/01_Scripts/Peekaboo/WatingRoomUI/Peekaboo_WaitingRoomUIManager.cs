@@ -17,11 +17,11 @@ public class Peekaboo_WaitingRoomUIManager : SingletonBehaviour<Peekaboo_Waiting
     public Peekaboo_SettingUI SettingUI;
     public PlayRoomUI PlayRoomUI;
 
-    public bool IsPrivateRoom;
+    // public bool IsPrivateRoom;
 
     private void Awake()
     {
-        IsPrivateRoom = false;
+        // IsPrivateRoom = false;
     }
     private void Start()
     {        
