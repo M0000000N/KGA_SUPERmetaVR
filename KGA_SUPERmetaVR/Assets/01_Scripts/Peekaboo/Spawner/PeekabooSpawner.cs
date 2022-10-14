@@ -87,13 +87,13 @@ public class PeekabooSpawner : MonoBehaviour
 
     private Vector3 GetRandomPointOnNavMesh(Vector3 _center)
     {
-        float randomPositionX = Random.Range(_center.x - (PeekabooGameManager.Instance.CreateMap.MapLength / 2) + 1, _center.x + (PeekabooGameManager.Instance.CreateMap.MapLength / 2) - 1);
-        float randomPositionZ = Random.Range(_center.z - (PeekabooGameManager.Instance.CreateMap.MapLength / 2) + 1, _center.z + (PeekabooGameManager.Instance.CreateMap.MapLength / 2) - 1);
+        float randomPositionX = Random.Range(_center.x - (PeekabooGameManager.Instance.CreateMap.MapLength / 2), _center.x + (PeekabooGameManager.Instance.CreateMap.MapLength / 2));
+        float randomPositionZ = Random.Range(_center.z - (PeekabooGameManager.Instance.CreateMap.MapLength / 2), _center.z + (PeekabooGameManager.Instance.CreateMap.MapLength / 2));
         Vector3 randomPosition = new Vector3(randomPositionX, _center.y, randomPositionZ);
 
         NavMeshHit hit;
 
-        NavMesh.SamplePosition(randomPosition, out hit, 1f, NavMesh.AllAreas);
+        NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
 
 
         return hit.position;
