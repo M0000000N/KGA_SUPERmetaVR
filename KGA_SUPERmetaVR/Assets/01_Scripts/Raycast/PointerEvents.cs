@@ -64,7 +64,7 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
     public void CallPeekaboo()
     {
-        Invoke("PopPeekaboo", 1f); 
+        Destroy(Peekaboo, 1f);
     }
 
  }

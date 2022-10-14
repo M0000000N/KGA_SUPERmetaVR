@@ -20,7 +20,16 @@ public class PlayerMove : MonoBehaviourPun
     private GameObject peekaboo;
 
     [SerializeField]
-    private Stamina stamina; 
+    private Stamina stamina;
+
+    [SerializeField]
+    private LayserPointer layser;
+
+    [SerializeField]
+    private PointerEvents pointerEvents;
+
+    [SerializeField]
+    private Transform myCharacter;
 
     //플레이어 이동
     private float dirX = 0;
@@ -28,6 +37,9 @@ public class PlayerMove : MonoBehaviourPun
 
     private Vector3 curDir;
 
+    // 서버에서 받은 데이터를 저장할 변수 
+    Vector3 setPos;
+    Quaternion setRot;
     private void Start()
     {
 
@@ -41,114 +53,93 @@ public class PlayerMove : MonoBehaviourPun
     {
         TryRun();
         Move();
-       // walk();
         Attack();
-       // Attack2();
+       
     }
 
     // 플레이어 이동
 
     private void Move()
     {
-
-        curDir = Vector3.zero;
-
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (photonView.IsMine)
         {
-            curDir.x = -1;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            curDir.x = 1;
-        }
+            curDir = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            curDir.z = 1;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            curDir.z = -1;
-        }
-
-        curDir.Normalize();
-        transform.position += curDir * (applySpeed * Time.deltaTime);
-    }
-
-public void walk()
-    {
-        dirX = 0; // 좌우
-        dirZ = 0; // 상하 
-       
-        if(OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
-        {
-            Vector2 pos = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
-
-            var absX = Mathf.Abs(pos.x);
-            var absY = Mathf.Abs(pos.y);
-
-            if(absX > absY)
+            if (Input.GetKey(KeyCode.LeftArrow))
             {
-                //right
-                if (pos.x > 0)
-                    dirX = +1;
-                //left
-                else
-                    dirX = -1; 
+                curDir.x = -1;
             }
-            else
+            else if (Input.GetKey(KeyCode.RightArrow))
             {
-                //up
-                if (pos.y > 0)
-                    dirZ = +1;
-                //down
-                else
-                    dirZ = -1; 
+                curDir.x = +1;
             }
 
-            // 이동방향 설정 후 이동
-            Vector3 moveDir = new Vector3(dirX * applySpeed, 0, dirZ * applySpeed);
-            transform.Translate(moveDir * Time.deltaTime); 
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                curDir.z = 1;
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                curDir.z = -1;
+            }
 
+            curDir.Normalize();
+            transform.position += curDir * (applySpeed * Time.deltaTime);
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                Attack();
+            }
         }
-
     }
 
     public void TryRun()
     {     
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space) && stamina.GetProgress() > 0)
             {
                 Running();
             }
+            if(!Input.GetKey(KeyCode.Space) && stamina.GetProgress() >=0)
              RunningCancle();      
     }
 
     public void Running()
     {
         isRun = true;
-        applySpeed = runSpeed;
         stamina.DecreaseProgress(); 
+        applySpeed = runSpeed;
     }
 
     public void RunningCancle()
     {
         isRun = false;
-        applySpeed = walkSpeed;
         stamina.IncreaseProgress();
+        applySpeed = walkSpeed;
     }
 
     public void Attack()
     {
-        peekaboo.SetActive(true);
+       if(layser.CalculatedEnd() != null)
+        {
+            pointerEvents.CallPeekaboo(); 
+        }
     }
 
-    //public void Attack2()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        Debug.Log("공격");
-    //        peekaboo.SetActive(true);
-    //    }
+    // 데이터 동기화를 위한 데이터 전송 및 수신 기능 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 데이터 전송 상황
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(myCharacter.rotation);
+        }
+        // 데이터를 수신하는 상황
+        else if (stream.IsReading)
+        {
+            setPos = (Vector3)stream.ReceiveNext();
+            setRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
 
-    //}
 }

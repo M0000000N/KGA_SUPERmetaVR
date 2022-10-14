@@ -39,8 +39,8 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     private float dirZ = 0;
 
     // 서버에서 받은 데이터를 저장할 변수 
-    Vector3 setPos;
-    Quaternion setRot;
+    private Vector3 setPos;
+    private Quaternion setRot;
 
     private void Start()
     {
@@ -108,7 +108,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
         if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0) 
         Running();
       
-        if(OVRInput.GetUp(OVRInput.RawButton.B) || stamina.GetProgress() == 0)
+        if(!OVRInput.Get(OVRInput.RawButton.B) || stamina.GetProgress() >= 0)
         RunningCancle();
     }
     public void Running()
