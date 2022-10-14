@@ -14,8 +14,11 @@ public class PeekabooGameManager : SingletonBehaviour<PeekabooGameManager>
 
     public GameObject TestNPC;
 
+    private int numberOfPlayers;
+    public int NumberOfPlayers { get { return numberOfPlayers; } set { numberOfPlayers = value; } }
     public void Start()
     {
+        numberOfPlayers = PhotonNetwork.CountOfPlayers;
         exitButton.onClick.AddListener(OnClickExitButton);
     }
 
