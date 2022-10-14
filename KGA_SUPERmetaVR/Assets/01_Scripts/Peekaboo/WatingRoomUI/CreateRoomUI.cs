@@ -15,7 +15,7 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] Button exitButton;
 
     [Header("방 정보")]
-    [SerializeField] Toggle isPrivateRoom;
+    [SerializeField] Toggle privateRoom;
     [SerializeField] TMP_InputField passwordInput;
     [SerializeField] GameObject grayText;
     private string password = null; // 인풋값 저장위함
@@ -25,52 +25,49 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
         createButton.onClick.AddListener(OnClickCreateButton);
         exitButton.onClick.AddListener(OnClickExitButton);
 
-        isPrivateRoom.isOn = false;
+        privateRoom.isOn = false;
         passwordInput.interactable = false;
         grayText.SetActive(true);
     }
 
     private void Update()
     {
-        if (passwordInput.text.Length > 0) // 번호 입력 시작 할 대 set시작
+        if (passwordInput.text.Length > 0)
         {
             SetPassword();
         }
 
-        if (isPrivateRoom.isOn)
-        {
-            // publicRoom
-            grayText.SetActive(true);
-            passwordInput.interactable = false;
-        }
-        else
+        if (privateRoom.isOn)
         {
             // privateRoom
             grayText.SetActive(false);
             passwordInput.interactable = true;
         }
+        else
+        {
+            // publicRoom
+            grayText.SetActive(true);
+            passwordInput.interactable = false;
+        }
     }
 
-    public void SetPassword() // TODO : 번호 규칙
+    public void SetPassword()
     {
-        // if()
+        if(passwordInput.text.Length > 8)
+        {
+            passwordInput.interactable = false;
+        }
         password = passwordInput.text;
-        Debug.Log(password);
     }
 
     public void OnClickCreateButton()
     {
         gameObject.SetActive(false);
 
-        if (isPrivateRoom.isOn)
-        {
-            // publicRoom
-            LobbyManager.Instance.CreateRoom(CustomRoomOptions(false, null));
-        }
-        else
+        if (privateRoom.isOn)
         {
             // privateRoom
-            if(false)// 비밀번호 규칙과 다를 경우
+            if(false) //  TODO : 유니티 다이얼 키패드 있는지 봐야함
             {
                 // TODO : 나중에 데이터로 빼야함
                 Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "비밀번호는 1자리 최대 8자리\n숫자만 사용 가능합니다.", "확인");
@@ -78,6 +75,11 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
                 return;
             }
             LobbyManager.Instance.CreateRoom(CustomRoomOptions(true, password));
+        }
+        else
+        {
+            // publicRoom
+            LobbyManager.Instance.CreateRoom(CustomRoomOptions(false, null));
         }
     }
 

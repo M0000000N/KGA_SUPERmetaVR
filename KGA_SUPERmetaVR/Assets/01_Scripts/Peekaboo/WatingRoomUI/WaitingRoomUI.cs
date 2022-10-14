@@ -67,11 +67,9 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsConnected)
         {
-            Hashtable myHashtable = new Hashtable()
-        {
+            Hashtable myHashtable = new Hashtable() {
             { "isPrivate", false },
-            { "password", null }
-        };
+            { "password", null } };
             PhotonNetwork.JoinRandomRoom(myHashtable, 0);
 
             findingRoomImage.SetActive(false);
