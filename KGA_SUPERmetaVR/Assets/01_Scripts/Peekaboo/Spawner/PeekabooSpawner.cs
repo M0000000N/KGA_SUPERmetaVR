@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class PeekabooSpawner : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
-
     // 테스트용 삭제
     private float elsptime;
     //
@@ -31,7 +30,7 @@ public class PeekabooSpawner : MonoBehaviour
         navMeshAgent = GetComponentInChildren<NavMeshAgent>();
         for (int i = 0; i < _randomSpawnNPC; i++)
         {
-            Spawn(_mapPosition);
+            Spawn(_mapPosition); // 풀링으로 NPC 여러개를 만들어서 배치하는 녀석을 참조갛고 싶은거임 ㅇㅋ? 
         }
     }
 
