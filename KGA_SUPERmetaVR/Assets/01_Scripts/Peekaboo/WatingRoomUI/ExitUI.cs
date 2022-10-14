@@ -18,17 +18,11 @@ public class ExitUI : MonoBehaviour
     public void OnClickYesButton()
     {
         gameObject.SetActive(false);
-        Peekaboo_WaitingRoomUIManager.Instance.WaitingRoomUI.gameObject.SetActive(false);
-        // DKBB∑Œ ¿Ãµø
+        PhotonNetwork.LoadLevel("DKBB");
     }
 
     public void OnClickNoButton()
     {
-
-        System.String.Format("{0:00000}", 15);          // "00015"
-        Debug.Log(System.String.Format("{0:00000}", 00015));
-
-
         gameObject.SetActive(false);
     }
 }

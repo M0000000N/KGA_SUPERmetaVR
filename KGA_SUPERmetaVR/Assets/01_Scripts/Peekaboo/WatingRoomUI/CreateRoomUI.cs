@@ -40,13 +40,13 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
         {
             // private 방을 만든다.
             grayText.SetActive(false); // 비밀번호 설정 가능
-        passwordInput.interactable = true;
+            passwordInput.interactable = true;
         }
         else
         {
             // public방을 만든다.
             grayText.SetActive(true);
-        passwordInput.interactable = false;
+            passwordInput.interactable = false;
         }
     }
 
@@ -54,7 +54,7 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
     {
         password = passwordInput.text;
         Debug.Log(password);
-    } 
+    }
 
 
     public void OnClickCreateButton()
@@ -69,7 +69,7 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
         {
             //LobbyManager.Instance.CreateRoom(LobbyManager.Instance.SetRoomName());
         }
-       // LobbyManager.Instance.OnCreatedRoom();
+        // LobbyManager.Instance.OnCreatedRoom();
     }
 
     public void OnClickExitButton()
