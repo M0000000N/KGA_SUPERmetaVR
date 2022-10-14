@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 
-public class PeekabooGameManager : SingletonBehaviour<PeekabooGameManager>
+public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 {
     public GameObject PlayerPrefeb;
     public Button exitButton;
@@ -20,6 +20,12 @@ public class PeekabooGameManager : SingletonBehaviour<PeekabooGameManager>
     {
         numberOfPlayers = PhotonNetwork.CountOfPlayers;
         exitButton.onClick.AddListener(OnClickExitButton);
+    }
+
+    public void GameOver()
+    {
+        // 플레이어 이동 및 시점등 모든 상호작용 멈춤
+        PeekabooUIManager.Instance.GameOverUI();
     }
 
     private void OnClickExitButton()

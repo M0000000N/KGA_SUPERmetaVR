@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PeekabooUIManager : MonoBehaviour
+public class PeekabooUIManager : OnlyOneSceneSingleton<PeekabooUIManager>
 {
     [SerializeField]
     private TextMeshProUGUI playerCount;
@@ -11,5 +11,10 @@ public class PeekabooUIManager : MonoBehaviour
     private void Update()
     {
         playerCount.text = PeekabooGameManager.Instance.NumberOfPlayers.ToString();
+    }
+
+    public void GameOverUI()
+    {
+
     }
 }

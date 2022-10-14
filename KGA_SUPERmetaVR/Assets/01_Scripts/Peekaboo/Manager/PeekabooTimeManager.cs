@@ -23,5 +23,9 @@ public class PeekabooTimeManager : MonoBehaviour
         int min = (int)((timer - hour * 3600) / 60);
         int second = (int)timer % 60;
         textTimer.text = hour + ":" + min + ":" + second;
+        if (timer <= 0f)
+        {
+            PeekabooGameManager.Instance.GameOver();
+        }
     }
 }
