@@ -117,7 +117,7 @@ public class Peekaboo_CustomizingUI : MonoBehaviour
 
     public void ChangeCharacterUI(int _countNumber)
     {
-        if (GameManager.Instance.PlayerData.PlayerPeekabooData.Character[_countNumber] > 0)
+        if (GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[_countNumber] > 0)
         {
             if (GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter == _countNumber)
             {

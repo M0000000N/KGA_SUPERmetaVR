@@ -22,10 +22,19 @@ public class PlayerData
 [System.Serializable]
 public class PlayerPeekabooData
 {
-    // private면 Json파싱에 사용할 수 없는 이슈로 Public 선언
-
     public int SelectCharacter;
-    //public int SelectCharacter { get { return selectCharacter; } set { selectCharacter = value; } }
+    public PlayerCharacter CharacterList;
+
+    public int PlayCount;
+    public int WinCount;
+    public int DieCount;
+    public float SurviveTime;
+    public int AttackPC;
+    public int AttackNPC;
+}
+
+[System.Serializable]
+public class PlayerCharacter
+{
     public int[] Character;
-    //public int[] Character { get { return character; } set { character = value; } }
 }

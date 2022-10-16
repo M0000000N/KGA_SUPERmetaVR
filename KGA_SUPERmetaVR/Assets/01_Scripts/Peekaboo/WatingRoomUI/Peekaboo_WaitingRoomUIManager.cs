@@ -16,6 +16,7 @@ public class Peekaboo_WaitingRoomUIManager : SingletonBehaviour<Peekaboo_Waiting
     public NoticePopupUI NoticePopupUI;
     public Peekaboo_SettingUI SettingUI;
     public PlayRoomUI PlayRoomUI;
+    public Peekaboo_RankingUI RankingUI;
 
     // public bool IsPrivateRoom;
 
@@ -33,6 +34,7 @@ public class Peekaboo_WaitingRoomUIManager : SingletonBehaviour<Peekaboo_Waiting
         NoticePopupUI   = GetComponentInChildren<NoticePopupUI>();
         PlayRoomUI      = GetComponentInChildren<PlayRoomUI>();
         SettingUI       = GetComponentInChildren<Peekaboo_SettingUI>();
+        RankingUI       = GetComponentInChildren<Peekaboo_RankingUI>();
 
         Initionalize();
     }
@@ -46,6 +48,7 @@ public class Peekaboo_WaitingRoomUIManager : SingletonBehaviour<Peekaboo_Waiting
         NoticePopupUI.gameObject.SetActive(false);
         PlayRoomUI.gameObject.SetActive(false);
         SettingUI.gameObject.SetActive(false);
+        RankingUI.gameObject.SetActive(false);
     }
 
     // ¾Ë¸² ÆË¾÷ UI
