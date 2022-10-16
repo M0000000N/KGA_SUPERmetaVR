@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PeekabooTimeManager : MonoBehaviour
+public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
 {
     [SerializeField]
     private TextMeshProUGUI textTimer;
 
     [SerializeField]
-    private float timer;
+    private float gameTimer;
+
+    public float GameTimer { get { return gameTimer; } }
 
     private void Start()
     {
@@ -18,14 +20,10 @@ public class PeekabooTimeManager : MonoBehaviour
 
     private void Update()
     {
-        timer -= Time.deltaTime;
-        int hour = (int)(timer / 3600);
-        int min = (int)((timer - hour * 3600) / 60);
-        int second = (int)timer % 60;
+        gameTimer -= Time.deltaTime;
+        int hour = (int)(gameTimer / 3600);
+        int min = (int)((gameTimer - hour * 3600) / 60);
+        int second = (int)gameTimer % 60;
         textTimer.text = hour + ":" + min + ":" + second;
-        if (timer <= 0f)
-        {
-            PeekabooGameManager.Instance.GameOver();
-        }
     }
 }
