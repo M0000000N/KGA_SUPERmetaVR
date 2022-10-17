@@ -31,6 +31,9 @@ public class PlayerMove : MonoBehaviourPun
     [SerializeField]
     private Transform myCharacter;
 
+    [SerializeField]
+    private GameObject NPC;
+
     //플레이어 이동
     private float dirX = 0;
     private float dirZ = 0;
