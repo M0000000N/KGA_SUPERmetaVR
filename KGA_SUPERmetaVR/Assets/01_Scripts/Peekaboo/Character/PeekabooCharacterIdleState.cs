@@ -25,6 +25,7 @@ public class PeekabooCharacterIdleState : PeekabooCharacterState
 
     public override void OnEnter()
     {
+        myFSM.MyAnimator.SetInteger("State", (int)PEEKABOOCHARACTERSTATE.IDLE);
         waitTimeToNextBehaviour = Random.Range(minTimeToNextBehaviour, maxTimeToNextBehaviour);
 
         StartCoroutine(myFSM.WaitForNextBehaviourCoroutine(waitTimeToNextBehaviour, PEEKABOOCHARACTERSTATE.FRONTTOLEFT));
@@ -37,6 +38,6 @@ public class PeekabooCharacterIdleState : PeekabooCharacterState
 
     public override void OnExit()
     {
-
+        StopAllCoroutines();
     }
 }

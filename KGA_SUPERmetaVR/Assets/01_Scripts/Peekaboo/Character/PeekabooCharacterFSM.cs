@@ -11,17 +11,21 @@ public enum PEEKABOOCHARACTERSTATE
     LOOKINGSOMEONE,
     FRONTTOLEFT,
     LOOKINGLEFT,
+    LEFTTOFRONT,
     FRONTTORIGHT,
     LOOKINGRIGHT,
-    ROTATETOFRONT,
+    RIGHTTOFRONT,
     NPCLAUGHT,
     NPCROTATETOATTACKER,
     NPCPEEKABOO,
     NPCDIE,
+    PCROTATETOATTACKER,
     PCSUPRISED,
+    PCROTATETOTARGET,
     PCPEEKABOO,
     PCFLOP,
     PCLOSINGSOUL,
+    PCDIE,
 }
 
 public abstract class PeekabooCharacterFSM : MonoBehaviourPun
@@ -42,9 +46,10 @@ public abstract class PeekabooCharacterFSM : MonoBehaviourPun
     protected PeekabooCharacterLookingSomeoneState lookingSomeoneState;
     protected PeekabooCharacterFrontToLeftState frontToLeftState;
     protected PeekabooCharacterLookingLeftState lookingLeftState;
+    protected PeekabooCharacterLeftToFrontState leftToFrontState;
     protected PeekabooCharacterFrontToRightState frontToRightState;
     protected PeekabooCharacterLookingRightState lookingRightState;
-    protected PeekabooCharacterRotateToFrontState rotateToFrontState;
+    protected PeekabooCharacterRightToFrontState rightToFrontState;
 
     protected Action<PEEKABOOCHARACTERSTATE> myAction;
 
@@ -52,18 +57,33 @@ public abstract class PeekabooCharacterFSM : MonoBehaviourPun
     {
         ViewAngleHalf = 70f;
         MyAnimator = GetComponent<Animator>();
+        MyCharacter = GetComponent<PeekabooCharacter>();
 
         myStates = new Dictionary<PEEKABOOCHARACTERSTATE, PeekabooCharacterState>();
         nowState = idleState;
 
-        idleState = new PeekabooCharacterIdleState();
-        rotateToSomeoneState = new PeekabooCharacterRotateToSomeoneState();
-        lookingSomeoneState = new PeekabooCharacterLookingSomeoneState();
-        frontToLeftState = new PeekabooCharacterFrontToLeftState();
-        lookingLeftState = new PeekabooCharacterLookingLeftState();
-        frontToRightState = new PeekabooCharacterFrontToRightState();
-        lookingRightState = new PeekabooCharacterLookingRightState();
-        rotateToFrontState = new PeekabooCharacterRotateToFrontState();
+        idleState = GetComponent<PeekabooCharacterIdleState>();
+        rotateToSomeoneState = GetComponent<PeekabooCharacterRotateToSomeoneState>();
+        lookingSomeoneState = GetComponent<PeekabooCharacterLookingSomeoneState>();
+        frontToLeftState = GetComponent<PeekabooCharacterFrontToLeftState>();
+        lookingLeftState = GetComponent<PeekabooCharacterLookingLeftState>();
+        leftToFrontState = GetComponent<PeekabooCharacterLeftToFrontState>();
+        frontToRightState = GetComponent<PeekabooCharacterFrontToRightState>();
+        lookingRightState = GetComponent<PeekabooCharacterLookingRightState>();
+        rightToFrontState = GetComponent<PeekabooCharacterRightToFrontState>();
+
+        AddState(PEEKABOOCHARACTERSTATE.IDLE, idleState);
+        AddState(PEEKABOOCHARACTERSTATE.ROTATETOSOMEONE, rotateToSomeoneState);
+        AddState(PEEKABOOCHARACTERSTATE.LOOKINGSOMEONE, lookingSomeoneState);
+        AddState(PEEKABOOCHARACTERSTATE.FRONTTOLEFT, frontToLeftState);
+        AddState(PEEKABOOCHARACTERSTATE.LOOKINGLEFT, lookingLeftState);
+        AddState(PEEKABOOCHARACTERSTATE.LEFTTOFRONT, leftToFrontState);
+        AddState(PEEKABOOCHARACTERSTATE.FRONTTORIGHT, frontToRightState);
+        AddState(PEEKABOOCHARACTERSTATE.LOOKINGRIGHT, lookingRightState);
+        AddState(PEEKABOOCHARACTERSTATE.RIGHTTOFRONT, rightToFrontState);
+
+        nowState = idleState;
+        ChangeState(PEEKABOOCHARACTERSTATE.IDLE);
 
         myAction = ChangeState;
 
@@ -86,6 +106,7 @@ public abstract class PeekabooCharacterFSM : MonoBehaviourPun
 
     public void ChangeState(PEEKABOOCHARACTERSTATE _stateKey)
     {
+        StopAllCoroutines();
         nowState.OnExit();
         nowState = myStates[_stateKey];
         nowState.OnEnter();
@@ -99,7 +120,7 @@ public abstract class PeekabooCharacterFSM : MonoBehaviourPun
         while (elapsedTimeInCoroutine <= _rotateTime)
         {
             elapsedTimeInCoroutine += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(initialQuaternion, _targetQuaternion, Time.deltaTime * _rotateTime);
+            transform.rotation = Quaternion.Lerp(initialQuaternion, _targetQuaternion, elapsedTimeInCoroutine * _rotateTime);
 
             yield return null;
         }

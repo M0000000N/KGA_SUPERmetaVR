@@ -16,7 +16,7 @@ public class PeekabooNPCDieState : PeekabooCharacterState
 
     public override void OnEnter()
     {
-        StartCoroutine(DieCoroutine(1f));
+        StartCoroutine(DieCoroutine(2f));
     }
 
     public override void OnUpdate()

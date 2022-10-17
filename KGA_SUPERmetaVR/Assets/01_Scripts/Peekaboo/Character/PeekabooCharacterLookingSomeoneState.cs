@@ -21,6 +21,6 @@ public class PeekabooCharacterLookingSomeoneState : PeekabooCharacterState
 
     public override void OnExit()
     {
-
+        StopAllCoroutines();
     }
 }

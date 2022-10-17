@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PeekabooCharacterRotateToFrontState : PeekabooCharacterState
+public class PeekabooCharacterRightToFrontState : PeekabooCharacterState
 {
     private float minTimeToRotateFront;
     private float maxTimeToRotateFront;
@@ -33,6 +33,6 @@ public class PeekabooCharacterRotateToFrontState : PeekabooCharacterState
 
     public override void OnExit()
     {
-
+        StopAllCoroutines();
     }
 }

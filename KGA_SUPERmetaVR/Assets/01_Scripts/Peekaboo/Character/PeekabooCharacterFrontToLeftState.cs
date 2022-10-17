@@ -34,6 +34,6 @@ public class PeekabooCharacterFrontToLeftState : PeekabooCharacterState
 
     public override void OnExit()
     {
-
+        StopAllCoroutines();
     }
 }

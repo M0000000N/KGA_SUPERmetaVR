@@ -5,7 +5,7 @@ using UnityEngine;
 public class InteractTester : MonoBehaviour
 {
     [SerializeField]
-    private GameObject attacker;
+    private PeekabooPC PC;
     [SerializeField]
     private PeekabooNPC NPC;
 
@@ -13,7 +13,8 @@ public class InteractTester : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            NPC.TakeDamage(attacker);
+            PC.TakeDamage(NPC.gameObject);
+            NPC.TakeDamage(PC.gameObject);
         }
     }
 }

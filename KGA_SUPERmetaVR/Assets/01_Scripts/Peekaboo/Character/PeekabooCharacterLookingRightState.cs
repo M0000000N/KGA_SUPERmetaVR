@@ -21,7 +21,7 @@ public class PeekabooCharacterLookingRightState : PeekabooCharacterState
     {
         timeToLookingRight = Random.Range(minTimeToLookingRight, maxTimeToLookingRight);
 
-        StartCoroutine(myFSM.WaitForNextBehaviourCoroutine(timeToLookingRight, PEEKABOOCHARACTERSTATE.ROTATETOFRONT));
+        StartCoroutine(myFSM.WaitForNextBehaviourCoroutine(timeToLookingRight, PEEKABOOCHARACTERSTATE.RIGHTTOFRONT));
     }
 
     public override void OnUpdate()
@@ -31,6 +31,6 @@ public class PeekabooCharacterLookingRightState : PeekabooCharacterState
 
     public override void OnExit()
     {
-
+        StopAllCoroutines();
     }
 }

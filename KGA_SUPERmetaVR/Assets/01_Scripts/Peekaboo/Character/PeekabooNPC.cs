@@ -5,8 +5,6 @@ using Photon.Pun;
 
 public class PeekabooNPC : PeekabooCharacter
 {
-    private PeekabooCharacterFSM myFSM;
-
     private void Awake()
     {
         BaseInitialize();
@@ -24,7 +22,7 @@ public class PeekabooNPC : PeekabooCharacter
 
     private void OnTriggerStay(Collider _other)
     {
-        if (_other.tag == "PeekabooCharacter")
+        if (_other.tag == "PC" || _other.tag == "NPC")
         {
             if (CheckMyFieldOfView(_other.transform.position))
             {
@@ -47,8 +45,11 @@ public class PeekabooNPC : PeekabooCharacter
 
     public override void TakeDamage(GameObject _attacker)
     {
-        IsInteracting = true;
-        Attacker = _attacker;
-        myFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCLAUGHT);
+        if (IsInteracting == false)
+        {
+            IsInteracting = true;
+            Attacker = _attacker;
+            myFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCLAUGHT);
+        }
     }
 }

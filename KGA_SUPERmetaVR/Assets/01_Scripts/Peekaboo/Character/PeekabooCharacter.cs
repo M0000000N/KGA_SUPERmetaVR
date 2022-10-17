@@ -10,14 +10,19 @@ public abstract class PeekabooCharacter : MonoBehaviourPun
     public float ViewAngleHalf { get; protected set; }
     public GameObject LookingTarget { get; protected set; }
     public GameObject Attacker { get; protected set; }
+    public GameObject AttackTarget { get; protected set; }
 
-    private PeekabooCharacterFSM myBehaviourFSM;
+    protected PeekabooCharacterFSM myFSM;
 
     protected void BaseInitialize()
     {
         IsLookingSomeone = false;
         IsInteracting = false;
         ViewAngleHalf = 70f;
+
+        myFSM = GetComponent<PeekabooCharacterFSM>();
+
+        Initialize();
     }
 
     protected abstract void Initialize();
