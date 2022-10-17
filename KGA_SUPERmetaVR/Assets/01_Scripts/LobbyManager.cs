@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 
 public class LobbyManager : SingletonBehaviour<LobbyManager>
 {
@@ -49,11 +51,28 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public void CreateRoom(RoomOptions _roomOptions)
+    public void CreateRoom(string _password)
     {
         if (PhotonNetwork.IsConnected == false) return;
-        
-        PhotonNetwork.JoinOrCreateRoom(SetRoomName(), _roomOptions, TypedLobby.Default);
+
+        RoomOptions roomOptions = new RoomOptions()
+        {
+            IsOpen = true,
+            IsVisible = true,
+            MaxPlayers = 14
+        };
+
+        roomOptions.CustomRoomProperties = new Hashtable()
+        {
+            { "password", _password }
+        };
+
+        roomOptions.CustomRoomPropertiesForLobby = new string[]
+        {
+            "isPrivate", "password"
+        };
+
+        PhotonNetwork.CreateRoom(SetRoomName(), roomOptions, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()

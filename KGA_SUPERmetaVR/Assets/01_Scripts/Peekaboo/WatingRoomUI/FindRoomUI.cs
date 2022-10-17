@@ -33,6 +33,14 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
         SetPasswordInputUI(false);
     }
 
+    private void Update()
+    {
+        if (passwordInput.text.Length > 0)
+        {
+            SetPassword();
+        }
+    }
+
     public void SetPassword() // TODO : 번호 규칙, CreateRoomUI 코드중복 리펙토링
     {
         if (passwordInput.text.Length > 8)
@@ -44,7 +52,7 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickFindButton()
     {
-        if(true) // TODO : 있는 방
+        if (true) // TODO : 있는 방
         {
             if (true) //TODO : public, private
             {
@@ -72,7 +80,7 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickCheckButton()
     {
-        if(true) // TODO : passWord.text == 커스텀프로퍼티 비번
+        if (PhotonNetwork.CurrentRoom.CustomProperties[password] == password) // TODO : passWord.text == 커스텀프로퍼티 비번
         {
             PhotonNetwork.JoinRoom(roomNumber.text);
         }

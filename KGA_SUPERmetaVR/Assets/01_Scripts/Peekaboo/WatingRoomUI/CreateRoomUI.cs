@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
 public class CreateRoomUI : MonoBehaviourPunCallbacks
@@ -74,12 +73,12 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
                 passwordInput.text = "";
                 return;
             }
-            LobbyManager.Instance.CreateRoom(CustomRoomOptions(true, password));
+            LobbyManager.Instance.CreateRoom(password);
         }
         else
         {
             // publicRoom
-            LobbyManager.Instance.CreateRoom(CustomRoomOptions(false, null));
+            LobbyManager.Instance.CreateRoom(null);
         }
     }
 
@@ -88,28 +87,6 @@ public class CreateRoomUI : MonoBehaviourPunCallbacks
         gameObject.SetActive(false);
     }
 
-
-    public RoomOptions CustomRoomOptions(bool _isprivate, string _password)
-    {
-        RoomOptions roomOptions = new RoomOptions()
-        {
-            IsOpen = true,
-            IsVisible = true,
-            MaxPlayers = 14
-        };
-
-        roomOptions.CustomRoomProperties = new Hashtable()
-        {
-            { "isPrivate", _isprivate },
-            { "password", _password }
-        };
-
-        roomOptions.CustomRoomPropertiesForLobby = new string[]
-        {
-            "isPrivate", "password"
-        };
-        return roomOptions;
-    }
 }
 
 
