@@ -16,8 +16,15 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 
     private int numberOfPlayers;
     public int NumberOfPlayers { get { return numberOfPlayers; } set { numberOfPlayers = value; } }
+
+    public int TotalNumberOfPeopleFirstEnterdRoom { get; private set; }
+
+    private bool isGameOver;
+    public bool IsGameOver { get { return isGameOver; } set { isGameOver = value; } }
     public void Start()
     {
+        IsGameOver = false;
+        TotalNumberOfPeopleFirstEnterdRoom = PhotonNetwork.CountOfPlayers;
         numberOfPlayers = PhotonNetwork.CountOfPlayers;
         exitButton.onClick.AddListener(OnClickExitButton);
     }
@@ -59,5 +66,16 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         // 강제로 종료할 시 카운트 하나 줄임
         // 플레이어에서 관리? 여기서 관리?
         PlayerGameOver();
+    }
+
+    public void WatchingStatePlayer()
+    {
+        // 관전할 수 있게 플레이어 변경'
+        Debug.Log("관전 미구현");
+    }
+
+    public void LeavePeekabooGame()
+    {
+        PhotonNetwork.LoadLevel("Login");
     }
 }
