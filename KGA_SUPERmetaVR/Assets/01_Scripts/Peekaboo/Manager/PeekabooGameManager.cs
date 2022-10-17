@@ -1,18 +1,19 @@
-using System.Collections;
+//using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using ExitGames.Client.Photon;
 
 public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 {
     public GameObject PlayerPrefeb;
     public Button exitButton;
+    public GameObject TestNPC;
+
     [SerializeField]
     private PeekabooCreateMap createMap;
     public PeekabooCreateMap CreateMap { get { return createMap; } }
-
-    public GameObject TestNPC;
 
     private int numberOfPlayers;
     public int NumberOfPlayers { get { return numberOfPlayers; } set { numberOfPlayers = value; } }
@@ -21,8 +22,16 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 
     private bool isGameOver;
     public bool IsGameOver { get { return isGameOver; } set { isGameOver = value; } }
+
+    private int surprisedEnemyNumbers;
+
+    public int SurprisedEnemyNumbers { get { return surprisedEnemyNumbers; } set { surprisedEnemyNumbers = value; } }
+
+    public Dictionary<int,int> PlayerScoreList;
     public void Start()
     {
+
+        surprisedEnemyNumbers = 0;
         IsGameOver = false;
         TotalNumberOfPeopleFirstEnterdRoom = PhotonNetwork.CountOfPlayers;
         numberOfPlayers = PhotonNetwork.CountOfPlayers;
@@ -31,6 +40,8 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 
     public void PlayerGameOver()
     {
+       // playerScore["score"] = (int)photonView.Owner.CustomProperties[]
+         
         // 플레이어 이동 및 시점등 모든 상호작용 멈춤
         PeekabooUIManager.Instance.GameOverUI(numberOfPlayers);
     }
@@ -50,6 +61,7 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         else if (numberOfPlayers == 1)
         {
             PlayerGameOver();
+            
         }
         else if (PeekabooTimeManager.Instance.GameTimer <= 0f)
         {

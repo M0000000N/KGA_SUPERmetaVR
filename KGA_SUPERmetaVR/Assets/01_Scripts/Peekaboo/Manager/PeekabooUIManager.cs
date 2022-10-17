@@ -24,6 +24,7 @@ public class PeekabooUIManager : OnlyOneSceneSingleton<PeekabooUIManager>
 
     private void Update()
     {
+        
         playerCountText.text = PeekabooGameManager.Instance.NumberOfPlayers.ToString();
         
     }

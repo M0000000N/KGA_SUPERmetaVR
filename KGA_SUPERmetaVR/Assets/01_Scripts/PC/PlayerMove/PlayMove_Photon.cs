@@ -42,6 +42,8 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     Vector3 setPos;
     Quaternion setRot;
 
+    public int score;
+
     private void Start()
     {
         cameraRig.SetActive(photonView.IsMine);
