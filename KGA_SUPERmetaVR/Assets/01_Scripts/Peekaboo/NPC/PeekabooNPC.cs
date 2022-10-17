@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PeekabooNPC : MonoBehaviour
+public class PeekabooNPC : MonoBehaviourPun, IDamageable
 {
     [SerializeField]
     private float waitTimeForNextMove;
@@ -77,8 +77,19 @@ public class PeekabooNPC : MonoBehaviour
 
     public void TakeDamage(GameObject _attacker)
     {
-        IsInteracting = true;
-        myFSM.SetCounterAttackTarget(_attacker);
-        myFSM.ChangeState(PEEKABOONPCSTATE.TAKEDAMAGE);
+        if (IsInteracting == false)
+        {
+            bool type = true;
+            photonView.RPC("ChangeMyInteractingState", RpcTarget.All, type);
+            IsInteracting = true;
+            myFSM.SetCounterAttackTarget(_attacker);
+            myFSM.ChangeState(PEEKABOONPCSTATE.TAKEDAMAGE);
+        }
+    }
+
+    [PunRPC]
+    public void ChangeMyInteractingState(bool state)
+    {
+        IsInteracting = state;
     }
 }

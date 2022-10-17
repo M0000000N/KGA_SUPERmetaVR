@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Pun;
 
-public abstract class PeekabooNPCState : MonoBehaviour
+public abstract class PeekabooNPCState : MonoBehaviourPun
 {
     protected PeekabooNPCFSM myFSM;
 
