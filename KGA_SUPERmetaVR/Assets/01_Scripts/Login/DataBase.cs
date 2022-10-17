@@ -104,6 +104,12 @@ public class DataBase : SingletonBehaviour<DataBase>
         return dataTable;
     }
 
+    public DataTable SortDB(string _tableName, string _findColumn, string _orderBy, string _sort = "DESC")
+    {
+        DataTable dataTable = selsql($"SELECT {_findColumn} FROM {_tableName} ORDER BY {_orderBy} {_sort}");
+        return dataTable;
+    }
+
     // 로그인 기능
     public bool Login(string _id, string _pw)
     {
