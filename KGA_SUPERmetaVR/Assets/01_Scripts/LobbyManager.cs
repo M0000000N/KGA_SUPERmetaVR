@@ -122,8 +122,12 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
 
     public string SetRoomName() // TODO : 
     {
-        for (int i = 1; i <= 9999; i++)
+        for (int i = 1; i <= 10000; i++)
         {
+            if(i==10000)
+            {
+                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 방을 생성할 수 없습니다. 잠시 후 다시 시도헤해주세요", "확인");
+            }
             if(isEmptyRoomList[i]) // 빈방
             {
                 isEmptyRoomList[i] = false;

@@ -130,9 +130,9 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
         else
         {
             gameStartButtonText.text = "준비완료";
+
         }
 #endif
-
     }
 
     public void OnClickExitButton()
@@ -152,6 +152,7 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
     {
         exitRoomUI.gameObject.SetActive(false);
     }
+
 #if 추방
     public void kickPlayerButton()
     {
