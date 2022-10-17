@@ -30,8 +30,8 @@ public class PeekabooCreateMap : MonoBehaviour
     [SerializeField]
     private int mapSizeZ;
 
-    [Header("테스트용 플레이어 수")]
-    [SerializeField]
+  //[Header("테스트용 플레이어 수")]
+    //[SerializeField]
     private int numberOfPlayers;
 
     [Header("게임 시작시 각 구역에 스폰되는 최대 플레이어 수")]
@@ -74,37 +74,43 @@ public class PeekabooCreateMap : MonoBehaviour
     {
         mapLength = 20f;
         mapData = new Dictionary<int, MAPDATA>();
-        CreateMap();
     }
 
     private void Start()
     {
+        numberOfPlayers = PhotonNetwork.CountOfPlayers;
+        Debug.Log($"서버룸 접속자 수{PhotonNetwork.CountOfPlayers}");
         mapSize = mapSizeX * mapSizeZ;
         maxNumberOfNPCs = numberOfNPCsProportionalToTheNumberOfPlayers * numberOfPlayers;
+        CreateMap();
         //테스트용
-        for (int i = 0; i < numberOfPlayers; i++)
-        {
-            SpawnPlayer();
-        }
+        //for (int i = 0; i < numberOfPlayers; i++)
+        //{
+        //    SpawnPlayer();
+        //}
+        SpawnPlayer();
         SpawnNPC();
     }
 
     private void CreateMap()
     {
-        int mapIndex = 0;
-        for (int x = 0; x < mapSizeX; x++)
+        if (PhotonNetwork.IsMasterClient)
         {
-            for (int z = 0; z < mapSizeZ; z++)
+            int mapIndex = 0;
+            for (int x = 0; x < mapSizeX; x++)
             {
-                Vector3 mapPosition = new Vector3(x * mapLength, 0, z * mapLength);
-                PhotonNetwork.Instantiate(mapPrefab.name, mapPosition, Quaternion.identity);
-
-                MAPDATA mapdata = new MAPDATA();
-                mapdata.NumberOfPlayersCreatedInZone = numberOfPlayersCreatedInZone;
-                mapdata.MapPosition = mapPosition;
-                mapdata.NumberOfNPCPlacedInZone = 0;
-                mapData.Add(mapIndex, mapdata);
-                mapIndex++;
+                for (int z = 0; z < mapSizeZ; z++)
+                {
+                    Vector3 mapPosition = new Vector3(x * mapLength, 0, z * mapLength);
+                    //PhotonNetwork.Instantiate(mapPrefab.name, mapPosition, Quaternion.identity);
+                    Debug.Log("우왕 드러옴");
+                    MAPDATA mapdata = new MAPDATA();
+                    mapdata.NumberOfPlayersCreatedInZone = numberOfPlayersCreatedInZone;
+                    mapdata.MapPosition = mapPosition;
+                    mapdata.NumberOfNPCPlacedInZone = 0;
+                    mapData.Add(mapIndex, mapdata);
+                    mapIndex++;
+                }
             }
         }
     }
@@ -116,6 +122,10 @@ public class PeekabooCreateMap : MonoBehaviour
         float randomPositonX = Random.Range(mapData[randomPlayerIndex].MapPosition.x - MapLength / 2, mapData[randomPlayerIndex].MapPosition.x + MapLength / 2);
         float randomPositonZ = Random.Range(mapData[randomPlayerIndex].MapPosition.z - MapLength / 2, mapData[randomPlayerIndex].MapPosition.z + MapLength / 2);
         Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
+        NavMeshHit hit;
+
+        NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
+        hit.position += Vector3.up * 1f;
         if (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
         {
             SpawnPlayer();
@@ -123,7 +133,7 @@ public class PeekabooCreateMap : MonoBehaviour
         else
         {
             int layerMask = LayerMask.GetMask("Player");
-            Collider[] colls = Physics.OverlapSphere(randomPosition, distanceBetweenPlayersCreated, layerMask);
+            Collider[] colls = Physics.OverlapSphere(hit.position, distanceBetweenPlayersCreated, layerMask);
             if(colls.Length > 0)
             {
                 foreach (Collider col in colls)
@@ -137,7 +147,7 @@ public class PeekabooCreateMap : MonoBehaviour
             }
             else
             {
-                GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, randomPosition, Quaternion.identity);
+                GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
                 --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
             }
             
@@ -146,29 +156,32 @@ public class PeekabooCreateMap : MonoBehaviour
 
     private void SpawnNPC()
     {
-        int mapindex = 0;
-        while (true)
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (maxNumberOfNPCs > 0 && mapindex < mapSize)
+            int mapindex = 0;
+            while (true)
             {
-                int numberOfRandomNPCSpawn = Random.Range(0, maximumNumberOfCharactersInZone + 1 + (mapData[mapindex].NumberOfPlayersCreatedInZone - numberOfPlayersCreatedInZone) - mapData[mapindex].NumberOfNPCPlacedInZone);
-                if (maxNumberOfNPCs - numberOfRandomNPCSpawn < 0)
+                if (maxNumberOfNPCs > 0 && mapindex < mapSize)
                 {
-                    numberOfRandomNPCSpawn = maxNumberOfNPCs;
+                    int numberOfRandomNPCSpawn = Random.Range(0, (maximumNumberOfCharactersInZone + 1 + (mapData[mapindex].NumberOfPlayersCreatedInZone - numberOfPlayersCreatedInZone) - mapData[mapindex].NumberOfNPCPlacedInZone) / 2);
+                    if (maxNumberOfNPCs - numberOfRandomNPCSpawn < 0)
+                    {
+                        numberOfRandomNPCSpawn = maxNumberOfNPCs;
+                    }
+                    spawner.FirstSpawn(mapData[mapindex].MapPosition, numberOfRandomNPCSpawn);
+                    mapData[mapindex].NumberOfNPCPlacedInZone += numberOfRandomNPCSpawn;
+                    maxNumberOfNPCs -= numberOfRandomNPCSpawn;
+                    mapindex++;
                 }
-                spawner.FirstSpawn(mapData[mapindex].MapPosition, numberOfRandomNPCSpawn);
-                mapData[mapindex].NumberOfNPCPlacedInZone += numberOfRandomNPCSpawn;
-                maxNumberOfNPCs -= numberOfRandomNPCSpawn;
-                mapindex++;
-            }
-            else if (maxNumberOfNPCs > 0 && mapindex >= mapSize)
-            {
-                mapindex = 0;
-                SpawnNPC();
-            }
-            else
-            {
-                break;
+                else if (maxNumberOfNPCs > 0 && mapindex >= mapSize)
+                {
+                    mapindex = 0;
+                    SpawnNPC();
+                }
+                else
+                {
+                    break;
+                }
             }
         }
     }

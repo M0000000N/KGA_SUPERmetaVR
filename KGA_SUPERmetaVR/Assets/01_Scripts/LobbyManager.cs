@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 
 public class LobbyManager : SingletonBehaviour<LobbyManager>
 {
@@ -31,7 +33,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
                     isEmptyRoomList[index] = true;
                 }
             }
-            else
+            else // TODO : 이게 왜 필요한지 확인
             {
                 PlayRoomUI playRoom = new PlayRoomUI();
                 playRoom.SetRoomInfo(room);
@@ -49,49 +51,28 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    //private void OnClickRandomJoinButton()
-    //{
-    //    if (nickname.text.Length == 0)
-    //    {
-    //        logText.text = "닉네임을 입력하세요";
-    //        return;
-    //    }
-
-    //    // 마스터 서버에 접속중이라면 룸 접속 실행
-    //    if (PhotonNetwork.IsConnected)
-    //    {
-    //        Data data = FindObjectOfType<Data>();
-    //        data.Nickname = nickname.text;
-
-
-    //        PhotonNetwork.JoinRandomRoom();
-    //    }
-    //    else
-    //    {
-    //        deactivateJoinButton("연결이 끊김. 재접속 시도 중..");
-    //        PhotonNetwork.ConnectUsingSettings();
-    //    }
-    //}
-
-    //private void OnClickCreateRoomButton()
-    //{
-    //    if (nickname.text.Length == 0)
-    //    {
-    //        logText.text = "닉네임을 입력하세요";
-    //        return;
-    //    }
-
-    //    createRoomPopUp.SetActive(true);
-    //}
-
-
-    public void CreateRoom(RoomOptions _roomOptions)
+    public void CreateRoom(string _password)
     {
         if (PhotonNetwork.IsConnected == false) return;
-        // [To do]
-        // PhotonNetwork.NickName = GameManager.Instance.PlayerData.Nickname;
 
-        PhotonNetwork.JoinOrCreateRoom(SetRoomName(), _roomOptions, TypedLobby.Default);
+        RoomOptions roomOptions = new RoomOptions()
+        {
+            IsOpen = true,
+            IsVisible = true,
+            MaxPlayers = 14
+        };
+
+        roomOptions.CustomRoomProperties = new Hashtable()
+        {
+            { "password", _password }
+        };
+
+        roomOptions.CustomRoomPropertiesForLobby = new string[]
+        {
+            "isPrivate", "password"
+        };
+
+        PhotonNetwork.CreateRoom(SetRoomName(), roomOptions, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()
@@ -132,7 +113,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         Debug.Log("조인랜덤룸 실패 리턴 코드 : " +returnCode);
     }
 
-    public string SetRoomName()
+    public string SetRoomName() // TODO : 
     {
         for (int i = 1; i <= 9999; i++)
         {

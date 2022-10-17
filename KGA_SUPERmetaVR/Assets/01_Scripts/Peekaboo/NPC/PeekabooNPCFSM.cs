@@ -23,7 +23,7 @@ public class PeekabooNPCFSM : MonoBehaviour
     private PeekabooNPCLookingLeftState lookingLeftSideState;
     private PeekabooNPCLookingRightState lookingRightSideState;
     private PeekabooNPCTakeDamageState takeDamageState;
-
+    
     private void Awake()
     {
         myNPC = GetComponent<PeekabooNPC>();

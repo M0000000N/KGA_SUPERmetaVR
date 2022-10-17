@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PeekabooNPCTakeDamageState : PeekabooNPCState
 {
@@ -8,6 +9,8 @@ public class PeekabooNPCTakeDamageState : PeekabooNPCState
     private Renderer TargetRenderer;
     [SerializeField]
     private Material ChangeMaterial;
+
+    private PhotonView myView;
 
     public override void OnEnter()
     {
@@ -62,7 +65,8 @@ public class PeekabooNPCTakeDamageState : PeekabooNPCState
         yield return new WaitForSeconds(_time);
         myFSM.MyAnimator.SetBool("isAttack", false);
 
-        StartCoroutine(Die(1f));
+            float dieTime = 1f;
+            photonView.RPC("StartDieRPC", RpcTarget.All, dieTime);
     }
 
     private IEnumerator Die(float _time)
@@ -79,5 +83,11 @@ public class PeekabooNPCTakeDamageState : PeekabooNPCState
         }
 
         Destroy(gameObject);
+    }
+
+    [PunRPC]
+    private void StartDieRPC(float _time)
+    {
+        StartCoroutine(Die(_time));
     }
 }
