@@ -14,77 +14,62 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] Button exitButton;
 
     [Header("비밀번호 입력")]
-    [SerializeField] GameObject passwordInputUI;
+    [SerializeField] GameObject passwordUI;
     [SerializeField] Button checkButton;
-    [SerializeField] Button cancelButton;
-    private TMP_InputField passWord;
+    [SerializeField] Button cancleButton;
+    [SerializeField] TMP_InputField passwordInput;
+    private string password = null; // 인풋값 저장위함
 
     private void Awake()
     {
         findButton.onClick.AddListener(OnClickFindButton);
         exitButton.onClick.AddListener(OnClickExitButton);
+        checkButton.onClick.AddListener(OnClickCheckButton);
+        cancleButton.onClick.AddListener(OnClickCancleButton);
     }
 
     private void Start()
     {
-        passwordInputUI.SetActive(false);
+        SetPasswordInputUI(false);
+    }
+
+    private void Update()
+    {
+        if (passwordInput.text.Length > 0)
+        {
+            SetPassword();
+        }
+    }
+
+    public void SetPassword() // TODO : 번호 규칙, CreateRoomUI 코드중복 리펙토링
+    {
+        if (passwordInput.text.Length > 8)
+        {
+            passwordInput.interactable = false;
+        }
+        password = passwordInput.text;
     }
 
     public void OnClickFindButton()
     {
-        if(passwordInputUI.activeSelf)
+        if (true) // TODO : 있는 방
         {
-            if (PhotonNetwork.JoinRoom(roomNumber.text + "_" + passWord.text))
+            if (true) //TODO : public, private
             {
-                UnityEngine.Debug.Log("방 입장.");
-                Peekaboo_WaitingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
-                OnClickExitButton();
+                // privateRoom
+                SetPasswordInputUI(true);
             }
             else
             {
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "방에 입장할 수 없습니다.", "확인"); // TODO : 나중에 데이터로 빼야함
-            }
-            SetPopupButtonUI(false);
-        }
-        else
-        {
-            if(PhotonNetwork.JoinRoom(roomNumber.text))
-            {
-                UnityEngine.Debug.Log("방 입장.");
-                Peekaboo_WaitingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+                // publicRoom
+                PhotonNetwork.JoinRoom(roomNumber.text);
                 OnClickExitButton();
             }
-            else
-            {
-                SetPopupButtonUI(true);
-            }
         }
-    }
-
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        switch (returnCode) // TODO : 나중에 데이터로 빼야함
+        else // 없는 방
         {
-            case -1:
-                // 서버에 문제가 발생했습니다. 재생산을 시도하고 Exit Game에 문의하십시오.
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "서버에 문제가 발생했습니다. 다시 시도해 주세요", "확인");
-                break;
-            case 32765:
-                // 게임이 꽉 찼습니다. 참가가 완료되기 전에 일부 플레이어가 방에 참가한 경우에는 거의 발생하지 않습니다.
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "게임이 꽉 찼습니다.", "확인");
-                break;
-            case 32764:
-                // 게임이 종료되어 참가할 수 없습니다. 다른 게임에 참여하세요.
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "게임이 종료되어 참가할 수 없습니다. 다른 게임에 참여하세요.", "확인");
-                break;
-            case 32760:
-                // 무작위 매치메이킹은 닫히거나 꽉 차지 않은 방이 있는 경우에만 성공합니다. 몇 초 후에 반복하거나 새 방을 만드십시오.
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "방에 들어갈 수 없습니다.", "확인");
-                break;
-            default:
-                // 아무튼 방에 참가하지 못 했다.
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "오류가 발생했습니다.", "확인");
-                break;
+            // TODO : 나중에 데이터로 빼야함
+            Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "존재하지 않는 방 번호입니다.\n다시 한번 확인해주세요.", "확인");
         }
     }
 
@@ -93,8 +78,27 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
         gameObject.SetActive(false);
     }
 
-    public void SetPopupButtonUI(bool _isActive)
+    public void OnClickCheckButton()
     {
-        passwordInputUI.SetActive(_isActive);
+        if (PhotonNetwork.CurrentRoom.CustomProperties[password] == password) // TODO : passWord.text == 커스텀프로퍼티 비번
+        {
+            PhotonNetwork.JoinRoom(roomNumber.text);
+        }
+        else
+        {
+            // TODO : 나중에 데이터로 빼야함
+            Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "비밀번호가 일치하지 않습니다.\n비밀번호는 1자리 최대 8자리\n숫자만 사용 가능합니다.", "확인");
+        }
     }
+
+    public void OnClickCancleButton()
+    {
+        SetPasswordInputUI(false);
+    }
+
+    private void SetPasswordInputUI(bool _isActive)
+    {
+        passwordUI.SetActive(_isActive);
+    }
+
 }

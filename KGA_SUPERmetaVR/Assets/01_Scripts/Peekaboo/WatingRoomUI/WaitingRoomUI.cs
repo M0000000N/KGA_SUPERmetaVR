@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class WaitingRoomUI : MonoBehaviourPunCallbacks
 {
@@ -22,17 +23,12 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
 
     [Header("방 찾기")]
     [SerializeField] GameObject findingRoomImage;
-    private Button XButton;
-
-
 
     private void Awake()
     {
         coin.text = GameManager.Instance.PlayerData.Coin.ToString();
         nickname.text = GameManager.Instance.PlayerData.Nickname.ToString();
         findingRoomImage.SetActive(false);
-
-        XButton = findingRoomImage.GetComponentInChildren<Button>();
     }
 
     private void Start()
@@ -42,7 +38,6 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
         customizingButton.onClick.AddListener(OnClickCustomizingButton);
         randomJoinButton.onClick.AddListener(OnClickRandomJoinButton);
         createRoomButton.onClick.AddListener(OnClickCreateRoomButton);
-        XButton.onClick.AddListener(OnClickXButton);
         settingButton.onClick.AddListener(OnClickSettingButton);
     }
 
@@ -66,24 +61,19 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
         Peekaboo_WaitingRoomUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
     }
 
-    // 테스트 코드
-    public readonly RoomOptions RoomOptions = new RoomOptions()
-    {
-        IsOpen = true,
-        IsVisible = true,
-        MaxPlayers = 14
-    };
-
     public void OnClickRandomJoinButton()
     {
         findingRoomImage.SetActive(true);
 
-        //테스트 코드
         if (PhotonNetwork.IsConnected)
         {
-            PhotonNetwork.JoinOrCreateRoom("meta", RoomOptions, TypedLobby.Default);
+            Hashtable myHashtable = new Hashtable() {
+            { "isPrivate", false },
+            { "password", null } };
+            PhotonNetwork.JoinRandomRoom(myHashtable, 0);
 
-            PhotonNetwork.LoadLevel("Peekaboo_InGame");
+            findingRoomImage.SetActive(false);
+            gameObject.SetActive(false);
         }
         else
         {
@@ -94,12 +84,5 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
     public void OnClickSettingButton()
     {
         Peekaboo_WaitingRoomUIManager.Instance.SettingUI.gameObject.SetActive(true);
-    }
-
-    public void OnClickXButton()
-    {
-        findingRoomImage.SetActive(false);
-        // 포톤 PhotonNetwork.JoinRandomRoom() 중에 멈출 수 있는 방안 모색
-        //PhotonNetwork.LeaveRoom();
     }
 }
