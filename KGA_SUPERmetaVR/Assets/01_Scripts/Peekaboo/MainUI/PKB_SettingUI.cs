@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Peekaboo_SettingUI : MonoBehaviour
+public class PKB_SettingUI : MonoBehaviour
 {
     [Header("BGM")]
     [SerializeField] Slider bgmSlider;

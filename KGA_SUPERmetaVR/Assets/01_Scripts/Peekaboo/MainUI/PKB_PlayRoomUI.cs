@@ -32,13 +32,13 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        exitRoomUI.gameObject.SetActive(false);
-        exitRoomButton.onClick.AddListener(OnClickExitButton);
         gameStartButton.onClick.AddListener(OnClickStartButton);
+        exitRoomButton.onClick.AddListener(OnClickExitButton);
+        exitRoomUI.gameObject.SetActive(false);
         YesExitRoomButton.onClick.AddListener(OnClickYesExitRoomButton);
         NoExitRoomButton.onClick.AddListener(OnClickNoExitRoomButton);
-        gameStartButton.interactable = false;
 
+        gameStartButton.interactable = false;
         gameStartButtonText = gameStartButton.GetComponentInChildren<TextMeshPro>();
     }
 
@@ -89,7 +89,8 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
 
     }
 
-    public void SetRoomInfo(RoomInfo _roomInfo)
+    [PunRPC]
+    public void SetRoomInfo(RoomOptions _roomOptions)
     {
         // 방 이름
         RoomNameText.text = "# " + PhotonNetwork.CurrentRoom.CustomProperties["RoomName"];
@@ -97,11 +98,11 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
         // 방 타입
         if (PhotonNetwork.CurrentRoom.CustomProperties["Password"] == null)
         {
-            RoomTypeText.text = "비밀방";
+            RoomTypeText.text = "공개방";
         }
         else
         {
-            RoomTypeText.text = "공개방";
+            RoomTypeText.text = "비밀방";
         }
 
         // 게임시작버튼
@@ -144,8 +145,8 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LeaveRoom();
 
-        gameObject.SetActive(false);
         exitRoomUI.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void OnClickNoExitRoomButton()

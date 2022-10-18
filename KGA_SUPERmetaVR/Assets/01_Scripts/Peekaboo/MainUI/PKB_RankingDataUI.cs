@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Peekaboo_RankingDataUI : MonoBehaviour
+public class PKB_RankingDataUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI userName;
     public TextMeshProUGUI UserName { get { return userName; } set { userName = value; } }

@@ -9,7 +9,8 @@ using Photon.Realtime;
 public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 {
     [Header("방찾기")]
-    [SerializeField] TMP_InputField roomNumber;
+    [SerializeField] TMP_InputField roomNameInput;
+    private string roomName = null; // 인풋값 저장위함
     [SerializeField] Button findButton;
     [SerializeField] Button exitButton;
 
@@ -49,68 +50,49 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
         }
         password = passwordInput.text;
     }
-
-    public void OnClickFindButton()
-    {
-        // PhotonNetwork.GetCustomRoomList();
-
-        // TypedLobby typedLobby = 3;
-        if (true) // TODO : 있는 방
-        {
-            if (true) //TODO : public, private
-
-            {
-                // privateRoom
-                SetPasswordInputUI(true);
-            }
-            else
-            {
-                // publicRoom
-                PhotonNetwork.JoinRoom(roomNumber.text);
-                OnClickExitButton();
-            }
-        }
-        else // 없는 방
-        {
-            // TODO : 나중에 데이터로 빼야함
-            Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "존재하지 않는 방 번호입니다.\n다시 한번 확인해주세요.", "확인");
-        }
-    }
-
     public void OnClickExitButton()
     {
         gameObject.SetActive(false);
     }
 
-    //public override void OnRoomListUpdate(List<RoomInfo> roomInfos)
-    //{
-    //    // get room list info
+    public void OnClickFindButton()
+    {
+        roomName = roomNameInput.text;
+        // PhotonNetwork.GetCustomRoomList();
 
-    //    roomInfos.c
-    //    // RoomInfo[] roomInfos = PhotonNetwork.GetRoomList();
-    //    RoomListTableViewController roomListCon = GameObject.Find("RoomListTableViewController").GetComponent<RoomListTableViewController>();
-    //    roomListCon.m_numRows = roomInfos.Length;
-    //    if (roomInfos.Length > 0)
-    //    {
-    //        foreach (RoomInfo roomInfo in roomInfos)
-    //        {
-    //            roomListCon.roomNames.Add(roomInfo.name);
-
-    //            // I try access GameTime and NumLife here
-    //        }
-    //    }
-    //}
+        if (roomName.Contains(LobbyManager.Instance.NowRooms[int.Parse(roomName)].CustomProperties["RoomName"].ToString()))
+        {
+            if (null == LobbyManager.Instance.NowRooms[int.Parse(roomName)].CustomProperties["Password"].ToString())
+            {
+                // publicRoom
+                PhotonNetwork.JoinRoom(roomName);
+                OnClickExitButton();
+            }
+            else
+            {
+                // privateRoom
+                SetPasswordInputUI(true);
+            }
+        }
+        else // 없는 방
+        {
+            // TODO : 나중에 데이터로 빼야함
+            PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
+                "존재하지 않는 방 번호입니다.\n다시 한번 확인해주세요.", "확인");
+        }
+    }
 
     public void OnClickCheckButton()
     {
-        if (PhotonNetwork.CurrentRoom.CustomProperties[password] == password) // TODO : passWord.text == 커스텀프로퍼티 비번
+        if (password.Equals(LobbyManager.Instance.NowRooms[int.Parse(roomName)].CustomProperties["Password"].ToString()))
         {
-            PhotonNetwork.JoinRoom(roomNumber.text);
+            PhotonNetwork.JoinRoom(roomNameInput.text);
         }
         else
         {
             // TODO : 나중에 데이터로 빼야함
-            Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "비밀번호가 일치하지 않습니다.\n비밀번호는 1자리 최대 8자리\n숫자만 사용 가능합니다.", "확인");
+            PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
+                "비밀번호가 일치하지 않습니다.\n비밀번호는 1자리 최대 8자리\n숫자만 사용 가능합니다.", "확인");
         }
     }
 

@@ -69,7 +69,7 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
             if(false) //  TODO : 유니티 다이얼 키패드 있는지 봐야함
             {
                 // TODO : 나중에 데이터로 빼야함
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "비밀번호는 1자리 최대 8자리\n숫자만 사용 가능합니다.", "확인");
+                PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "비밀번호는 1자리 최대 8자리\n숫자만 사용 가능합니다.", "확인");
                 passwordInput.text = "";
                 return;
             }

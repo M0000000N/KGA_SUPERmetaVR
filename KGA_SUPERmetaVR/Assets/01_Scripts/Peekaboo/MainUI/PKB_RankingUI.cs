@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Data;
 
-public class Peekaboo_RankingUI : MonoBehaviour
+public class PKB_RankingUI : MonoBehaviour
 {
     // [SerializeField] int sortCount;
     [SerializeField] Button[] menuButton;
@@ -12,7 +12,7 @@ public class Peekaboo_RankingUI : MonoBehaviour
 
     [Header("·©Å·Å×ÀÌºí")]
 
-    [SerializeField] Peekaboo_RankingDataUI[] rankingData;
+    [SerializeField] PKB_RankingDataUI[] rankingData;
 
     string[] menu = { "play_count", "win_count", "die_count", "survive_time", "attack_player", "attack_npc" };
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Peekaboo_CustomizingCharacter : MonoBehaviour
+public class PKB_CustomizingCharacter : MonoBehaviour
 {
     [SerializeField] private Image characterImage;
     public Image CharacterImage { get { return characterImage; } set { characterImage = value; } }
