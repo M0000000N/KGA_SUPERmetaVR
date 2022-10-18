@@ -39,6 +39,22 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         createRoomButton.onClick.AddListener(OnClickCreateRoomButton);
         randomJoinButton.onClick.AddListener(OnClickRandomJoinButton);
         settingButton.onClick.AddListener(OnClickSettingButton);
+
+        exitButton.interactable = false;
+        findRoomButton.interactable = false;
+        customizingButton.interactable = false;
+        randomJoinButton.interactable = false;
+        createRoomButton.interactable = false;
+        settingButton.interactable = false;
+    }
+    public override void OnConnectedToMaster()
+    {
+        exitButton.interactable = true;
+        findRoomButton.interactable = true;
+        customizingButton.interactable = true;
+        randomJoinButton.interactable = true;
+        createRoomButton.interactable = true;
+        settingButton.interactable = true;
     }
 
     public void OnClickExitButton()
