@@ -6,7 +6,7 @@ using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
 
-public class FindRoomUI : MonoBehaviourPunCallbacks
+public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 {
     [Header("방찾기")]
     [SerializeField] TMP_InputField roomNumber;
@@ -52,9 +52,13 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickFindButton()
     {
+        // PhotonNetwork.GetCustomRoomList();
+
+        // TypedLobby typedLobby = 3;
         if (true) // TODO : 있는 방
         {
             if (true) //TODO : public, private
+
             {
                 // privateRoom
                 SetPasswordInputUI(true);
@@ -77,6 +81,25 @@ public class FindRoomUI : MonoBehaviourPunCallbacks
     {
         gameObject.SetActive(false);
     }
+
+    //public override void OnRoomListUpdate(List<RoomInfo> roomInfos)
+    //{
+    //    // get room list info
+
+    //    roomInfos.c
+    //    // RoomInfo[] roomInfos = PhotonNetwork.GetRoomList();
+    //    RoomListTableViewController roomListCon = GameObject.Find("RoomListTableViewController").GetComponent<RoomListTableViewController>();
+    //    roomListCon.m_numRows = roomInfos.Length;
+    //    if (roomInfos.Length > 0)
+    //    {
+    //        foreach (RoomInfo roomInfo in roomInfos)
+    //        {
+    //            roomListCon.roomNames.Add(roomInfo.name);
+
+    //            // I try access GameTime and NumLife here
+    //        }
+    //    }
+    //}
 
     public void OnClickCheckButton()
     {

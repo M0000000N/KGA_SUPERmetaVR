@@ -7,7 +7,7 @@ using TMPro;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class WaitingRoomUI : MonoBehaviourPunCallbacks
+public class PKB_WaitingRoomUI : MonoBehaviourPunCallbacks
 {
     [Header("DB에서 가져올 것")]
     [SerializeField] TextMeshProUGUI coin;

@@ -7,7 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 
-public class CreateRoomUI : MonoBehaviourPunCallbacks
+public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
 {
     [Header("¹öÆ°")]
     [SerializeField] Button createButton;
