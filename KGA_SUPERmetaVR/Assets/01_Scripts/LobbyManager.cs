@@ -90,6 +90,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     public override void OnJoinedRoom()
     {
         PKB_MainUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+        PKB_MainUIManager.Instance.PlayRoomUI.SetRoomInfo(roomOptions);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
