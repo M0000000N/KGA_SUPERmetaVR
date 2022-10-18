@@ -4,11 +4,12 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 using ExitGames.Client.Photon;
+using System;
 
 public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 {
     public GameObject PlayerPrefeb;
-    public Button exitButton;
+    //public Button exitButton;
     public GameObject TestNPC;
 
     [SerializeField]
@@ -27,16 +28,38 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 
     public int SurprisedEnemyNumbers { get { return surprisedEnemyNumbers; } set { surprisedEnemyNumbers = value; } }
 
-    public Dictionary<int,int> PlayerScoreList;
+    [SerializeField]
+    private Button exitButton;
     public void Start()
     {
-
+        exitButton.onClick.AddListener(() => { GoRoom(); });
         surprisedEnemyNumbers = 0;
         IsGameOver = false;
         TotalNumberOfPeopleFirstEnterdRoom = PhotonNetwork.CountOfPlayers;
         numberOfPlayers = PhotonNetwork.CountOfPlayers;
-        exitButton.onClick.AddListener(OnClickExitButton);
+        //exitButton.onClick.AddListener(OnClickExitButton);
     }
+
+    private void GoRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()
+    {
+        PhotonNetwork.CreateRoom(null);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        PhotonNetwork.LoadLevel("00_Title");
+    }
+
 
     public void PlayerGameOver()
     {
@@ -46,11 +69,6 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         PeekabooUIManager.Instance.GameOverUI(numberOfPlayers);
     }
 
-    private void OnClickExitButton()
-    {
-        PhotonNetwork.LeaveRoom();
-        PhotonNetwork.LoadLevel("00_Title");
-    }
 
     private void PeekabooGameOver()
     {
@@ -86,8 +104,4 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         Debug.Log("관전 미구현");
     }
 
-    public void LeavePeekabooGame()
-    {
-        PhotonNetwork.LoadLevel("Login");
-    }
 }
