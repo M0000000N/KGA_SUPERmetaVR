@@ -14,6 +14,6 @@ public class DKBB_MainUIManager : MonoBehaviour
 
     public void OnclickPKBButton()
     {
-        PhotonNetwork.LoadLevel("PKB_MainUI");
+        PhotonNetwork.LoadLevel("PKB_Main");
     }
 }

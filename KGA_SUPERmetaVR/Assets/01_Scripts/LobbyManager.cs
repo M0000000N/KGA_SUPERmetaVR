@@ -31,16 +31,19 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             {
                 if(NowRooms.IndexOf(room) < 0)
                 {
+                    return;
                     continue;
                 }
-                NowRooms.RemoveAt(NowRooms.IndexOf(room));
                 isEmptyRoomList[NowRooms.IndexOf(room)] = true;
+                NowRooms.RemoveAt(NowRooms.IndexOf(room));
+                    Debug.Log($"나간 방 인덱스 : {NowRooms.IndexOf(room)}");
             }
             else // TODO : 이게 왜 필요한지 확인
             {
-                if(NowRooms.Contains(room) == false)
-                {
+                 if(NowRooms.Contains(room) == false) 
+                 {
                     NowRooms.Add(room);
+                    Debug.Log($"들어온 방 인덱스 : {NowRooms.IndexOf(room)}");
                 }
             }
         }
@@ -56,41 +59,12 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public void CreateRoom(string _password)
-    {
-        if (PhotonNetwork.IsConnected == false) return;
-
-        roomOptions = new RoomOptions()
-        {
-            IsOpen = true,
-            IsVisible = true,
-            MaxPlayers = 14
-        };
-
-        string roomName = SetRoomName();
-        // bool isInRoom = false;
-
-        roomOptions.CustomRoomProperties = new Hashtable()
-        {
-            { "RoomName", roomName },
-            { "Password", _password },
-            // { "IsInRoom",  isInRoom } 추후 튕길 때 사용
-        };
-
-        roomOptions.CustomRoomPropertiesForLobby = new string[]
-        {
-            "RoomName",
-            "Password",
-            // "IsInRoom"
-        };
-
-        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-    }
-
     public override void OnJoinedRoom()
     {
         PKB_MainUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
         PKB_MainUIManager.Instance.PlayRoomUI.SetRoomInfo(roomOptions);
+                    // Debug.Log($"들어온 방 인덱스 0 : {NowRooms[0]}");
+                    // Debug.Log($"들어온 방 인덱스 1 : {NowRooms[1]}");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -120,6 +94,42 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         }
 
         Debug.Log("조인랜덤룸 실패 리턴 코드 : " +returnCode);
+    }
+
+    public void CreateRoom(string _password)
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            roomOptions = new RoomOptions()
+            {
+                IsOpen = true,
+                IsVisible = true,
+                MaxPlayers = 14
+            };
+
+            string roomName = SetRoomName();
+            // bool isInRoom = false;
+
+            roomOptions.CustomRoomProperties = new Hashtable()
+        {
+            { "RoomName", roomName },
+            { "Password", _password },
+            // { "IsInRoom",  isInRoom } 추후 튕길 때 사용
+        };
+
+            roomOptions.CustomRoomPropertiesForLobby = new string[]
+            {
+            "RoomName",
+            "Password",
+                // "IsInRoom"
+            };
+
+            PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
+        }
+        else
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
     }
 
     public string SetRoomName() // TODO : 

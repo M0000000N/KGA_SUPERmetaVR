@@ -16,7 +16,7 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
     [Header("PlayRoom")]
     [SerializeField] TextMeshProUGUI RoomNameText;
     [SerializeField] Button gameStartButton;
-    private TextMeshPro gameStartButtonText;
+    private TextMeshProUGUI gameStartButtonText;
     [SerializeField] Button exitRoomButton;
     [SerializeField] TextMeshProUGUI RoomTypeText;
 
@@ -39,15 +39,17 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
         NoExitRoomButton.onClick.AddListener(OnClickNoExitRoomButton);
 
         gameStartButton.interactable = false;
-        gameStartButtonText = gameStartButton.GetComponentInChildren<TextMeshPro>();
+        gameStartButtonText = gameStartButton.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Update()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount > MinPlayercount)
+        if (PhotonNetwork.IsConnected)
         {
+            if (PhotonNetwork.PlayerList.Length > MinPlayercount)
+            {
 #if 테스트용
-            gameStartButton.interactable = true;
+                gameStartButton.interactable = true;
 #endif
 
 #if 호스트판단
@@ -62,12 +64,15 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
             }
 #endif
 
-        }
-        else
-        {
-            gameStartButton.interactable = true;
+            }
+            else
+            {
+                gameStartButton.interactable = true;
+
+            }
 
         }
+
     }
 
     public void initialize()
@@ -106,7 +111,7 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
         }
 
         // 게임시작버튼
-        gameStartButton.GetComponentInChildren<TextMeshPro>().text = "대기중";
+        gameStartButtonText.text = "대기중";
     }
 
     public void OnClickStartButton()

@@ -85,7 +85,7 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         {
             Hashtable myHashtable = new Hashtable() {
             { "Password", null } };
-            PhotonNetwork.JoinRandomRoom(myHashtable, 0);
+            PhotonNetwork.JoinRandomRoom(myHashtable, (byte)14);
 
             findingRoomImage.SetActive(false);
         }

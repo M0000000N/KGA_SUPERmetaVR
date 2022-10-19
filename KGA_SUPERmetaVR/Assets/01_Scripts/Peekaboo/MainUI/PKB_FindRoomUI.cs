@@ -10,7 +10,6 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 {
     [Header("방찾기")]
     [SerializeField] TMP_InputField roomNameInput;
-    private string roomName = null; // 인풋값 저장위함
     [SerializeField] Button findButton;
     [SerializeField] Button exitButton;
 
@@ -19,7 +18,6 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] Button checkButton;
     [SerializeField] Button cancleButton;
     [SerializeField] TMP_InputField passwordInput;
-    private string password = null; // 인풋값 저장위함
 
     private void Awake()
     {
@@ -48,7 +46,6 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
         {
             passwordInput.interactable = false;
         }
-        password = passwordInput.text;
     }
     public void OnClickExitButton()
     {
@@ -57,15 +54,14 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickFindButton()
     {
-        roomName = roomNameInput.text;
         // PhotonNetwork.GetCustomRoomList();
 
-        if (roomName.Contains(LobbyManager.Instance.NowRooms[int.Parse(roomName)].CustomProperties["RoomName"].ToString()))
+        if (roomNameInput.text.Contains(LobbyManager.Instance.NowRooms[int.Parse(roomNameInput.text) - 1].CustomProperties["RoomName"].ToString()))
         {
-            if (null == LobbyManager.Instance.NowRooms[int.Parse(roomName)].CustomProperties["Password"].ToString())
+            if (null == LobbyManager.Instance.NowRooms[int.Parse(roomNameInput.text) - 1].CustomProperties["Password"].ToString())
             {
                 // publicRoom
-                PhotonNetwork.JoinRoom(roomName);
+                PhotonNetwork.JoinRoom(roomNameInput.text);
                 OnClickExitButton();
             }
             else
@@ -84,7 +80,7 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickCheckButton()
     {
-        if (password.Equals(LobbyManager.Instance.NowRooms[int.Parse(roomName)].CustomProperties["Password"].ToString()))
+        if (passwordInput.text.Equals(LobbyManager.Instance.NowRooms[int.Parse(roomNameInput.text) - 1].CustomProperties["Password"].ToString()))
         {
             PhotonNetwork.JoinRoom(roomNameInput.text);
         }
