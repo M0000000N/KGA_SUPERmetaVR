@@ -4,12 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+public enum PEEKABOONPCMOVESTATE
+{
+    WAITFORNEXTDESTINATION,
+    STARTMOVE,
+    MOVING,
+    INTERACTING,
+}
+
 public class PeekabooNPC : PeekabooCharacter
 {
-    public bool IsMoving { get; private set; }
+    public PEEKABOONPCMOVESTATE MoveState { get; private set; }
 
     [SerializeField]
-    private PeekabooNPCMove myMove; 
+    private PeekabooNPCMove myMove;
+
+    public delegate void SetDestination();
+    private SetDestination method;
 
     private void Awake()
     {
@@ -18,7 +29,9 @@ public class PeekabooNPC : PeekabooCharacter
 
     protected override void Initialize()
     {
-        IsMoving = false;
+        MoveState = PEEKABOONPCMOVESTATE.WAITFORNEXTDESTINATION;
+        method = myMove.SetNextDestination;
+        StartCoroutine(WaitForSetNextDestination(1f, method));
     }
 
     [PunRPC]
@@ -29,42 +42,56 @@ public class PeekabooNPC : PeekabooCharacter
 
     private void Update()
     {
-        if (IsMoving)
+        if (PhotonNetwork.IsMasterClient && IsInteracting == false)
         {
-            if (myMove.CheckArrival(transform.position))
+            switch (MoveState)
             {
-                IsMoving = false;
-            }
-        }
-        else
-        {
-            Action action = myMove.SetNextDestination;
-            StartCoroutine(WaitForSetNextDestination(1f, action));
-        }
+                case PEEKABOONPCMOVESTATE.WAITFORNEXTDESTINATION:
+                    break;
 
-        myFSM.UpdateFSM();
+                case PEEKABOONPCMOVESTATE.STARTMOVE:
+
+                    break;
+
+                case PEEKABOONPCMOVESTATE.MOVING:
+                    if (myMove.CheckArrival(transform.position))
+                    {
+                        MoveState = PEEKABOONPCMOVESTATE.WAITFORNEXTDESTINATION;
+                        StartCoroutine(WaitForSetNextDestination(1f, method));
+                    }
+                    break;
+            }
+
+            myFSM.UpdateFSM();
+        }
     }
 
     private void OnTriggerStay(Collider _other)
     {
-        if (_other.tag == "PC" || _other.tag == "NPC")
+        if (PhotonNetwork.IsMasterClient && IsInteracting == false)
         {
-            if (CheckMyFieldOfView(_other.transform.position))
+            if (_other.tag == "PC" || _other.tag == "NPC")
             {
-                IsLookingSomeone = true;
-                LookingTarget = _other.gameObject;
-                myFSM.ChangeState(PEEKABOOCHARACTERSTATE.ROTATETOSOMEONE);
+                if (CheckMyFieldOfView(_other.transform.position))
+                {
+                    IsLookingSomeone = true;
+                    LookingTarget = _other.gameObject;
+                    myFSM.ChangeState(PEEKABOOCHARACTERSTATE.ROTATETOSOMEONE);
+                }
             }
         }
     }
 
     private void OnTriggerExit(Collider _other)
     {
-        if (CheckTarget(_other.gameObject))
+        if (PhotonNetwork.IsMasterClient && IsInteracting == false)
         {
-            IsLookingSomeone = false;
-            LookingTarget = null;
-            myFSM.ChangeState(PEEKABOOCHARACTERSTATE.IDLE);
+            if (CheckTarget(_other.gameObject))
+            {
+                IsLookingSomeone = false;
+                LookingTarget = null;
+                myFSM.ChangeState(PEEKABOOCHARACTERSTATE.IDLE);
+            }
         }
     }
 
@@ -76,17 +103,13 @@ public class PeekabooNPC : PeekabooCharacter
             Attacker = _attacker;
             myFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCLAUGHT);
         }
-        else
-        {
-            Debug.Log("공격 대상은 현재 다른 캐릭터와 상호작용중입니다!");
-        }
     }
 
-    public IEnumerator WaitForSetNextDestination(float _time, Action _method)
+    public IEnumerator WaitForSetNextDestination(float _time, SetDestination _method)
     {
         yield return new WaitForSeconds(_time);
 
-        _method.Invoke();
-        IsMoving = true;
+        _method();
+        MoveState = PEEKABOONPCMOVESTATE.MOVING;
     }
 }

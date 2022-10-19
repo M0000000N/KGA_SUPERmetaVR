@@ -6,7 +6,7 @@ using Photon.Pun;
 public class PeekabooPC : PeekabooCharacter
 {
     [SerializeField]
-    private GameObject tempTarget;
+    private GameObject attackTarget;
 
     private void Awake()
     {
@@ -20,29 +20,38 @@ public class PeekabooPC : PeekabooCharacter
 
     private void Update()
     {
-        myFSM.UpdateFSM();
+        if (photonView.IsMine)
+        {
+            myFSM.UpdateFSM(); 
+        }
     }
 
     private void OnTriggerStay(Collider _other)
     {
-        if (_other.tag == "PC" || _other.tag == "NPC")
+        if (photonView.IsMine && IsInteracting == false)
         {
-            if (CheckMyFieldOfView(_other.transform.position))
+            if (_other.tag == "PC" || _other.tag == "NPC")
             {
-                IsLookingSomeone = true;
-                LookingTarget = _other.gameObject;
-                myFSM.ChangeState(PEEKABOOCHARACTERSTATE.ROTATETOSOMEONE);
+                if (CheckMyFieldOfView(_other.transform.position))
+                {
+                    IsLookingSomeone = true;
+                    LookingTarget = _other.gameObject;
+                    myFSM.ChangeState(PEEKABOOCHARACTERSTATE.ROTATETOSOMEONE);
+                }
             }
         }
     }
 
     private void OnTriggerExit(Collider _other)
     {
-        if (CheckTarget(_other.gameObject))
+        if (photonView.IsMine && IsInteracting == false)
         {
-            IsLookingSomeone = false;
-            LookingTarget = null;
-            myFSM.ChangeState(PEEKABOOCHARACTERSTATE.IDLE);
+            if (CheckTarget(_other.gameObject))
+            {
+                IsLookingSomeone = false;
+                LookingTarget = null;
+                myFSM.ChangeState(PEEKABOOCHARACTERSTATE.IDLE);
+            }
         }
     }
 
@@ -50,8 +59,9 @@ public class PeekabooPC : PeekabooCharacter
     {
         if (IsInteracting == false)
         {
-            IsInteracting = true;
-            AttackTarget = tempTarget;
+            photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
+            AttackTarget = attackTarget;
+            // AttackTarget에 레이캐스트 쏴서 맞은 대상 캐릭터 저장 필요
             myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOTARGET);
         }
     }
@@ -69,10 +79,6 @@ public class PeekabooPC : PeekabooCharacter
             photonView.RPC("ChangeMyInteractState", Photon.Pun.RpcTarget.All, true);
             Attacker = _attacker;
             myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
-        }
-        else
-        {
-            Debug.Log("공격 대상은 현재 다른 캐릭터와 상호작용중입니다!");
         }
     }
 }

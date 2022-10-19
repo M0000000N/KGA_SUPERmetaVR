@@ -6,7 +6,7 @@ using Photon.Pun;
 public abstract class PeekabooCharacter : MonoBehaviourPun
 {
     public bool IsLookingSomeone { get; protected set; }
-    public bool IsInteracting { get; protected set; }
+    public bool IsInteracting; //{ get; protected set; }
     public float ViewAngleHalf { get; protected set; }
     public GameObject LookingTarget { get; protected set; }
     public GameObject Attacker { get; protected set; }
@@ -52,6 +52,11 @@ public abstract class PeekabooCharacter : MonoBehaviourPun
         {
             return false;
         }
+    }
+
+    public void SetMyInteractingState(bool _state)
+    {
+        photonView.RPC("ChangeMyInteractState", RpcTarget.All, false);
     }
 
     public abstract void TakeDamage(GameObject _attacker);
