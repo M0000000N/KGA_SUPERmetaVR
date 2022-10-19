@@ -2,25 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PEEKABOOCHARACTERBEHAVIOURDATA
-{
-    FRONT_TO_LEFT_MIN_TIME = 1,
-    FRONT_TO_LEFT_MAX_TIME,
-    LEFT_TO_FRONT_MIN_TIME,
-    LEFT_TO_FRONT_MAX_TIME,
-    FRONT_TO_RIGHT_MIN_TIME,
-    FRONT_TO_RIGHT_MAX_TIME,
-    RIGHT_TO_FRONT_MIN_TIME,
-    RIGHT_TO_FRONT_MAX_TIME,
-    MIN_SEEINGTIME_FRONT,
-    MAX_SEEINGTIME_FRONT,
-    MIN_SEEINGTIME_LEFT,
-    MAX_SEEINGTIME_LEFT,
-    MIN_SEEINGTIME_RIGHT,
-    MAX_SEEINGTIME_RIGHT,
-    TURN_AROUND_TIME,
-}
-
 public class StaticData : SingletonBehaviour<StaticData>
 {
     //// ---------------------------------------------------------------------------------------
@@ -70,18 +51,19 @@ public class StaticData : SingletonBehaviour<StaticData>
         return null;
     }
     // ---------------------------------------------------------------------------------------
-    [SerializeField] private PeekabooCharacterBehaviour peekabooCharacterBehaviour;
-    public static PeekabooCharacterBehaviourData[] PeekabooCharacterBehaviourData { get { return Instance.peekabooCharacterBehaviour.dataArray; } }
+    [SerializeField] NPC myNPC;
+    public static NPCData[] NPCData { get { return Instance.myNPC.dataArray; } }
 
-    public static PeekabooCharacterBehaviourData GetPeekabooCharacterBehaviourData(int _id)
+    public static NPCData GetNPCData(int _id)
     {
-        for (int i = 0; i < PeekabooCharacterBehaviourData.Length; i++)
+        for (int i = 0; i < NPCData.Length; i++)
         {
-            if (PeekabooCharacterBehaviourData[i].ID == _id)
+            if (NPCData[i].ID == _id)
             {
-                return PeekabooCharacterBehaviourData[i];
+                return NPCData[i];
             }
         }
+
         return null;
     }
 }

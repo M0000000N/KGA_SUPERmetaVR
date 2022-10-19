@@ -32,7 +32,7 @@ public class DataBase : SingletonBehaviour<DataBase>
             sqlconnection = new MySqlConnection(sqlDataBase);
             sqlconnection.Open();
 
-            //UnityEngine.Debug.Log("<color=blue>SQL의 접속 상태 : </color>" + sqlconnection.State);
+            UnityEngine.Debug.Log("<color=blue>SQL의 접속 상태 : </color>" + sqlconnection.State);
         }
         catch (Exception msg)
         {
@@ -43,7 +43,7 @@ public class DataBase : SingletonBehaviour<DataBase>
     void sqldisConnect()
     {
         sqlconnection.Close();
-        //UnityEngine.Debug.Log("<color=red>SQL의 접속 상태 : </color>" + sqlconnection.State);
+        UnityEngine.Debug.Log("<color=red>SQL의 접속 상태 : </color>" + sqlconnection.State);
     }
 
     public void sqlcmdall(string allcmd)

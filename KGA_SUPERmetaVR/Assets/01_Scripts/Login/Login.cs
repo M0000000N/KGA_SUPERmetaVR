@@ -82,7 +82,7 @@ public class Login : MonoBehaviour
             PeekabooDataBase.Instance.LoadPeekabooData();
             // 테스트 코드
 
-            PhotonNetwork.LoadLevel("PKB_Main");
+            PhotonNetwork.LoadLevel("Peekaboo_WaitingRoom");
         }
     }
 
