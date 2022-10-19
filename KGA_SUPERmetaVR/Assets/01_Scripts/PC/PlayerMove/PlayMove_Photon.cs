@@ -161,6 +161,17 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
         }
     }
 
+    public void CullingPCModeling()
+    {
+        if(photonView.IsMine)
+        {
+            if(this.tag == "PCModel")
+            {
+                this.gameObject.SetActive(false);
+            }
+        }
+    }
+
 }
 
 
