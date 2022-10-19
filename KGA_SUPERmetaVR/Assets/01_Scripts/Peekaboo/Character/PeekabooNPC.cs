@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.AI;
 
 public class PeekabooNPC : PeekabooCharacter
 {
@@ -15,7 +16,6 @@ public class PeekabooNPC : PeekabooCharacter
     {
         BaseInitialize();
     }
-
     protected override void Initialize()
     {
         IsMoving = false;
@@ -43,6 +43,8 @@ public class PeekabooNPC : PeekabooCharacter
         }
 
         myFSM.UpdateFSM();
+
+         
     }
 
     private void OnTriggerStay(Collider _other)
@@ -88,5 +90,47 @@ public class PeekabooNPC : PeekabooCharacter
 
         _method.Invoke();
         IsMoving = true;
+    }
+
+
+    private void Start()
+    {
+         StartCoroutine(DieCoroutine(2f));
+    }
+
+    [SerializeField]
+    private Renderer myRenderer;
+    [SerializeField]
+    private Material fadeMaterial;
+    [SerializeField]
+    private NavMeshAgent playerNavMeshAgent;
+    [SerializeField]
+    private Transform playerTransform;
+    private IEnumerator DieCoroutine(float _time)
+    {
+        Color myColor = myRenderer.material.color;
+        myRenderer.material = fadeMaterial;
+        float decreaseValue = 1 / _time;
+        //while (0 < myRenderer.material.color.a)
+        //{
+        //    myColor.a -= decreaseValue * Time.deltaTime;
+        //    myRenderer.material.color = myColor;
+
+        //    yield return null;
+        //}
+        yield return null;
+        Debug.Log("리스폰중");
+        StartCoroutine(RespawnCoroutine(200f));
+    }
+
+    private IEnumerator RespawnCoroutine(float _time)
+    {
+        playerNavMeshAgent.enabled = false;
+        IsMoving = true;
+        //playerTransform.position = new Vector3(1f, 1f, 1f);
+        PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(playerTransform.position);
+        //playerTransform.position = Vector3.Lerp(playerTransform.position, new Vector3(playerTransform.position.x, 1, playerTransform.position.z), _time);
+        yield return new WaitForSeconds(_time);
+        playerNavMeshAgent.enabled = true;
     }
 }
