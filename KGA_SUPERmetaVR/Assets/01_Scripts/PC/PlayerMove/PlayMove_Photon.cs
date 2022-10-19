@@ -32,6 +32,9 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     [SerializeField]
     private LayserPointer layser;
 
+    [SerializeField]
+    private GameObject rayPointer; 
+
     private bool isRun = false;
 
     //플레이어 이동
@@ -55,6 +58,9 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     }
     public void Move()
     {
+        if (!photonView.IsMine)
+            return;
+
         if (photonView.IsMine)
         {
             dirX = 0; // 좌우
@@ -102,7 +108,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
         if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0) 
         Running();
       
-        if(OVRInput.GetUp(OVRInput.RawButton.B) || stamina.GetProgress() == 0)
+        if(!OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() >= 0)
         RunningCancle();
     }
     public void Running()
@@ -144,6 +150,17 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
             setRot = (Quaternion)stream.ReceiveNext();
         }
     }
+
+    public void CullingRay()
+    {
+        if(!photonView.IsMine)
+        {
+            rayPointer.SetActive(false);    
+        }
+    }
+
+
+
 }
 
 
