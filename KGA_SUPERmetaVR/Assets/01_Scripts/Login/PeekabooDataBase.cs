@@ -38,7 +38,7 @@ public class PeekabooDataBase : SingletonBehaviour<PeekabooDataBase>
 
     public void CreatePeekabooData() // 데이터가 없으면 생성
     {
-        DataBase.Instance.InsertDB(PeekabooTableInfo.table_name, PeekabooTableInfo.user_id + "," + PeekabooTableInfo.create_at + "," + PeekabooTableInfo.update_at, playerData.ID + ", NOW(), NOW()");
+        DataBase.Instance.InsertDB(PeekabooTableInfo.table_name, $"{PeekabooTableInfo.user_id}, {PeekabooTableInfo.create_at}, {PeekabooTableInfo.update_at}", $"'{playerData.ID}', NOW(), NOW()");
     }
 
     public void SaveCharacterList() // 캐릭터 구매 등 변경사항 발생시
