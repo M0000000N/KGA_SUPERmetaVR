@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 {
@@ -24,13 +24,16 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     private Stamina stamina;
 
     [SerializeField]
-    private PointerEvents pointerEvents; 
+    private PointerEvents pointerEvents;
 
     [SerializeField]
     private Transform myCharacter;
 
     [SerializeField]
     private LayserPointer layser;
+
+    [SerializeField]
+    private GameObject rayPointer;
 
     private bool isRun = false;
 
@@ -55,16 +58,13 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     }
     public void Move()
     {
+        if (!photonView.IsMine)
+            return;
+
         if (photonView.IsMine)
         {
             dirX = 0; // ÁÂ¿ì
             dirZ = 0; // »óÇÏ
-
-            if(Input.GetKey(KeyCode.Space))
-            {
-                Vector3 moveDir = new Vector3(dirX * applySpeed, 0,0);
-                transform.Translate(moveDir * Time.deltaTime);
-            }
 
             if (OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
             {
@@ -100,16 +100,16 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
                     Attack();
                 }
             }
-        }         
+        }
     }
 
     public void TryRun()
     {
-        if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0) 
-        Running();
-      
-        if(OVRInput.GetUp(OVRInput.RawButton.B) || stamina.GetProgress() == 0)
-        RunningCancle();
+        if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0)
+            Running();
+
+        if (!OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() >= 0)
+            RunningCancle();
     }
     public void Running()
     {
@@ -150,9 +150,13 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
             setRot = (Quaternion)stream.ReceiveNext();
         }
     }
+
+    public void CullingRay()
+    {
+        if (!photonView.IsMine)
+        {
+            rayPointer.SetActive(false);
+        }
+    }
+
 }
-
-
-
-
-
