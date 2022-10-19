@@ -13,23 +13,14 @@ public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
 
     public float GameTimer { get { return gameTimer; } }
 
-    private float survivalTime;
-
-    public float SurvivalTime { get { return survivalTime; } }
-
-
     private void Start()
     {
-
+        
     }
 
     private void Update()
     {
         gameTimer -= Time.deltaTime;
-        if (PeekabooGameManager.Instance.IsGameOver == false)
-        {
-            survivalTime += Time.deltaTime;
-        }
         int hour = (int)(gameTimer / 3600);
         int min = (int)((gameTimer - hour * 3600) / 60);
         int second = (int)gameTimer % 60;

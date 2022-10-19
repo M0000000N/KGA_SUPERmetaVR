@@ -40,16 +40,14 @@ public class Peekaboo_SettingUI : MonoBehaviour
     {
         SoundManager.Instance.SetBGMVolume(bgmSlider.value);
         SoundManager.Instance.SetSEVolume(seSlider.value);
-        SoundManager.Instance.SetVoiceVolume(voiceSlider.value);
     }
 
     public void RefreshUI()
     {
         bgmValue.text = ((int)(SoundManager.Instance.BGMValue * 100)).ToString();
         seValue.text = ((int)(SoundManager.Instance.SEValue * 100)).ToString();
-        voiceValue.text = ((int)(SoundManager.Instance.VoiceValue * 100)).ToString();
 
-        if (IsChangeSetting())
+        if(IsChangeSetting())
         {
             applyButtonOn.SetActive(true);
             applyButtonOff.SetActive(false);
@@ -65,8 +63,8 @@ public class Peekaboo_SettingUI : MonoBehaviour
     {
         if (bgmPreviousSetting == SoundManager.Instance.BGMValue
             && sePreviousSetting == SoundManager.Instance.SEValue
-            && voicePreviousSetting == SoundManager.Instance.VoiceValue
           //&& micPreviousSetting == SoundManager.Instance.MICValue
+          //&& voicePreviousSetting == SoundManager.Instance.VoiceValue;
             )
         {
             return false;
@@ -78,8 +76,8 @@ public class Peekaboo_SettingUI : MonoBehaviour
     {
         bgmPreviousSetting = SoundManager.Instance.BGMValue;
         sePreviousSetting = SoundManager.Instance.SEValue;
-        voicePreviousSetting = SoundManager.Instance.VoiceValue;
         //micPreviousSetting = SoundManager.Instance.MICValue;
+        //voicePreviousSetting = SoundManager.Instance.VoiceValue;
     }
 
     public void OnPopupUI()

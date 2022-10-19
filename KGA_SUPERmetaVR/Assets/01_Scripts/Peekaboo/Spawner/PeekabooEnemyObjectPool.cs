@@ -7,7 +7,12 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
 {
     private static PeekabooEnemyObjectPool instance;
 
-
+    // LSI - NPC 동기화 테스트용
+    #region
+    [SerializeField]
+    private InteractTester tester;
+    #endregion
+    // -----------------------------------
 
     [SerializeField]
     private GameObject poolingObjectPrefab;
@@ -26,6 +31,7 @@ public class PeekabooEnemyObjectPool : MonoBehaviour
     private PeekabooNPC CreateNewObject(Transform _transform)
     {
         PeekabooNPC newObject = PhotonNetwork.Instantiate(poolingObjectPrefab.name, _transform.position, Quaternion.identity).GetComponent<PeekabooNPC>();
+        tester.NPCs.Add(newObject.gameObject);
         newObject.gameObject.SetActive(false);
         return newObject;
     }

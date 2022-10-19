@@ -18,32 +18,27 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     [Header("오디오 소스")]
     [SerializeField] AudioSource bgmPlayer;
     public float BGMValue { get { return bgmPlayer.volume; } }
-
     [SerializeField] AudioSource[] sePlayer;
     public float SEValue { get { return sePlayer[0].volume; } }
-
-    [SerializeField] AudioSource voicePlayer;
-    public float VoiceValue { get { return voicePlayer.volume; } }
 
     //[SerializeField] AudioSource micPlayer;
     //public float MICValue { get { return micPlayer.volume; } }
 
+    //[SerializeField] AudioSource voicePlayer;
+    //public float VoiceValue { get { return voicePlayer.volume; } }
 
 
     void Start()
     {
-        AudioSource[] bgmAudioPlayer = transform.GetChild(0).GetComponents<AudioSource>();
-        bgmPlayer = bgmAudioPlayer[0]; // BGM은 어차피 하나
+        AudioSource[] audioPlayer = GetComponents<AudioSource>();
+        sePlayer = new AudioSource[audioPlayer.Length - 1];
 
-        AudioSource[] seAudioPlayer = transform.GetChild(1).GetComponents<AudioSource>();
-        sePlayer = new AudioSource[seAudioPlayer.Length];
-        for (int i = 0; i < sePlayer.Length; i++) // 나머지는 SE
+        bgmPlayer = audioPlayer[0]; // 가장 위는 BGM
+        for (int i = 1; i < audioPlayer.Length; i++) // 나머지는 SE
         {
-            sePlayer[i] = seAudioPlayer[i];
+            sePlayer[i-1] = audioPlayer[i];
+            if (sePlayer.Length < i) break;
         }
-
-        AudioSource[] voiceAudioPlayer = transform.GetChild(2).GetComponents<AudioSource>();
-        voicePlayer = voiceAudioPlayer[0]; // voice가 하나니?
 
         // TODO : 추후 VoiceSound가 필요하면 리스트를 수정할 계획입니다.
     }
@@ -61,6 +56,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
             }
         }
     }
+
 
     public void PlaySE(string _soundName)
     {
@@ -85,11 +81,6 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     public void SetBGMVolume(float _volume)
     {
         bgmPlayer.volume = _volume;
-    }
-
-    public void SetVoiceVolume(float _volume)
-    {
-        voicePlayer.volume = _volume;
     }
 
     public void SetSEVolume(float _volume)

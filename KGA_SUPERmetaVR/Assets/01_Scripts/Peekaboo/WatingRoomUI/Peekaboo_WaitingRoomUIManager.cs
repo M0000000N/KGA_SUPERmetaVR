@@ -8,14 +8,14 @@ using Photon.Realtime;
 
 public class Peekaboo_WaitingRoomUIManager : SingletonBehaviour<Peekaboo_WaitingRoomUIManager>
 {
-    public PKB_WaitingRoomUI WaitingRoomUI;
-    public PKB_CreateRoomUI CreateRoomUI;
-    public PKB_FindRoomUI FindRoomUI;
+    public WaitingRoomUI WaitingRoomUI;
+    public CreateRoomUI CreateRoomUI;
+    public FindRoomUI FindRoomUI;
     public Peekaboo_CustomizingUI CustomizingUI;
-    public PKB_ExitUI ExitUI;
-    public PKB_NoticePopupUI NoticePopupUI;
+    public ExitUI ExitUI;
+    public NoticePopupUI NoticePopupUI;
     public Peekaboo_SettingUI SettingUI;
-    public PKB_PlayRoomUI PlayRoomUI;
+    public PlayRoomUI PlayRoomUI;
     public Peekaboo_RankingUI RankingUI;
 
     // public bool IsPrivateRoom;
@@ -26,13 +26,13 @@ public class Peekaboo_WaitingRoomUIManager : SingletonBehaviour<Peekaboo_Waiting
     }
     private void Start()
     {        
-        WaitingRoomUI   = GetComponentInChildren<PKB_WaitingRoomUI>();
+        WaitingRoomUI   = GetComponentInChildren<WaitingRoomUI>();
         CustomizingUI   = GetComponentInChildren<Peekaboo_CustomizingUI>();
-        CreateRoomUI    = GetComponentInChildren<PKB_CreateRoomUI>();
-        ExitUI          = GetComponentInChildren<PKB_ExitUI>();
-        FindRoomUI      = GetComponentInChildren<PKB_FindRoomUI>();
-        NoticePopupUI   = GetComponentInChildren<PKB_NoticePopupUI>();
-        PlayRoomUI      = GetComponentInChildren<PKB_PlayRoomUI>();
+        CreateRoomUI    = GetComponentInChildren<CreateRoomUI>();
+        ExitUI          = GetComponentInChildren<ExitUI>();
+        FindRoomUI      = GetComponentInChildren<FindRoomUI>();
+        NoticePopupUI   = GetComponentInChildren<NoticePopupUI>();
+        PlayRoomUI      = GetComponentInChildren<PlayRoomUI>();
         SettingUI       = GetComponentInChildren<Peekaboo_SettingUI>();
         RankingUI       = GetComponentInChildren<Peekaboo_RankingUI>();
 
