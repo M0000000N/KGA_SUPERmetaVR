@@ -32,15 +32,13 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     [SerializeField]
     private LayserPointer layser;
 
-    [SerializeField]
-    private GameObject rayPointer; 
-
     private bool isRun = false;
 
-  
+    //ÇÃ·¹ÀÌ¾î ÀÌµ¿
     private float dirX = 0;
     private float dirZ = 0;
 
+    // ¼­¹ö¿¡¼­ ¹ÞÀº µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ º¯¼ö 
     Vector3 setPos;
     Quaternion setRot;
 
@@ -59,14 +57,16 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     }
     public void Move()
     {
-        if (!photonView.IsMine)
-            return;
-
         if (photonView.IsMine)
         {
-            dirX = 0; 
-            dirZ = 0; 
+            dirX = 0; // ÁÂ¿ì
+            dirZ = 0; // »óÇÏ
 
+            if(Input.GetKey(KeyCode.Space)) 
+            {
+                Vector3 moveDir = new Vector3(dirX * applySpeed, 0,0);
+                transform.Translate(moveDir * Time.deltaTime);
+            }
 
             if (OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
             {
@@ -94,6 +94,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
                         dirZ = -1;
                 }
 
+                // ÀÌµ¿¹æÇâ ¼³Á¤ ÈÄ ÀÌµ¿
                 Vector3 moveDir = new Vector3(dirX * applySpeed, 0, dirZ * applySpeed);
                 transform.Translate(moveDir * Time.deltaTime);
                 if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) && (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger)))
@@ -109,7 +110,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
         if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0) 
         Running();
       
-        if(!OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() >= 0)
+        if(OVRInput.GetUp(OVRInput.RawButton.B) || stamina.GetProgress() == 0)
         RunningCancle();
     }
     public void Running()
@@ -135,33 +136,22 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     }
 
-    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
+    // µ¥ÀÌÅÍ µ¿±âÈ­¸¦ À§ÇÑ µ¥ÀÌÅÍ Àü¼Û ¹× ¼ö½Å ±â´É 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È²
+        // µ¥ÀÌÅÍ Àü¼Û »óÈ²
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
             stream.SendNext(myCharacter.rotation);
         }
-        // ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½È²
+        // µ¥ÀÌÅÍ¸¦ ¼ö½ÅÇÏ´Â »óÈ²
         else if (stream.IsReading)
         {
             setPos = (Vector3)stream.ReceiveNext();
             setRot = (Quaternion)stream.ReceiveNext();
         }
     }
-
-    public void CullingRay()
-    {
-        if(!photonView.IsMine)
-        {
-            rayPointer.SetActive(false);    
-        }
-    }
-
-
-
 }
 
 
