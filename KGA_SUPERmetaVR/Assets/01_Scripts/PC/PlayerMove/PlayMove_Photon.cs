@@ -159,8 +159,6 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
         }
     }
 
-
-
 }
 
 

@@ -27,7 +27,7 @@ public class Stamina : MonoBehaviour
     private float clickButtonB = 0.2f;
 
     [SerializeField]
-    private float cancleButtonB = 3f; 
+    private float cancleButtonB = 6f; 
 
 
     [SerializeField]
