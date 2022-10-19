@@ -20,13 +20,12 @@ public class GameManager : SingletonBehaviour<GameManager>
         PlayerData.PlayerPeekabooData = new PlayerPeekabooData();
         PlayerData.PlayerPeekabooData.CharacterList = new PlayerCharacter();
         // 테스트 코드
-        GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter = 1;
         GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character = new int[5];
-        GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[0] = 0;
+        GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[0] = 1;
         GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[1] = 1;
         GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[2] = 1;
         GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[3] = 1;
-        GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[4] = 0;
+        GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[4] = 1;
         // 테스트 코드
     }
 }
