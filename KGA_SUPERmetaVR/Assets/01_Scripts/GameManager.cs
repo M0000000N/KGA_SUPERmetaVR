@@ -12,6 +12,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     void Awake()
     {
         Initialize();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public void Initialize()
