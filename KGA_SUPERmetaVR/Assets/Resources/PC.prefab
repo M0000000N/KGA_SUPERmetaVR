@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 8722724385598622661}
   m_Layer: 0
   m_Name: PC
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -763,12 +763,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6782995052807465818, guid: de1ee31ece2d7924ca82140dfb24366c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6782995052807465818, guid: de1ee31ece2d7924ca82140dfb24366c, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6782995052807465818, guid: de1ee31ece2d7924ca82140dfb24366c, type: 3}
+      propertyPath: m_MotionVectors
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7026781318064740241, guid: de1ee31ece2d7924ca82140dfb24366c, type: 3}
       propertyPath: m_Name
       value: PhysicsPointer
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7550720676458005861, guid: de1ee31ece2d7924ca82140dfb24366c, type: 3}
+    - {fileID: 6224033752582037854, guid: de1ee31ece2d7924ca82140dfb24366c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: de1ee31ece2d7924ca82140dfb24366c, type: 3}
 --- !u!1 &1768071855797983530 stripped
 GameObject:
@@ -1615,6 +1628,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1976577297550892596, guid: de1ee31ece2d7924ca82140dfb24366c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6224033752582037854, guid: de1ee31ece2d7924ca82140dfb24366c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6782995052807465818, guid: de1ee31ece2d7924ca82140dfb24366c, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
