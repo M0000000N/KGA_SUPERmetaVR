@@ -34,11 +34,11 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     private bool isRun = false;
 
-    //플레이어 이동
+    
     private float dirX = 0;
     private float dirZ = 0;
 
-    // 서버에서 받은 데이터를 저장할 변수 
+
     Vector3 setPos;
     Quaternion setRot;
 
@@ -59,8 +59,8 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
-            dirX = 0; // 좌우
-            dirZ = 0; // 상하
+            dirX = 0; 
+            dirZ = 0; 
 
             if(Input.GetKey(KeyCode.Space)) 
             {
@@ -94,7 +94,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
                         dirZ = -1;
                 }
 
-                // 이동방향 설정 후 이동
+        
                 Vector3 moveDir = new Vector3(dirX * applySpeed, 0, dirZ * applySpeed);
                 transform.Translate(moveDir * Time.deltaTime);
                 if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) && (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger)))
@@ -136,22 +136,28 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     }
 
-    // 데이터 동기화를 위한 데이터 전송 및 수신 기능 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // 데이터 전송 상황
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
             stream.SendNext(myCharacter.rotation);
         }
-        // 데이터를 수신하는 상황
         else if (stream.IsReading)
         {
             setPos = (Vector3)stream.ReceiveNext();
             setRot = (Quaternion)stream.ReceiveNext();
         }
     }
+
+    public void CullingRay()
+    {
+        if(!photonView.IsMine)
+        {
+            rayPointer.SetActive(false);    
+        }
+    }
+
 }
 
 
