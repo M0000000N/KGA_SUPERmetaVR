@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,11 @@ using Photon.Pun;
 
 public class PeekabooNPC : PeekabooCharacter
 {
+    public bool IsMoving { get; private set; }
+
+    [SerializeField]
+    private PeekabooNPCMove myMove; 
+
     private void Awake()
     {
         BaseInitialize();
@@ -12,11 +18,30 @@ public class PeekabooNPC : PeekabooCharacter
 
     protected override void Initialize()
     {
+        IsMoving = false;
+    }
 
+    [PunRPC]
+    private void ChangeMyInteractState(bool _state)
+    {
+        IsInteracting = _state;
     }
 
     private void Update()
     {
+        if (IsMoving)
+        {
+            if (myMove.CheckArrival(transform.position))
+            {
+                IsMoving = false;
+            }
+        }
+        else
+        {
+            Action action = myMove.SetNextDestination;
+            StartCoroutine(WaitForSetNextDestination(1f, action));
+        }
+
         myFSM.UpdateFSM();
     }
 
@@ -47,9 +72,21 @@ public class PeekabooNPC : PeekabooCharacter
     {
         if (IsInteracting == false)
         {
-            IsInteracting = true;
+            photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
             Attacker = _attacker;
             myFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCLAUGHT);
         }
+        else
+        {
+            Debug.Log("공격 대상은 현재 다른 캐릭터와 상호작용중입니다!");
+        }
+    }
+
+    public IEnumerator WaitForSetNextDestination(float _time, Action _method)
+    {
+        yield return new WaitForSeconds(_time);
+
+        _method.Invoke();
+        IsMoving = true;
     }
 }

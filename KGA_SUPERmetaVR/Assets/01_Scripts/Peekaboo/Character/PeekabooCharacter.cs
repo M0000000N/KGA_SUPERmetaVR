@@ -55,4 +55,10 @@ public abstract class PeekabooCharacter : MonoBehaviourPun
     }
 
     public abstract void TakeDamage(GameObject _attacker);
+
+    //[PunRPC]
+    //private void ChangeMyInteractState(bool _state)
+    //{
+    //    IsInteracting = _state;
+    //}
 }

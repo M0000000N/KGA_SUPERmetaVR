@@ -31,7 +31,7 @@ public enum PEEKABOOCHARACTERSTATE
 public abstract class PeekabooCharacterFSM : MonoBehaviourPun
 {
     public float ViewAngleHalf { get; private set; }
-    public Vector3 ForwardDirectionOfBody { get { return myBody.transform.forward; } }
+    public Quaternion MyBodyRotation { get { return myBody.transform.rotation; } }
     public Animator MyAnimator { get; private set; }
     public PeekabooCharacter MyCharacter { get; private set; }
 
@@ -120,12 +120,12 @@ public abstract class PeekabooCharacterFSM : MonoBehaviourPun
         while (elapsedTimeInCoroutine <= _rotateTime)
         {
             elapsedTimeInCoroutine += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(initialQuaternion, _targetQuaternion, elapsedTimeInCoroutine * _rotateTime);
+            transform.localRotation = Quaternion.Lerp(initialQuaternion, _targetQuaternion, elapsedTimeInCoroutine * _rotateTime);
 
             yield return null;
         }
 
-        transform.rotation = _targetQuaternion;
+        transform.localRotation = _targetQuaternion;
 
         myAction(_stateKey);
     }

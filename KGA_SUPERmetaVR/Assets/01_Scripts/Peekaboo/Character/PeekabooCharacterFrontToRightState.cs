@@ -22,7 +22,7 @@ public class PeekabooCharacterFrontToRightState : PeekabooCharacterState
         rotateTime = Random.Range(minTimeToRotateRight, maxTimeToRotateRight);
 
         Quaternion rotateQuaternion = Quaternion.Euler(new Vector3(0f, myFSM.ViewAngleHalf, 0f));
-        Quaternion targetQuaternion = Quaternion.Euler(myFSM.ForwardDirectionOfBody) * rotateQuaternion;
+        Quaternion targetQuaternion = myFSM.MyBodyRotation * rotateQuaternion;
 
         StartCoroutine(myFSM.RotateCoroutine(targetQuaternion, rotateTime, PEEKABOOCHARACTERSTATE.LOOKINGRIGHT));
     }

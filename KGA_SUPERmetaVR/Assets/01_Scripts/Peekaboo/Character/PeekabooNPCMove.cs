@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class PeekabooNPCMove : MonoBehaviour
 {
+    public NavMeshAgent myAgent { get; private set; }
+
+    [SerializeField]
+    private PeekabooNPC myNPC;
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
@@ -12,15 +16,30 @@ public class PeekabooNPCMove : MonoBehaviour
     [SerializeField]
     private float maxDistance;
 
-    private NavMeshAgent myAgent;
-
     private void Awake()
     {
         myAgent = GetComponent<NavMeshAgent>();
+
+        myAgent.speed = moveSpeed;
+        SetNextDestination();
+    }
+
+    public bool CheckArrival(Vector3 _myPosition)
+    {
+        float remainingDistance = (myAgent.destination - _myPosition).sqrMagnitude;
+        if (remainingDistance <= 0.01f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void SetNextDestination()
     {
+        Debug.Log("다음 목적지 설정!");
         float distance = Random.Range(minDistance, maxDistance);
         Vector3 nextDestination = transform.position + Random.insideUnitSphere * distance;
         myAgent.destination = nextDestination;

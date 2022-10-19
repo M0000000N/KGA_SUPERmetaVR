@@ -16,5 +16,10 @@ public class InteractTester : MonoBehaviour
             PC.TakeDamage(NPC.gameObject);
             NPC.TakeDamage(PC.gameObject);
         }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+
+        }
     }
 }

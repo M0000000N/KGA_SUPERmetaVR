@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PeekabooPC : PeekabooCharacter
 {
@@ -55,13 +56,23 @@ public class PeekabooPC : PeekabooCharacter
         }
     }
 
+    [PunRPC]
+    private void ChangeMyInteractState(bool _state)
+    {
+        IsInteracting = _state;
+    }
+
     public override void TakeDamage(GameObject _attacker)
     {
         if (IsInteracting == false)
         {
-            IsInteracting = true;
+            photonView.RPC("ChangeMyInteractState", Photon.Pun.RpcTarget.All, true);
             Attacker = _attacker;
             myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
+        }
+        else
+        {
+            Debug.Log("공격 대상은 현재 다른 캐릭터와 상호작용중입니다!");
         }
     }
 }
