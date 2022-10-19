@@ -10,7 +10,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class LobbyManager : SingletonBehaviour<LobbyManager>
 {
-    public List<PlayRoomUI> roomNameList = new List<PlayRoomUI>();
+    public List<PKB_PlayRoomUI> roomNameList = new List<PKB_PlayRoomUI>();
     bool[] isEmptyRoomList = new bool[10000];
 
 
@@ -35,7 +35,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             }
             else // TODO : 이게 왜 필요한지 확인
             {
-                PlayRoomUI playRoom = new PlayRoomUI();
+                PKB_PlayRoomUI playRoom = new PKB_PlayRoomUI();
                 playRoom.SetRoomInfo(room);
             }
         }
@@ -62,17 +62,24 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             MaxPlayers = 14
         };
 
+        string roomName = SetRoomName();
+        bool isInRoom = false;
+
         roomOptions.CustomRoomProperties = new Hashtable()
         {
-            { "password", _password }
+            { "RoomName", roomName },
+            { "Password", _password },
+            { "IsInRoom",  isInRoom }
         };
 
         roomOptions.CustomRoomPropertiesForLobby = new string[]
         {
-            "isPrivate", "password"
+            "RoomName",
+            "Password",
+            "IsInRoom"
         };
 
-        PhotonNetwork.CreateRoom(SetRoomName(), roomOptions, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()
@@ -115,12 +122,16 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
 
     public string SetRoomName() // TODO : 
     {
-        for (int i = 1; i <= 9999; i++)
+        for (int i = 1; i <= 10000; i++)
         {
+            if(i==10000)
+            {
+                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 방을 생성할 수 없습니다. 잠시 후 다시 시도헤해주세요", "확인");
+            }
             if(isEmptyRoomList[i]) // 빈방
             {
                 isEmptyRoomList[i] = false;
-                roomNameList.Add(new PlayRoomUI());
+                roomNameList.Add(new PKB_PlayRoomUI());
                 
                 return System.String.Format("{0:0000}", i);
             }

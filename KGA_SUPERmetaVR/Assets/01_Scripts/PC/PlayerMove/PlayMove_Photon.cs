@@ -37,13 +37,15 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     private bool isRun = false;
 
-    //ÇÃ·¹ÀÌ¾î ÀÌµ¿
+    //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½
     private float dirX = 0;
     private float dirZ = 0;
 
-    // ¼­¹ö¿¡¼­ ¹ÞÀº µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ º¯¼ö 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     Vector3 setPos;
     Quaternion setRot;
+
+    public int score;
 
     private void Start()
     {
@@ -63,8 +65,8 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
         if (photonView.IsMine)
         {
-            dirX = 0; // ÁÂ¿ì
-            dirZ = 0; // »óÇÏ
+            dirX = 0; // ï¿½Â¿ï¿½
+            dirZ = 0; // ï¿½ï¿½ï¿½ï¿½
 
             if (OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
             {
@@ -92,7 +94,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
                         dirZ = -1;
                 }
 
-                // ÀÌµ¿¹æÇâ ¼³Á¤ ÈÄ ÀÌµ¿
+                // ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ìµï¿½
                 Vector3 moveDir = new Vector3(dirX * applySpeed, 0, dirZ * applySpeed);
                 transform.Translate(moveDir * Time.deltaTime);
                 if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) && (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger)))
@@ -134,16 +136,16 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     }
 
-    // µ¥ÀÌÅÍ µ¿±âÈ­¸¦ À§ÇÑ µ¥ÀÌÅÍ Àü¼Û ¹× ¼ö½Å ±â´É 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // µ¥ÀÌÅÍ Àü¼Û »óÈ²
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È²
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
             stream.SendNext(myCharacter.rotation);
         }
-        // µ¥ÀÌÅÍ¸¦ ¼ö½ÅÇÏ´Â »óÈ²
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½È²
         else if (stream.IsReading)
         {
             setPos = (Vector3)stream.ReceiveNext();

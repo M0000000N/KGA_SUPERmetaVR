@@ -8,17 +8,19 @@ public class MAPDATA
 {
     private int numberOfPlayersCreatedInZone;
     public int NumberOfPlayersCreatedInZone { get { return numberOfPlayersCreatedInZone; } set { numberOfPlayersCreatedInZone = value; } }
+
     private Vector3 mapPosition;
     public Vector3 MapPosition { get { return mapPosition; } set { mapPosition = value; } }
+
     private int numberOfNPCPlacedInZone;
     public int NumberOfNPCPlacedInZone { get { return numberOfNPCPlacedInZone; } set { numberOfNPCPlacedInZone = value; } }
 }
 
-public class PeekabooCreateMap : MonoBehaviour
+public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
 {
-    [Header("맵 프리팹")]
-    [SerializeField]
-    private GameObject mapPrefab;
+    //[Header("맵 프리팹")]
+    //[SerializeField]
+    //private GameObject mapPrefab;
 
     [Header("스포너 스크립트")]
     [SerializeField]
@@ -61,7 +63,6 @@ public class PeekabooCreateMap : MonoBehaviour
 
     private int mapSize;
     public int MapSize { get { return mapSize; } }
-    // 서버에서 플레이어 인원 받아오면 수정 예정
 
     private int maxNumberOfNPCs;
 
@@ -102,8 +103,6 @@ public class PeekabooCreateMap : MonoBehaviour
                 for (int z = 0; z < mapSizeZ; z++)
                 {
                     Vector3 mapPosition = new Vector3(x * mapLength, 0, z * mapLength);
-                    //PhotonNetwork.Instantiate(mapPrefab.name, mapPosition, Quaternion.identity);
-                    Debug.Log("우왕 드러옴");
                     MAPDATA mapdata = new MAPDATA();
                     mapdata.NumberOfPlayersCreatedInZone = numberOfPlayersCreatedInZone;
                     mapdata.MapPosition = mapPosition;
@@ -182,6 +181,24 @@ public class PeekabooCreateMap : MonoBehaviour
                 {
                     break;
                 }
+            }
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            for (int i = 0; i < numberOfPlayers; ++i)
+            {
+                stream.SendNext(mapData[i].NumberOfPlayersCreatedInZone);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < numberOfPlayers; ++i)
+            {
+                mapData[i].NumberOfPlayersCreatedInZone = (int)stream.ReceiveNext();
             }
         }
     }
