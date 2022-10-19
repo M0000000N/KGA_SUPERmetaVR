@@ -122,7 +122,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295402638041175172}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f402ad37f3a0b6f46a775fa8e474f0fd, type: 3}
   m_Name: 
@@ -135,6 +135,7 @@ MonoBehaviour:
   pointerEvents: {fileID: 7227618909591862667, guid: 2895f87c9265c10409bb6a733ec2560b, type: 3}
   myCharacter: {fileID: 2237055142714626596}
   layser: {fileID: 0}
+  score: 0
 --- !u!114 &7897129711615128849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,7 +524,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Nickname
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e53d72d6d07253c48b4dddb813651848, type: 2}
   m_sharedMaterial: {fileID: 4496879214096137702, guid: e53d72d6d07253c48b4dddb813651848, type: 2}
@@ -599,41 +600,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5369085888703895929}
     m_Modifications:
-    - target: {fileID: 2583280555772277225, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+    - target: {fileID: 2583280556327353747, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
+      propertyPath: m_text
+      value: '# 1'
       objectReference: {fileID: 0}
-    - target: {fileID: 2583280555772277225, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280555772277225, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280555772277225, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LeavePeekabooGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280555772277225, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PeekabooGameManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280555772277225, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280556432748193, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280556432748193, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280556432748193, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.2
+    - target: {fileID: 2583280556531159639, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
+      propertyPath: m_text
+      value: "\uD68D\uB4DD \uCF54\uC778 :       X 50"
       objectReference: {fileID: 0}
     - target: {fileID: 2583280556774011834, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
       propertyPath: m_Name
@@ -727,29 +700,13 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2583280556918218790, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+    - target: {fileID: 2583280556868694562, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
+      propertyPath: m_text
+      value: "\uC0DD\uC874 \uC2DC\uAC04 : 0\uBD8414\uCD08"
       objectReference: {fileID: 0}
-    - target: {fileID: 2583280556918218790, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280556918218790, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280556918218790, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: WatchingStatePlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280556918218790, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PeekabooGameManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2583280556918218790, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+    - target: {fileID: 7201478483370623157, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}
+      propertyPath: m_text
+      value: / 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ddb0669942d75047a59e471b59ad0b2, type: 3}

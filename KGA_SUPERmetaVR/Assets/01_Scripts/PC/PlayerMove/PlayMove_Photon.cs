@@ -62,7 +62,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
             dirX = 0; // ÁÂ¿ì
             dirZ = 0; // »óÇÏ
 
-            if(Input.GetKey(KeyCode.Space))
+            if(Input.GetKey(KeyCode.Space)) 
             {
                 Vector3 moveDir = new Vector3(dirX * applySpeed, 0,0);
                 transform.Translate(moveDir * Time.deltaTime);

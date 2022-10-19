@@ -8,9 +8,10 @@ using System;
 
 public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 {
-    public GameObject PlayerPrefeb;
-    //public Button exitButton;
-    public GameObject TestNPC;
+    [SerializeField]
+    private GameObject playerPrefeb;
+
+    public GameObject PlayerPrefeb { get { return playerPrefeb; } }
 
     [SerializeField]
     private PeekabooCreateMap createMap;
@@ -28,11 +29,12 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 
     public int SurprisedEnemyNumbers { get { return surprisedEnemyNumbers; } set { surprisedEnemyNumbers = value; } }
 
-    [SerializeField]
-    private Button exitButton;
+    private PeekabooPlayerUIData peekabooPlayerUIData;
+
+
     public void Start()
     {
-        exitButton.onClick.AddListener(() => { GoRoom(); });
+        peekabooPlayerUIData = playerPrefeb.GetComponentInChildren<PeekabooPlayerUIData>();
         surprisedEnemyNumbers = 0;
         IsGameOver = false;
         TotalNumberOfPeopleFirstEnterdRoom = PhotonNetwork.CountOfPlayers;
@@ -40,52 +42,45 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         //exitButton.onClick.AddListener(OnClickExitButton);
     }
 
-    private void GoRoom()
+    private void Update()
     {
-        PhotonNetwork.LeaveRoom();
-    }
+        if (!isGameOver)
+        {
+            Debug.Log("게임오버");
+            PeekabooGameOver();
 
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby();
-    }
-
-    public override void OnJoinedLobby()
-    {
-        PhotonNetwork.CreateRoom(null);
-    }
-
-    public override void OnJoinedRoom()
-    {
-        PhotonNetwork.LoadLevel("00_Title");
+        }
     }
 
 
     public void PlayerGameOver()
     {
-       // playerScore["score"] = (int)photonView.Owner.CustomProperties[]
-         
+        // playerScore["score"] = (int)photonView.Owner.CustomProperties[]
+        isGameOver = true;
         // 플레이어 이동 및 시점등 모든 상호작용 멈춤
-        PeekabooUIManager.Instance.GameOverUI(numberOfPlayers);
+        //PeekabooUIManager.Instance.GameOverUI(numberOfPlayers);
+        peekabooPlayerUIData.GameOverUI();
     }
 
 
     private void PeekabooGameOver()
     {
-        if (true) // 플레이어가 죽었을 때
+        if (false) // 플레이어가 죽었을 때
         {
             PlayerGameOver();
         }
-        else if (numberOfPlayers == 1)
+        else if (false)//numberOfPlayers == 1)
         {
+            Debug.Log("혼자남음");
             PlayerGameOver();
             
         }
         else if (PeekabooTimeManager.Instance.GameTimer <= 0f)
         {
+            Debug.Log("시간 다댐");
             PlayerGameOver();
         }
-        else if (true) // 종료 버튼을 눌럿을시
+        else if (false) // 종료 버튼을 눌럿을시
         {
             PlayerGameOver();
         }
