@@ -16,7 +16,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
 
     private void Awake()
     {
-        // ¸¶½ºÅÍ ¼­¹ö ¿¬°á½Ãµµ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ãµï¿½
         PhotonNetwork.ConnectUsingSettings();
         isEmptyRoomList[1] = true;
     }
@@ -25,7 +25,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     {
         foreach (RoomInfo room in roomList)
         {
-            if (room.RemovedFromList) // ·ë Áö¿üÀ» ¶§
+            if (room.RemovedFromList) // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
             {
                 int index = roomNameList.FindIndex(x => x.RoomInfo.Name == room.Name);
                 if (index != -1)
@@ -33,7 +33,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
                     isEmptyRoomList[index] = true;
                 }
             }
-            else // TODO : ÀÌ°Ô ¿Ö ÇÊ¿äÇÑÁö È®ÀÎ
+            else // TODO : ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
             {
                 PlayRoomUI playRoom = new PlayRoomUI();
                 playRoom.SetRoomInfo(room);
@@ -46,7 +46,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         PhotonNetwork.JoinLobby();
     }
 
-    public override void OnDisconnected(DisconnectCause cause) // ConnectUsingSettings()¿¡ ¿¬°áÀÌ ²÷°åÀ» ¶§ È£ÃâµÇ´Â ÄÝ¹éÇÔ¼ö´Ù.
+    public override void OnDisconnected(DisconnectCause cause) // ConnectUsingSettings()ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½Ç´ï¿½ ï¿½Ý¹ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½.
     {
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -77,56 +77,96 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
 
     public override void OnJoinedRoom()
     {
-        Peekaboo_WaitingRoomUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+        PKB_MainUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+        PKB_MainUIManager.Instance.PlayRoomUI.SetRoomInfo(roomOptions);
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ / ï¿½Ö´ï¿½ï¿½Î¿ï¿½ : {PhotonNetwork.CurrentRoom.PlayerCount} / {PhotonNetwork.CurrentRoom.MaxPlayers}");
+                    // Debug.Log($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ 1 : {NowRooms[1]}");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        // ºó ¹æÀÌ ¾øÀ½, Âü¿©°¡´É ¹æ ¾øÀ½ ÆË¾÷
-        // [To Do] db¿¡¼­ ÅØ½ºÆ® ¹Þ¾Æ¿À±â
-        Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("¾Ë¸²", "ÇöÀç Âü¿©°¡´ÉÇÑ ¹æÀÌ ¾ø½À´Ï´Ù.\nÀá½Ã ÈÄ ´Ù½Ã ½ÃµµÇØÁÖ¼¼¿ä.", "È®ÀÎ");
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾ï¿½
+        // [To Do] dbï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
+        Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("ï¿½Ë¸ï¿½", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\nï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.", "È®ï¿½ï¿½");
 
-        switch (returnCode) // TODO : ³ªÁß¿¡ µ¥ÀÌÅÍ·Î »©¾ßÇÔ
+        switch (returnCode) // TODO : ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
             case -1:
-                // ¼­¹ö¿¡ ¹®Á¦°¡ ¹ß»ýÇß½À´Ï´Ù. Àç»ý»êÀ» ½ÃµµÇÏ°í Exit Game¿¡ ¹®ÀÇÇÏ½Ê½Ã¿À.
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("¾Ë¸²", "¼­¹ö¿¡ ¹®Á¦°¡ ¹ß»ýÇß½À´Ï´Ù. ´Ù½Ã ½ÃµµÇØ ÁÖ¼¼¿ä", "È®ÀÎ");
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ï¿½Ï°ï¿½ Exit Gameï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ê½Ã¿ï¿½.
+                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("ï¿½Ë¸ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½. ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½", "È®ï¿½ï¿½");
                 break;
             case 32765:
-                // °ÔÀÓÀÌ ²Ë Ã¡½À´Ï´Ù. Âü°¡°¡ ¿Ï·áµÇ±â Àü¿¡ ÀÏºÎ ÇÃ·¹ÀÌ¾î°¡ ¹æ¿¡ Âü°¡ÇÑ °æ¿ì¿¡´Â °ÅÀÇ ¹ß»ýÇÏÁö ¾Ê½À´Ï´Ù.
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("¾Ë¸²", "°ÔÀÓÀÌ ²Ë Ã¡½À´Ï´Ù.", "È®ÀÎ");
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ïºï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½æ¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.
+                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("ï¿½Ë¸ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½Ï´ï¿½.", "È®ï¿½ï¿½");
                 break;
             case 32764:
-                // °ÔÀÓÀÌ Á¾·áµÇ¾î Âü°¡ÇÒ ¼ö ¾ø½À´Ï´Ù. ´Ù¸¥ °ÔÀÓ¿¡ Âü¿©ÇÏ¼¼¿ä.
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("¾Ë¸²", "°ÔÀÓÀÌ Á¾·áµÇ¾î Âü°¡ÇÒ ¼ö ¾ø½À´Ï´Ù. ´Ù¸¥ °ÔÀÓ¿¡ Âü¿©ÇÏ¼¼¿ä.", "È®ÀÎ");
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.
+                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("ï¿½Ë¸ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.", "È®ï¿½ï¿½");
                 break;
             case 32760:
-                // ¹«ÀÛÀ§ ¸ÅÄ¡¸ÞÀÌÅ·Àº ´ÝÈ÷°Å³ª ²Ë Â÷Áö ¾ÊÀº ¹æÀÌ ÀÖ´Â °æ¿ì¿¡¸¸ ¼º°øÇÕ´Ï´Ù. ¸î ÃÊ ÈÄ¿¡ ¹Ýº¹ÇÏ°Å³ª »õ ¹æÀ» ¸¸µå½Ê½Ã¿À.
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("¾Ë¸²", "¹æ¿¡ µé¾î°¥ ¼ö ¾ø½À´Ï´Ù.", "È®ÀÎ");
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½Å·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½Ä¿ï¿½ ï¿½Ýºï¿½ï¿½Ï°Å³ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ê½Ã¿ï¿½.
+                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("ï¿½Ë¸ï¿½", "ï¿½æ¿¡ ï¿½ï¿½î°¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.", "È®ï¿½ï¿½");
                 break;
             default:
-                // ¾Æ¹«Æ° ¹æ¿¡ Âü°¡ÇÏÁö ¸ø Çß´Ù.
-                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("¾Ë¸²", "¿À·ù°¡ ¹ß»ýÇß½À´Ï´Ù.", "È®ÀÎ");
+                // ï¿½Æ¹ï¿½Æ° ï¿½æ¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ß´ï¿½.
+                Peekaboo_WaitingRoomUIManager.Instance.NoticePopupUI.SetNoticePopup("ï¿½Ë¸ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.", "È®ï¿½ï¿½");
                 break;
         }
 
-        Debug.Log("Á¶ÀÎ·£´ý·ë ½ÇÆÐ ¸®ÅÏ ÄÚµå : " +returnCode);
+        Debug.Log("ï¿½ï¿½ï¿½Î·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ : " +returnCode);
     }
 
+    public void CreateRoom(string _password)
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            roomOptions = new RoomOptions()
+            {
+                IsOpen = true,
+                IsVisible = true,
+                MaxPlayers = 14
+            };
+
+            string roomName = SetRoomName();
+            // bool isInRoom = false;
+
+            roomOptions.CustomRoomProperties = new Hashtable()
+        {
+            { "RoomName", roomName },
+            { "Password", _password },
+            // { "IsInRoom",  isInRoom } ï¿½ï¿½ï¿½ï¿½ Æ¨ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
+        };
+
+            roomOptions.CustomRoomPropertiesForLobby = new string[]
+            {
+            "RoomName",
+            "Password",
+                // "IsInRoom"
+            };
+
+            PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
+        }
+        else
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
+    }
+
+    [PunRPC]
     public string SetRoomName() // TODO : 
     {
         for (int i = 1; i <= 9999; i++)
         {
-            if(isEmptyRoomList[i]) // ºó¹æ
+            if(isEmptyRoomList[i]) // ï¿½ï¿½ï¿½
             {
                 isEmptyRoomList[i] = false;
                 roomNameList.Add(new PlayRoomUI());
                 
-                return System.String.Format("{0:0000}", i);
+                return i.ToString();
             }
             else
             {
-                return System.String.Format("{0:0000}", i);
+                return i.ToString();
             }
         }
         return "0";

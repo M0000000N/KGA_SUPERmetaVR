@@ -7,7 +7,7 @@ using TMPro;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class WaitingRoomUI : MonoBehaviourPunCallbacks
+public class PKB_MainUI : MonoBehaviourPunCallbacks
 {
     [Header("DB에서 가져올 것")]
     [SerializeField] TextMeshProUGUI coin;
@@ -24,6 +24,9 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
     [Header("방 찾기")]
     [SerializeField] GameObject findingRoomImage;
 
+    [Header("커스텀 캐릭터")]
+    [SerializeField] GameObject[] customCharacter;
+
     private void Awake()
     {
         coin.text = GameManager.Instance.PlayerData.Coin.ToString();
@@ -36,29 +39,48 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
         exitButton.onClick.AddListener(OnClickExitButton);
         findRoomButton.onClick.AddListener(OnClickFindRoomButton);
         customizingButton.onClick.AddListener(OnClickCustomizingButton);
-        randomJoinButton.onClick.AddListener(OnClickRandomJoinButton);
         createRoomButton.onClick.AddListener(OnClickCreateRoomButton);
+        randomJoinButton.onClick.AddListener(OnClickRandomJoinButton);
         settingButton.onClick.AddListener(OnClickSettingButton);
+
+        exitButton.interactable = false;
+        findRoomButton.interactable = false;
+        customizingButton.interactable = false;
+        randomJoinButton.interactable = false;
+        createRoomButton.interactable = false;
+        settingButton.interactable = false;
+        RefreshUI();
+
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        exitButton.interactable = true;
+        findRoomButton.interactable = true;
+        customizingButton.interactable = true;
+        randomJoinButton.interactable = true;
+        createRoomButton.interactable = true;
+        settingButton.interactable = true;
     }
 
     public void OnClickExitButton()
     {
-        Peekaboo_WaitingRoomUIManager.Instance.ExitUI.gameObject.SetActive(true);
+        PKB_MainUIManager.Instance.ExitUI.gameObject.SetActive(true);
     }
 
     public void OnClickFindRoomButton()
     {
-        Peekaboo_WaitingRoomUIManager.Instance.FindRoomUI.gameObject.SetActive(true);
+        PKB_MainUIManager.Instance.FindRoomUI.gameObject.SetActive(true);
     }
 
     public void OnClickCustomizingButton()
     {
-        Peekaboo_WaitingRoomUIManager.Instance.CustomizingUI.gameObject.SetActive(true);
+        PKB_MainUIManager.Instance.CustomizingUI.gameObject.SetActive(true);
     }
 
     public void OnClickCreateRoomButton()
     {
-        Peekaboo_WaitingRoomUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
+        PKB_MainUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
     }
 
     public void OnClickRandomJoinButton()
@@ -68,12 +90,10 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected)
         {
             Hashtable myHashtable = new Hashtable() {
-            { "isPrivate", false },
-            { "password", null } };
-            PhotonNetwork.JoinRandomRoom(myHashtable, 0);
+            { "Password", null } };
+            PhotonNetwork.JoinRandomRoom(myHashtable, (byte)14);
 
             findingRoomImage.SetActive(false);
-            gameObject.SetActive(false);
         }
         else
         {
@@ -83,6 +103,20 @@ public class WaitingRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickSettingButton()
     {
-        Peekaboo_WaitingRoomUIManager.Instance.SettingUI.gameObject.SetActive(true);
+        PKB_MainUIManager.Instance.SettingUI.gameObject.SetActive(true);
+    }
+
+    public void ChangeCustomCharacter()
+    {
+        for (int i = 0; i < customCharacter.Length; i++)
+        {
+            customCharacter[i].SetActive(false);
+        }
+        customCharacter[GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter].SetActive(true);
+    }
+
+    public void RefreshUI()
+    {
+        ChangeCustomCharacter();
     }
 }
