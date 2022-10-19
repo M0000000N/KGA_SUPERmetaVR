@@ -49,11 +49,8 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         randomJoinButton.interactable = false;
         createRoomButton.interactable = false;
         settingButton.interactable = false;
-    }
-
-    private void OnEnable()
-    {
         RefreshUI();
+
     }
 
     public override void OnConnectedToMaster()
