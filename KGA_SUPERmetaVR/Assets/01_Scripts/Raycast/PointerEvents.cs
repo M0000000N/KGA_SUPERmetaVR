@@ -25,10 +25,9 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private PlayMove_Photon playermove; 
 
     private MeshRenderer meshRenderer = null;
-
     private void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer = GetComponent<MeshRenderer>();      
     }
     private void Start()
     {
@@ -37,7 +36,7 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData enventData)
     {
-        meshRenderer.material.color = enterColor;      
+        meshRenderer.material.color = enterColor;
     }
 
     public void OnPointerExit(PointerEventData enventData)
@@ -63,7 +62,7 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void PopPeekaboo() //rpc
     {
         //photonView.RPC("")
-        Peekaboo.SetActive(true);
+        //Peekaboo.SetActive(true);
     }
     public void CallPeekaboo()
     {
