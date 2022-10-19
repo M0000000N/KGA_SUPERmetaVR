@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using Photon.Pun;
 
 public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerClickHandler
 {
@@ -58,9 +59,10 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
        
     }
  
-    public void PopPeekaboo()
+    public void PopPeekaboo() //rpc
     {
-        Peekaboo.SetActive(true);
+        //photonView.RPC("")
+        //Peekaboo.SetActive(true);
     }
     public void CallPeekaboo()
     {
