@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 {
@@ -24,7 +24,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     private Stamina stamina;
 
     [SerializeField]
-    private PointerEvents pointerEvents; 
+    private PointerEvents pointerEvents;
 
     [SerializeField]
     private Transform myCharacter;
@@ -32,17 +32,18 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     [SerializeField]
     private LayserPointer layser;
 
+    [SerializeField]
+    private GameObject rayPointer;
+
     private bool isRun = false;
 
-    
+    //플레이어 이동
     private float dirX = 0;
     private float dirZ = 0;
 
-
+    // 서버에서 받은 데이터를 저장할 변수 
     Vector3 setPos;
     Quaternion setRot;
-
-    public int score;
 
     private void Start()
     {
@@ -57,16 +58,13 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     }
     public void Move()
     {
+        if (!photonView.IsMine)
+            return;
+
         if (photonView.IsMine)
         {
-            dirX = 0; 
-            dirZ = 0; 
-
-            if(Input.GetKey(KeyCode.Space)) 
-            {
-                Vector3 moveDir = new Vector3(dirX * applySpeed, 0,0);
-                transform.Translate(moveDir * Time.deltaTime);
-            }
+            dirX = 0; // 좌우
+            dirZ = 0; // 상하
 
             if (OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
             {
@@ -94,7 +92,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
                         dirZ = -1;
                 }
 
-        
+                // 이동방향 설정 후 이동
                 Vector3 moveDir = new Vector3(dirX * applySpeed, 0, dirZ * applySpeed);
                 transform.Translate(moveDir * Time.deltaTime);
                 if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) && (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger)))
@@ -102,16 +100,16 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
                     Attack();
                 }
             }
-        }         
+        }
     }
 
     public void TryRun()
     {
-        if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0) 
-        Running();
-      
-        if(OVRInput.GetUp(OVRInput.RawButton.B) || stamina.GetProgress() == 0)
-        RunningCancle();
+        if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0)
+            Running();
+
+        if (!OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() >= 0)
+            RunningCancle();
     }
     public void Running()
     {
@@ -136,13 +134,16 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     }
 
+    // 데이터 동기화를 위한 데이터 전송 및 수신 기능 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        // 데이터 전송 상황
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
             stream.SendNext(myCharacter.rotation);
         }
+        // 데이터를 수신하는 상황
         else if (stream.IsReading)
         {
             setPos = (Vector3)stream.ReceiveNext();
@@ -152,15 +153,10 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     public void CullingRay()
     {
-        if(!photonView.IsMine)
+        if (!photonView.IsMine)
         {
-            rayPointer.SetActive(false);    
+            rayPointer.SetActive(false);
         }
     }
 
 }
-
-
-
-
-
