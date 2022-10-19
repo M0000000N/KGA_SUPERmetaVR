@@ -58,7 +58,7 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 
         if (roomNameInput.text.Contains(LobbyManager.Instance.NowRooms[int.Parse(roomNameInput.text) - 1].CustomProperties["RoomName"].ToString()))
         {
-            if (null == LobbyManager.Instance.NowRooms[int.Parse(roomNameInput.text) - 1].CustomProperties["Password"].ToString())
+            if (null == LobbyManager.Instance.NowRooms[int.Parse(roomNameInput.text) - 1].CustomProperties["Password"])
             {
                 // publicRoom
                 PhotonNetwork.JoinRoom(roomNameInput.text);
