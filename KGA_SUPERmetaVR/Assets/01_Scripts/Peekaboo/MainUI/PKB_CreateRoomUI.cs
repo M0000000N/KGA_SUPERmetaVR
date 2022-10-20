@@ -6,6 +6,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
+
 public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
 {
     [Header("¹öÆ°")]
@@ -95,4 +96,7 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
     {
         gameObject.SetActive(false);
     }
+
 }
+
+

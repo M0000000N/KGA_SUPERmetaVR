@@ -1,3 +1,4 @@
+#define 호스트판단
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,14 +6,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
+public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks, IPunObservable
 {
     public RoomInfo RoomInfo { get; private set; }
+    public int MinPlayercount;
 
     [Header("PlayRoom")]
     [SerializeField] TextMeshProUGUI RoomNameText;
-
+    [SerializeField] Button gameStartButton;
+    private TextMeshProUGUI gameStartButtonText;
     [SerializeField] Button exitRoomButton;
     [SerializeField] TextMeshProUGUI RoomTypeText;
 
@@ -21,15 +25,121 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] Button YesExitRoomButton;
     [SerializeField] Button NoExitRoomButton;
 
-    [SerializeField] PKB_PlayerListingMenu playerListingMenu;
+    [Header("PlayerList")]
+    [SerializeField] PKB_PlayerPanel playerPanel;
+
+    bool playerIsReady;
+    bool hostIsReady;
+    bool isGameStart;
 
     private void Awake()
     {
+        gameStartButton.onClick.AddListener(OnClickStartButton);
         exitRoomButton.onClick.AddListener(OnClickExitButton);
         exitRoomUI.gameObject.SetActive(false);
         YesExitRoomButton.onClick.AddListener(OnClickYesExitRoomButton);
         NoExitRoomButton.onClick.AddListener(OnClickNoExitRoomButton);
-        playerListingMenu.gameObject.SetActive(false);
+
+        gameStartButtonText = gameStartButton.GetComponentInChildren<TextMeshProUGUI>();
+    }
+    private void Start()
+    {
+        playerIsReady = false;
+        hostIsReady = false;
+        isGameStart = false;
+
+        if (PhotonNetwork.IsConnected)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                gameStartButtonText.text = "게임시작";
+            }
+            else
+            {
+                gameStartButtonText.text = "준비";
+            }
+        }
+        else
+        {
+            gameStartButtonText.text = "대기중";
+
+        }
+    }
+    private void Update()
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                gameStartButtonText.text = "게임시작";
+
+                if (PhotonNetwork.PlayerList.Length > MinPlayercount) // TODO : 전부 준비완료가 됐는지?
+                {
+                    hostIsReady = true;
+                }
+                else
+                {
+                    hostIsReady = false;
+                }
+                // playerPanel.kickButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                gameStartButton.interactable = true;
+                // playerPanel.kickButton.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            gameStartButton.interactable = false;
+        }
+
+        if (isGameStart)
+        {
+        }
+    }
+    
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 직렬화 -> 서버에게 데이터를 보내는 것
+        if (stream.IsWriting)
+        {
+            stream.SendNext(isGameStart);
+        }
+        else // 역직렬화 -> 서버로부터 데이터를 받은 것
+        {
+            isGameStart = (bool)stream.ReceiveNext();
+        }
+    }
+
+    [PunRPC]
+    public void OnClickStartButton()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (hostIsReady)
+            {
+                isGameStart = true;
+            PhotonNetwork.LoadLevel("Peekaboo_InGame");
+            }
+            else
+            {
+                PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "모든 플레이어가 준비완료 상태가 아닙니다.", "확인");
+            }
+        }
+        else
+        {
+            if (playerIsReady)
+            {
+                gameStartButtonText.text = "준비";
+                playerIsReady = false;
+            }
+            else
+            {
+                gameStartButtonText.text = "준비완료";
+                playerIsReady = true;
+            }
+        }
     }
 
     public void SetRoomInfo(RoomOptions _roomOptions)
@@ -46,7 +156,8 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
         {
             RoomTypeText.text = "비밀방";
         }
-        playerListingMenu.gameObject.SetActive(true);
+
+        // 게임시작버튼
     }
 
     public void OnClickExitButton()
@@ -57,6 +168,7 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
     public void OnClickYesExitRoomButton()
     {
         PhotonNetwork.LeaveRoom();
+
         exitRoomUI.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
@@ -65,6 +177,7 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
     {
         exitRoomUI.gameObject.SetActive(false);
     }
+
 #if 추방
     public void kickPlayerButton()
     {
