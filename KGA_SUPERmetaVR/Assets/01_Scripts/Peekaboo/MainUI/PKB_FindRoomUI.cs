@@ -75,14 +75,14 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
             {
                 // TODO : 나중에 데이터로 빼야함
                 PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
-                    "방 번호가 틀렸습니다.\n다시 한번 확인해주세요.", "확인");
+                "존재하지 않는 방 번호입니다.\n다시 한번 확인해주세요.", "확인");
             }
         }
         else // 없는 방
         {
             // TODO : 나중에 데이터로 빼야함
             PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
-                "존재하는 방이 없습니다.\n방을 만들어주세요.", "확인");
+                "존재하지 않는 방 번호입니다.\n다시 한번 확인해주세요.", "확인");
         }
         roomNameInput.text = "";
     }
@@ -97,7 +97,7 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
         {
             // TODO : 나중에 데이터로 빼야함
             PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
-                "비밀번호가 일치하지 않습니다.\n비밀번호는 1자리 최대 8자리\n숫자만 사용 가능합니다.", "확인");
+                "비밀번호가 일치하지 않습니다.\n다시 한번 확인해주세요.", "확인");
         }
         passwordInput.text = "";
         SetPasswordInputUI(false);
@@ -113,5 +113,4 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
     {
         passwordUI.SetActive(_isActive);
     }
-
 }
