@@ -45,6 +45,7 @@ public class LayserPointer : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.forward);
 
         Physics.Raycast(ray, out hit, lineLength);
+        Debug.Log(hit.transform.tag); 
         return hit;
     }
 
