@@ -36,7 +36,6 @@ public class PeekabooNPCDieState : PeekabooCharacterState
     private IEnumerator DieCoroutine(float _time)
     {
         Color myColor = myRenderer.material.color;
-        myRenderer.material = fadeMaterial;
         float decreaseValue = 1 / _time;
         while (0 < myRenderer.material.color.a)
         {
@@ -45,21 +44,28 @@ public class PeekabooNPCDieState : PeekabooCharacterState
 
             yield return null;
         }
-        Debug.Log("리스폰중");
-        StartCoroutine(RespawnCoroutine(5f));
-        //playerNavMeshAgent.enabled = false;
-        //PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);
-        //transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, 1, transform.position.z), 5f);
-        //playerNavMeshAgent.enabled = true;
+        Debug.Log("죽는중");
+        StartCoroutine(RespawnCoroutine(3f));
 
     }
-    
-    private IEnumerator RespawnCoroutine (float _time)
+
+    private IEnumerator RespawnCoroutine(float _time)
     {
-        playerNavMeshAgent.enabled = false;
-        PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);
-        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, 1, transform.position.z), _time);
         yield return new WaitForSeconds(_time);
+        Debug.Log("리스폰중");
+        transform.position = PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);
+        Debug.Log($"리스폰 위치 {transform.position}");
+        playerNavMeshAgent.enabled = false;
+        transform.position += Vector3.up * 15f;
+        Color myColor = myRenderer.material.color;
+        myColor.a = 255f;
+        myRenderer.material.color = myColor;
+        while (transform.position.y > 1.2f)
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, 1, transform.position.z), 0.01f);
+            yield return new WaitForSeconds(0.01f);
+        }
+        Debug.Log("땅에 도착함");
         playerNavMeshAgent.enabled = true;
     }
 }

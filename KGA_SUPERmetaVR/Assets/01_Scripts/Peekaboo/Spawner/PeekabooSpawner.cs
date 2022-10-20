@@ -61,7 +61,7 @@ public class PeekabooSpawner : MonoBehaviour
        
     }
 
-    public void RespawnNPC(Vector3 _NPCposition)
+    public Vector3 RespawnNPC(Vector3 _NPCposition)
     {
         for (int i = 0; i < PeekabooGameManager.Instance.CreateMap.MapSize; i++)
         {
@@ -78,13 +78,13 @@ public class PeekabooSpawner : MonoBehaviour
                         //transform.position = spawnPosition;
                         //var monster = PeekabooEnemyObjectPool.GetObject(transform);
                         _NPCposition = GetRandomPointOnNavMesh(PeekabooGameManager.Instance.CreateMap.MapData[respawnNPCIndex].MapPosition);
-                        _NPCposition += Vector3.up * 15f;   
-                        break;
+                        Debug.Log($"리스폰 지정 위치 {_NPCposition}");
+                        return _NPCposition;
                     }
                 }
-
             }
         }
+        return _NPCposition;
     }
 
     private Vector3 GetRandomPointOnNavMesh(Vector3 _center)
