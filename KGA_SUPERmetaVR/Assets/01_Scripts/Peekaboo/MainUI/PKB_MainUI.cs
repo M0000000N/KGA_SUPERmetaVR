@@ -24,6 +24,9 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
     [Header("방 찾기")]
     [SerializeField] GameObject findingRoomImage;
 
+    [Header("커스텀 캐릭터")]
+    [SerializeField] GameObject[] customCharacter;
+
     private void Awake()
     {
         coin.text = GameManager.Instance.PlayerData.Coin.ToString();
@@ -46,7 +49,10 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         randomJoinButton.interactable = false;
         createRoomButton.interactable = false;
         settingButton.interactable = false;
+        RefreshUI();
+
     }
+
     public override void OnConnectedToMaster()
     {
         exitButton.interactable = true;
@@ -98,5 +104,19 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
     public void OnClickSettingButton()
     {
         PKB_MainUIManager.Instance.SettingUI.gameObject.SetActive(true);
+    }
+
+    public void ChangeCustomCharacter()
+    {
+        for (int i = 0; i < customCharacter.Length; i++)
+        {
+            customCharacter[i].SetActive(false);
+        }
+        customCharacter[GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter].SetActive(true);
+    }
+
+    public void RefreshUI()
+    {
+        ChangeCustomCharacter();
     }
 }
