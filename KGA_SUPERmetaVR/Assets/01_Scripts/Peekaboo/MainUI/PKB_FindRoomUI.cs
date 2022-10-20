@@ -58,7 +58,7 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 
         if (roomNameInput.text.Contains(LobbyManager.Instance.NowRooms[int.Parse(roomNameInput.text) - 1].CustomProperties["RoomName"].ToString()))
         {
-            if (null == LobbyManager.Instance.NowRooms[int.Parse(roomNameInput.text) - 1].CustomProperties["Password"].ToString())
+            if (null == LobbyManager.Instance.NowRooms[int.Parse(roomNameInput.text) - 1].CustomProperties["Password"])
             {
                 // publicRoom
                 PhotonNetwork.JoinRoom(roomNameInput.text);
@@ -72,6 +72,7 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
         }
         else // 없는 방
         {
+            roomNameInput.text = "";
             // TODO : 나중에 데이터로 빼야함
             PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
                 "존재하지 않는 방 번호입니다.\n다시 한번 확인해주세요.", "확인");
@@ -94,6 +95,7 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickCancleButton()
     {
+        roomNameInput.text = "";
         SetPasswordInputUI(false);
     }
 

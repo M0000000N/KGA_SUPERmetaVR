@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PKB_MainUIManager : SingletonBehaviour<PKB_MainUIManager>
+public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
 {
     public PKB_CreateRoomUI CreateRoomUI;
     public PKB_CustomizingUI CustomizingUI;
