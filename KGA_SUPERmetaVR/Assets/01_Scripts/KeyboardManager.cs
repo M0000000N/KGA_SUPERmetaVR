@@ -11,6 +11,17 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
     [SerializeField] GameObject qwerty;
     [SerializeField] GameObject numpad;
 
+    [SerializeField] int type;
+
+    private void Awake()
+    {
+        TMP_InputField[] inputFields = this.transform.parent.GetComponentsInChildren<TMP_InputField>();
+        for (int i = 0; i < inputFields.Length; i++)
+        {
+            inputFields[i].onSelect.AddListener(delegate { OpenKeyboard(type); });
+        }
+    }
+
     public void OpenKeyboard(int _type)
     {
         CloseKeyboard();
