@@ -102,6 +102,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    [PunRPC]
     private void SpawnPlayer()
     {
         int randomPlayerIndex = Random.Range(0, mapSize);
@@ -173,6 +174,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    [PunRPC]
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
