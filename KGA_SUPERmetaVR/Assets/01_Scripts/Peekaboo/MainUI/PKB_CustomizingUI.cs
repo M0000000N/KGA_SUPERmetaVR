@@ -81,7 +81,9 @@ public class PKB_CustomizingUI : MonoBehaviour
     {
         UnityEngine.Debug.Log("_characterValue : " + _characterValue);
         GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter = _characterValue;
+        PKB_MainUIManager.Instance.MainUI.RefreshUI();
         RefreshUI();
+        PeekabooDataBase.Instance.SaveSelectCharater();
     }
 
     public void RefreshUI()

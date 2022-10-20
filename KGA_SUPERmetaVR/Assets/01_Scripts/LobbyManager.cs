@@ -63,7 +63,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     {
         PKB_MainUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
         PKB_MainUIManager.Instance.PlayRoomUI.SetRoomInfo(roomOptions);
-                    // Debug.Log($"들어온 방 인덱스 0 : {NowRooms[0]}");
+        Debug.Log($"현재인원 / 최대인원 : {PhotonNetwork.CurrentRoom.PlayerCount} / {PhotonNetwork.CurrentRoom.MaxPlayers}");
                     // Debug.Log($"들어온 방 인덱스 1 : {NowRooms[1]}");
     }
 
@@ -132,6 +132,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         }
     }
 
+    [PunRPC]
     public string SetRoomName() // TODO : 
     {
         for (int i = 1; i <= 10000; i++)
@@ -145,11 +146,11 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
                 isEmptyRoomList[i] = false;
                 roomNameList.Add(new PKB_PlayRoomUI());
                 
-                return System.String.Format("{0:0000}", i);
+                return i.ToString();
             }
             else
             {
-                return System.String.Format("{0:0000}", i);
+                return i.ToString();
             }
         }
         return "0";
