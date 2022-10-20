@@ -10,22 +10,17 @@ public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
 
     [SerializeField]
     private float gameTimer;
-
     public float GameTimer { get { return gameTimer; } }
 
     private float survivalTime;
-
     public float SurvivalTime { get { return survivalTime; } }
-
-
-    private void Start()
-    {
-
-    }
 
     private void Update()
     {
-        gameTimer -= Time.deltaTime;
+        if (gameTimer >= 0 && PeekabooGameManager.Instance.IsGameOver == false)
+        {
+            gameTimer -= Time.deltaTime;
+        }
         if (PeekabooGameManager.Instance.IsGameOver == false)
         {
             survivalTime += Time.deltaTime;

@@ -18,10 +18,6 @@ public class MAPDATA
 
 public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
 {
-    //[Header("맵 프리팹")]
-    //[SerializeField]
-    //private GameObject mapPrefab;
-
     [Header("스포너 스크립트")]
     [SerializeField]
     private PeekabooSpawner spawner;
@@ -55,7 +51,6 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
     [Header("처음 NPC 생성시 캐릭터간의 거리(값이 크면 오류 발생)")]
     [SerializeField]
     private float distanceBetweenCharactersCreated;
-
     public float DistanceBetweenCharactersCreated { get { return distanceBetweenCharactersCreated; } }
 
     private float mapLength;
@@ -67,9 +62,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
     private int maxNumberOfNPCs;
 
     private Dictionary<int, MAPDATA> mapData;
-
     public Dictionary<int, MAPDATA> MapData { get { return mapData; } }
-
 
     private void Awake()
     {
@@ -84,11 +77,6 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         mapSize = mapSizeX * mapSizeZ;
         maxNumberOfNPCs = numberOfNPCsProportionalToTheNumberOfPlayers * numberOfPlayers;
         CreateMap();
-        //테스트용
-        //for (int i = 0; i < numberOfPlayers; i++)
-        //{
-        //    SpawnPlayer();
-        //}
         SpawnPlayer();
         SpawnNPC();
     }
@@ -120,6 +108,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
 
         float randomPositonX = Random.Range(mapData[randomPlayerIndex].MapPosition.x - MapLength / 2, mapData[randomPlayerIndex].MapPosition.x + MapLength / 2);
         float randomPositonZ = Random.Range(mapData[randomPlayerIndex].MapPosition.z - MapLength / 2, mapData[randomPlayerIndex].MapPosition.z + MapLength / 2);
+
         Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
         NavMeshHit hit;
 
@@ -149,7 +138,6 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
                 GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
                 --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
             }
-            
         }
     }
 
@@ -162,7 +150,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (maxNumberOfNPCs > 0 && mapindex < mapSize)
                 {
-                    int numberOfRandomNPCSpawn = Random.Range(0, (maximumNumberOfCharactersInZone + 1 + (mapData[mapindex].NumberOfPlayersCreatedInZone - numberOfPlayersCreatedInZone) - mapData[mapindex].NumberOfNPCPlacedInZone) / 2);
+                    int numberOfRandomNPCSpawn = Random.Range(0, (maximumNumberOfCharactersInZone + 1 + (mapData[mapindex].NumberOfPlayersCreatedInZone - numberOfPlayersCreatedInZone) - mapData[mapindex].NumberOfNPCPlacedInZone) / 4);
                     if (maxNumberOfNPCs - numberOfRandomNPCSpawn < 0)
                     {
                         numberOfRandomNPCSpawn = maxNumberOfNPCs;

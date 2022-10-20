@@ -5,29 +5,12 @@ using UnityEngine.AI;
 
 public class PeekabooSpawner : MonoBehaviour
 {
-    private NavMeshAgent navMeshAgent;
-    // 테스트용 삭제
-    private float elsptime;
-    //
 
+    [SerializeField]
+    private PeekabooCreateEnemy peekabooEnemyCreate;
 
-    private void Update()
-    {
-        //// 리스폰 테스트용 삭제
-        //elsptime += Time.deltaTime;
-        //if (elsptime > 3f)
-        //{
-        //    float x = Random.Range(-10f, 30f);
-        //    float z = Random.Range(-10f, 70f);
-        //    Vector3 npcPosition = new Vector3(x, 0, z);
-        //    RespawnNPC(npcPosition);
-        //    elsptime = -3000f;
-        //}
-        ////
-    }
     public void FirstSpawn(Vector3 _mapPosition, int _randomSpawnNPC)
     {
-        //navMeshAgent = GetComponentInChildren<NavMeshAgent>();
         for (int i = 0; i < _randomSpawnNPC; i++)
         {
             Spawn(_mapPosition); // 풀링으로 NPC 여러개를 만들어서 배치하는 녀석을 참조갛고 싶은거임 ㅇㅋ? 
@@ -55,29 +38,25 @@ public class PeekabooSpawner : MonoBehaviour
         }
         else
         {
-            var monster = PeekabooEnemyObjectPool.GetObject(transform);
+            GameObject Enemy = peekabooEnemyCreate.GetObject(transform);
             transform.position = new Vector3(0f, 0f, 0f);
         }
-       
     }
 
     public Vector3 RespawnNPC(Vector3 _NPCposition)
     {
+        PeekabooCreateMap createMap = PeekabooGameManager.Instance.CreateMap;
+        float mapLength = createMap.MapLength;
         for (int i = 0; i < PeekabooGameManager.Instance.CreateMap.MapSize; i++)
         {
-            if (PeekabooGameManager.Instance.CreateMap.MapData[i].MapPosition.x - PeekabooGameManager.Instance.CreateMap.MapLength / 2 < _NPCposition.x && PeekabooGameManager.Instance.CreateMap.MapData[i].MapPosition.x + PeekabooGameManager.Instance.CreateMap.MapLength / 2 > _NPCposition.x && PeekabooGameManager.Instance.CreateMap.MapData[i].MapPosition.z - PeekabooGameManager.Instance.CreateMap.MapLength / 2 < _NPCposition.z && PeekabooGameManager.Instance.CreateMap.MapData[i].MapPosition.z + PeekabooGameManager.Instance.CreateMap.MapLength / 2 > _NPCposition.z)
+            if (createMap.MapData[i].MapPosition.x - mapLength / 2 < _NPCposition.x && createMap.MapData[i].MapPosition.x + mapLength / 2 > _NPCposition.x && createMap.MapData[i].MapPosition.z - mapLength / 2 < _NPCposition.z && createMap.MapData[i].MapPosition.z + mapLength / 2 > _NPCposition.z)
             {
                 while (true)
                 {
-                    int respawnNPCIndex = Random.Range(0, PeekabooGameManager.Instance.CreateMap.MapSize);
+                    int respawnNPCIndex = Random.Range(0, createMap.MapSize);
                     if (respawnNPCIndex != i)
                     {
-                        Debug.Log("리스폰되는중");
-                        //Vector3 spawnPosition = GetRandomPointOnNavMesh(PeekabooGameManager.Instance.CreateMap.MapData[respawnNPCIndex].MapPosition);
-                        //spawnPosition += Vector3.up * 20f;
-                        //transform.position = spawnPosition;
-                        //var monster = PeekabooEnemyObjectPool.GetObject(transform);
-                        _NPCposition = GetRandomPointOnNavMesh(PeekabooGameManager.Instance.CreateMap.MapData[respawnNPCIndex].MapPosition);
+                        _NPCposition = GetRandomPointOnNavMesh(createMap.MapData[respawnNPCIndex].MapPosition);
                         Debug.Log($"리스폰 지정 위치 {_NPCposition}");
                         return _NPCposition;
                     }
@@ -89,14 +68,14 @@ public class PeekabooSpawner : MonoBehaviour
 
     private Vector3 GetRandomPointOnNavMesh(Vector3 _center)
     {
-        float randomPositionX = Random.Range(_center.x - (PeekabooGameManager.Instance.CreateMap.MapLength / 2), _center.x + (PeekabooGameManager.Instance.CreateMap.MapLength / 2));
-        float randomPositionZ = Random.Range(_center.z - (PeekabooGameManager.Instance.CreateMap.MapLength / 2), _center.z + (PeekabooGameManager.Instance.CreateMap.MapLength / 2));
+        float mapLength = PeekabooGameManager.Instance.CreateMap.MapLength;
+        float randomPositionX = Random.Range(_center.x - (mapLength / 2), _center.x + (mapLength / 2));
+        float randomPositionZ = Random.Range(_center.z - (mapLength / 2), _center.z + (mapLength / 2));
         Vector3 randomPosition = new Vector3(randomPositionX, _center.y, randomPositionZ);
 
         NavMeshHit hit;
 
         NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
-
 
         return hit.position;
     }
