@@ -90,7 +90,8 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
                 }
 
                 // 이동방향 설정 후 이동
-                Vector3 moveDir = new Vector3(dirX * applySpeed, 0, dirZ * applySpeed);
+                Vector3 moveDirection = (transform.forward * dirZ) + (transform.right * dirX);
+                Vector3 moveDir = moveDirection * applySpeed;
                 transform.Translate(moveDir * Time.deltaTime);
             }
         }

@@ -39,7 +39,6 @@ public class PeekabooNPCMove : MonoBehaviour
 
     public void SetNextDestination()
     {
-        Debug.Log("다음 목적지 설정!");
         float distance = Random.Range(minDistance, maxDistance);
         Vector3 nextDestination = transform.position + Random.insideUnitSphere * distance;
         myAgent.destination = nextDestination;

@@ -68,15 +68,15 @@ public class PeekabooNPC : PeekabooCharacter
 
     private void OnTriggerStay(Collider _other)
     {
-        if (PhotonNetwork.IsMasterClient && IsInteracting == false)
+        if (PhotonNetwork.IsMasterClient && IsLookingSomeone == false && IsInteracting == false)
         {
-            if (_other.tag == "PC" || _other.tag == "NPC")
+            if (_other.tag == "Player" || _other.tag == "Enemy")
             {
                 if (CheckMyFieldOfView(_other.transform.position))
                 {
                     IsLookingSomeone = true;
                     LookingTarget = _other.gameObject;
-                    myFSM.ChangeState(PEEKABOOCHARACTERSTATE.ROTATETOSOMEONE);
+                    myFSM.ChangeState(PEEKABOOCHARACTERSTATE.LOOKINGSOMEONE);
                 }
             }
         }

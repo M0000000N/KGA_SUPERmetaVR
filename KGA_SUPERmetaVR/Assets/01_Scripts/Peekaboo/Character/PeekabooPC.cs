@@ -28,15 +28,15 @@ public class PeekabooPC : PeekabooCharacter
 
     private void OnTriggerStay(Collider _other)
     {
-        if (photonView.IsMine && IsInteracting == false)
+        if (photonView.IsMine && IsLookingSomeone == false && IsInteracting == false)
         {
-            if (_other.tag == "PC" || _other.tag == "NPC")
+            if (_other.tag == "Player" || _other.tag == "Enemy")
             {
                 if (CheckMyFieldOfView(_other.transform.position))
                 {
                     IsLookingSomeone = true;
                     LookingTarget = _other.gameObject;
-                    myFSM.ChangeState(PEEKABOOCHARACTERSTATE.ROTATETOSOMEONE);
+                    myFSM.ChangeState(PEEKABOOCHARACTERSTATE.LOOKINGSOMEONE);
                 }
             }
         }
@@ -54,17 +54,6 @@ public class PeekabooPC : PeekabooCharacter
             }
         }
     }
-
-    //public void Attack()
-    //{
-    //    if (IsInteracting == false)
-    //    {
-    //        photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
-    //        AttackTarget = attackTarget;
-    //        // AttackTarget에 레이캐스트 쏴서 맞은 대상 캐릭터 저장 필요
-    //        myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOTARGET);
-    //    }
-    //}
 
     public void Attack()
     {
