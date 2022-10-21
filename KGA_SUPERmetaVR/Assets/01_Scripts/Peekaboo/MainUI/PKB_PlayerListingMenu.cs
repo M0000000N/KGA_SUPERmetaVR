@@ -143,7 +143,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         else
         {
             SetReadyUp(!playerIsReady);
-            base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, hostIsReady);
+            base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, playerIsReady);
         }
     }
     
