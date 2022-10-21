@@ -233,7 +233,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9185845761692169442}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f402ad37f3a0b6f46a775fa8e474f0fd, type: 3}
   m_Name: 
@@ -243,10 +243,9 @@ MonoBehaviour:
   peekaboo: {fileID: 8528993444074230637}
   cameraRig: {fileID: 6740480121284888723}
   stamina: {fileID: 1941211699262054197}
-  pointerEvents: {fileID: 0}
   myCharacter: {fileID: 7114083493096753809}
-  layser: {fileID: 8722724386756242548}
   rayPointer: {fileID: 1768071856963173371}
+  appearPeekaboo: {fileID: 0}
 --- !u!114 &4523918653147838200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,13 +330,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9185845761692169442}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df10903f97e87b549ad69ccaa5f4c73c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 3
   runSpeed: 6
+  myCharacter: {fileID: 0}
   isRun: 0
   peekaboo: {fileID: 8528993444074230637}
   stamina: {fileID: 1941211699262054197}
@@ -2592,5 +2592,10 @@ PrefabInstance:
 --- !u!4 &7114083493096753809 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2143963233178082986, guid: 646cf81af973f0647b302702d8983dd5, type: 3}
+  m_PrefabInstance: {fileID: 9185845761799312443}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7114083493097182897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2143963233178108554, guid: 646cf81af973f0647b302702d8983dd5, type: 3}
   m_PrefabInstance: {fileID: 9185845761799312443}
   m_PrefabAsset: {fileID: 0}
