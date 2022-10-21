@@ -40,15 +40,15 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     private bool isRun = false;
     private bool isMove = false; 
 
-    //ÇÃ·¹ÀÌ¾î ÀÌµ¿
+    //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½
     private float dirX = 0;
     private float dirZ = 0;
 
-    //¼­¹ö¿¡¼­ ¹ÞÀº µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ º¯¼ö 
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     Vector3 setPos;
     Quaternion setRot;
 
-    //¹Ð¸²Çö»ó ¹æÁö 
+    //ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     Rigidbody rigibody; 
 
     private void Start()
@@ -73,7 +73,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
             {
                 Vector2 pos = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
 
-                // Ä«¸Þ¶ó È¸Àü 
+                // Ä«ï¿½Þ¶ï¿½ È¸ï¿½ï¿½ 
                 Vector3 lookDirection = pos.y * Vector3.forward + pos.x * Vector3.right;
 
                 this.transform.rotation = Quaternion.LookRotation(lookDirection);
@@ -90,8 +90,8 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
         if (photonView.IsMine)
         {
-            dirX = 0; // ÁÂ¿ì
-            dirZ = 0; // »óÇÏ
+            dirX = 0; // ï¿½Â¿ï¿½
+            dirZ = 0; // ï¿½ï¿½ï¿½ï¿½
 
             if (OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
             {
@@ -119,8 +119,9 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
                         dirZ = -1;
                 }
 
-                // ÀÌµ¿¹æÇâ ¼³Á¤ ÈÄ ÀÌµ¿
-                moveDir = new Vector3(dirX * applySpeed, 0, dirZ * applySpeed);
+                // ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ìµï¿½
+                Vector3 moveDirection = (transform.forward * dirZ) + (transform.right * dirX);
+                Vector3 moveDir = moveDirection * applySpeed;
                 transform.Translate(moveDir * Time.deltaTime);
             }
         }
@@ -151,16 +152,16 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
         applySpeed = walkSpeed;
     }
 
-    // µ¥ÀÌÅÍ µ¿±âÈ­¸¦ À§ÇÑ µ¥ÀÌÅÍ Àü¼Û ¹× ¼ö½Å ±â´É 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // µ¥ÀÌÅÍ Àü¼Û »óÈ²
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È²
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
             stream.SendNext(myCharacter.rotation);
         }
-        // µ¥ÀÌÅÍ¸¦ ¼ö½ÅÇÏ´Â »óÈ²
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½È²
         else if (stream.IsReading)
         {
             setPos = (Vector3)stream.ReceiveNext();

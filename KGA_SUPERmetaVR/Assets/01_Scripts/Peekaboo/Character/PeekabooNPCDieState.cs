@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using Photon.Pun;
 
 public class PeekabooNPCDieState : PeekabooCharacterState
 {
@@ -9,8 +9,6 @@ public class PeekabooNPCDieState : PeekabooCharacterState
     private Renderer myRenderer;
     [SerializeField]
     private Material fadeMaterial;
-    [SerializeField]
-    private NavMeshAgent playerNavMeshAgent;
 
     protected override void Initialize()
     {
@@ -19,8 +17,7 @@ public class PeekabooNPCDieState : PeekabooCharacterState
 
     public override void OnEnter()
     {
-        Debug.Log("À¸¾Ó Áê±Ý");
-        StartCoroutine(DieCoroutine(2f));
+        photonView.RPC("StartDie", RpcTarget.All);
     }
 
     public override void OnUpdate()
@@ -31,6 +28,12 @@ public class PeekabooNPCDieState : PeekabooCharacterState
     public override void OnExit()
     {
 
+    }
+
+    [PunRPC]
+    private void StartDie()
+    {
+        StartCoroutine(DieCoroutine(2f));
     }
 
     private IEnumerator DieCoroutine(float _time)
@@ -45,21 +48,7 @@ public class PeekabooNPCDieState : PeekabooCharacterState
 
             yield return null;
         }
-        Debug.Log("¸®½ºÆùÁß");
-        StartCoroutine(RespawnCoroutine(5f));
-        //playerNavMeshAgent.enabled = false;
-        //PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);
-        //transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, 1, transform.position.z), 5f);
-        //playerNavMeshAgent.enabled = true;
 
-    }
-    
-    private IEnumerator RespawnCoroutine (float _time)
-    {
-        playerNavMeshAgent.enabled = false;
-        PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);
-        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, 1, transform.position.z), _time);
-        yield return new WaitForSeconds(_time);
-        playerNavMeshAgent.enabled = true;
+        Destroy(gameObject);
     }
 }

@@ -54,11 +54,10 @@ public abstract class PeekabooCharacter : MonoBehaviourPun
         }
     }
 
-    public abstract void TakeDamage(GameObject _attacker);
+    public void SetMyInteractingState(bool _state)
+    {
+        photonView.RPC("ChangeMyInteractState", RpcTarget.All, false);
+    }
 
-    //[PunRPC]
-    //private void ChangeMyInteractState(bool _state)
-    //{
-    //    IsInteracting = _state;
-    //}
+    public abstract void TakeDamage(GameObject _attacker);
 }
