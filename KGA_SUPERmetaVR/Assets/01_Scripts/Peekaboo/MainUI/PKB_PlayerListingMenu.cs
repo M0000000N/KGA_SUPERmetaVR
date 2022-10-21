@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
@@ -16,15 +17,22 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     [SerializeField] Button gameStartButton;
     private TextMeshProUGUI gameStartButtonText;
 
-    public int MinPlayercount;
+    [SerializeField] int MinPlayerCount;
     private bool playerIsReady = false;
-    private bool hostIsReady = false;
 
     private void Awake()
     {
         gameStartButton.onClick.AddListener(OnClickStartButton);
         gameStartButtonText = gameStartButton.GetComponentInChildren<TextMeshProUGUI>();
     }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        GetCurrentRoomPlayers();
+        SetReadyUp(false);
+    }
+
     private void Start()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -35,12 +43,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         {
             gameStartButtonText.text = "준비";
         }
-    }
-    public override void OnEnable()
-    {
-        base.OnEnable();
-        GetCurrentRoomPlayers();
-        SetReadyUp(false);
     }
 
     // 새로운 방에 맞지 않는 플레이어가 들어오는 버그
@@ -59,8 +61,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.IsMasterClient)
             {
-
-                if (PhotonNetwork.PlayerList.Length > MinPlayercount) // TODO : 전부 준비완료가 됐는지?
+                if (PhotonNetwork.PlayerList.Length > MinPlayerCount) // TODO : 전부 준비완료가 됐는지?
                 {
                     gameStartButtonText.text = "게임시작";
                     gameStartButton.interactable = true;
@@ -87,11 +88,17 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnected)
         {
-            foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
+            for (int i = 1; i < PhotonNetwork.CurrentRoom.Players.Count; i++)
             {
-                AddPlayerListing(playerInfo.Value);
+                AddPlayerListing(PhotonNetwork.CurrentRoom.Players.ElementAt(i).Value);
             }
+            AddPlayerListing(PhotonNetwork.CurrentRoom.Players.ElementAt(0).Value);
         }
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        AddPlayerListing(newPlayer);
     }
 
     private void AddPlayerListing(Player _newPlayer)
@@ -112,14 +119,8 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        AddPlayerListing(newPlayer);
-    }
-
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        content.DestroyChildren();
         int index = listings.FindIndex(x => x.Player == otherPlayer);
         if (index != -1)
         {
@@ -171,7 +172,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, playerIsReady);
         }
     }
-    
+
     [PunRPC]
     private void RPC_ChangeReadyState(Player _player, bool _isReady)
     {
@@ -181,6 +182,4 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             listings[index].Ready = _isReady;
         }
     }
-
-
 }
