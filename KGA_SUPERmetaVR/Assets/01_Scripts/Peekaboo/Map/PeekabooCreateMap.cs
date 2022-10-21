@@ -16,7 +16,7 @@ public class MAPDATA
     public int NumberOfNPCPlacedInZone { get { return numberOfNPCPlacedInZone; } set { numberOfNPCPlacedInZone = value; } }
 }
 
-public class PeekabooCreateMap : MonoBehaviourPun, IPunObservable
+public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
 {
     [Header("스포너 스크립트")]
     [SerializeField]
@@ -28,7 +28,7 @@ public class PeekabooCreateMap : MonoBehaviourPun, IPunObservable
     [SerializeField]
     private int mapSizeZ;
 
-  //[Header("테스트용 플레이어 수")]
+    //[Header("테스트용 플레이어 수")]
     //[SerializeField]
     private int numberOfPlayers;
 
@@ -77,8 +77,9 @@ public class PeekabooCreateMap : MonoBehaviourPun, IPunObservable
         mapSize = mapSizeX * mapSizeZ;
         maxNumberOfNPCs = numberOfNPCsProportionalToTheNumberOfPlayers * numberOfPlayers;
         CreateMap();
-        SpawnPlayer();
-        SpawnNPC();
+        photonView.RPC("SpawnPlayer", RpcTarget.All);
+        photonView.RPC("SpawnNPC", RpcTarget.All);
+        //SpawnNPC();
     }
 
     private void CreateMap()
@@ -102,48 +103,51 @@ public class PeekabooCreateMap : MonoBehaviourPun, IPunObservable
         }
     }
 
+
     private void SpawnPlayer()
     {
-        if (photonView.IsMine)
+
+        int randomPlayerIndex = Random.Range(0, mapSize);
+        while (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
         {
-            int randomPlayerIndex = Random.Range(0, mapSize);
+            randomPlayerIndex = Random.Range(0, mapSize);
+           
+        }
+        float randomPositonX = Random.Range(mapData[randomPlayerIndex].MapPosition.x - MapLength / 2, mapData[randomPlayerIndex].MapPosition.x + MapLength / 2);
+        float randomPositonZ = Random.Range(mapData[randomPlayerIndex].MapPosition.z - MapLength / 2, mapData[randomPlayerIndex].MapPosition.z + MapLength / 2);
 
-            float randomPositonX = Random.Range(mapData[randomPlayerIndex].MapPosition.x - MapLength / 2, mapData[randomPlayerIndex].MapPosition.x + MapLength / 2);
-            float randomPositonZ = Random.Range(mapData[randomPlayerIndex].MapPosition.z - MapLength / 2, mapData[randomPlayerIndex].MapPosition.z + MapLength / 2);
+        Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
+        NavMeshHit hit;
 
-            Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
-            NavMeshHit hit;
+        NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
+        hit.position += Vector3.up * 1f;
+
+
+        int layerMask = LayerMask.GetMask("Player");
+        Collider[] hitColliders = new Collider[numberOfPlayers];
+        int colls2 = Physics.OverlapSphereNonAlloc(hit.position,distanceBetweenPlayersCreated, hitColliders,layerMask);
+        if (colls2 > 0)
+        {
+            randomPositonX = Random.Range(mapData[randomPlayerIndex].MapPosition.x - MapLength / 2, mapData[randomPlayerIndex].MapPosition.x + MapLength / 2);
+            randomPositonZ = Random.Range(mapData[randomPlayerIndex].MapPosition.z - MapLength / 2, mapData[randomPlayerIndex].MapPosition.z + MapLength / 2);
+
+            randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
 
             NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
             hit.position += Vector3.up * 1f;
-            if (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
-            {
-                SpawnPlayer();
-            }
-            else
-            {
-                int layerMask = LayerMask.GetMask("Player");
-                Collider[] colls = Physics.OverlapSphere(hit.position, distanceBetweenPlayersCreated, layerMask);
-                if (colls.Length > 0)
-                {
-                    foreach (Collider col in colls)
-                    {
-                        if (col.gameObject.tag == "Player")
-                        {
-                            SpawnPlayer();
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
-                    --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
-                }
-            }
+
         }
+        else
+        {
+            GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
+            --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
+        }
+
+
+
     }
 
+    [PunRPC]
     private void SpawnNPC()
     {
         if (PhotonNetwork.IsMasterClient)

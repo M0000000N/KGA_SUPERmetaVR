@@ -111,20 +111,20 @@ public class PlayerMove : MonoBehaviourPun
     }
 
     // 데이터 동기화를 위한 데이터 전송 및 수신 기능 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        // 데이터 전송 상황
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(myCharacter.rotation);
-        }
-        // 데이터를 수신하는 상황
-        else if (stream.IsReading)
-        {
-            setPos = (Vector3)stream.ReceiveNext();
-            setRot = (Quaternion)stream.ReceiveNext();
-        }
-    }
+    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    // 데이터 전송 상황
+    //    if (stream.IsWriting)
+    //    {
+    //        stream.SendNext(transform.position);
+    //        stream.SendNext(myCharacter.rotation);
+    //    }
+    //    // 데이터를 수신하는 상황
+    //    else if (stream.IsReading)
+    //    {
+    //        setPos = (Vector3)stream.ReceiveNext();
+    //        setRot = (Quaternion)stream.ReceiveNext();
+    //    }
+    //}
 
 }
