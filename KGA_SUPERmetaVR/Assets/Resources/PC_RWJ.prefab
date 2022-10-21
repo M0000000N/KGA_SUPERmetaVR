@@ -156,6 +156,8 @@ GameObject:
   - component: {fileID: 4523918653147838206}
   - component: {fileID: 8722724385598622259}
   - component: {fileID: 8722724385598622661}
+  - component: {fileID: 7549628095000545285}
+  - component: {fileID: 2788861160774411924}
   m_Layer: 0
   m_Name: PC_RWJ
   m_TagString: Player
@@ -299,6 +301,7 @@ MonoBehaviour:
   - {fileID: 4523918653147838203}
   - {fileID: 4523918653147838200}
   - {fileID: 4523918653147838201}
+  - {fileID: 2788861160774411924}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -338,6 +341,46 @@ MonoBehaviour:
   isRun: 0
   peekaboo: {fileID: 8528993444074230637}
   stamina: {fileID: 1941211699262054197}
+--- !u!114 &7549628095000545285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9185845761692169442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 126494ae2a10a34499272ed97a6c9f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logLevel: 2
+  ignoreGlobalLogLevel: 0
+  recorderInUse: {fileID: 0}
+  speakerInUse: {fileID: 9185845762727842276}
+  AutoCreateRecorderIfNotFound: 0
+  UsePrimaryRecorder: 1
+  SetupDebugSpeaker: 0
+--- !u!114 &2788861160774411924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9185845761692169442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f402ad37f3a0b6f46a775fa8e474f0fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 2
+  runSpeed: 4
+  peekaboo: {fileID: 0}
+  cameraRig: {fileID: 0}
+  stamina: {fileID: 0}
+  pointerEvents: {fileID: 0}
+  myCharacter: {fileID: 0}
+  layser: {fileID: 0}
+  rayPointer: {fileID: 0}
 --- !u!1 &9185845762169241541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,11 +1184,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
---- !u!4 &6740480121049855627 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 482130, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
-  m_PrefabInstance: {fileID: 6740480121050066393}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6740480121050033021 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100004, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
@@ -1159,6 +1197,11 @@ Transform:
 --- !u!4 &6740480121049937755 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+  m_PrefabInstance: {fileID: 6740480121050066393}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6740480121049855627 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 482130, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
   m_PrefabInstance: {fileID: 6740480121050066393}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &6740480121049842319 stripped

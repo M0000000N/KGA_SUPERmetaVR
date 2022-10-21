@@ -53,11 +53,15 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        TryRun();
-        Move();
+        if (PeekabooGameManager.Instance.IsGameOver == false)
+        {
+            TryRun();
+            Move();
+        }
     }
     public void Move()
     {
+        
         if (!photonView.IsMine)
             return;
 

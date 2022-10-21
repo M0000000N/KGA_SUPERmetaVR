@@ -16,7 +16,7 @@ public class MAPDATA
     public int NumberOfNPCPlacedInZone { get { return numberOfNPCPlacedInZone; } set { numberOfNPCPlacedInZone = value; } }
 }
 
-public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
+public class PeekabooCreateMap : MonoBehaviourPun, IPunObservable
 {
     [Header("스포너 스크립트")]
     [SerializeField]
@@ -102,42 +102,44 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    [PunRPC]
     private void SpawnPlayer()
     {
-        int randomPlayerIndex = Random.Range(0, mapSize);
-
-        float randomPositonX = Random.Range(mapData[randomPlayerIndex].MapPosition.x - MapLength / 2, mapData[randomPlayerIndex].MapPosition.x + MapLength / 2);
-        float randomPositonZ = Random.Range(mapData[randomPlayerIndex].MapPosition.z - MapLength / 2, mapData[randomPlayerIndex].MapPosition.z + MapLength / 2);
-
-        Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
-        NavMeshHit hit;
-
-        NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
-        hit.position += Vector3.up * 1f;
-        if (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
+        if (photonView.IsMine)
         {
-            SpawnPlayer();
-        }
-        else
-        {
-            int layerMask = LayerMask.GetMask("Player");
-            Collider[] colls = Physics.OverlapSphere(hit.position, distanceBetweenPlayersCreated, layerMask);
-            if(colls.Length > 0)
+            int randomPlayerIndex = Random.Range(0, mapSize);
+
+            float randomPositonX = Random.Range(mapData[randomPlayerIndex].MapPosition.x - MapLength / 2, mapData[randomPlayerIndex].MapPosition.x + MapLength / 2);
+            float randomPositonZ = Random.Range(mapData[randomPlayerIndex].MapPosition.z - MapLength / 2, mapData[randomPlayerIndex].MapPosition.z + MapLength / 2);
+
+            Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
+            NavMeshHit hit;
+
+            NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
+            hit.position += Vector3.up * 1f;
+            if (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
             {
-                foreach (Collider col in colls)
-                {
-                    if (col.gameObject.tag == "Player")
-                    {
-                        SpawnPlayer();
-                        break;
-                    }
-                }
+                SpawnPlayer();
             }
             else
             {
-                GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
-                --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
+                int layerMask = LayerMask.GetMask("Player");
+                Collider[] colls = Physics.OverlapSphere(hit.position, distanceBetweenPlayersCreated, layerMask);
+                if (colls.Length > 0)
+                {
+                    foreach (Collider col in colls)
+                    {
+                        if (col.gameObject.tag == "Player")
+                        {
+                            SpawnPlayer();
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
+                    --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
+                }
             }
         }
     }
@@ -174,7 +176,6 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    [PunRPC]
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
