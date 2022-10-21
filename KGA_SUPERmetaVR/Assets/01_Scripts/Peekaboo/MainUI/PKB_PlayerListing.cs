@@ -42,4 +42,9 @@ public class PKB_PlayerListing : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    public void ActiveReadyPanel(bool _isActive)
+    {
+        ReadyPanel.gameObject.SetActive(_isActive);
+    }
 }

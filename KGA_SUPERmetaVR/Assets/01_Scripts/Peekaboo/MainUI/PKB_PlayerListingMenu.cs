@@ -20,10 +20,15 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     [SerializeField] int MinPlayerCount;
     private bool playerIsReady = false;
 
+    private Hashtable playerCustomProperties = new Hashtable();
+
     private void Awake()
     {
         gameStartButton.onClick.AddListener(OnClickStartButton);
         gameStartButtonText = gameStartButton.GetComponentInChildren<TextMeshProUGUI>();
+
+        playerCustomProperties.Add("IsReady", false);
+        PhotonNetwork.SetPlayerCustomProperties(playerCustomProperties);
     }
 
     public override void OnEnable()
@@ -129,57 +134,98 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    Hashtable playerCustomProperties = new Hashtable();
     private void SetReadyUp(bool _playerIsReady)
     {
-        playerIsReady = _playerIsReady;
-        if (playerIsReady)
-        {
-            gameStartButtonText.text = "준비완료";
-        }
-        else
-        {
-            gameStartButtonText.text = "준비";
-        }
         // readyPannel.SetActive(playerIsReady);
-        playerCustomProperties["IsReady"] = playerIsReady;
-        PhotonNetwork.SetPlayerCustomProperties(playerCustomProperties);
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("IsReady") == false)
+        {
+            PhotonNetwork.LocalPlayer.CustomProperties.Add("IsReady", false);
+        }
+        Hashtable newCustomProperty = new Hashtable() { { "IsReady", _playerIsReady } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(newCustomProperty);
+
+        PhotonNetwork.LocalPlayer.CustomProperties["IsReady"] = _playerIsReady;
+        // playerCustomProperties["IsReady"] = playerIsReady;
+
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            if (player.Value == PhotonNetwork.LocalPlayer)
+            {
+                Hashtable customProperty = player.Value.CustomProperties;
+                ICollection valueColl = customProperty.Values;
+                foreach (bool _isReady in valueColl) //value가 string일 때
+                {
+                    if (_isReady)
+                    {
+                        gameStartButtonText.text = "준비완료";
+                    }
+                    else
+                    {
+                        gameStartButtonText.text = "준비";
+                    }
+                    playerIsReady = _isReady;
+                }
+            }
+        }
     }
 
     public void OnClickStartButton()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            for (int i = 0; i < listings.Count; i++)
+            foreach (KeyValuePair<int,Player> player in PhotonNetwork.CurrentRoom.Players)
             {
-                if (listings[i].Player != PhotonNetwork.LocalPlayer)
+                if (player.Value != PhotonNetwork.LocalPlayer)
                 {
-                    if (listings[i].Ready == false)
+                    Hashtable customProperty = player.Value.CustomProperties;
+                    ICollection valueColl = customProperty.Values;
+                    foreach (bool _isReady in valueColl) //value가 string일 때
                     {
-                        // TODO : 나중에 데이터로 빼야함
-                        PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "모든 플레이어가 준비완료 상태가 아닙니다.", "확인");
-                        return;
+                        if (_isReady == false)
+                        {
+                            // TODO : 나중에 데이터로 빼야함
+                            PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "모든 플레이어가 준비완료 상태가 아닙니다.", "확인");
+                            return;
+                        }
                     }
                 }
             }
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
+
             PhotonNetwork.LoadLevel("Peekaboo_InGame");
         }
         else
         {
             SetReadyUp(!playerIsReady);
-            base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, playerIsReady);
+            // base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, playerIsReady);
         }
     }
 
-    [PunRPC]
-    private void RPC_ChangeReadyState(Player _player, bool _isReady)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        int index = listings.FindIndex(x => x.Player == _player);
+        int index = listings.FindIndex(x => x.Player == targetPlayer);
         if (index != -1)
         {
-            listings[index].Ready = _isReady;
+
+            Hashtable customProperty = targetPlayer.CustomProperties;
+            ICollection valueColl = customProperty.Values;
+            foreach (bool _isReady in valueColl) //value가 string일 때
+            {
+                listings[index].ActiveReadyPanel(_isReady);
+            }
+
+            
         }
     }
+
+    //[PunRPC]
+    //private void RPC_ChangeReadyState(Player _player, bool _isReady)
+    //{
+    //    int index = listings.FindIndex(x => x.Player == _player);
+    //    if (index != -1)
+    //    {
+    //        listings[index].Ready = _isReady;
+    //    }
+    //}
 }
