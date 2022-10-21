@@ -95,13 +95,31 @@ public class PeekabooNPC : PeekabooCharacter
         }
     }
 
+    [PunRPC]
+    public void TakeDamageRPC(int _attackerViewNumber)
+    {
+        photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
+        Attacker = PhotonView.Find(_attackerViewNumber).gameObject;
+        myFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCLAUGHT);
+    }
+
     public override void TakeDamage(GameObject _attacker)
     {
         if (IsInteracting == false)
         {
-            photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
-            Attacker = _attacker;
-            myFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCLAUGHT);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Debug.Log("마스터 클라이언트라서 NPC Take Damage 실행!");
+                photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
+                Attacker = _attacker;
+                myFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCLAUGHT);
+            }
+            else
+            {
+                Debug.Log("마스터 클라이언트가 아니라서 NPC TakeDamage RPC 보냄!");
+                int targetViewNumber = _attacker.GetPhotonView().ViewID;
+                photonView.RPC("TakeDamageRPC", RpcTarget.MasterClient, targetViewNumber);
+            }
         }
     }
 
