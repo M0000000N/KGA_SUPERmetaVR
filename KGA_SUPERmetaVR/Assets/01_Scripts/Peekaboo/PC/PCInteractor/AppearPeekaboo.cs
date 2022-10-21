@@ -29,7 +29,7 @@ public class AppearPeekaboo : MonoBehaviourPun
 
     public IEnumerator FadeOutPeekaboo()
     {
-        if (layser.CreateFowardRaycast().transform.tag == "Player" || layser.CreateFowardRaycast().transform.tag == "Enemy")
+        if (layser.CreateFowardRaycast().collider.tag == "Player" || layser.CreateFowardRaycast().collider.tag == "Enemy")
         {
             Debug.Log("코루틴함수2");
             Peekaboo.SetActive(true);

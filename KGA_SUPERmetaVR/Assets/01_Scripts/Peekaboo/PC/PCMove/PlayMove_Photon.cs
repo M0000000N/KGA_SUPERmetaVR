@@ -12,13 +12,17 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     [SerializeField]
     private float runSpeed;
-    private float applySpeed;
+
+    public float applySpeed;
 
     [SerializeField]
     private GameObject peekaboo;
 
     [SerializeField]
     private GameObject cameraRig;
+
+    [SerializeField]
+    private Transform camera; 
 
     [SerializeField]
     private Stamina stamina;
@@ -32,18 +36,24 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     [SerializeField]
     private AppearPeekaboo appearPeekaboo;
 
+    private Vector3 moveDir; 
     private bool isRun = false;
+    private bool isMove = false; 
 
     //플레이어 이동
     private float dirX = 0;
     private float dirZ = 0;
 
-    // 서버에서 받은 데이터를 저장할 변수 
+    //서버에서 받은 데이터를 저장할 변수 
     Vector3 setPos;
     Quaternion setRot;
 
+    //밀림현상 방지 
+    Rigidbody rigibody; 
+
     private void Start()
     {
+        rigibody.velocity = Vector3.zero;
         cameraRig.SetActive(photonView.IsMine);
         applySpeed = walkSpeed;
     }
@@ -52,7 +62,27 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     {
         TryRun();
         Move();
+        CameraRotation();
     }
+
+    public void CameraRotation()
+    {
+        if (isMove)
+        {
+            if (photonView.IsMine)
+            {
+                Vector2 pos = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
+
+                // 카메라 회전 
+                Vector3 lookDirection = pos.y * Vector3.forward + pos.x * Vector3.right;
+
+                this.transform.rotation = Quaternion.LookRotation(lookDirection);
+                this.transform.Translate(Vector3.forward * applySpeed * Time.deltaTime);
+            }
+        }
+        return; 
+    }
+
     public void Move()
     {
         if (!photonView.IsMine)
@@ -90,7 +120,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
                 }
 
                 // 이동방향 설정 후 이동
-                Vector3 moveDir = new Vector3(dirX * applySpeed, 0, dirZ * applySpeed);
+                moveDir = new Vector3(dirX * applySpeed, 0, dirZ * applySpeed);
                 transform.Translate(moveDir * Time.deltaTime);
             }
         }
@@ -100,7 +130,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
-            if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0)
+            if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0 && OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
                 Running();
 
             if (!OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() >= 0)

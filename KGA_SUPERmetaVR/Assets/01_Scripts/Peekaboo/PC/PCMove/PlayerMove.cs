@@ -35,6 +35,7 @@ public class PlayerMove : MonoBehaviourPun
     // 서버에서 받은 데이터를 저장할 변수 
     Vector3 setPos;
     Quaternion setRot;
+    Rigidbody rigidbody; 
 
     private void Start()
     {
@@ -44,6 +45,7 @@ public class PlayerMove : MonoBehaviourPun
 
     private void Update()
     {
+        rigidbody.velocity = Vector3.zero;
         TryRun();
         Move();
     }

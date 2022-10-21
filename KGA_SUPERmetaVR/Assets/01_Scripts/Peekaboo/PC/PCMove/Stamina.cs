@@ -33,8 +33,8 @@ public class Stamina : MonoBehaviour
     [SerializeField]
     private PlayMove_Photon playerPhoton;
 
-    private float decreaseTime = 0f;
-    private float increaseTime = 0f;
+    private float staminaTime = 0f;
+
 
     List<Image> progressSteps;
 
@@ -81,12 +81,12 @@ public class Stamina : MonoBehaviour
             return;
         else
         {
-            increaseTime += Time.deltaTime;
-            if (increaseTime >= cancleButtonB) // 시간을 변수로 받아서 쓰기 // 0 ~ 8까지 
+            staminaTime += Time.deltaTime;
+            if (staminaTime >= cancleButtonB)
             {
                 currentValue++;
                 changeSpriteColor(currentValue - 1, enabledColor);
-                increaseTime = 0f;
+                staminaTime = 0f;
             }          
         }
     }
@@ -97,12 +97,12 @@ public class Stamina : MonoBehaviour
             return;
         else
         {
-            decreaseTime += Time.deltaTime;
-            if (decreaseTime > clickButtonB)
+            staminaTime += Time.deltaTime;
+            if (staminaTime > clickButtonB)
             {
                 changeSpriteColor(currentValue - 1, disabledColor);
                 currentValue--;
-                decreaseTime = 0f;
+                staminaTime = 0f;
             }
         }
     }

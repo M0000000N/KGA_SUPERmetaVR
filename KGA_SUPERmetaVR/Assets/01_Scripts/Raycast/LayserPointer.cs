@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// 공격대상일 시, 레이저포인터 닿으면 피카부 출력(1초 동안 출력이라고 가정하고)
 public class LayserPointer : MonoBehaviour
 {
     [SerializeField]
     private float lineLength = 1.5f;
 
     private LineRenderer lineRenderer = null;
+    RaycastHit hit;
 
     private void Awake()
     {
@@ -34,19 +34,17 @@ public class LayserPointer : MonoBehaviour
 
         if(hit.collider)
         {
-            endPosition = hit.point;
+            endPosition = hit.point;                                          
         }
-        return endPosition; 
+        return endPosition;                                     
     }
 
     public RaycastHit CreateFowardRaycast()
     {
-        RaycastHit hit;
-        Ray ray = new Ray(transform.position, transform.forward);
-
+        Ray ray = new Ray(transform.position, transform.forward); 
         Physics.Raycast(ray, out hit, lineLength);
-        Debug.Log("인식못함"); 
-        return hit;
+        Debug.Log($"{hit.transform.gameObject.tag}");
+        return hit; 
     }
 
     private Vector3 DefaultEnd(float _lenght)

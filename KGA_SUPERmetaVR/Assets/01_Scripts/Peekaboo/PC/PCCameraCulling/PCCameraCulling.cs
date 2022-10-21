@@ -5,57 +5,41 @@ using Photon.Pun;
 
 public class PCCameraCulling : MonoBehaviourPun
 {
-    
     [SerializeField]
     private GameObject[] Hands;
 
     [SerializeField]
     private GameObject PCModel;
 
+    private void Awake()
+    {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) { return; }
+    }
+
     private void Start()
     {
-        CullingRay();
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        CullingRay(); 
+
+        if(photonView.IsMine == true && PhotonNetwork.IsConnected == true)
         CullingBody();
     }
 
     public void CullingRay()
     {
-        if(!photonView.IsMine)
+        // 자기 자신에게만 보이도록      
+        for (int i = 0; i < Hands.Length; ++i)
         {
-            StartCoroutine("DisappearHand");
+            Hands[i].SetActive(false);
         }
+        //StartCoroutine("DisappearHand");
+
     }
 
     public void CullingBody()
     {
-        if(photonView.IsMine)
-        {
-            StartCoroutine("DisappearBody");
-        }
+        // 자기 자신에게 모델이 안 보이도록    
+        PCModel.SetActive(false);
     }
-
-    public IEnumerator DisappearHand()
-    {
-        for(int i = 0; i < Hands.Length; ++i)
-        {
-            Hands[i].SetActive(false); 
-        }
-        //Color hands = Hand.GetComponent<Renderer>().material.color;
-        //hands.a = 0;
-        //Hand.GetComponent<Renderer>().material.color = hands; 
-
-        yield return null; 
-    }
-
-    public IEnumerator DisappearBody()
-    {
-        PCModel.SetActive(false); 
-        //Color PCModeling = PCModel.GetComponent<Renderer>().material.color;
-        //PCModeling.a = 0;
-        //PCModel.GetComponent<Renderer>().material.color = PCModeling;
-
-        yield return null; 
-    }
-
 
 }
