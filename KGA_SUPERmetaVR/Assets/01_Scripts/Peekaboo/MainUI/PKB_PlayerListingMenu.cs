@@ -25,13 +25,8 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         gameStartButton.onClick.AddListener(OnClickStartButton);
         gameStartButtonText = gameStartButton.GetComponentInChildren<TextMeshProUGUI>();
     }
-
-    public override void OnEnable()
+    private void Start()
     {
-        base.OnEnable();
-        GetCurrentRoomPlayers();
-        SetReadyUp(false);
-
         if (PhotonNetwork.IsMasterClient)
         {
             gameStartButtonText.text = "게임시작";
@@ -40,6 +35,22 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         {
             gameStartButtonText.text = "준비";
         }
+    }
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        GetCurrentRoomPlayers();
+        SetReadyUp(false);
+    }
+
+    // 새로운 방에 맞지 않는 플레이어가 들어오는 버그
+    public override void OnDisable()
+    {
+        for (int i = 0; i < listings.Count; i++)
+        {
+            Destroy(listings[i].gameObject);
+        }
+        listings.Clear();
     }
 
     private void Update()
@@ -74,19 +85,30 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
     private void GetCurrentRoomPlayers()
     {
-        foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
+        if (PhotonNetwork.IsConnected)
         {
-            AddPlayerListing(playerInfo.Value);
+            foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
+            {
+                AddPlayerListing(playerInfo.Value);
+            }
         }
     }
 
-    private void AddPlayerListing(Player _player)
+    private void AddPlayerListing(Player _newPlayer)
     {
-        PKB_PlayerListing listing = Instantiate(playerListing, content);
-        if (listing != null)
+        int index = listings.FindIndex(x => x.Player == _newPlayer);
+        if (index != -1)
         {
-            listing.SetPlayerInfo(_player);
-            listings.Add(listing);
+            listings[index].SetPlayerInfo(_newPlayer);
+        }
+        else
+        {
+            PKB_PlayerListing listing = Instantiate(playerListing, content);
+            if (listing != null)
+            {
+                listing.SetPlayerInfo(_newPlayer);
+                listings.Add(listing);
+            }
         }
     }
 
@@ -97,6 +119,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        content.DestroyChildren();
         int index = listings.FindIndex(x => x.Player == otherPlayer);
         if (index != -1)
         {
@@ -105,6 +128,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         }
     }
 
+    Hashtable playerCustomProperties = new Hashtable();
     private void SetReadyUp(bool _playerIsReady)
     {
         playerIsReady = _playerIsReady;
@@ -117,7 +141,8 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             gameStartButtonText.text = "준비";
         }
         // readyPannel.SetActive(playerIsReady);
-        SetPlayerIsReady(playerIsReady); 
+        playerCustomProperties["IsReady"] = playerIsReady;
+        PhotonNetwork.SetPlayerCustomProperties(playerCustomProperties);
     }
 
     public void OnClickStartButton()
@@ -157,11 +182,5 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    Hashtable playerCustomProperties = new Hashtable();
 
-    private void SetPlayerIsReady(bool _isReady)
-    {
-        playerCustomProperties["IsReady"] = _isReady;
-        PhotonNetwork.SetPlayerCustomProperties(playerCustomProperties);
-    }
 }
