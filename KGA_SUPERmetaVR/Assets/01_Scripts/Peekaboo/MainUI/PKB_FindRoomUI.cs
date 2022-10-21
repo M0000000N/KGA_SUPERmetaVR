@@ -84,7 +84,7 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
             PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
                 "존재하지 않는 방 번호입니다.\n다시 한번 확인해주세요.", "확인");
         }
-        roomNameInput.text = "";
+        
     }
 
     public void OnClickCheckButton()

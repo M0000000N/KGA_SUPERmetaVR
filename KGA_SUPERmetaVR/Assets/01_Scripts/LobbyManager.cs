@@ -11,7 +11,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class LobbyManager : SingletonBehaviour<LobbyManager>
 {
     public List<PKB_PlayRoomUI> roomNameList = new List<PKB_PlayRoomUI>();
-    bool[] isEmptyRoomList = new bool[10000];
+    bool[] isRoom = new bool[10000];
     RoomOptions roomOptions;
 
     public List<RoomInfo> NowRooms = new List<RoomInfo>(); // 생성된 방
@@ -20,7 +20,6 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     {
         // 마스터 서버 연결시도
         PhotonNetwork.ConnectUsingSettings();
-        isEmptyRoomList[1] = true;
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -34,7 +33,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
                     return;
                     continue;
                 }
-                isEmptyRoomList[NowRooms.IndexOf(room)] = true;
+                isRoom[NowRooms.IndexOf(room)] = true;
                 NowRooms.RemoveAt(NowRooms.IndexOf(room));
             }
             else
@@ -42,6 +41,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
                 if (NowRooms.Contains(room) == false)
                 {
                     NowRooms.Add(room);
+                    isRoom[NowRooms.IndexOf(room) + 1] = true;
                 }
             }
         }
@@ -141,15 +141,14 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
                 // TODO : 데이터작업
                 PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 방을 생성할 수 없습니다. 잠시 후 다시 시도헤해주세요", "확인");
             }
-            if (isEmptyRoomList[i]) // 빈방
+            if (isRoom[i]) // 빈방
             {
-                isEmptyRoomList[i] = false;
-                roomNameList.Add(new PKB_PlayRoomUI());
-
-                return i.ToString();
+                continue;
             }
             else
             {
+                isRoom[i] = true;
+                roomNameList.Add(new PKB_PlayRoomUI());
                 return i.ToString();
             }
         }
