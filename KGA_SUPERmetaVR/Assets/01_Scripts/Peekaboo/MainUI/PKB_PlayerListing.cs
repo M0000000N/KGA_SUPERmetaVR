@@ -16,7 +16,6 @@ public class PKB_PlayerListing : MonoBehaviourPunCallbacks
     public Player Player { get; private set; }
     public bool Ready = false;
 
-
     void Start()
     {
         hostImage.gameObject.SetActive(false);
@@ -28,11 +27,17 @@ public class PKB_PlayerListing : MonoBehaviourPunCallbacks
     {
         _player.NickName = GameManager.Instance.PlayerData.Nickname.ToString();
         playerNameText.text = _player.NickName;
+        Player = _player;
+
+        if (_player.CustomProperties.ContainsKey("IsReady") == false)
+        {
+            _player.CustomProperties.Add("IsReady", false);
+        }
 
         int result = -1;
         if (_player.CustomProperties.ContainsKey("IsReady"))
         {
-            result = (int)_player.CustomProperties["IsReady"];
+            // result = (int)_player.CustomProperties["IsReady"];
         }
     }
 
