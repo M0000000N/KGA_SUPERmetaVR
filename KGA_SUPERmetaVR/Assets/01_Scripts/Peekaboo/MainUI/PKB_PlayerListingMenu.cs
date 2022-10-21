@@ -20,15 +20,11 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     [SerializeField] int MinPlayerCount;
     private bool playerIsReady = false;
 
-    private Hashtable playerCustomProperties = new Hashtable();
-
     private void Awake()
     {
         gameStartButton.onClick.AddListener(OnClickStartButton);
         gameStartButtonText = gameStartButton.GetComponentInChildren<TextMeshProUGUI>();
-
-        playerCustomProperties.Add("IsReady", false);
-        PhotonNetwork.SetPlayerCustomProperties(playerCustomProperties);
+        SetReadyUp(false);
     }
 
     public override void OnEnable()
@@ -42,11 +38,11 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            gameStartButtonText.text = "게임시작";
+            SetStartButton("대기중", false);
         }
         else
         {
-            gameStartButtonText.text = "준비";
+            SetStartButton("준비", true);
         }
     }
 
@@ -68,24 +64,17 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             {
                 if (PhotonNetwork.PlayerList.Length > MinPlayerCount) // TODO : 전부 준비완료가 됐는지?
                 {
-                    gameStartButtonText.text = "게임시작";
-                    gameStartButton.interactable = true;
+                    SetStartButton("게임시작", true);
                 }
                 else
                 {
-                    gameStartButtonText.text = "대기중";
-                    gameStartButton.interactable = false;
+                    SetStartButton("대기중", false);
                 }
-            }
-            else
-            {
-                gameStartButton.interactable = true;
             }
         }
         else
         {
-            gameStartButtonText.text = "대기중";
-            gameStartButton.interactable = false;
+            SetStartButton("대기중", false);
         }
     }
 
@@ -136,16 +125,15 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
     private void SetReadyUp(bool _playerIsReady)
     {
-        // readyPannel.SetActive(playerIsReady);
         if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("IsReady") == false)
         {
             PhotonNetwork.LocalPlayer.CustomProperties.Add("IsReady", false);
         }
+
         Hashtable newCustomProperty = new Hashtable() { { "IsReady", _playerIsReady } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(newCustomProperty);
 
-        PhotonNetwork.LocalPlayer.CustomProperties["IsReady"] = _playerIsReady;
-        // playerCustomProperties["IsReady"] = playerIsReady;
+        // PhotonNetwork.LocalPlayer.CustomProperties["IsReady"] = _playerIsReady;
 
         foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
         {
@@ -157,14 +145,15 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
                 {
                     if (_isReady)
                     {
-                        gameStartButtonText.text = "준비완료";
+                        SetStartButton("준비완료", true);
                     }
                     else
                     {
-                        gameStartButtonText.text = "준비";
+                        SetStartButton("준비", true);
                     }
                     playerIsReady = _isReady;
                 }
+                return;
             }
         }
     }
@@ -173,7 +162,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            foreach (KeyValuePair<int,Player> player in PhotonNetwork.CurrentRoom.Players)
+            foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
             {
                 if (player.Value != PhotonNetwork.LocalPlayer)
                 {
@@ -198,7 +187,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         else
         {
             SetReadyUp(!playerIsReady);
-            // base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, playerIsReady);
         }
     }
 
@@ -207,25 +195,18 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         int index = listings.FindIndex(x => x.Player == targetPlayer);
         if (index != -1)
         {
-
             Hashtable customProperty = targetPlayer.CustomProperties;
             ICollection valueColl = customProperty.Values;
             foreach (bool _isReady in valueColl) //value가 string일 때
             {
                 listings[index].ActiveReadyPanel(_isReady);
             }
-
-            
         }
     }
 
-    //[PunRPC]
-    //private void RPC_ChangeReadyState(Player _player, bool _isReady)
-    //{
-    //    int index = listings.FindIndex(x => x.Player == _player);
-    //    if (index != -1)
-    //    {
-    //        listings[index].Ready = _isReady;
-    //    }
-    //}
+    private void SetStartButton(string text, bool isInteractable)
+    {
+        gameStartButtonText.text = text;
+        gameStartButton.interactable = isInteractable;
+    }
 }
