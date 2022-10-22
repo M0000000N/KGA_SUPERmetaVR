@@ -2,19 +2,14 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-
 public class LobbyManager : SingletonBehaviour<LobbyManager>
 {
-    public List<PKB_PlayRoomUI> roomNameList = new List<PKB_PlayRoomUI>();
-    bool[] isRoom = new bool[10000];
-    RoomOptions roomOptions;
-
     public List<RoomInfo> NowRooms = new List<RoomInfo>(); // 생성된 방
+    RoomOptions roomOptions;
+    bool[] isRoom = new bool[10000]; // 방 이름 관련
 
     private void Awake()
     {
@@ -31,9 +26,8 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
                 if (NowRooms.IndexOf(room) < 0)
                 {
                     return;
-                    continue;
                 }
-                isRoom[NowRooms.IndexOf(room)] = true;
+                isRoom[NowRooms.IndexOf(room) + 1] = false;
                 NowRooms.RemoveAt(NowRooms.IndexOf(room));
             }
             else
@@ -90,8 +84,6 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
                 PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "오류가 발생했습니다.", "확인");
                 break;
         }
-
-        Debug.Log("조인랜덤룸 실패 리턴 코드 : " + returnCode);
     }
 
     public void CreateRoom(string _password)
@@ -110,19 +102,18 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             // bool isInRoom = false;
 
             roomOptions.CustomRoomProperties = new Hashtable()
-        {
-            { "RoomName", roomName },
-            { "Password", _password },
-            // { "IsInRoom",  isInRoom } 추후 튕길 때 사용
-        };
+            {
+                { "RoomName", roomName },
+                { "Password", _password },
+                // { "IsInRoom",  isInRoom } 추후 튕길 때 사용
+            };
 
             roomOptions.CustomRoomPropertiesForLobby = new string[]
             {
-            "RoomName",
-            "Password",
+                "RoomName",
+                "Password",
                 // "IsInRoom"
             };
-
             PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
         }
         else
@@ -141,18 +132,16 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
                 // TODO : 데이터작업
                 PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 방을 생성할 수 없습니다. 잠시 후 다시 시도헤해주세요", "확인");
             }
-            if (isRoom[i]) // 빈방
+            if (isRoom[i]) // 있는 방
             {
                 continue;
             }
             else
             {
                 isRoom[i] = true;
-                roomNameList.Add(new PKB_PlayRoomUI());
                 return i.ToString();
             }
         }
         return "0";
     }
-
 }
