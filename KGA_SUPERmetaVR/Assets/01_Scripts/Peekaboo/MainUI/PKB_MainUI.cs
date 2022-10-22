@@ -91,25 +91,19 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected)
         {
 
-            for (int i = 0; i < 10001; i++)
+            for (int i = 0; i < LobbyManager.Instance.NowRooms.Count; i++)
             {
-                if (LobbyManager.Instance.NowRooms.Count <= 0 || i >= 10000)
-                {
-                    PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 입장할 수 있는 방이 없습니다.", "확인");
-                    findingRoomImage.SetActive(false);
-                    return;
-                }
-
-
                 if (LobbyManager.Instance.NowRooms[i].CustomProperties["Password"] == null)
                 {
                     string roomName = LobbyManager.Instance.NowRooms.ElementAt(i).CustomProperties.Values.ElementAt(0).ToString();
                     if (PhotonNetwork.JoinRoom(roomName))
                     {
-                        break;
+                        findingRoomImage.SetActive(false);
+                        return;
                     }
                 }
             }
+            PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 입장할 수 있는 방이 없습니다.", "확인");
             findingRoomImage.SetActive(false);
         }
         else
