@@ -6,6 +6,7 @@ using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Linq;
 
 public class PKB_MainUI : MonoBehaviourPunCallbacks
 {
@@ -89,7 +90,8 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsConnected)
         {
-            for (int i = 1; i < 10001; i++)
+
+            for (int i = 0; i < 10001; i++)
             {
                 if (LobbyManager.Instance.NowRooms.Count <= 0 || i >= 10000)
                 {
@@ -98,9 +100,11 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
                     return;
                 }
 
-                if (LobbyManager.Instance.NowRooms[i - 1].CustomProperties["Password"] == null)
+
+                if (LobbyManager.Instance.NowRooms[i].CustomProperties["Password"] == null)
                 {
-                    if (PhotonNetwork.JoinRoom(i.ToString()))
+                    string roomName = LobbyManager.Instance.NowRooms.ElementAt(i).CustomProperties.Values.ElementAt(0).ToString();
+                    if (PhotonNetwork.JoinRoom(roomName))
                     {
                         break;
                     }
