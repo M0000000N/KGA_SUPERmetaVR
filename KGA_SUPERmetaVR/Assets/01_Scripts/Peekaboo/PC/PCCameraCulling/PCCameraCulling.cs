@@ -32,13 +32,12 @@ public class PCCameraCulling : MonoBehaviourPun
         {
             Hands[i].SetActive(false);
         }
-        //StartCoroutine("DisappearHand");
+    
 
     }
 
     public void CullingBody()
     {
-        // 자기 자신에게 모델이 안 보이도록    
         PCModel.SetActive(false);
     }
 

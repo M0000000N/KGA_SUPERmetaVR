@@ -36,24 +36,29 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     [SerializeField]
     private AppearPeekaboo appearPeekaboo;
 
+    [SerializeField]
+    private Camera myCamera;
+   
+
     private Vector3 moveDir; 
     private bool isRun = false;
     private bool isMove = false; 
 
-    //�÷��̾� �̵�
     private float dirX = 0;
     private float dirZ = 0;
 
-    //�������� ���� �����͸� ������ ���� 
     Vector3 setPos;
     Quaternion setRot;
+    Rigidbody rigidbody;
 
-    //�и����� ���� 
-    Rigidbody rigibody; 
+    private void Awake()
+    {
+        rigidbody = this.GetComponent<Rigidbody>();
+        rigidbody.velocity = Vector3.zero;
+    }
 
     private void Start()
     {
-        rigibody.velocity = Vector3.zero;
         cameraRig.SetActive(photonView.IsMine);
         applySpeed = walkSpeed;
     }
@@ -62,68 +67,31 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     {
         TryRun();
         Move();
-        CameraRotation();
-    }
-
-    public void CameraRotation()
-    {
-        if (isMove)
-        {
-            if (photonView.IsMine)
-            {
-                Vector2 pos = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
-
-                // ī�޶� ȸ�� 
-                Vector3 lookDirection = pos.y * Vector3.forward + pos.x * Vector3.right;
-
-                this.transform.rotation = Quaternion.LookRotation(lookDirection);
-                this.transform.Translate(Vector3.forward * applySpeed * Time.deltaTime);
-            }
-        }
-        return; 
     }
 
     public void Move()
     {
-        if (!photonView.IsMine)
-            return;
+        dirX = 0; 
+        dirZ = 0; 
 
         if (photonView.IsMine)
         {
-            dirX = 0; // �¿�
-            dirZ = 0; // ����
+            Vector2 StickPosition = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);
+            Vector3 direction = new Vector3(StickPosition.x, 0, StickPosition.y).normalized;
+            direction = myCamera.transform.TransformDirection(direction);
+            direction.y = 0f;
+      
+            transform.position += direction * applySpeed * Time.deltaTime;
 
-            if (OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
-            {
-                Vector2 pos = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
+        }
+    }
 
-                var absX = Mathf.Abs(pos.x);
-                var absY = Mathf.Abs(pos.y);
-
-                if (absX > absY)
-                {
-                    //right
-                    if (pos.x > 0)
-                        dirX = +1;
-                    //left
-                    else
-                        dirX = -1;
-                }
-                else
-                {
-                    //up
-                    if (pos.y > 0)
-                        dirZ = +1;
-                    //down
-                    else
-                        dirZ = -1;
-                }
-
-                // �̵����� ���� �� �̵�
-                Vector3 moveDirection = (transform.forward * dirZ) + (transform.right * dirX);
-                Vector3 moveDir = moveDirection * applySpeed;
-                transform.Translate(moveDir * Time.deltaTime);
-            }
+    public void CameraRotation()
+    {
+        if (photonView.IsMine)
+        {
+            float rotationCamera = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch).x;
+            cameraRig.transform.eulerAngles += new Vector3(0, rotationCamera, 0) * applySpeed * Time.deltaTime;
         }
     }
 
@@ -152,16 +120,14 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
         applySpeed = walkSpeed;
     }
 
-    // ������ ����ȭ�� ���� ������ ���� �� ���� ��� 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // ������ ���� ��Ȳ
+    
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
             stream.SendNext(myCharacter.rotation);
         }
-        // �����͸� �����ϴ� ��Ȳ
         else if (stream.IsReading)
         {
             setPos = (Vector3)stream.ReceiveNext();
