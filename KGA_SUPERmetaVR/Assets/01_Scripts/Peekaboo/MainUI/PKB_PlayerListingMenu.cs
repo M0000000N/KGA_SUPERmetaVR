@@ -135,27 +135,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
         // PhotonNetwork.LocalPlayer.CustomProperties["IsReady"] = _playerIsReady;
 
-        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
-        {
-            if (player.Value == PhotonNetwork.LocalPlayer)
-            {
-                Hashtable customProperty = player.Value.CustomProperties;
-                ICollection valueColl = customProperty.Values;
-                foreach (bool _isReady in valueColl) //value가 string일 때
-                {
-                    if (_isReady)
-                    {
-                        SetStartButton("준비완료", true);
-                    }
-                    else
-                    {
-                        SetStartButton("준비", true);
-                    }
-                    playerIsReady = _isReady;
-                }
-                return;
-            }
-        }
+        
     }
 
     public void OnClickStartButton()
@@ -187,6 +167,28 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         else
         {
             SetReadyUp(!playerIsReady);
+        }
+
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            if (player.Value == PhotonNetwork.LocalPlayer)
+            {
+                Hashtable customProperty = player.Value.CustomProperties;
+                ICollection valueColl = customProperty.Values;
+                foreach (bool _isReady in valueColl) //value가 string일 때
+                {
+                    if (_isReady)
+                    {
+                        SetStartButton("준비완료", true);
+                    }
+                    else
+                    {
+                        SetStartButton("준비", true);
+                    }
+                    playerIsReady = _isReady;
+                }
+                return;
+            }
         }
     }
 
