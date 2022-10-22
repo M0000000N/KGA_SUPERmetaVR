@@ -50,7 +50,6 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         createRoomButton.interactable = false;
         settingButton.interactable = false;
         RefreshUI();
-
     }
 
     public override void OnConnectedToMaster()
@@ -63,8 +62,6 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         settingButton.interactable = true;
         PKB_MainUIManager.Instance.Fade(true);
     }
-
-
 
     public void OnClickExitButton()
     {
@@ -92,10 +89,23 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsConnected)
         {
-            Hashtable myHashtable = new Hashtable() {
-            { "Password", null } };
-            PhotonNetwork.JoinRandomRoom(myHashtable, (byte)14);
+            for (int i = 1; i < 10001; i++)
+            {
+                if (LobbyManager.Instance.NowRooms.Count <= 0 || i >= 10000)
+                {
+                    PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 입장할 수 있는 방이 없습니다.", "확인");
+                    findingRoomImage.SetActive(false);
+                    return;
+                }
 
+                if (LobbyManager.Instance.NowRooms[i - 1].CustomProperties["Password"] == null)
+                {
+                    if (PhotonNetwork.JoinRoom(i.ToString()))
+                    {
+                        break;
+                    }
+                }
+            }
             findingRoomImage.SetActive(false);
         }
         else
