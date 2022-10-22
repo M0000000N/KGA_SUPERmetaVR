@@ -17,6 +17,10 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
     private PeekabooCreateMap createMap;
     public PeekabooCreateMap CreateMap { get { return createMap; } }
 
+    [SerializeField]
+    private PeekabooSpawner peekabooSpawner;
+    public PeekabooSpawner PeekabooSpawner { get { return peekabooSpawner; } }
+
     private int numberOfPlayers;
     public int NumberOfPlayers { get { return numberOfPlayers; } set { numberOfPlayers = value; } }
 
@@ -59,7 +63,6 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         isGameOver = true;
         // 플레이어 이동 및 시점등 모든 상호작용 멈춤
         //PeekabooUIManager.Instance.GameOverUI(numberOfPlayers);
-        peekabooPlayerUIData.GameOverUI();
     }
 
 

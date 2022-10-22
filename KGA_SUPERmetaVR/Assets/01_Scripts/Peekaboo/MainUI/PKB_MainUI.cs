@@ -61,7 +61,10 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         randomJoinButton.interactable = true;
         createRoomButton.interactable = true;
         settingButton.interactable = true;
+        PKB_MainUIManager.Instance.Fade(true);
     }
+
+
 
     public void OnClickExitButton()
     {
