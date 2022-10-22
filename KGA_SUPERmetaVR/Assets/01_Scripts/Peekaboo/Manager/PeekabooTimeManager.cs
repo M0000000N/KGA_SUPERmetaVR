@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
 public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
 {
@@ -16,6 +17,14 @@ public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
     public float SurvivalTime { get { return survivalTime; } }
 
     private void Update()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Timer();
+        }
+    }
+
+    private void Timer()
     {
         if (gameTimer >= 0 && PeekabooGameManager.Instance.IsGameOver == false)
         {

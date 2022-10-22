@@ -70,6 +70,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         mapData = new Dictionary<int, MAPDATA>();
     }
 
+    private List<Vector3> playerPosition;
     private void Start()
     {
         numberOfPlayers = PhotonNetwork.CountOfPlayers;
@@ -77,9 +78,17 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         mapSize = mapSizeX * mapSizeZ;
         maxNumberOfNPCs = numberOfNPCsProportionalToTheNumberOfPlayers * numberOfPlayers;
         CreateMap();
-        photonView.RPC("SpawnPlayer", RpcTarget.All);
-        photonView.RPC("SpawnNPC", RpcTarget.All);
-        //SpawnNPC();
+        SpawnPlayer();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            for (int i = 0; i < numberOfPlayers; ++i)
+            {
+                playerPosition[i] = SpawnPlayerPosition();
+                // 각 객체에 해당되는 애들한테 값 배정
+                
+            }
+        }
+        SpawnNPC();
     }
 
     private void CreateMap()
@@ -103,51 +112,83 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    [PunRPC]
+    private void TestPlayer(Vector3 position)
+    {
+        // 배정된 플레이어의 위치를 받아 생성
+        PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, position, Quaternion.identity);
+    }
 
     private void SpawnPlayer()
     {
-
-        int randomPlayerIndex = Random.Range(0, mapSize);
-        while (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
-        {
-            randomPlayerIndex = Random.Range(0, mapSize);
-           
-        }
-        float randomPositonX = Random.Range(mapData[randomPlayerIndex].MapPosition.x - MapLength / 2, mapData[randomPlayerIndex].MapPosition.x + MapLength / 2);
-        float randomPositonZ = Random.Range(mapData[randomPlayerIndex].MapPosition.z - MapLength / 2, mapData[randomPlayerIndex].MapPosition.z + MapLength / 2);
-
-        Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
+        int colls = 0;
         NavMeshHit hit;
-
-        NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
-        hit.position += Vector3.up * 1f;
-
-
-        int layerMask = LayerMask.GetMask("Player");
-        Collider[] hitColliders = new Collider[numberOfPlayers];
-        int colls2 = Physics.OverlapSphereNonAlloc(hit.position,distanceBetweenPlayersCreated, hitColliders,layerMask);
-        if (colls2 > 0)
+        int randomPlayerIndex = Random.Range(0, mapSize);
+        do
         {
-            randomPositonX = Random.Range(mapData[randomPlayerIndex].MapPosition.x - MapLength / 2, mapData[randomPlayerIndex].MapPosition.x + MapLength / 2);
-            randomPositonZ = Random.Range(mapData[randomPlayerIndex].MapPosition.z - MapLength / 2, mapData[randomPlayerIndex].MapPosition.z + MapLength / 2);
+            // 랜덤으로 정한 인덱스값의 인원 수가 하나의 인덱스의 최대 인원수랑 동일하면 최대 인원수가 현재 인원수 보다 적은 인덱스값을 찾는다   
+            while (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
+            {
+                randomPlayerIndex = Random.Range(0, mapSize);
+            }
+            // 인덱스값이 정해지면 인덱스에 해당하는 범위 중 한 곳을 랜덤으로 정한다
+            Vector3 randomMapPosition = mapData[randomPlayerIndex].MapPosition;
+            float randomPositonX = Random.Range(randomMapPosition.x - MapLength / 2, randomMapPosition.x + MapLength / 2);
+            float randomPositonZ = Random.Range(randomMapPosition.z - MapLength / 2, randomMapPosition.z + MapLength / 2);
 
-            randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
+            Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
 
+            // 랜덤으로 정한 곳이 베이크된 곳이 아니라면 반경 5f중 가장 가까운 곳을 정한다
             NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
             hit.position += Vector3.up * 1f;
+            // 정해진 범위내 같은 플레이어가 있는지 체크한다
+            int layerMask = LayerMask.GetMask("Player");
+            Collider[] hitColliders = new Collider[numberOfPlayers];
+            colls = Physics.OverlapSphereNonAlloc(hit.position, distanceBetweenPlayersCreated, hitColliders, layerMask);
+        } while (colls != 0); // 만약 플레이어가 있다면 다시 랜덤 위치값을 구한다.
 
-        }
-        else
-        {
-            GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
-            --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
-        }
-
-
-
+        // 조건에 맞는 위치값이 나온다면 플레이어를 생성한다.
+        GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
+        // 위치값에 해당되는 인덱스의 존재가능한 플레이어 수를 줄인다
+        --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
     }
 
-    [PunRPC]
+    private Vector3 SpawnPlayerPosition()
+    {
+        int colls = 0;
+        NavMeshHit hit;
+        int randomPlayerIndex = Random.Range(0, mapSize);
+        do
+        {
+            // 랜덤으로 정한 인덱스값의 인원 수가 하나의 인덱스의 최대 인원수랑 동일하면 최대 인원수가 현재 인원수 보다 적은 인덱스값을 찾는다   
+            while (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
+            {
+                randomPlayerIndex = Random.Range(0, mapSize);
+            }
+            // 인덱스값이 정해지면 인덱스에 해당하는 범위 중 한 곳을 랜덤으로 정한다
+            Vector3 randomMapPosition = mapData[randomPlayerIndex].MapPosition;
+            float randomPositonX = Random.Range(randomMapPosition.x - MapLength / 2, randomMapPosition.x + MapLength / 2);
+            float randomPositonZ = Random.Range(randomMapPosition.z - MapLength / 2, randomMapPosition.z + MapLength / 2);
+
+            Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
+
+            // 랜덤으로 정한 곳이 베이크된 곳이 아니라면 반경 5f중 가장 가까운 곳을 정한다
+            NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
+            hit.position += Vector3.up * 1f;
+            // 정해진 범위내 같은 플레이어가 있는지 체크한다
+            int layerMask = LayerMask.GetMask("Player");
+            Collider[] hitColliders = new Collider[numberOfPlayers];
+            colls = Physics.OverlapSphereNonAlloc(hit.position, distanceBetweenPlayersCreated, hitColliders, layerMask);
+        } while (colls != 0); // 만약 플레이어가 있다면 다시 랜덤 위치값을 구한다.
+
+        // 조건에 맞는 위치값이 나온다면 플레이어를 생성한다.
+        //GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
+        // 위치값에 해당되는 인덱스의 존재가능한 플레이어 수를 줄인다
+        --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
+
+        return hit.position;
+    }
+
     private void SpawnNPC()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -185,7 +226,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             for (int i = 0; i < numberOfPlayers; ++i)
-            {
+            { 
                 stream.SendNext(mapData[i].NumberOfPlayersCreatedInZone);
             }
         }
