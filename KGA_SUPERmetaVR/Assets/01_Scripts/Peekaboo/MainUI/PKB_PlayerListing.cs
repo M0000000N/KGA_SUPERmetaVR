@@ -17,8 +17,9 @@ public class PKB_PlayerListing : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        kickButton.gameObject.SetActive(false);
-        ReadyPanel.gameObject.SetActive(false);
+        // 방 준비상태 동기화를 위해 주석처리
+        //kickButton.gameObject.SetActive(false);
+        //ReadyPanel.gameObject.SetActive(false);
     }
 
     public void SetPlayerInfo(Player _player)

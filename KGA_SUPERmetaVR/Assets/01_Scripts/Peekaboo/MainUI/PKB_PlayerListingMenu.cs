@@ -105,10 +105,20 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         else
         {
             PKB_PlayerListing listing = Instantiate(playerListing, content);
+
             if (listing != null)
             {
                 listing.SetPlayerInfo(_newPlayer);
                 listings.Add(listing);
+            }
+
+            // 방 접속할 때 준비상태 동기화
+            int newIndex = listings.FindIndex(x => x.Player == _newPlayer);
+            Hashtable customProperty = _newPlayer.CustomProperties;
+            ICollection valueColl = customProperty.Values;
+            foreach (bool _isReady in valueColl)
+            {
+                listings[newIndex].ActiveReadyPanel(_isReady);
             }
         }
     }
@@ -134,8 +144,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(newCustomProperty);
 
         // PhotonNetwork.LocalPlayer.CustomProperties["IsReady"] = _playerIsReady;
-
-        
     }
 
     public void OnClickStartButton()
@@ -226,6 +234,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             }
             SetStartButton("게임시작", true);
         }
+
 
     }
 
