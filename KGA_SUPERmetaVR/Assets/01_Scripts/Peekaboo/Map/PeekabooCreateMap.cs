@@ -83,10 +83,15 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         {
             for (int i = 0; i < numberOfPlayers; ++i)
             {
+                
                 playerPosition[i] = SpawnPlayerPosition();
                 // 각 객체에 해당되는 애들한테 값 배정
                 
             }
+        }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("TestPlayer", RpcTarget.All);
         }
         SpawnNPC();
     }
@@ -113,9 +118,10 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    private void TestPlayer(Vector3 position)
+    private void TestPlayer()
     {
         // 배정된 플레이어의 위치를 받아 생성
+        Vector3 position = playerPosition[PhotonNetwork.LocalPlayer.ActorNumber - 1];
         PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, position, Quaternion.identity);
     }
 
@@ -185,7 +191,6 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         //GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
         // 위치값에 해당되는 인덱스의 존재가능한 플레이어 수를 줄인다
         --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
-
         return hit.position;
     }
 
@@ -221,21 +226,21 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            for (int i = 0; i < numberOfPlayers; ++i)
-            { 
-                stream.SendNext(mapData[i].NumberOfPlayersCreatedInZone);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < numberOfPlayers; ++i)
-            {
-                mapData[i].NumberOfPlayersCreatedInZone = (int)stream.ReceiveNext();
-            }
-        }
-    }
+    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if (stream.IsWriting)
+    //    {
+    //        for (int i = 0; i < numberOfPlayers; ++i)
+    //        { 
+    //            stream.SendNext(mapData[i].NumberOfPlayersCreatedInZone);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        for (int i = 0; i < numberOfPlayers; ++i)
+    //        {
+    //            mapData[i].NumberOfPlayersCreatedInZone = (int)stream.ReceiveNext();
+    //        }
+    //    }
+    //}
 }

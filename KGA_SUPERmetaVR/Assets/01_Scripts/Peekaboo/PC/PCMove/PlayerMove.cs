@@ -44,8 +44,11 @@ public class PlayerMove : MonoBehaviourPun
 
     private void Update()
     {
-        TryRun();
-        Move();
+        if (PeekabooGameManager.Instance.IsGameOver == false)
+        {
+            Move();
+            TryRun();
+        }
     }
 
     // 플레이어 이동

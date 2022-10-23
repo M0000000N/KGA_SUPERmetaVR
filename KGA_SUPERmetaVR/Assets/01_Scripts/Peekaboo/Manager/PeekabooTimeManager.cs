@@ -20,13 +20,18 @@ public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Timer();
+            photonView.RPC("Timer", RpcTarget.All,gameTimer);
         }
     }
 
-    private void Timer()
+    [PunRPC]
+    private void Timer(float gameTimer)
     {
-        if (gameTimer >= 0 && PeekabooGameManager.Instance.IsGameOver == false)
+        if (gameTimer <= 0f)
+        {
+            PeekabooGameManager.Instance.IsGameOver = true;
+        }
+        if (gameTimer >= 0f && PeekabooGameManager.Instance.IsGameOver == false)
         {
             gameTimer -= Time.deltaTime;
         }

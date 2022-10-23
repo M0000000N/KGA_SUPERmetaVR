@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PeekabooPCDieState : PeekabooCharacterState
 {
@@ -41,7 +42,14 @@ public class PeekabooPCDieState : PeekabooCharacterState
 
             yield return null;
         }
-
+        PeekabooGameManager.Instance.IsGameOver = true;
+        photonView.RPC("PlayerDie", RpcTarget.All);
         Destroy(gameObject);
+    }
+    
+    [PunRPC]
+    private void PlayerDie()
+    {
+        PeekabooGameManager.Instance.NumberOfPlayers--;
     }
 }

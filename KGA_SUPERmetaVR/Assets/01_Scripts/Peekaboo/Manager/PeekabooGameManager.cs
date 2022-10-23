@@ -50,9 +50,9 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
     private void Update()
     {
         // 플레이어가 죽을때가 구현되면 삭제될 예정
-        if (!isGameOver)
+        if (numberOfPlayers == 1)
         {
-            PeekabooGameOver();
+            isGameOver = true;
         }
     }
 
@@ -69,7 +69,7 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         {
             PlayerGameOver();
         }
-        else if (false)//numberOfPlayers == 1)
+        else if (numberOfPlayers == 1)
         {
             Debug.Log("혼자남음");
             PlayerGameOver();
