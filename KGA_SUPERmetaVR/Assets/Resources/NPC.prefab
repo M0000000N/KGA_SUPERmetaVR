@@ -929,6 +929,8 @@ GameObject:
   - component: {fileID: 1208299283591407747}
   - component: {fileID: 1208299283591407869}
   - component: {fileID: 6410905426171881365}
+  - component: {fileID: 8164639804491942388}
+  - component: {fileID: 1302407660}
   - component: {fileID: 1302407661}
   m_Layer: 3
   m_Name: Spook
@@ -1267,6 +1269,38 @@ CapsuleCollider:
   m_Height: 1.9867654
   m_Direction: 1
   m_Center: {x: 0, y: 0.68590665, z: 0}
+--- !u!114 &8164639804491942388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208299283591407844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 265dad709c6e4a2479787a988c40bbc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PC: {fileID: 0}
+  NPC: {fileID: 1208299283591407849}
+  laysers: {fileID: 1208299283591407844}
+  Peekaboo: {fileID: 1218682039282641411}
+  layser: {fileID: 0}
+--- !u!114 &1302407660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208299283591407844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63d5383a2e2d6f246818ace6301d5389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PC: {fileID: 0}
+  NPC: {fileID: 1208299283591407849}
+  peekaboo: {fileID: 8164639804491942388}
 --- !u!114 &1302407661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1276,15 +1310,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1208299283591407844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b022443fc40a8e84ebb951d1c24ca9c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 265dad709c6e4a2479787a988c40bbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PC: {fileID: 1208299283591407849}
+  PC: {fileID: 0}
   NPC: {fileID: 1208299283591407849}
   laysers: {fileID: 0}
   Peekaboo: {fileID: 1218682039282641411}
   layser: {fileID: 0}
-  PCPeekaboo: {fileID: 0}
 --- !u!1 &1208299283591407846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1851,11 +1884,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8096971234938349150, guid: cbc7bd541466c7249ae772e2a7bb04d1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8096971234938349150, guid: cbc7bd541466c7249ae772e2a7bb04d1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8096971234938349150, guid: cbc7bd541466c7249ae772e2a7bb04d1, type: 3}
       propertyPath: m_LocalPosition.x

@@ -8,6 +8,9 @@ public class PeekabooPC : PeekabooCharacter
     [SerializeField]
     private GameObject attackTarget;
 
+    [SerializeField]
+    private LayserPointer layser; 
+
     private void Awake()
     {
         BaseInitialize();
@@ -65,6 +68,7 @@ public class PeekabooPC : PeekabooCharacter
                 photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
                 AttackTarget = attackTarget;
                 // AttackTarget에 레이캐스트 쏴서 맞은 대상 캐릭터 저장 필요
+                AttackTarget = layser.CreateRaycast().transform.gameObject; 
                 myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOTARGET);
             }
             else
@@ -86,6 +90,7 @@ public class PeekabooPC : PeekabooCharacter
     {
         photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
         AttackTarget = attackTarget;
+        AttackTarget = layser.CreateRaycast().transform.gameObject;
         // AttackTarget에 레이캐스트 쏴서 맞은 대상 캐릭터 저장 필요
         myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOTARGET);
     }
