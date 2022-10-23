@@ -58,24 +58,24 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (PhotonNetwork.IsConnected)
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                if (PhotonNetwork.PlayerList.Length > MinPlayerCount) // TODO : 전부 준비완료가 됐는지?
-                {
-                    SetStartButton("게임시작", true);
-                }
-                else
-                {
-                    SetStartButton("대기중", false);
-                }
-            }
-        }
-        else
-        {
-            SetStartButton("대기중", false);
-        }
+        //if (PhotonNetwork.IsConnected)
+        //{
+        //    if (PhotonNetwork.IsMasterClient)
+        //    {
+        //        if (PhotonNetwork.PlayerList.Length > MinPlayerCount) // TODO : 전부 준비완료가 됐는지?
+        //        {
+        //            SetStartButton("게임시작", true);
+        //        }
+        //        else
+        //        {
+        //            SetStartButton("대기중", false);
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    SetStartButton("대기중", false);
+        //}
     }
 
     private void GetCurrentRoomPlayers()
@@ -205,6 +205,28 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
                 listings[index].ActiveReadyPanel(_isReady);
             }
         }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+            {
+                if (player.Value != PhotonNetwork.LocalPlayer)
+                {
+                    Hashtable customProperty = player.Value.CustomProperties;
+                    ICollection valueColl = customProperty.Values;
+                    foreach (bool _isReady in valueColl) //value가 string일 때
+                    {
+                        if (_isReady == false)
+                        {
+                            SetStartButton("대기중", false);
+                            return;
+                        }
+                    }
+                }
+            }
+            SetStartButton("게임시작", true);
+        }
+
     }
 
     private void SetStartButton(string text, bool isInteractable)
