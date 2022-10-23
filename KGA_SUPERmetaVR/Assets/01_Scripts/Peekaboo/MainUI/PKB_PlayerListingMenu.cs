@@ -162,6 +162,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
+            PhotonNetwork.CurrentRoom.IsOpen = false; // TODO : 방 시작하면 접근 못하도록 설정 - 테스트 필요
             PhotonNetwork.LoadLevel("Peekaboo_InGame");
         }
         else
