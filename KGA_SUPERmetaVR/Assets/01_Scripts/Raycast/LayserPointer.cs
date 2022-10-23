@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,10 @@ using UnityEngine.UI;
 
 public class LayserPointer : MonoBehaviour
 {
-    [SerializeField]
-    private float lineLength = 1.5f;
+    public float defaultLength = 30f;
+    RaycastHit hit;
 
     private LineRenderer lineRenderer = null;
-    RaycastHit hit;
 
     private void Awake()
     {
@@ -18,37 +18,38 @@ public class LayserPointer : MonoBehaviour
 
     private void Update()
     {
-        UpdateLength();   
+        UpdateLength();
     }
 
     private void UpdateLength()
     {
         lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, CalculatedEnd());
+        lineRenderer.SetPosition(1, CalculateEnd());
     }
 
-    public Vector3 CalculatedEnd()
+    private Vector3 CalculateEnd()
     {
-        RaycastHit hit = CreateFowardRaycast();
-        Vector3 endPosition = DefaultEnd(lineLength); 
+        RaycastHit hit = CreateRaycast();
+        Vector3 endPosition = DefaultEnd(defaultLength);
 
         if(hit.collider)
         {
-            endPosition = hit.point;                                          
+            endPosition = hit.point;
         }
-        return endPosition;                                     
+        return endPosition;
     }
 
-   public RaycastHit CreateFowardRaycast()
+    public RaycastHit CreateRaycast()
     {
+        
         Ray ray = new Ray(transform.position, transform.forward);
-        Physics.Raycast(ray, out hit, lineLength);
+        
+        Physics.Raycast(ray, out hit, defaultLength);
         return hit;
     }
 
-    private Vector3 DefaultEnd(float _lenght)
+    private Vector3 DefaultEnd(float _length)
     {
-        return transform.position + (transform.forward * _lenght); 
+        return transform.position + (transform.forward * _length); 
     }
-
 }

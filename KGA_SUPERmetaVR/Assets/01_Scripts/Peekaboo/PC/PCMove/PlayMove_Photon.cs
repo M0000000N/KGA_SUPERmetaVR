@@ -12,7 +12,6 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     [SerializeField]
     private float runSpeed;
-
     public float applySpeed;
 
     [SerializeField]
@@ -22,19 +21,10 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     private GameObject cameraRig;
 
     [SerializeField]
-    private Transform camera; 
-
-    [SerializeField]
     private Stamina stamina;
 
     [SerializeField]
     private Transform myCharacter;
-
-    [SerializeField]
-    private GameObject rayPointer;
-
-    [SerializeField]
-    private AppearPeekaboo appearPeekaboo;
 
     [SerializeField]
     private Camera myCamera;
@@ -49,14 +39,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     Vector3 setPos;
     Quaternion setRot;
-    Rigidbody rigidbody;
-
-    private void Awake()
-    {
-        rigidbody = this.GetComponent<Rigidbody>();
-        rigidbody.velocity = Vector3.zero;
-    }
-
+  
     private void Start()
     {
         cameraRig.SetActive(photonView.IsMine);
