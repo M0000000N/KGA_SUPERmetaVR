@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
+using System.Linq;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class LobbyManager : SingletonBehaviour<LobbyManager>
@@ -25,9 +26,10 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             {
                 if (NowRooms.IndexOf(room) < 0)
                 {
+                    int roomIndex = int.Parse(room.Name);
+                    isRoom[roomIndex] = false;
                     return;
                 }
-                isRoom[NowRooms.IndexOf(room) + 1] = false;
                 NowRooms.RemoveAt(NowRooms.IndexOf(room));
             }
             else
