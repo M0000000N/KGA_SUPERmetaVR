@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using OVR; 
+using OVR;
+using UnityEngine.AI;
 
-public class PlayerMove : MonoBehaviourPun
+public class PlayerMove : MonoBehaviourPun, IPunObservable
 {
     [SerializeField]
     private float walkSpeed;
@@ -24,36 +25,47 @@ public class PlayerMove : MonoBehaviourPun
     private GameObject peekaboo;
 
     [SerializeField]
+    private GameObject cameraRig;
+
+    [SerializeField]
     private Stamina stamina; 
 
-    //ÇÃ·¹ÀÌ¾î ÀÌµ¿
+    //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½
     private float dirX = 0;
     private float dirZ = 0;
 
     private Vector3 curDir;
 
-    // ¼­¹ö¿¡¼­ ¹ÞÀº µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ º¯¼ö 
+    private NavMeshAgent playerAgent;
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     Vector3 setPos;
     Quaternion setRot;
     Rigidbody rigidbody; 
 
     private void Start()
     {
+        cameraRig.SetActive(photonView.IsMine);
         curDir = Vector3.zero;
-        applySpeed = walkSpeed;     
+        applySpeed = walkSpeed;
+        playerAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        rigidbody.velocity = Vector3.zero;
-        TryRun();
-        Move();
+        //if (PeekabooGameManager.Instance.IsGameOver == false)
+        //{
+            Move();
+            TryRun();
+//        }
     }
 
-    // ÇÃ·¹ÀÌ¾î ÀÌµ¿
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½
 
     private void Move()
     {
+        if (!photonView.IsMine)
+            return;
+
         if (photonView.IsMine)
         {
             curDir = Vector3.zero;
@@ -78,6 +90,7 @@ public class PlayerMove : MonoBehaviourPun
 
             curDir.Normalize();
             transform.position += curDir * (applySpeed * Time.deltaTime);
+            playerAgent.SetDestination(transform.position);
         }
     }
 
@@ -107,21 +120,15 @@ public class PlayerMove : MonoBehaviourPun
         stamina.IncreaseProgress();
     }
 
-    public void Attack()
-    {
-        peekaboo.SetActive(true);
-    }
-
-    // µ¥ÀÌÅÍ µ¿±âÈ­¸¦ À§ÇÑ µ¥ÀÌÅÍ Àü¼Û ¹× ¼ö½Å ±â´É 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // µ¥ÀÌÅÍ Àü¼Û »óÈ²
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È²
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
             stream.SendNext(myCharacter.rotation);
         }
-        // µ¥ÀÌÅÍ¸¦ ¼ö½ÅÇÏ´Â »óÈ²
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½È²
         else if (stream.IsReading)
         {
             setPos = (Vector3)stream.ReceiveNext();

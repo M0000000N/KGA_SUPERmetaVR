@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -42,12 +42,19 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        TryRun();
-        Move();
+        if (PeekabooGameManager.Instance.IsGameOver == false)
+        {
+            TryRun();
+            Move();
+        }
     }
 
     public void Move()
     {
+        
+        if (!photonView.IsMine)
+            return;
+
         if (photonView.IsMine)
         {
             Vector2 StickPosition = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);

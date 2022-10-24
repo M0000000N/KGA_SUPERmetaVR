@@ -26,11 +26,11 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
 
     private Color winnerColor;
 
-    private float time;
     private void Start()
     {
         winnerColor = new Color(255, 192, 0);
         exitButton.onClick.AddListener(() => { GoRoom(); });
+        watchingButton.onClick.AddListener(() => { WatchingStatePlayer(); });
         gameResultUI.SetActive(false);
     }
 
@@ -45,18 +45,26 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
 
     public void GameOverUI()
     {
-
-        Debug.Log("게임오버유아이");
-        if (PeekabooGameManager.Instance.NumberOfPlayers == 1)
+        // 게임시간이 0이하일시 모든 관전하기 버튼 비활성화
+        if (PeekabooTimeManager.Instance.GameTimer <= 0f)
         {
             watchingButton.interactable = false;
-            playerRankingText.color = winnerColor;
+            //if ()// 1등만 플레이어 컬러 변경
+            //{
+            //}
         }
         // 플레이어가 2명이하 일시 관전하기 버튼 비활성화
-        // 게임시간이 0이하일시 모든 관전하기 버튼 비활성화
+        if (PeekabooGameManager.Instance.NumberOfPlayers == 1 && PeekabooGameManager.Instance.NumberOfPlayers ==2)
+        {
+            watchingButton.interactable = false;
+            if (PeekabooGameManager.Instance.NumberOfPlayers == 1)
+            {
+                playerRankingText.color = winnerColor;
+            }
+        }
         playerRankingText.text = "# " + PeekabooGameManager.Instance.NumberOfPlayers.ToString();
         totalPlayerCount.text = "/ " + PeekabooGameManager.Instance.TotalNumberOfPeopleFirstEnterdRoom.ToString();
-        // surprisedEnemyNumbers = 플레이어가 놀래킨 수
+        surprisedEnemyNumbersText.text = "놀래 킨 적 : "; // + 플레이어가 놀래킨 수
         survivalTimeText.text = "생존 시간 : " + ((int)(PeekabooTimeManager.Instance.SurvivalTime / 60)).ToString() + "분" + ((int)(PeekabooTimeManager.Instance.SurvivalTime % 60)).ToString() + "초";
         NumberOfCoinsAcquiredText.text = "획득 코인 :       X " + (PeekabooGameManager.Instance.TotalNumberOfPeopleFirstEnterdRoom - PeekabooGameManager.Instance.NumberOfPlayers + 124).ToString();
         gameResultUI.SetActive(true);
@@ -80,6 +88,12 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.LoadLevel("Login");
+    }
+
+    public void WatchingStatePlayer()
+    {
+        // 관전할 수 있게 플레이어 변경
+        Debug.Log("관전 미구현");
     }
 
 }
