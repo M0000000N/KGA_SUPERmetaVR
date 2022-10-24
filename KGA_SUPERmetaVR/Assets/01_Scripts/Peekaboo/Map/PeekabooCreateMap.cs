@@ -75,8 +75,8 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        numberOfPlayers = PhotonNetwork.CountOfPlayers;
-        Debug.Log($"서버룸 접속자 수{PhotonNetwork.CountOfPlayers}");
+        numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
+        // Debug.Log($"서버룸 접속자 수{PhotonNetwork.CountOfPlayers}");
         mapSize = mapSizeX * mapSizeZ;
         maxNumberOfNPCs = numberOfNPCsProportionalToTheNumberOfPlayers * numberOfPlayers;
         CreateMap();
