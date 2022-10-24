@@ -137,7 +137,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
             if(player.GetComponentInChildren<PhotonView>().IsMine)
             {
                 PeekabooGameManager.Instance.OVRCamera.transform.parent = player.transform;
-                PeekabooGameManager.Instance.OVRCamera.transform.position = Vector3.zero;
+                PeekabooGameManager.Instance.OVRCamera.transform.localPosition = Vector3.zero;
             }
         }
     }
