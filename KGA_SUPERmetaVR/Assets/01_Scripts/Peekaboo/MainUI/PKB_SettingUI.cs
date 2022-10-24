@@ -9,22 +9,22 @@ public class PKB_SettingUI : MonoBehaviour
     [Header("BGM")]
     [SerializeField] Slider bgmSlider;
     [SerializeField] TextMeshProUGUI bgmValue;
-    float bgmPreviousSetting;
+    private float bgmPreviousSetting;
 
     [Header("SE")]
     [SerializeField] Slider seSlider;
     [SerializeField] TextMeshProUGUI seValue;
-    float sePreviousSetting;
+    private float sePreviousSetting;
 
     [Header("MIC")]
     [SerializeField] Slider micSlider;
     [SerializeField] TextMeshProUGUI micValue;
-    float micPreviousSetting;
+    private float micPreviousSetting;
 
     [Header("Voice")]
     [SerializeField] Slider voiceSlider;
     [SerializeField] TextMeshProUGUI voiceValue;
-    float voicePreviousSetting;
+    private float voicePreviousSetting;
 
     [Header("ApplyButton")]
     [SerializeField] GameObject applyButtonOn;
