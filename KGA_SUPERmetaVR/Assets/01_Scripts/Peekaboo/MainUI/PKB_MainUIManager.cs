@@ -17,7 +17,9 @@ public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
     public PKB_PlayRoomUI PlayRoomUI;
     public PKB_RankingUI RankingUI;
     public PKB_SettingUI SettingUI;
-
+    public GameObject Loading { get { return loading; }set { loading = value; } }
+    [SerializeField] GameObject loading;
+    
     private void Awake()
     {
         CreateRoomUI     = GetComponentInChildren<PKB_CreateRoomUI>();
@@ -51,5 +53,56 @@ public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
     public void OpenNotificationPopupUI(int _id)
     {
         NoticePopupUI.OpenNotificationPopupUI(_id);
+    }
+
+    // ·Îµù
+    public void Fade(bool _isFadeIn)
+    {
+        StopAllCoroutines();
+        if(_isFadeIn)
+        {
+            StartCoroutine("LoadingFadeInCoroutine");
+        }
+        else
+        {
+            StartCoroutine("LoadingFadeOutCoroutine");
+        }
+
+    }
+
+    IEnumerator LoadingFadeInCoroutine()
+    {
+        Image image = PKB_MainUIManager.Instance.Loading.GetComponent<Image>();
+        float alpha = 1f;
+        image.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
+        while (true)
+        {
+            alpha -= 0.1f;
+            image.color = new Color(0, 0, 0, alpha);
+            yield return new WaitForSeconds(0.05f);
+            if (alpha <= 0) break;
+        }
+        image.gameObject.SetActive(false);
+        yield break;
+    }
+
+    IEnumerator LoadingFadeOutCoroutine()
+    {
+        Image image = PKB_MainUIManager.Instance.Loading.GetComponent<Image>();
+        image.gameObject.SetActive(true);
+        float alpha = 0f;
+        image.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
+        while (true)
+        {
+            alpha += 0.1f;
+            image.color = new Color(0, 0, 0, alpha);
+            yield return new WaitForSeconds(0.05f);
+            if (alpha >= 1) break;
+        }
+        image.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
+        yield break;
     }
 }

@@ -107,6 +107,7 @@ public class Login : MonoBehaviour
             foreach (DataRow row in dataTable.Rows)
             {
                 GameManager.Instance.PlayerData.Nickname = row[UserTableInfo.nickname].ToString();
+                PhotonNetwork.NickName = GameManager.Instance.PlayerData.Nickname;
                 GameManager.Instance.PlayerData.Coin =  int.Parse(row[UserTableInfo.coin].ToString());
             }
         }
