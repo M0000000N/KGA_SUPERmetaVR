@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using UnityEngine.AI; 
 
 public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 {
@@ -12,10 +13,6 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     [SerializeField]
     private float runSpeed;
-    public float applySpeed;
-
-    [SerializeField]
-    private GameObject peekaboo;
 
     [SerializeField]
     private GameObject cameraRig;
@@ -28,14 +25,10 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     [SerializeField]
     private Camera myCamera;
-   
 
-    private Vector3 moveDir; 
+    private NavMeshAgent navMeshAgent; 
+    private float applySpeed;
     private bool isRun = false;
-    private bool isMove = false; 
-
-    private float dirX = 0;
-    private float dirZ = 0;
 
     Vector3 setPos;
     Quaternion setRot;
@@ -44,6 +37,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     {
         cameraRig.SetActive(photonView.IsMine);
         applySpeed = walkSpeed;
+        navMeshAgent = GetComponent<NavMeshAgent>(); 
     }
 
     private void Update()
@@ -54,9 +48,6 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
 
     public void Move()
     {
-        dirX = 0; 
-        dirZ = 0; 
-
         if (photonView.IsMine)
         {
             Vector2 StickPosition = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);
@@ -65,7 +56,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
             direction.y = 0f;
       
             transform.position += direction * applySpeed * Time.deltaTime;
-
+            navMeshAgent.SetDestination(transform.position); 
         }
     }
 

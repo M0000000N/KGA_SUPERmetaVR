@@ -43,7 +43,6 @@ public class PeekabooNPC : PeekabooCharacter
     private void ChangeMyInteractState(bool _state)
     {
         IsInteracting = _state;
-        StartCoroutine(FadeOutPeekaboo());
     }
 
     private void Update()
@@ -109,6 +108,12 @@ public class PeekabooNPC : PeekabooCharacter
         myFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCLAUGHT);
     }
 
+    [PunRPC]
+    private void AppearPeekaboo()
+    {
+        StartCoroutine(FadeOutPeekaboo());
+    }
+
     public override void TakeDamage(GameObject _attacker)
     {
         if (IsInteracting == false)
@@ -116,6 +121,7 @@ public class PeekabooNPC : PeekabooCharacter
             if (PhotonNetwork.IsMasterClient)
             {
                 photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
+                photonView.RPC("AppearPeekaboo", RpcTarget.All);
                 Attacker = _attacker;
                 myFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCLAUGHT);
             }
