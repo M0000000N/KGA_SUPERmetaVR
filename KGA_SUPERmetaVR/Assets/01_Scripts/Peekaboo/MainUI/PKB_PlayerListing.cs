@@ -9,18 +9,10 @@ using Photon.Realtime;
 public class PKB_PlayerListing : MonoBehaviourPunCallbacks
 {
     [SerializeField] TextMeshProUGUI playerNameText;
-    [SerializeField] GameObject ReadyPanel;
-    public Button kickButton;
+    [SerializeField] GameObject readyPanel;
+    // public Button KickButton;
 
     public Player Player { get; private set; }
-    public bool Ready = false;
-
-    void Start()
-    {
-        // 방 준비상태 동기화를 위해 주석처리
-        //kickButton.gameObject.SetActive(false);
-        //ReadyPanel.gameObject.SetActive(false);
-    }
 
     public void SetPlayerInfo(Player _player)
     {
@@ -46,6 +38,6 @@ public class PKB_PlayerListing : MonoBehaviourPunCallbacks
 
     public void ActiveReadyPanel(bool _isActive)
     {
-        ReadyPanel.gameObject.SetActive(_isActive);
+        readyPanel.gameObject.SetActive(_isActive);
     }
 }

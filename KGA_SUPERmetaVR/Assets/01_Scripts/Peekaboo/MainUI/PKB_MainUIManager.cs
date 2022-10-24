@@ -17,9 +17,8 @@ public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
     public PKB_PlayRoomUI PlayRoomUI;
     public PKB_RankingUI RankingUI;
     public PKB_SettingUI SettingUI;
-
-    [SerializeField] GameObject loading;
     public GameObject Loading { get { return loading; }set { loading = value; } }
+    [SerializeField] GameObject loading;
     
     private void Awake()
     {

@@ -11,15 +11,14 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
     public RoomInfo RoomInfo { get; private set; }
 
     [Header("PlayRoom")]
-    [SerializeField] TextMeshProUGUI RoomNameText;
-
-    [SerializeField] Button exitRoomButton;
-    [SerializeField] TextMeshProUGUI RoomTypeText;
+    [SerializeField] TextMeshProUGUI roomNameText;
+    [SerializeField] TextMeshProUGUI roomTypeText;
 
     [Header("ExitRoom")]
+    [SerializeField] Button exitRoomButton;
     [SerializeField] GameObject exitRoomUI;
-    [SerializeField] Button YesExitRoomButton;
-    [SerializeField] Button NoExitRoomButton;
+    [SerializeField] Button yesExitRoomButton;
+    [SerializeField] Button noExitRoomButton;
 
     [SerializeField] PKB_PlayerListingMenu playerListingMenu;
 
@@ -27,24 +26,24 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
     {
         exitRoomButton.onClick.AddListener(OnClickExitButton);
         exitRoomUI.gameObject.SetActive(false);
-        YesExitRoomButton.onClick.AddListener(OnClickYesExitRoomButton);
-        NoExitRoomButton.onClick.AddListener(OnClickNoExitRoomButton);
+        yesExitRoomButton.onClick.AddListener(OnClickYesExitRoomButton);
+        noExitRoomButton.onClick.AddListener(OnClickNoExitRoomButton);
         playerListingMenu.gameObject.SetActive(false);
     }
 
     public void SetRoomInfo(RoomOptions _roomOptions)
     {
         // 방 이름
-        RoomNameText.text = "# " + System.String.Format("{0:0000}", int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["RoomName"].ToString()));
+        roomNameText.text = "# " + System.String.Format("{0:0000}", int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["RoomName"].ToString()));
 
         // 방 타입
         if (PhotonNetwork.CurrentRoom.CustomProperties["Password"] == null)
         {
-            RoomTypeText.text = "공개방";
+            roomTypeText.text = "공개방";
         }
         else
         {
-            RoomTypeText.text = "비밀방";
+            roomTypeText.text = "비밀방";
         }
         playerListingMenu.gameObject.SetActive(true);
     }

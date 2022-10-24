@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
-using Photon.Realtime;
 
 public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
 {

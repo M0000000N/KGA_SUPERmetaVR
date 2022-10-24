@@ -15,12 +15,12 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI nickname;
 
     [Header("버튼")]
-    [SerializeField] Button exitButton;
     [SerializeField] Button findRoomButton;
     [SerializeField] Button customizingButton;
     [SerializeField] Button randomJoinButton;
     [SerializeField] Button createRoomButton;
     [SerializeField] Button settingButton;
+    [SerializeField] Button exitButton;
 
     [Header("방 찾기")]
     [SerializeField] GameObject findingRoomImage;
@@ -37,19 +37,19 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        exitButton.onClick.AddListener(OnClickExitButton);
         findRoomButton.onClick.AddListener(OnClickFindRoomButton);
         customizingButton.onClick.AddListener(OnClickCustomizingButton);
         createRoomButton.onClick.AddListener(OnClickCreateRoomButton);
         randomJoinButton.onClick.AddListener(OnClickRandomJoinButton);
         settingButton.onClick.AddListener(OnClickSettingButton);
+        exitButton.onClick.AddListener(OnClickExitButton);
 
-        exitButton.interactable = false;
         findRoomButton.interactable = false;
         customizingButton.interactable = false;
         randomJoinButton.interactable = false;
         createRoomButton.interactable = false;
         settingButton.interactable = false;
+        exitButton.interactable = false;
         RefreshUI();
     }
 
@@ -64,11 +64,6 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         PKB_MainUIManager.Instance.Fade(true);
     }
 
-    public void OnClickExitButton()
-    {
-        PKB_MainUIManager.Instance.ExitUI.gameObject.SetActive(true);
-    }
-
     public void OnClickFindRoomButton()
     {
         PKB_MainUIManager.Instance.FindRoomUI.gameObject.SetActive(true);
@@ -77,11 +72,6 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
     public void OnClickCustomizingButton()
     {
         PKB_MainUIManager.Instance.CustomizingUI.gameObject.SetActive(true);
-    }
-
-    public void OnClickCreateRoomButton()
-    {
-        PKB_MainUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
     }
 
     public void OnClickRandomJoinButton()
@@ -112,9 +102,19 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         }
     }
 
+    public void OnClickCreateRoomButton()
+    {
+        PKB_MainUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
+    }
+
     public void OnClickSettingButton()
     {
         PKB_MainUIManager.Instance.SettingUI.gameObject.SetActive(true);
+    }
+
+    public void OnClickExitButton()
+    {
+        PKB_MainUIManager.Instance.ExitUI.gameObject.SetActive(true);
     }
 
     public void ChangeCustomCharacter()

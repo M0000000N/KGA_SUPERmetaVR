@@ -17,8 +17,8 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     [SerializeField] Button gameStartButton;
     private TextMeshProUGUI gameStartButtonText;
 
-    [SerializeField] int MinPlayerCount;
     private bool playerIsReady = false;
+    public int MinPlayerCount;
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     {
         base.OnEnable();
         GetCurrentRoomPlayers();
-        SetReadyUp(false);
+        SetReadyUp(false);// TODO : 왜 두번하는지?
     }
 
     private void Start()
@@ -56,28 +56,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         listings.Clear();
     }
 
-    private void Update()
-    {
-        //if (PhotonNetwork.IsConnected)
-        //{
-        //    if (PhotonNetwork.IsMasterClient)
-        //    {
-        //        if (PhotonNetwork.PlayerList.Length > MinPlayerCount) // TODO : 전부 준비완료가 됐는지?
-        //        {
-        //            SetStartButton("게임시작", true);
-        //        }
-        //        else
-        //        {
-        //            SetStartButton("대기중", false);
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    SetStartButton("대기중", false);
-        //}
-    }
-
     private void GetCurrentRoomPlayers()
     {
         if (PhotonNetwork.IsConnected)
@@ -98,7 +76,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     private void AddPlayerListing(Player _newPlayer)
     {
         int index = listings.FindIndex(x => x.Player == _newPlayer);
-        if (index != -1)
+        if (index != -1) // TODO : 무슨 예외처리인지
         {
             listings[index].SetPlayerInfo(_newPlayer);
         }
@@ -142,8 +120,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
         Hashtable newCustomProperty = new Hashtable() { { "IsReady", _playerIsReady } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(newCustomProperty);
-
-        // PhotonNetwork.LocalPlayer.CustomProperties["IsReady"] = _playerIsReady;
     }
 
     public void OnClickStartButton()
@@ -170,7 +146,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
-            PhotonNetwork.CurrentRoom.IsOpen = false; // TODO : 방 시작하면 접근 못하도록 설정 - 테스트 필요
             PhotonNetwork.LoadLevel("Peekaboo_InGame");
         }
         else
@@ -201,6 +176,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         }
     }
 
+    // 플레이어가 모두 준비완료가 되었는지 확인
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         int index = listings.FindIndex(x => x.Player == targetPlayer);
@@ -232,15 +208,22 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
                     }
                 }
             }
-            SetStartButton("게임시작", true);
+
+            // 플레이어 최소 인원 달성했는지
+            if (PhotonNetwork.PlayerList.Length > MinPlayerCount)
+            {
+                SetStartButton("게임시작", true);
+            }
+            else
+            {
+                SetStartButton("대기중", false);
+            }
         }
-
-
     }
 
-    private void SetStartButton(string text, bool isInteractable)
+    private void SetStartButton(string _text, bool _isInteractable)
     {
-        gameStartButtonText.text = text;
-        gameStartButton.interactable = isInteractable;
+        gameStartButtonText.text = _text;
+        gameStartButton.interactable = _isInteractable;
     }
 }

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
-using System.Linq;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class LobbyManager : SingletonBehaviour<LobbyManager>
@@ -58,7 +57,6 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         PKB_MainUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
         PKB_MainUIManager.Instance.PlayRoomUI.SetRoomInfo(roomOptions);
         Debug.Log($"현재인원 / 최대인원 : {PhotonNetwork.CurrentRoom.PlayerCount} / {PhotonNetwork.CurrentRoom.MaxPlayers}");
-        // Debug.Log($"들어온 방 인덱스 1 : {NowRooms[1]}");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
-using Photon.Realtime;
 
 public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 {
@@ -90,15 +89,21 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickCheckButton()
     {
-        if (passwordInput.text.Equals(LobbyManager.Instance.NowRooms[int.Parse(roomNameInput.text) - 1].CustomProperties["Password"].ToString()))
+        for (int i = 0; i < LobbyManager.Instance.NowRooms.Count; i++)
         {
-            PhotonNetwork.JoinRoom(roomNameInput.text);
-        }
-        else
-        {
-            // TODO : 나중에 데이터로 빼야함
-            PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
-                "비밀번호가 일치하지 않습니다.\n다시 한번 확인해주세요.", "확인");
+            if(null != LobbyManager.Instance.NowRooms[i].CustomProperties["Password"])
+            {
+                if (passwordInput.text.Equals(LobbyManager.Instance.NowRooms[i].CustomProperties["Password"].ToString()))
+                {
+                    PhotonNetwork.JoinRoom(roomNameInput.text);
+                }
+                else
+                {
+                    // TODO : 나중에 데이터로 빼야함
+                    PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
+                        "비밀번호가 일치하지 않습니다.\n다시 한번 확인해주세요.", "확인");
+                }
+            }
         }
         passwordInput.text = "";
         SetPasswordInputUI(false);
