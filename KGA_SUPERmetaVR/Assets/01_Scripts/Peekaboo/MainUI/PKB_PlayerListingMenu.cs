@@ -24,14 +24,13 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     {
         gameStartButton.onClick.AddListener(OnClickStartButton);
         gameStartButtonText = gameStartButton.GetComponentInChildren<TextMeshProUGUI>();
-        SetReadyUp(false);
     }
 
     public override void OnEnable()
     {
         base.OnEnable();
         GetCurrentRoomPlayers();
-        SetReadyUp(false);// TODO : 왜 두번하는지?
+        SetReadyUp(false);
     }
 
     private void Start()
