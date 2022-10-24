@@ -66,6 +66,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
 
     private List<Vector3> playerPositionList;
     private Vector3 playerPosition;
+
     private void Awake()
     {
         mapLength = 20f;
@@ -132,7 +133,12 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
     {
         if (index == PhotonNetwork.LocalPlayer.ActorNumber - 1)
         {
-            PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, _playerList, Quaternion.identity);
+            GameObject player = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, _playerList, Quaternion.identity);
+            if(player.GetComponentInChildren<PhotonView>().IsMine)
+            {
+                PeekabooGameManager.Instance.OVRCamera.transform.parent = player.transform;
+                PeekabooGameManager.Instance.OVRCamera.transform.position = Vector3.zero;
+            }
         }
     }
 

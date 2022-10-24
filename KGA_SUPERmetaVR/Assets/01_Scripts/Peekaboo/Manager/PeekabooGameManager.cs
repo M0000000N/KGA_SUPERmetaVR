@@ -30,7 +30,10 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
     private bool isGameOver;
     public bool IsGameOver { get { return isGameOver; } set { isGameOver = value; } }
 
-    
+    [SerializeField]
+    private GameObject ovrCamera;
+    public GameObject OVRCamera { get { return ovrCamera; } set { ovrCamera = value; } }
+
     private int surprisedEnemyNumbers;
     public int SurprisedEnemyNumbers { get { return surprisedEnemyNumbers; } set { surprisedEnemyNumbers = value; } }
 
