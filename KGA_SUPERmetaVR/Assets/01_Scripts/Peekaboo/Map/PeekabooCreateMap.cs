@@ -99,6 +99,13 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
         SpawnNPC();
     }
 
+    private void Update()
+    {
+        Debug.Log($"서버룸 접속자 수{PhotonNetwork.CountOfPlayers}");
+        Debug.Log($"룸 접속자 수{PhotonNetwork.CurrentRoom.PlayerCount}");
+
+    }
+
     private void CreateMap()
     {
         if (PhotonNetwork.IsMasterClient)

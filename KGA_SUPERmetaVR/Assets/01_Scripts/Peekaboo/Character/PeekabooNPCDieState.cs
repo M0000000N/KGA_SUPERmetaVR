@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.AI;
 
 public class PeekabooNPCDieState : PeekabooCharacterState
 {
@@ -9,6 +10,8 @@ public class PeekabooNPCDieState : PeekabooCharacterState
     private Renderer myRenderer;
     [SerializeField]
     private Material fadeMaterial;
+    [SerializeField]
+    private NavMeshAgent playerNavMeshAgent;
 
     protected override void Initialize()
     {
@@ -55,9 +58,8 @@ public class PeekabooNPCDieState : PeekabooCharacterState
     private IEnumerator RespawnCoroutine(float _time)
     {
         yield return new WaitForSeconds(_time);
-        Debug.Log("��������");
-        transform.position = PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);
-        Debug.Log($"������ ��ġ {transform.position}");
+       
+        transform.position = PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);  
         playerNavMeshAgent.enabled = false;
         transform.position += Vector3.up * 15f;
         Color myColor = myRenderer.material.color;
@@ -68,7 +70,7 @@ public class PeekabooNPCDieState : PeekabooCharacterState
             transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, 1, transform.position.z), 0.01f);
             yield return new WaitForSeconds(0.01f);
         }
-        Debug.Log("���� ������");
+       
         playerNavMeshAgent.enabled = true;
     }
 }
