@@ -32,7 +32,7 @@ public class DataBase : SingletonBehaviour<DataBase>
             sqlconnection = new MySqlConnection(sqlDataBase);
             sqlconnection.Open();
 
-            UnityEngine.Debug.Log("<color=blue>SQL의 접속 상태 : </color>" + sqlconnection.State);
+            //UnityEngine.Debug.Log("<color=blue>SQL의 접속 상태 : </color>" + sqlconnection.State);
         }
         catch (Exception msg)
         {
@@ -43,7 +43,7 @@ public class DataBase : SingletonBehaviour<DataBase>
     void sqldisConnect()
     {
         sqlconnection.Close();
-        UnityEngine.Debug.Log("<color=red>SQL의 접속 상태 : </color>" + sqlconnection.State);
+        //UnityEngine.Debug.Log("<color=red>SQL의 접속 상태 : </color>" + sqlconnection.State);
     }
 
     public void sqlcmdall(string allcmd)
@@ -101,6 +101,12 @@ public class DataBase : SingletonBehaviour<DataBase>
     public DataTable FindDB(string _tableName, string _findColumn, string _checkColumn, string _checkData)
     {
         DataTable dataTable = selsql($"SELECT {_findColumn} FROM {_tableName} WHERE {_checkColumn} = '{_checkData}'");
+        return dataTable;
+    }
+
+    public DataTable SortDB(string _tableName, string _findColumn, string _orderBy, string _sort = "DESC")
+    {
+        DataTable dataTable = selsql($"SELECT {_findColumn} FROM {_tableName} ORDER BY {_orderBy} {_sort}");
         return dataTable;
     }
 

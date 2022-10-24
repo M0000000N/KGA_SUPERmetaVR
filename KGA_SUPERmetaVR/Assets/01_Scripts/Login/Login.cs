@@ -37,11 +37,11 @@ public class Login : MonoBehaviour
     public GameObject CreateUI;
 
     // 테스트 코드
-    PeekabooLogin peekabooLogin;
+    PeekabooDataBase peekabooLogin;
 
     private void Awake()
     {
-        peekabooLogin = transform.GetComponent<PeekabooLogin>();
+        peekabooLogin = transform.GetComponent<PeekabooDataBase>();
     }
     // 테스트 코드
 
@@ -56,7 +56,7 @@ public class Login : MonoBehaviour
         {
             DataBase.Instance.CreateUser(CreateID.text, CreatePW.text, CreateNickName.text);
 
-
+            
         }
     }
 
@@ -68,7 +68,6 @@ public class Login : MonoBehaviour
             GameManager.Instance.PlayerData.ID = LoginID.text;
             GetDataBase();
 
-            PhotonNetwork.LoadLevel("Peekaboo_WaitingRoom");
             // 테스트 코드
             //peekabooLogin.LoadPeekabooData();
             //UnityEngine.Debug.Log($"Peekaboo : {GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter}");
@@ -79,8 +78,11 @@ public class Login : MonoBehaviour
             // 테스트 코드
 
             // 테스트 코드
-            peekabooLogin.SavePeekabooData();
+            peekabooLogin.SaveCharacterList();
+            PeekabooDataBase.Instance.LoadPeekabooData();
             // 테스트 코드
+
+            PhotonNetwork.LoadLevel("PKB_Main");
         }
     }
 
@@ -105,6 +107,7 @@ public class Login : MonoBehaviour
             foreach (DataRow row in dataTable.Rows)
             {
                 GameManager.Instance.PlayerData.Nickname = row[UserTableInfo.nickname].ToString();
+                PhotonNetwork.NickName = GameManager.Instance.PlayerData.Nickname;
                 GameManager.Instance.PlayerData.Coin =  int.Parse(row[UserTableInfo.coin].ToString());
             }
         }
