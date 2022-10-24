@@ -10,7 +10,6 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 {
     [SerializeField]
     private GameObject playerPrefeb;
-
     public GameObject PlayerPrefeb { get { return playerPrefeb; } }
 
     [SerializeField]
@@ -21,48 +20,46 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
     private PeekabooSpawner peekabooSpawner;
     public PeekabooSpawner PeekabooSpawner { get { return peekabooSpawner; } }
 
+    // 현재 남아있는 플레이어 수
     private int numberOfPlayers;
     public int NumberOfPlayers { get { return numberOfPlayers; } set { numberOfPlayers = value; } }
 
+    // 전체 방 인원 수
     public int TotalNumberOfPeopleFirstEnterdRoom { get; private set; }
 
     private bool isGameOver;
     public bool IsGameOver { get { return isGameOver; } set { isGameOver = value; } }
 
+    
     private int surprisedEnemyNumbers;
-
     public int SurprisedEnemyNumbers { get { return surprisedEnemyNumbers; } set { surprisedEnemyNumbers = value; } }
 
+    // ?? 이거 추가하신분? 어디다 쓰이는건지
     private PeekabooPlayerUIData peekabooPlayerUIData;
 
 
-    public void Start()
+    private void Start()
     {
         peekabooPlayerUIData = playerPrefeb.GetComponentInChildren<PeekabooPlayerUIData>();
         surprisedEnemyNumbers = 0;
         IsGameOver = false;
         TotalNumberOfPeopleFirstEnterdRoom = PhotonNetwork.CountOfPlayers;
         numberOfPlayers = PhotonNetwork.CountOfPlayers;
-        //exitButton.onClick.AddListener(OnClickExitButton);
     }
 
     private void Update()
     {
-        if (!isGameOver)
+        // 플레이어가 죽을때가 구현되면 삭제될 예정
+        if (numberOfPlayers == 1)
         {
-            Debug.Log("게임오버");
-            PeekabooGameOver();
-
+            isGameOver = true;
         }
     }
 
-
     public void PlayerGameOver()
     {
-        // playerScore["score"] = (int)photonView.Owner.CustomProperties[]
         isGameOver = true;
         // 플레이어 이동 및 시점등 모든 상호작용 멈춤
-        //PeekabooUIManager.Instance.GameOverUI(numberOfPlayers);
     }
 
 
@@ -72,7 +69,7 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         {
             PlayerGameOver();
         }
-        else if (false)//numberOfPlayers == 1)
+        else if (numberOfPlayers == 1)
         {
             Debug.Log("혼자남음");
             PlayerGameOver();
@@ -95,11 +92,4 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         // 플레이어에서 관리? 여기서 관리?
         PlayerGameOver();
     }
-
-    public void WatchingStatePlayer()
-    {
-        // 관전할 수 있게 플레이어 변경'
-        Debug.Log("관전 미구현");
-    }
-
 }

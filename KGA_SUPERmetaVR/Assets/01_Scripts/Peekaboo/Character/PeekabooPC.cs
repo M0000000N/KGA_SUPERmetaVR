@@ -6,7 +6,7 @@ using Photon.Pun;
 public class PeekabooPC : PeekabooCharacter
 {
     [SerializeField]
-    private GameObject tempTarget;
+    private LayserPointer layser; 
 
     private void Awake()
     {
@@ -18,41 +18,62 @@ public class PeekabooPC : PeekabooCharacter
 
     }
 
+    private void Start()
+    {
+        peekabooTextObject.SetActive(false);
+    }
+
     private void Update()
     {
-        myFSM.UpdateFSM();
+        if (photonView.IsMine)
+        {
+            myFSM.UpdateFSM(); 
+        }
     }
 
     private void OnTriggerStay(Collider _other)
     {
-        if (_other.tag == "PC" || _other.tag == "NPC")
+        if (photonView.IsMine && IsLookingSomeone == false && IsInteracting == false)
         {
-            if (CheckMyFieldOfView(_other.transform.position))
+            if (_other.tag == "Player" || _other.tag == "Enemy")
             {
-                IsLookingSomeone = true;
-                LookingTarget = _other.gameObject;
-                myFSM.ChangeState(PEEKABOOCHARACTERSTATE.ROTATETOSOMEONE);
+                if (CheckMyFieldOfView(_other.transform.position))
+                {
+                    IsLookingSomeone = true;
+                    LookingTarget = _other.gameObject;
+                    myFSM.ChangeState(PEEKABOOCHARACTERSTATE.LOOKINGSOMEONE);
+                }
             }
         }
     }
 
     private void OnTriggerExit(Collider _other)
     {
-        if (CheckTarget(_other.gameObject))
+        if (photonView.IsMine && IsInteracting == false)
         {
-            IsLookingSomeone = false;
-            LookingTarget = null;
-            myFSM.ChangeState(PEEKABOOCHARACTERSTATE.IDLE);
+            if (CheckTarget(_other.gameObject))
+            {
+                IsLookingSomeone = false;
+                LookingTarget = null;
+                myFSM.ChangeState(PEEKABOOCHARACTERSTATE.IDLE);
+            }
         }
     }
 
-    public void Attack()
+    public void Attack(GameObject _attackTarget)
     {
         if (IsInteracting == false)
         {
-            IsInteracting = true;
-            AttackTarget = tempTarget;
-            myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOTARGET);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
+                AttackTarget = _attackTarget;
+                myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOTARGET);
+            }
+            else
+            {
+                photonView.RPC("AttackRPC", RpcTarget.MasterClient);
+            }
         }
     }
 
@@ -62,17 +83,43 @@ public class PeekabooPC : PeekabooCharacter
         IsInteracting = _state;
     }
 
+    [PunRPC]
+    private void AppearPeekaboo()
+    {
+        StartCoroutine(FadeOutPeekaboo());
+    }
+
+    [PunRPC]
+    private void AttackRPC()
+    {
+        photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
+        myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOTARGET);
+    }
+
+    [PunRPC]
+    private void TakeDamageRPC(int _attackerViewNumber)
+    {
+        photonView.RPC("ChangeMyInteractState", Photon.Pun.RpcTarget.All, true);
+        Attacker = PhotonView.Find(_attackerViewNumber).gameObject;
+        myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
+    }
+
     public override void TakeDamage(GameObject _attacker)
     {
         if (IsInteracting == false)
         {
-            photonView.RPC("ChangeMyInteractState", Photon.Pun.RpcTarget.All, true);
-            Attacker = _attacker;
-            myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
-        }
-        else
-        {
-            Debug.Log("공격 대상은 현재 다른 캐릭터와 상호작용중입니다!");
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("ChangeMyInteractState", Photon.Pun.RpcTarget.All, true);
+                photonView.RPC("AppearPeekaboo", RpcTarget.All);
+                Attacker = _attacker;
+                myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
+            }
+            else
+            {
+                int targetViewNumber = _attacker.GetPhotonView().ViewID;
+                photonView.RPC("TakeDamageRPC", RpcTarget.MasterClient, targetViewNumber);
+            }
         }
     }
 }

@@ -33,4 +33,9 @@ public class PeekabooNPCFSM : PeekabooCharacterFSM
         AddState(PEEKABOOCHARACTERSTATE.NPCPEEKABOO, NPCPeekabooState);
         AddState(PEEKABOOCHARACTERSTATE.NPCDIE, NPCDieState);
     }
+
+    private void Update()
+    {
+        nowState.OnUpdate();
+    }
 }

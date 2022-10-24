@@ -16,12 +16,10 @@ public class PeekabooPCPeekabooState : PeekabooCharacterState
         PEEKABOOCHARACTERSTATE stateKey;
         if (myFSM.MyCharacter.AttackTarget.tag == "PC")
         {
-            Debug.Log("공격 대상이 PC입니다!");
             stateKey = PEEKABOOCHARACTERSTATE.IDLE;
         }
         else
         {
-            Debug.Log("공격 대상이 NPC입니다!");
             stateKey = PEEKABOOCHARACTERSTATE.PCSUPRISED;
         }
 
@@ -35,6 +33,6 @@ public class PeekabooPCPeekabooState : PeekabooCharacterState
 
     public override void OnExit()
     {
-
+        StopAllCoroutines();
     }
 }

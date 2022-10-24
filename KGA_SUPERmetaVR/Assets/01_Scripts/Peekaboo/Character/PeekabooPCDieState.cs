@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PeekabooPCDieState : PeekabooCharacterState
 {
@@ -16,7 +17,7 @@ public class PeekabooPCDieState : PeekabooCharacterState
 
     public override void OnEnter()
     {
-        StartCoroutine(DieCoroutine(2f));
+        photonView.RPC("StartDie", RpcTarget.All);
     }
 
     public override void OnUpdate()
@@ -27,6 +28,12 @@ public class PeekabooPCDieState : PeekabooCharacterState
     public override void OnExit()
     {
 
+    }
+
+    [PunRPC]
+    private void StartDie()
+    {
+        StartCoroutine(DieCoroutine(2f));
     }
 
     private IEnumerator DieCoroutine(float _time)
@@ -41,7 +48,14 @@ public class PeekabooPCDieState : PeekabooCharacterState
 
             yield return null;
         }
-
+        PeekabooGameManager.Instance.IsGameOver = true;
+        photonView.RPC("PlayerDie", RpcTarget.All);
         Destroy(gameObject);
+    }
+    
+    [PunRPC]
+    private void PlayerDie()
+    {
+        PeekabooGameManager.Instance.NumberOfPlayers--;
     }
 }
