@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public abstract class PeekabooCharacter : MonoBehaviourPun
 {
@@ -11,6 +12,9 @@ public abstract class PeekabooCharacter : MonoBehaviourPun
     public GameObject LookingTarget { get; protected set; }
     public GameObject Attacker { get; protected set; }
     public GameObject AttackTarget { get; protected set; }
+
+    [SerializeField]
+    protected GameObject peekabooTextObject;
 
     protected PeekabooCharacterFSM myFSM;
 
@@ -60,4 +64,16 @@ public abstract class PeekabooCharacter : MonoBehaviourPun
     }
 
     public abstract void TakeDamage(GameObject _attacker);
+
+    protected IEnumerator FadeOutPeekaboo()
+    {
+        peekabooTextObject.SetActive(true);
+        for (float f = 1f; f > 0; f -= 0.02f)
+        {
+            Color c = peekabooTextObject.GetComponent<Image>().color;
+            c.a = f;
+            peekabooTextObject.GetComponent<Image>().color = c;
+            yield return null;
+        }
+    }
 }

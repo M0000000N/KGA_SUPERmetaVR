@@ -15,7 +15,7 @@ public class PCAttackNPC : MonoBehaviour
 
     private void Update()
     {
-        // 움직이지 못하게 만들기 
+       // 움직이지 못하게 만들기 
         peekaboo.ShowPeekaboo();
        // PCAttackNPCs();
     }
@@ -23,7 +23,7 @@ public class PCAttackNPC : MonoBehaviour
     public void PCAttackNPCs()
     {
        // PC.TakeDamage(NPC.gameObject);
-        NPC.TakeDamage(PC.gameObject);
+       // NPC.TakeDamage(PC.gameObject);
     }
 
 }

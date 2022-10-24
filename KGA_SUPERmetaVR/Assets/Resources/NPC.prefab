@@ -929,7 +929,6 @@ GameObject:
   - component: {fileID: 1208299283591407747}
   - component: {fileID: 1208299283591407869}
   - component: {fileID: 6410905426171881365}
-  - component: {fileID: 8164639804491942388}
   - component: {fileID: 1302407660}
   - component: {fileID: 1302407661}
   m_Layer: 3
@@ -1083,6 +1082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 296983772238e45459dc3c88f633d6d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  peekabooTextObject: {fileID: 1218682039282641411}
   myMove: {fileID: 2425730013813944175}
 --- !u!114 &1208299283591407851
 MonoBehaviour:
@@ -1269,23 +1269,6 @@ CapsuleCollider:
   m_Height: 1.9867654
   m_Direction: 1
   m_Center: {x: 0, y: 0.68590665, z: 0}
---- !u!114 &8164639804491942388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208299283591407844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 265dad709c6e4a2479787a988c40bbc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PC: {fileID: 0}
-  NPC: {fileID: 1208299283591407849}
-  laysers: {fileID: 1208299283591407844}
-  Peekaboo: {fileID: 1218682039282641411}
-  layser: {fileID: 0}
 --- !u!114 &1302407660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,14 +1276,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1208299283591407844}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63d5383a2e2d6f246818ace6301d5389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   PC: {fileID: 0}
   NPC: {fileID: 1208299283591407849}
-  peekaboo: {fileID: 8164639804491942388}
+  peekaboo: {fileID: 0}
 --- !u!114 &1302407661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1313,10 +1296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265dad709c6e4a2479787a988c40bbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PC: {fileID: 0}
-  NPC: {fileID: 1208299283591407849}
-  laysers: {fileID: 0}
-  Peekaboo: {fileID: 1218682039282641411}
   layser: {fileID: 0}
 --- !u!1 &1208299283591407846
 GameObject:

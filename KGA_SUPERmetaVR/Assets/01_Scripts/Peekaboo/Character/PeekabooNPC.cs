@@ -34,10 +34,16 @@ public class PeekabooNPC : PeekabooCharacter
         StartCoroutine(WaitForSetNextDestination(1f, method));
     }
 
+    private void Start()
+    {
+        peekabooTextObject.SetActive(false);
+    }
+
     [PunRPC]
     private void ChangeMyInteractState(bool _state)
     {
         IsInteracting = _state;
+        StartCoroutine(FadeOutPeekaboo());
     }
 
     private void Update()
@@ -109,14 +115,12 @@ public class PeekabooNPC : PeekabooCharacter
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.Log("마스터 클라이언트라서 NPC Take Damage 실행!");
                 photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
                 Attacker = _attacker;
                 myFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCLAUGHT);
             }
             else
             {
-                Debug.Log("마스터 클라이언트가 아니라서 NPC TakeDamage RPC 보냄!");
                 int targetViewNumber = _attacker.GetPhotonView().ViewID;
                 photonView.RPC("TakeDamageRPC", RpcTarget.MasterClient, targetViewNumber);
             }

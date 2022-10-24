@@ -6,9 +6,6 @@ using Photon.Pun;
 public class PeekabooPC : PeekabooCharacter
 {
     [SerializeField]
-    private GameObject attackTarget;
-
-    [SerializeField]
     private LayserPointer layser; 
 
     private void Awake()
@@ -19,6 +16,11 @@ public class PeekabooPC : PeekabooCharacter
     protected override void Initialize()
     {
 
+    }
+
+    private void Start()
+    {
+        peekabooTextObject.SetActive(false);
     }
 
     private void Update()
@@ -58,22 +60,18 @@ public class PeekabooPC : PeekabooCharacter
         }
     }
 
-    public void Attack()
+    public void Attack(GameObject _attackTarget)
     {
         if (IsInteracting == false)
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.Log("마스터 클라이언트라서 PC Attack 실행!");
                 photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
-                AttackTarget = attackTarget;
-                // AttackTarget에 레이캐스트 쏴서 맞은 대상 캐릭터 저장 필요
-                AttackTarget = layser.CreateRaycast().transform.gameObject; 
+                AttackTarget = _attackTarget;
                 myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOTARGET);
             }
             else
             {
-                Debug.Log("마스터 클라이언트가 아니라서 PC AttackRPC 보냄!");
                 photonView.RPC("AttackRPC", RpcTarget.MasterClient);
             }
         }
@@ -86,12 +84,15 @@ public class PeekabooPC : PeekabooCharacter
     }
 
     [PunRPC]
+    private void AppearPeekaboo()
+    {
+        StartCoroutine(FadeOutPeekaboo());
+    }
+
+    [PunRPC]
     private void AttackRPC()
     {
         photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
-        AttackTarget = attackTarget;
-        AttackTarget = layser.CreateRaycast().transform.gameObject;
-        // AttackTarget에 레이캐스트 쏴서 맞은 대상 캐릭터 저장 필요
         myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOTARGET);
     }
 
@@ -103,30 +104,19 @@ public class PeekabooPC : PeekabooCharacter
         myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
     }
 
-    //public override void TakeDamage(GameObject _attacker)
-    //{
-    //    if (IsInteracting == false)
-    //    {
-    //        photonView.RPC("ChangeMyInteractState", Photon.Pun.RpcTarget.All, true);
-    //        Attacker = _attacker;
-    //        myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
-    //    }
-    //}
-
     public override void TakeDamage(GameObject _attacker)
     {
         if (IsInteracting == false)
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.Log("마스터 클라이언트라서 PC TakeDamage 실행!");
                 photonView.RPC("ChangeMyInteractState", Photon.Pun.RpcTarget.All, true);
+                photonView.RPC("AppearPeekaboo", RpcTarget.All);
                 Attacker = _attacker;
                 myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
             }
             else
             {
-                Debug.Log("마스터 클라이언트가 아니라서 PC TakeDamage RPC 보냄!");
                 int targetViewNumber = _attacker.GetPhotonView().ViewID;
                 photonView.RPC("TakeDamageRPC", RpcTarget.MasterClient, targetViewNumber);
             }
