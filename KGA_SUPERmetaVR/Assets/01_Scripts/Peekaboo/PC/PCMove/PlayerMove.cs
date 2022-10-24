@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using OVR; 
+using OVR;
+using UnityEngine.AI;
 
-public class PlayerMove : MonoBehaviourPun
+public class PlayerMove : MonoBehaviourPun, IPunObservable
 {
     [SerializeField]
     private float walkSpeed;
@@ -24,6 +25,9 @@ public class PlayerMove : MonoBehaviourPun
     private GameObject peekaboo;
 
     [SerializeField]
+    private GameObject cameraRig;
+
+    [SerializeField]
     private Stamina stamina; 
 
     //플레이어 이동
@@ -32,29 +36,35 @@ public class PlayerMove : MonoBehaviourPun
 
     private Vector3 curDir;
 
+    private NavMeshAgent playerAgent;
     // 서버에서 받은 데이터를 저장할 변수 
     Vector3 setPos;
     Quaternion setRot;
 
     private void Start()
     {
+        cameraRig.SetActive(photonView.IsMine);
         curDir = Vector3.zero;
-        applySpeed = walkSpeed;     
+        applySpeed = walkSpeed;
+        playerAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        if (PeekabooGameManager.Instance.IsGameOver == false)
-        {
+        //if (PeekabooGameManager.Instance.IsGameOver == false)
+        //{
             Move();
             TryRun();
-        }
+//        }
     }
 
     // 플레이어 이동
 
     private void Move()
     {
+        if (!photonView.IsMine)
+            return;
+
         if (photonView.IsMine)
         {
             curDir = Vector3.zero;
@@ -79,6 +89,7 @@ public class PlayerMove : MonoBehaviourPun
 
             curDir.Normalize();
             transform.position += curDir * (applySpeed * Time.deltaTime);
+            playerAgent.SetDestination(transform.position);
         }
     }
 
@@ -108,26 +119,20 @@ public class PlayerMove : MonoBehaviourPun
         stamina.IncreaseProgress();
     }
 
-    public void Attack()
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        peekaboo.SetActive(true);
+        // 데이터 전송 상황
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(myCharacter.rotation);
+        }
+        // 데이터를 수신하는 상황
+        else if (stream.IsReading)
+        {
+            setPos = (Vector3)stream.ReceiveNext();
+            setRot = (Quaternion)stream.ReceiveNext();
+        }
     }
-
-    // 데이터 동기화를 위한 데이터 전송 및 수신 기능 
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    // 데이터 전송 상황
-    //    if (stream.IsWriting)
-    //    {
-    //        stream.SendNext(transform.position);
-    //        stream.SendNext(myCharacter.rotation);
-    //    }
-    //    // 데이터를 수신하는 상황
-    //    else if (stream.IsReading)
-    //    {
-    //        setPos = (Vector3)stream.ReceiveNext();
-    //        setRot = (Quaternion)stream.ReceiveNext();
-    //    }
-    //}
 
 }
