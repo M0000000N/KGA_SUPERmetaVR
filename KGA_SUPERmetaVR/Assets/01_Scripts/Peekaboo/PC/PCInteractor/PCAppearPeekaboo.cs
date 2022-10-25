@@ -11,12 +11,16 @@ public class PCAppearPeekaboo : MonoBehaviourPun
     //[SerializeField]
     //private GameObject Peekaboo;
 
+    //[SerializeField]
+    //private LayserPointer layser;
+
     [SerializeField]
-    private LayserPointer layser;
+    private XRRaycast raycastHit;
 
     private void Start()
     {
         // Peekaboo.SetActive(false);
+        raycastHit = PeekabooGameManager.Instance.OVRCamera.GetComponent<XRRaycast>();
     }
 
     private void Update()
@@ -28,7 +32,10 @@ public class PCAppearPeekaboo : MonoBehaviourPun
     {
         if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) && (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger)) || Input.GetKeyDown(KeyCode.Space))
         {
-            PeekabooCharacter targetCharacter = layser.CreateRaycast().transform.gameObject.GetComponent<PeekabooCharacter>();
+            if (raycastHit.InteractCharacter() == null) return;
+            if (raycastHit.InteractCharacter().GetComponent<PeekabooCharacter>() == null) return;
+
+            PeekabooCharacter targetCharacter = raycastHit.InteractCharacter().GetComponent<PeekabooCharacter>();
 
             if (targetCharacter != null)
             {
