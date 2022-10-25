@@ -18,37 +18,37 @@ public class MAPDATA
 
 public class PeekabooCreateMap : MonoBehaviourPunCallbacks
 {
-    [Header("½ºÆ÷³Ê ½ºÅ©¸³Æ®")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®")]
     [SerializeField]
     private PeekabooSpawner spawner;
 
-    [Header("¸Ê °¡·Î ¼¼·Î Å©±â")]
+    [Header("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½")]
     [SerializeField]
     private int mapSizeX;
     [SerializeField]
     private int mapSizeZ;
 
-    //[Header("Å×½ºÆ®¿ë ÇÃ·¹ÀÌ¾î ¼ö")]
+    //[Header("ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½")]
     //[SerializeField]
     private int numberOfPlayers;
 
-    [Header("°ÔÀÓ ½ÃÀÛ½Ã °¢ ±¸¿ª¿¡ ½ºÆùµÇ´Â ÃÖ´ë ÇÃ·¹ÀÌ¾î ¼ö")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Ö´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½")]
     [SerializeField]
     private int numberOfPlayersCreatedInZone;
 
-    [Header("°ÔÀÓ ½ÃÀÛ½Ã °¢ ±¸¿ª¿¡ Á¸ÀçÇÏ´Â ÃÖ´ë Ä³¸¯ÅÍ ¼ö")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½")]
     [SerializeField]
     private int maximumNumberOfCharactersInZone;
 
-    [Header("ÇÃ·¹ÀÌ¾î ÇÑ ¸í ´ç »ý¼ºµÇ´Â NPC¼ö")]
+    [Header("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ NPCï¿½ï¿½")]
     [SerializeField]
     private int numberOfNPCsProportionalToTheNumberOfPlayers;
 
-    [Header("Ã³À½ ÇÃ·¹ÀÌ¾î »ý¼º½Ã ÇÃ·¹ÀÌ¾î°£ÀÇ °Å¸®(°ªÀÌ Å©¸é ¿À·ù ¹ß»ý)")]
+    [Header("Ã³ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°£ï¿½ï¿½ ï¿½Å¸ï¿½(ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½)")]
     [SerializeField]
     private float distanceBetweenPlayersCreated;
 
-    [Header("Ã³À½ NPC »ý¼º½Ã Ä³¸¯ÅÍ°£ÀÇ °Å¸®(°ªÀÌ Å©¸é ¿À·ù ¹ß»ý)")]
+    [Header("Ã³ï¿½ï¿½ NPC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½(ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½)")]
     [SerializeField]
     private float distanceBetweenCharactersCreated;
     public float DistanceBetweenCharactersCreated { get { return distanceBetweenCharactersCreated; } }
@@ -85,12 +85,12 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        numberOfPlayers = PhotonNetwork.CountOfPlayers;
-        Debug.Log($"¼­¹ö·ë Á¢¼ÓÀÚ ¼ö{PhotonNetwork.CountOfPlayers}");
+        numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
+        // Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½{PhotonNetwork.CountOfPlayers}");
         mapSize = mapSizeX * mapSizeZ;
         maxNumberOfNPCs = numberOfNPCsProportionalToTheNumberOfPlayers * numberOfPlayers;
         CreateMap();
-        Debug.Log($"¸¶½ºÅÍÅ¬¶óÀÌ¾ðÆ®{PhotonNetwork.IsMasterClient}");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®{PhotonNetwork.IsMasterClient}");
         if (PhotonNetwork.IsMasterClient)
         {
             for (int i = 0; i < numberOfPlayers; ++i)
@@ -117,8 +117,8 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        Debug.Log($"¼­¹ö·ë Á¢¼ÓÀÚ ¼ö{PhotonNetwork.CountOfPlayers}");
-        Debug.Log($"·ë Á¢¼ÓÀÚ ¼ö{PhotonNetwork.CurrentRoom.PlayerCount}");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½{PhotonNetwork.CountOfPlayers}");
+        Debug.Log($"ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½{PhotonNetwork.CurrentRoom.PlayerCount}");
 
     }
 
@@ -148,11 +148,16 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
     {
         if (index == PhotonNetwork.LocalPlayer.ActorNumber - 1)
         {
-            PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, _playerList, Quaternion.identity);
+            GameObject player = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, _playerList, Quaternion.identity);
+            if(player.GetComponentInChildren<PhotonView>().IsMine)
+            {
+                PeekabooGameManager.Instance.OVRCamera.transform.parent = player.transform;
+                PeekabooGameManager.Instance.OVRCamera.transform.localPosition = Vector3.zero;
+            }
         }
     }
 
-    //ÃÖÁ¾º»¿¡¼­ »èÁ¦
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     //private void SpawnPlayer()
     //{
     //    int colls = 0;
@@ -160,30 +165,30 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
     //    int randomPlayerIndex = Random.Range(0, mapSize);
     //    do
     //    {
-    //        // ·£´ýÀ¸·Î Á¤ÇÑ ÀÎµ¦½º°ªÀÇ ÀÎ¿ø ¼ö°¡ ÇÏ³ªÀÇ ÀÎµ¦½ºÀÇ ÃÖ´ë ÀÎ¿ø¼ö¶û µ¿ÀÏÇÏ¸é ÃÖ´ë ÀÎ¿ø¼ö°¡ ÇöÀç ÀÎ¿ø¼ö º¸´Ù ÀûÀº ÀÎµ¦½º°ªÀ» Ã£´Â´Ù   
+    //        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ö´ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Â´ï¿½   
     //        while (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
     //        {
     //            randomPlayerIndex = Random.Range(0, mapSize);
     //        }
-    //        // ÀÎµ¦½º°ªÀÌ Á¤ÇØÁö¸é ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â ¹üÀ§ Áß ÇÑ °÷À» ·£´ýÀ¸·Î Á¤ÇÑ´Ù
+    //        // ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
     //        Vector3 randomMapPosition = mapData[randomPlayerIndex].MapPosition;
     //        float randomPositonX = Random.Range(randomMapPosition.x - MapLength / 2, randomMapPosition.x + MapLength / 2);
     //        float randomPositonZ = Random.Range(randomMapPosition.z - MapLength / 2, randomMapPosition.z + MapLength / 2);
 
     //        Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
 
-    //        // ·£´ýÀ¸·Î Á¤ÇÑ °÷ÀÌ º£ÀÌÅ©µÈ °÷ÀÌ ¾Æ´Ï¶ó¸é ¹Ý°æ 5fÁß °¡Àå °¡±î¿î °÷À» Á¤ÇÑ´Ù
+    //        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½Ý°ï¿½ 5fï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
     //        NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
     //        hit.position += Vector3.up * 1f;
-    //        // Á¤ÇØÁø ¹üÀ§³» °°Àº ÇÃ·¹ÀÌ¾î°¡ ÀÖ´ÂÁö Ã¼Å©ÇÑ´Ù
+    //        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½
     //        int layerMask = LayerMask.GetMask("Player");
     //        Collider[] hitColliders = new Collider[numberOfPlayers];
     //        colls = Physics.OverlapSphereNonAlloc(hit.position, distanceBetweenPlayersCreated, hitColliders, layerMask);
-    //    } while (colls != 0); // ¸¸¾à ÇÃ·¹ÀÌ¾î°¡ ÀÖ´Ù¸é ´Ù½Ã ·£´ý À§Ä¡°ªÀ» ±¸ÇÑ´Ù.
+    //    } while (colls != 0); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ö´Ù¸ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 
-    //    // Á¶°Ç¿¡ ¸Â´Â À§Ä¡°ªÀÌ ³ª¿Â´Ù¸é ÇÃ·¹ÀÌ¾î¸¦ »ý¼ºÇÑ´Ù.
+    //    // ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´Ù¸ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
     //    GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
-    //    // À§Ä¡°ª¿¡ ÇØ´çµÇ´Â ÀÎµ¦½ºÀÇ Á¸Àç°¡´ÉÇÑ ÇÃ·¹ÀÌ¾î ¼ö¸¦ ÁÙÀÎ´Ù
+    //    // ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½Ç´ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ç°¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½
     //    --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
     //}
 
@@ -194,31 +199,31 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
         int randomPlayerIndex = Random.Range(0, mapSize);
         do
         {
-            // ·£´ýÀ¸·Î Á¤ÇÑ ÀÎµ¦½º°ªÀÇ ÀÎ¿ø ¼ö°¡ ÇÏ³ªÀÇ ÀÎµ¦½ºÀÇ ÃÖ´ë ÀÎ¿ø¼ö¶û µ¿ÀÏÇÏ¸é ÃÖ´ë ÀÎ¿ø¼ö°¡ ÇöÀç ÀÎ¿ø¼ö º¸´Ù ÀûÀº ÀÎµ¦½º°ªÀ» Ã£´Â´Ù   
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ö´ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Â´ï¿½   
             while (mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone == 0)
             {
                 randomPlayerIndex = Random.Range(0, mapSize);
             }
-            // ÀÎµ¦½º°ªÀÌ Á¤ÇØÁö¸é ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â ¹üÀ§ Áß ÇÑ °÷À» ·£´ýÀ¸·Î Á¤ÇÑ´Ù
+            // ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
             Vector3 randomMapPosition = mapData[randomPlayerIndex].MapPosition;
             float randomPositonX = Random.Range(randomMapPosition.x - MapLength / 2, randomMapPosition.x + MapLength / 2);
             float randomPositonZ = Random.Range(randomMapPosition.z - MapLength / 2, randomMapPosition.z + MapLength / 2);
 
             Vector3 randomPosition = new Vector3(randomPositonX, 1f, randomPositonZ);
 
-            // ·£´ýÀ¸·Î Á¤ÇÑ °÷ÀÌ º£ÀÌÅ©µÈ °÷ÀÌ ¾Æ´Ï¶ó¸é ¹Ý°æ 5fÁß °¡Àå °¡±î¿î °÷À» Á¤ÇÑ´Ù
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½Ý°ï¿½ 5fï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
             NavMesh.SamplePosition(randomPosition, out hit, 5f, NavMesh.AllAreas);
             hit.position += Vector3.up * 1f;
-            // Á¤ÇØÁø ¹üÀ§³» °°Àº ÇÃ·¹ÀÌ¾î°¡ ÀÖ´ÂÁö Ã¼Å©ÇÑ´Ù
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½
             int layerMask = LayerMask.GetMask("Player");
             Collider[] hitColliders = new Collider[numberOfPlayers];
             colls = Physics.OverlapSphereNonAlloc(hit.position, distanceBetweenPlayersCreated, hitColliders, layerMask);
             dummyPlayerList.Add(Instantiate(dummyPlayer, hit.position, Quaternion.identity));
-        } while (colls != 0); // ¸¸¾à ÇÃ·¹ÀÌ¾î°¡ ÀÖ´Ù¸é ´Ù½Ã ·£´ý À§Ä¡°ªÀ» ±¸ÇÑ´Ù.
+        } while (colls != 0); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ö´Ù¸ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 
-        // Á¶°Ç¿¡ ¸Â´Â À§Ä¡°ªÀÌ ³ª¿Â´Ù¸é ÇÃ·¹ÀÌ¾î¸¦ »ý¼ºÇÑ´Ù.
+        // ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´Ù¸ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
         //GameObject playerObject = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, hit.position, Quaternion.identity);
-        // À§Ä¡°ª¿¡ ÇØ´çµÇ´Â ÀÎµ¦½ºÀÇ Á¸Àç°¡´ÉÇÑ ÇÃ·¹ÀÌ¾î ¼ö¸¦ ÁÙÀÎ´Ù
+        // ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½Ç´ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ç°¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½
         --mapData[randomPlayerIndex].NumberOfPlayersCreatedInZone;
         return hit.position;
     }

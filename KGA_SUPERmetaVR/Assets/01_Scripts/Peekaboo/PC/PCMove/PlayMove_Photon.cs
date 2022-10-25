@@ -21,9 +21,6 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
     private Stamina stamina;
 
     [SerializeField]
-    private Transform myCharacter;
-
-    [SerializeField]
     private Camera myCamera;
 
     private NavMeshAgent navMeshAgent; 
@@ -35,45 +32,43 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
   
     private void Start()
     {
-        cameraRig.SetActive(photonView.IsMine);
+        if (photonView.IsMine == false) return;
+
+        GameObject camera = PeekabooGameManager.Instance.OVRCamera;
+
+        cameraRig = camera.transform.GetChild(0).gameObject;
+        stamina = camera.GetComponentInChildren<Stamina>();
+
         applySpeed = walkSpeed;
         navMeshAgent = GetComponent<NavMeshAgent>(); 
     }
 
     private void Update()
     {
-        //if (PeekabooGameManager.Instance.IsGameOver == false)
-        //{
+        if (photonView.IsMine == false) return;
+
+        if (PeekabooGameManager.Instance.IsGameOver == false)
+        {
             TryRun();
             Move();
-        //}
+        }
     }
 
     public void Move()
     {
-        
-        if (!photonView.IsMine)
-            return;
-
-        if (photonView.IsMine)
-        {
             Vector2 StickPosition = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);
             Vector3 direction = new Vector3(StickPosition.x, 0, StickPosition.y).normalized;
-            direction = myCamera.transform.TransformDirection(direction);
+            direction = cameraRig.transform.TransformDirection(direction);
             direction.y = 0f;
       
             transform.position += direction * applySpeed * Time.deltaTime;
             navMeshAgent.SetDestination(transform.position); 
-        }
     }
 
     public void CameraRotation()
     {
-        if (photonView.IsMine)
-        {
             float rotationCamera = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch).x;
             cameraRig.transform.eulerAngles += new Vector3(0, rotationCamera, 0) * applySpeed * Time.deltaTime;
-        }
     }
 
     public void TryRun()
@@ -107,7 +102,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(myCharacter.rotation);
+            stream.SendNext(transform.rotation);
         }
         else if (stream.IsReading)
         {

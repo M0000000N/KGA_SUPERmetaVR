@@ -2,25 +2,19 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-
 public class LobbyManager : SingletonBehaviour<LobbyManager>
 {
-    public List<PKB_PlayRoomUI> roomNameList = new List<PKB_PlayRoomUI>();
-    bool[] isEmptyRoomList = new bool[10000];
-    RoomOptions roomOptions;
-
     public List<RoomInfo> NowRooms = new List<RoomInfo>(); // 생성된 방
+    RoomOptions roomOptions;
+    bool[] isRoom = new bool[10000]; // 방 이름 관련
 
     private void Awake()
     {
         // 마스터 서버 연결시도
         PhotonNetwork.ConnectUsingSettings();
-        isEmptyRoomList[1] = true;
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -29,21 +23,20 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         {
             if (room.RemovedFromList) // 룸 지웠을 때
             {
-                if(NowRooms.IndexOf(room) < 0)
+                if (NowRooms.IndexOf(room) < 0)
                 {
+                    int roomIndex = int.Parse(room.Name);
+                    isRoom[roomIndex] = false;
                     return;
-                    continue;
                 }
-                isEmptyRoomList[NowRooms.IndexOf(room)] = true;
                 NowRooms.RemoveAt(NowRooms.IndexOf(room));
-                    Debug.Log($"나간 방 인덱스 : {NowRooms.IndexOf(room)}");
             }
-            else // TODO : 이게 왜 필요한지 확인
+            else
             {
-                 if(NowRooms.Contains(room) == false) 
-                 {
+                if (NowRooms.Contains(room) == false)
+                {
                     NowRooms.Add(room);
-                    Debug.Log($"들어온 방 인덱스 : {NowRooms.IndexOf(room)}");
+                    isRoom[NowRooms.IndexOf(room) + 1] = true;
                 }
             }
         }
@@ -64,7 +57,6 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         PKB_MainUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
         PKB_MainUIManager.Instance.PlayRoomUI.SetRoomInfo(roomOptions);
         Debug.Log($"현재인원 / 최대인원 : {PhotonNetwork.CurrentRoom.PlayerCount} / {PhotonNetwork.CurrentRoom.MaxPlayers}");
-                    // Debug.Log($"들어온 방 인덱스 1 : {NowRooms[1]}");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -92,8 +84,6 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
                 PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "오류가 발생했습니다.", "확인");
                 break;
         }
-
-        Debug.Log("조인랜덤룸 실패 리턴 코드 : " +returnCode);
     }
 
     public void CreateRoom(string _password)
@@ -104,26 +94,26 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             {
                 IsOpen = true,
                 IsVisible = true,
-                MaxPlayers = 14
+                MaxPlayers = 14,
+                BroadcastPropsChangeToAll = true
             };
 
             string roomName = SetRoomName();
             // bool isInRoom = false;
 
             roomOptions.CustomRoomProperties = new Hashtable()
-        {
-            { "RoomName", roomName },
-            { "Password", _password },
-            // { "IsInRoom",  isInRoom } 추후 튕길 때 사용
-        };
+            {
+                { "RoomName", roomName },
+                { "Password", _password },
+                // { "IsInRoom",  isInRoom } 추후 튕길 때 사용
+            };
 
             roomOptions.CustomRoomPropertiesForLobby = new string[]
             {
-            "RoomName",
-            "Password",
+                "RoomName",
+                "Password",
                 // "IsInRoom"
             };
-
             PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
         }
         else
@@ -133,23 +123,22 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     }
 
     [PunRPC]
-    public string SetRoomName() // TODO : 
+    public string SetRoomName()
     {
         for (int i = 1; i <= 10000; i++)
         {
-            if(i == 10000)
+            if (i == 10000)
             {
+                // TODO : 데이터작업
                 PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 방을 생성할 수 없습니다. 잠시 후 다시 시도헤해주세요", "확인");
             }
-            if(isEmptyRoomList[i]) // 빈방
+            if (isRoom[i]) // 있는 방
             {
-                isEmptyRoomList[i] = false;
-                roomNameList.Add(new PKB_PlayRoomUI());
-                
-                return i.ToString();
+                continue;
             }
             else
             {
+                isRoom[i] = true;
                 return i.ToString();
             }
         }

@@ -6,15 +6,12 @@ using System.Data;
 
 public class PKB_RankingUI : MonoBehaviour
 {
-    // [SerializeField] int sortCount;
     [SerializeField] Button[] menuButton;
     private int selectButton;
 
     [Header("·©Å·Å×ÀÌºí")]
-
     [SerializeField] PKB_RankingDataUI[] rankingData;
-
-    string[] menu = { "play_count", "win_count", "die_count", "survive_time", "attack_player", "attack_npc" };
+    private string[] menu = { "play_count", "win_count", "die_count", "survive_time", "attack_player", "attack_npc" };
 
     void OnEnable()
     {

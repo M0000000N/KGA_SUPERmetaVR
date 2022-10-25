@@ -6,6 +6,7 @@ using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Linq;
 
 public class PKB_MainUI : MonoBehaviourPunCallbacks
 {
@@ -14,12 +15,12 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI nickname;
 
     [Header("버튼")]
-    [SerializeField] Button exitButton;
     [SerializeField] Button findRoomButton;
     [SerializeField] Button customizingButton;
     [SerializeField] Button randomJoinButton;
     [SerializeField] Button createRoomButton;
     [SerializeField] Button settingButton;
+    [SerializeField] Button exitButton;
 
     [Header("방 찾기")]
     [SerializeField] GameObject findingRoomImage;
@@ -36,21 +37,20 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        exitButton.onClick.AddListener(OnClickExitButton);
         findRoomButton.onClick.AddListener(OnClickFindRoomButton);
         customizingButton.onClick.AddListener(OnClickCustomizingButton);
         createRoomButton.onClick.AddListener(OnClickCreateRoomButton);
         randomJoinButton.onClick.AddListener(OnClickRandomJoinButton);
         settingButton.onClick.AddListener(OnClickSettingButton);
+        exitButton.onClick.AddListener(OnClickExitButton);
 
-        exitButton.interactable = false;
         findRoomButton.interactable = false;
         customizingButton.interactable = false;
         randomJoinButton.interactable = false;
         createRoomButton.interactable = false;
         settingButton.interactable = false;
+        exitButton.interactable = false;
         RefreshUI();
-
     }
 
     public override void OnConnectedToMaster()
@@ -61,11 +61,7 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         randomJoinButton.interactable = true;
         createRoomButton.interactable = true;
         settingButton.interactable = true;
-    }
-
-    public void OnClickExitButton()
-    {
-        PKB_MainUIManager.Instance.ExitUI.gameObject.SetActive(true);
+        PKB_MainUIManager.Instance.Fade(true);
     }
 
     public void OnClickFindRoomButton()
@@ -78,21 +74,26 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         PKB_MainUIManager.Instance.CustomizingUI.gameObject.SetActive(true);
     }
 
-    public void OnClickCreateRoomButton()
-    {
-        PKB_MainUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
-    }
-
     public void OnClickRandomJoinButton()
     {
         findingRoomImage.SetActive(true);
 
         if (PhotonNetwork.IsConnected)
         {
-            Hashtable myHashtable = new Hashtable() {
-            { "Password", null } };
-            PhotonNetwork.JoinRandomRoom(myHashtable, (byte)14);
 
+            for (int i = 0; i < LobbyManager.Instance.NowRooms.Count; i++)
+            {
+                if (LobbyManager.Instance.NowRooms[i].CustomProperties["Password"] == null)
+                {
+                    string roomName = LobbyManager.Instance.NowRooms.ElementAt(i).CustomProperties.Values.ElementAt(0).ToString();
+                    if (PhotonNetwork.JoinRoom(roomName))
+                    {
+                        findingRoomImage.SetActive(false);
+                        return;
+                    }
+                }
+            }
+            PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 입장할 수 있는 방이 없습니다.", "확인");
             findingRoomImage.SetActive(false);
         }
         else
@@ -101,9 +102,19 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         }
     }
 
+    public void OnClickCreateRoomButton()
+    {
+        PKB_MainUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
+    }
+
     public void OnClickSettingButton()
     {
         PKB_MainUIManager.Instance.SettingUI.gameObject.SetActive(true);
+    }
+
+    public void OnClickExitButton()
+    {
+        PKB_MainUIManager.Instance.ExitUI.gameObject.SetActive(true);
     }
 
     public void ChangeCustomCharacter()

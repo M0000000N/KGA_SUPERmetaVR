@@ -8,8 +8,8 @@ public class PKB_NoticePopupUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI titleName;
     [SerializeField] TextMeshProUGUI description;
-    [SerializeField] Button yesButton;
     [SerializeField] TextMeshProUGUI yesButtonText;
+    [SerializeField] Button yesButton;
 
     public void OpenNotificationPopupUI(int _id)
     {
@@ -25,7 +25,6 @@ public class PKB_NoticePopupUI : MonoBehaviour
         description.text = _description;
         yesButtonText.text = _yesButtonText;
         gameObject.SetActive(true);
-
     }
 
     public void CloseUI()
