@@ -9,8 +9,8 @@ public class XRRaycast : MonoBehaviour
     [SerializeField] XRRayInteractor leftRayInteractor;
     [SerializeField] XRRayInteractor RightRayInteractor;
 
-    private RaycastResult leftRayHit;
-    private RaycastResult RightRayHit;
+    private RaycastHit leftRayHit;
+    private RaycastHit RightRayHit;
 
     GameObject targetObject;
 
@@ -21,13 +21,15 @@ public class XRRaycast : MonoBehaviour
 
     public void RayCastHit()
     {
-        if (RightRayInteractor.TryGetCurrentUIRaycastResult(out RightRayHit))
+        if (RightRayInteractor.TryGetCurrent3DRaycastHit(out RightRayHit))
         {
-            targetObject = RightRayHit.gameObject;
+            targetObject = RightRayHit.transform.gameObject;
+            Debug.Log("target : " + targetObject.name);
         }
-        else if (leftRayInteractor.TryGetCurrentUIRaycastResult(out leftRayHit))
+        else if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit))
         {
-            targetObject = leftRayHit.gameObject;
+            targetObject = leftRayHit.transform.gameObject;
+            Debug.Log("target : " + targetObject.name);
         }
         else
         {
@@ -39,4 +41,5 @@ public class XRRaycast : MonoBehaviour
     {
         return targetObject;
     }
+
 }

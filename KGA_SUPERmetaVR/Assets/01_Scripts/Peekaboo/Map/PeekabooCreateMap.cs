@@ -136,7 +136,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
             GameObject player = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, _playerList, Quaternion.identity);
             if(player.GetComponentInChildren<PhotonView>().IsMine)
             {
-                PeekabooGameManager.Instance.OVRCamera.transform.parent = player.transform;
+                PeekabooGameManager.Instance.OVRCamera.transform.parent = player.transform.Find("2^1PC");
                 PeekabooGameManager.Instance.OVRCamera.transform.localPosition = Vector3.zero;
             }
         }

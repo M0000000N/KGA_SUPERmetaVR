@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.XR;
 
 // PC에게 공격 받았을 때
 public class PCAppearPeekaboo : MonoBehaviourPun
 {
-  
-    //[SerializeField]
-    //private GameObject Peekaboo;
-
-    //[SerializeField]
-    //private LayserPointer layser;
-
+ 
     [SerializeField]
     private XRRaycast raycastHit;
 
+    [SerializeField]
+
+   // private Peekaboo_XRPlayerMovement rxPlay;
+    private InputDevice controller;
+   
     private void Start()
     {
-        // Peekaboo.SetActive(false);
         raycastHit = PeekabooGameManager.Instance.OVRCamera.GetComponent<XRRaycast>();
     }
 
@@ -30,7 +29,10 @@ public class PCAppearPeekaboo : MonoBehaviourPun
 
     public void ShowPeekaboo()
     {
+        bool _triggerValue = false; 
         if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) && (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger)) || Input.GetKeyDown(KeyCode.Space))
+           // if(controller.TryGetFeatureUsages(CommonUsages.triggerButton, out _triggerValue))
+            
         {
             if (raycastHit.InteractCharacter() == null) return;
             if (raycastHit.InteractCharacter().GetComponent<PeekabooCharacter>() == null) return;
