@@ -35,9 +35,6 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
     private GameObject ovrCamera;
     public GameObject OVRCamera { get { return ovrCamera; } set { ovrCamera = value; } }
 
-    private int surprisedEnemyNumbers;
-    public int SurprisedEnemyNumbers { get { return surprisedEnemyNumbers; } set { surprisedEnemyNumbers = value; } }
-
     private Dictionary<int, int> playerScoreList;
 
     public Dictionary<int, int> PlayerScoreList { get { return playerScoreList; } set { playerScoreList = value; } }
@@ -50,14 +47,8 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 
     public int PlayerRanking { get { return playerRanking; } }
 
-    // ?? 이거 추가하신분? 어디다 쓰이는건지
-    private PeekabooPlayerUIData peekabooPlayerUIData;
-
-
     private void Start()
     {
-        peekabooPlayerUIData = playerPrefeb.GetComponentInChildren<PeekabooPlayerUIData>();
-        surprisedEnemyNumbers = 0;
         IsGameOver = false;
         TotalNumberOfPeopleFirstEnterdRoom = PhotonNetwork.CurrentRoom.PlayerCount;
         numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
@@ -73,7 +64,7 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 
     private void Update()
     {
-        if (numberOfPlayers == 1)
+        if (numberOfPlayers == 1 && IsGameOver == false)
         {
             PlayerGameOver();
         }
@@ -88,10 +79,10 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                playerRanking = 1;
+                playerRanking = 0;
                 int equalRanking = 1;
                 int minScore = TotalNumberOfPeopleFirstEnterdRoom;
-                var sortVar = from item in PeekabooGameManager.Instance.PlayerScoreList orderby item.Value descending select item;
+                var sortVar = from item in playerScoreList orderby item.Value descending select item;
                 foreach (var item in sortVar)
                 {
                     if (minScore >= item.Value)
@@ -106,7 +97,6 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
                             playerRanking = playerRanking + equalRanking;
                             equalRanking = 1;
                         }
-                        
                     }
                     photonView.RPC("RPCTimeOverScore", RpcTarget.All, item.Key, item.Value, playerRanking);
                 }
@@ -115,18 +105,22 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         else
         {
             playerRanking = numberOfPlayers;
-            photonView.RPC("RPCRequestPlayerScore", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
+            photonView.RPC("RPCRequestPlayerScore", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber - 1);
         }
     }
 
+    // 마스터 클라이언트에게 점수요청
     [PunRPC]
     private void RPCRequestPlayerScore(int _playerActorNumber)
     {
+        Debug.Log($"RPCRequestPlayerScore 액터 넘버 {_playerActorNumber}");
+        Debug.Log($"RPCRequestPlayerScore 리스트 {playerScoreList[0]}");
         int requestPlayerScore = playerScoreList[_playerActorNumber];
         playerScoreList.Remove(_playerActorNumber);
         photonView.RPC("RPCGivePlayerScore", RpcTarget.All,_playerActorNumber,requestPlayerScore);
     }
 
+    // 요청한 플레이어에게 점수제공
     [PunRPC]
     private void RPCGivePlayerScore(int _playerActorNumber, int _requestPlayerScore)
     {
@@ -136,44 +130,20 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         }
     }
 
+    // 플레이시간이 끝났을 시 점수를 계산해 점수와 등수를 제공
     [PunRPC]
     private void RPCTimeOverScore(int _playerActorNumber, int _requestPlayerScore, int _playerRanking)
     {
-        if (_playerActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+        if (_playerActorNumber + 1 == PhotonNetwork.LocalPlayer.ActorNumber)
         {
             playerScore = _requestPlayerScore;
             playerRanking = _playerRanking;
         }
     }
 
-
-    private void PeekabooGameOver()
-    {
-        if (false) // 플레이어가 죽었을 때
-        {
-            PlayerGameOver();
-        }
-        else if (numberOfPlayers == 1)
-        {
-            Debug.Log("혼자남음");
-            PlayerGameOver();
-            
-        }
-        else if (PeekabooTimeManager.Instance.GameTimer <= 0f)
-        {
-            Debug.Log("시간 다댐");
-            PlayerGameOver();
-        }
-        else if (false) // 종료 버튼을 눌럿을시
-        {
-            PlayerGameOver();
-        }
-    }
-
     private void PeekabooEnforceGameShutdown()
     {
         // 강제로 종료할 시 카운트 하나 줄임
-        // 플레이어에서 관리? 여기서 관리?
         PlayerGameOver();
     }
 }

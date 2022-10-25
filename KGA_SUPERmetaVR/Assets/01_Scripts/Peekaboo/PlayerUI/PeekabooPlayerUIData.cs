@@ -14,7 +14,7 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
     [SerializeField]
     private TextMeshProUGUI totalPlayerCount;
     [SerializeField]
-    private TextMeshProUGUI surprisedEnemyNumbersText;
+    private TextMeshProUGUI playerScoreText;
     [SerializeField]
     private TextMeshProUGUI survivalTimeText;
     [SerializeField]
@@ -38,6 +38,7 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
     {
         if (PeekabooGameManager.Instance.IsGameOver)
         {
+            Debug.Log("Çï·Î");
             GameOverUI();
         }
     }
@@ -64,7 +65,7 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
         }
         playerRankingText.text = "# " + PeekabooGameManager.Instance.PlayerRanking.ToString();
         totalPlayerCount.text = "/ " + PeekabooGameManager.Instance.TotalNumberOfPeopleFirstEnterdRoom.ToString();
-        surprisedEnemyNumbersText.text = "³î·¡ Å² Àû : " + PeekabooGameManager.Instance.PlayerScore.ToString();
+        playerScoreText.text = "³î·¡ Å² Àû : " + PeekabooGameManager.Instance.PlayerScore.ToString();
         survivalTimeText.text = "»ýÁ¸ ½Ã°£ : " + ((int)(PeekabooTimeManager.Instance.SurvivalTime / 60)).ToString() + "ºÐ" + ((int)(PeekabooTimeManager.Instance.SurvivalTime % 60)).ToString() + "ÃÊ";
         NumberOfCoinsAcquiredText.text = "È¹µæ ÄÚÀÎ :       X " + (PeekabooGameManager.Instance.TotalNumberOfPeopleFirstEnterdRoom - PeekabooGameManager.Instance.NumberOfPlayers + 10).ToString();
         gameResultUI.SetActive(true);

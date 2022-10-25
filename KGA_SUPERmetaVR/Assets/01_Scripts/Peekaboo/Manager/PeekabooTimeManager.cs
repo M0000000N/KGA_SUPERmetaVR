@@ -8,7 +8,7 @@ using Photon.Pun;
 public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
 {
     [SerializeField]
-    private TextMeshProUGUI textTimer;
+    private TextMeshProUGUI timerText;
 
     [SerializeField]
     private float gameTimer;
@@ -21,12 +21,13 @@ public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("Timer", RpcTarget.All,gameTimer);
+            photonView.RPC("Timer", RpcTarget.All,gameTimer,survivalTime);
         }
+        
     }
 
     [PunRPC]
-    private void Timer(float _gameTimer)
+    private void Timer(float _gameTimer, float _survivalTime)
     {
         if (PeekabooGameManager.Instance.IsGameOver == false)
         {
@@ -36,16 +37,17 @@ public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
             }
             if (_gameTimer >= 0f)
             {
-                gameTimer -= Time.deltaTime;
+                _gameTimer -= Time.deltaTime;
             }
             
-            survivalTime += Time.deltaTime;
+            _survivalTime += Time.deltaTime;
         }
-       
+        gameTimer = _gameTimer;
+        survivalTime = _survivalTime;
         int hour = (int)(_gameTimer / 3600);
         int min = (int)((_gameTimer - hour * 3600) / 60);
         int second = (int)_gameTimer % 60;
-        textTimer.text = hour + ":" + min + ":" + second;
+        timerText.text = hour + ":" + min + ":" + second;
     }
 
     

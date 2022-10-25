@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,11 +8,31 @@ public class PeekabooSpawner : MonoBehaviour
     [SerializeField]
     private PeekabooCreateEnemy peekabooEnemyCreate;
 
+    // 삭제할 부분
+    private List<GameObject> testNPCList;
+
+    private void Awake()
+    {
+        testNPCList = new List<GameObject>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("1번눌림");
+            int randnum = Random.Range(0, 5);
+            PeekabooCharacter NPC = testNPCList[randnum].GetComponentInChildren<PeekabooCharacter>();
+            NPC.MyFSM.ChangeState(PEEKABOOCHARACTERSTATE.NPCDIE);
+        }
+    }
+    //
+
     public void FirstSpawn(Vector3 _mapPosition, int _randomSpawnNPC)
     {
         for (int i = 0; i < _randomSpawnNPC; i++)
         {
-            Spawn(_mapPosition); // 풀링으로 NPC 여러개를 만들어서 배치하는 녀석을 참조갛고 싶은거임 ㅇㅋ? 
+            Spawn(_mapPosition); 
         }
     }
 
@@ -39,6 +58,9 @@ public class PeekabooSpawner : MonoBehaviour
         else
         {
             GameObject Enemy = peekabooEnemyCreate.GetObject(transform);
+            // 테스트용
+            testNPCList.Add(Enemy);
+            //
             transform.position = new Vector3(0f, 0f, 0f);
         }
     }

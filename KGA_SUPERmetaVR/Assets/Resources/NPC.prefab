@@ -1253,7 +1253,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRenderer: {fileID: 1208299283577808356}
   fadeMaterial: {fileID: 2100000, guid: e5adb67387f0bb04ba7bc0774afc76da, type: 2}
-  playerNavMeshAgent: {fileID: 0}
+  playerNavMeshAgent: {fileID: 2425730013813944169}
+  NPCbody: {fileID: 2425730013813944168}
 --- !u!136 &6410905426171881365
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1710,6 +1711,8 @@ GameObject:
   - component: {fileID: 2425730013813944174}
   - component: {fileID: 2425730013813944169}
   - component: {fileID: 2425730013813944175}
+  - component: {fileID: 3985169236910565938}
+  - component: {fileID: 5735840175542040960}
   m_Layer: 3
   m_Name: Body
   m_TagString: Enemy
@@ -1785,6 +1788,45 @@ MonoBehaviour:
   moveSpeed: 1
   minDistance: 2
   maxDistance: 4
+--- !u!114 &3985169236910565938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2425730013813944171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 5735840175542040960}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &5735840175542040960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2425730013813944171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1001 &7606620452282529761
 PrefabInstance:
   m_ObjectHideFlags: 0
