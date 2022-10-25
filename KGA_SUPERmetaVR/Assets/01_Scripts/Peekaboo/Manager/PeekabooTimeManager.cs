@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 
+
 public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
 {
     [SerializeField]
@@ -25,23 +26,28 @@ public class PeekabooTimeManager : OnlyOneSceneSingleton<PeekabooTimeManager>
     }
 
     [PunRPC]
-    private void Timer(float gameTimer)
+    private void Timer(float _gameTimer)
     {
-        if (gameTimer <= 0f)
-        {
-            PeekabooGameManager.Instance.IsGameOver = true;
-        }
-        if (gameTimer >= 0f && PeekabooGameManager.Instance.IsGameOver == false)
-        {
-            gameTimer -= Time.deltaTime;
-        }
         if (PeekabooGameManager.Instance.IsGameOver == false)
         {
+            if (_gameTimer <= 0f)
+            {
+                PeekabooGameManager.Instance.PlayerGameOver();
+            }
+            if (_gameTimer >= 0f)
+            {
+                gameTimer -= Time.deltaTime;
+            }
+            
             survivalTime += Time.deltaTime;
         }
-        int hour = (int)(gameTimer / 3600);
-        int min = (int)((gameTimer - hour * 3600) / 60);
-        int second = (int)gameTimer % 60;
+       
+        int hour = (int)(_gameTimer / 3600);
+        int min = (int)((_gameTimer - hour * 3600) / 60);
+        int second = (int)_gameTimer % 60;
         textTimer.text = hour + ":" + min + ":" + second;
     }
+
+    
+  
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PeekabooPCPeekabooState : PeekabooCharacterState
 {
@@ -16,6 +17,7 @@ public class PeekabooPCPeekabooState : PeekabooCharacterState
         PEEKABOOCHARACTERSTATE stateKey;
         if (myFSM.MyCharacter.AttackTarget.tag == "PC")
         {
+            photonView.RPC("RPCPlayerGetScore", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
             stateKey = PEEKABOOCHARACTERSTATE.IDLE;
         }
         else
@@ -34,5 +36,11 @@ public class PeekabooPCPeekabooState : PeekabooCharacterState
     public override void OnExit()
     {
         StopAllCoroutines();
+    }
+
+    [PunRPC]
+    private void RPCPlayerGetScore(int _playerActorNumber)
+    {
+        PeekabooGameManager.Instance.PlayerScoreList[_playerActorNumber]++;
     }
 }

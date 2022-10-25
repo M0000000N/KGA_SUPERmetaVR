@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.07094631, g: 0.07877261, b: 0.14394918, a: 1}
+  m_IndirectSpecularColor: {r: 0.07097197, g: 0.07879431, b: 0.14395717, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -912,7 +912,7 @@ MonoBehaviour:
   voiceDetectionThreshold: 0.01
   voiceDetectionDelayMs: 500
   unityMicrophoneDevice: 
-  photonMicrophoneDeviceId: 0
+  photonMicrophoneDeviceId: -1
   interestGroup: 0
   debugEchoMode: 0
   reliableMode: 0
@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1573d74b83bd5684eace8db3fd865ac3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fb78f265e8c2df840bb7d88c01688997, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1204,6 +1204,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1526607586, guid: 30b81f398a1068b4486aee6aeea03709, type: 3}
+      propertyPath: dummyPlayer
+      value: 
+      objectReference: {fileID: 2784787804592473050, guid: 7bd013ca18e80224cbf25a427e1d3d4d, type: 3}
     - target: {fileID: 1503231487789294664, guid: 30b81f398a1068b4486aee6aeea03709, type: 3}
       propertyPath: m_Name
       value: Spawn

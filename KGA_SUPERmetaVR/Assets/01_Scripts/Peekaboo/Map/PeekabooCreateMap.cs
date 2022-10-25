@@ -65,12 +65,22 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
     public Dictionary<int, MAPDATA> MapData { get { return mapData; } }
 
     private List<Vector3> playerPositionList;
+
     private Vector3 playerPosition;
+
+    private List<GameObject> dummyPlayerList;
+
+    [SerializeField]
+    private GameObject dummyPlayer;
     private void Awake()
     {
         mapLength = 20f;
         mapData = new Dictionary<int, MAPDATA>();
         playerPositionList = new List<Vector3>();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            dummyPlayerList = new List<GameObject>();
+        }
     }
 
     private void Start()
@@ -92,10 +102,16 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
         {
             for (int i = 0; i < numberOfPlayers; ++i)
             {
+                Destroy(dummyPlayerList[i]);
+            }
+        }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            for (int i = 0; i < numberOfPlayers; ++i)
+            {
                 photonView.RPC("RPCPlayerAllocation", RpcTarget.All, i, playerPositionList[i]);
             }
         }
-        
         SpawnNPC();
     }
 
@@ -197,6 +213,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
             int layerMask = LayerMask.GetMask("Player");
             Collider[] hitColliders = new Collider[numberOfPlayers];
             colls = Physics.OverlapSphereNonAlloc(hit.position, distanceBetweenPlayersCreated, hitColliders, layerMask);
+            dummyPlayerList.Add(Instantiate(dummyPlayer, hit.position, Quaternion.identity));
         } while (colls != 0); // 만약 플레이어가 있다면 다시 랜덤 위치값을 구한다.
 
         // 조건에 맞는 위치값이 나온다면 플레이어를 생성한다.

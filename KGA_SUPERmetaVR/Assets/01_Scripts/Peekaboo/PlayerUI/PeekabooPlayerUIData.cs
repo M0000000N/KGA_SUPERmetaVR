@@ -62,11 +62,11 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
                 playerRankingText.color = winnerColor;
             }
         }
-        playerRankingText.text = "# " + PeekabooGameManager.Instance.NumberOfPlayers.ToString();
+        playerRankingText.text = "# " + PeekabooGameManager.Instance.PlayerRanking.ToString();
         totalPlayerCount.text = "/ " + PeekabooGameManager.Instance.TotalNumberOfPeopleFirstEnterdRoom.ToString();
-        surprisedEnemyNumbersText.text = "³î·¡ Å² Àû : "; // + ÇÃ·¹ÀÌ¾î°¡ ³î·¡Å² ¼ö
+        surprisedEnemyNumbersText.text = "³î·¡ Å² Àû : " + PeekabooGameManager.Instance.PlayerScore.ToString();
         survivalTimeText.text = "»ýÁ¸ ½Ã°£ : " + ((int)(PeekabooTimeManager.Instance.SurvivalTime / 60)).ToString() + "ºÐ" + ((int)(PeekabooTimeManager.Instance.SurvivalTime % 60)).ToString() + "ÃÊ";
-        NumberOfCoinsAcquiredText.text = "È¹µæ ÄÚÀÎ :       X " + (PeekabooGameManager.Instance.TotalNumberOfPeopleFirstEnterdRoom - PeekabooGameManager.Instance.NumberOfPlayers + 124).ToString();
+        NumberOfCoinsAcquiredText.text = "È¹µæ ÄÚÀÎ :       X " + (PeekabooGameManager.Instance.TotalNumberOfPeopleFirstEnterdRoom - PeekabooGameManager.Instance.NumberOfPlayers + 10).ToString();
         gameResultUI.SetActive(true);
     }
 

@@ -2671,6 +2671,7 @@ GameObject:
   - component: {fileID: 4541001721352505706}
   - component: {fileID: 6272685821304881779}
   - component: {fileID: 4038173647833260175}
+  - component: {fileID: 2630227193593713282}
   m_Layer: 6
   m_Name: 2^1PC
   m_TagString: Player
@@ -2734,6 +2735,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 8608636642169446745}
+  - {fileID: 4541001721352505706}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2823,6 +2825,7 @@ MonoBehaviour:
   myCharacter: {fileID: 8608636642169446749}
   isRun: 0
   peekaboo: {fileID: 659702940675810772, guid: 201a3c7470659d74f8adb74cb91d3a32, type: 3}
+  cameraRig: {fileID: 0}
   stamina: {fileID: 0}
 --- !u!114 &6272685821304881779
 MonoBehaviour:
@@ -2859,6 +2862,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2630227193593713282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8608636642169446746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71823421f4e467741aa3ff7144987521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  peekaboo: {fileID: 8608636641131573649}
+  fsm: {fileID: 8608636641131573665}
 --- !u!1 &8608636642263437861
 GameObject:
   m_ObjectHideFlags: 0
