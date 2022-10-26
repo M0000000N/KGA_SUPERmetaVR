@@ -37,11 +37,7 @@ public class PeekabooCharacterIdleState : PeekabooCharacterState
 
     public override void OnUpdate()
     {
-        if (photonView.IsMine)
-        {
-            elapsedTime += Time.deltaTime;
-        }
-
+        elapsedTime += Time.deltaTime;
         if (waitTimeToNextBehaviour <= elapsedTime)
         {
             myFSM.ChangeState(PEEKABOOCHARACTERSTATE.FRONTTOLEFT);

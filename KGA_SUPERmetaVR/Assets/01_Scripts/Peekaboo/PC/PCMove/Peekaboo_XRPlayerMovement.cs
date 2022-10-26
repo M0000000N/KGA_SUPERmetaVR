@@ -18,7 +18,6 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
     private List<InputDevice> devices = new List<InputDevice>();
     private InputDevice device;
 
-    [SerializeField]
     private Transform myCameraTransform;
 
     private bool triggerIsPressed;
@@ -60,6 +59,11 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
         applySpeed = walkSpeed;
         navMeshAgent = GetComponent<NavMeshAgent>();
         stamina = GameObject.Find("Stamina").GetComponent<Stamina>();
+
+        if (photonView.IsMine)
+        {
+            myCameraTransform = GameObject.Find("Main Camera").transform;
+        }
     }
 
     void Update()
