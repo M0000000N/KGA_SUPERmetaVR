@@ -27,11 +27,10 @@ public class Stamina : MonoBehaviour
     private float clickButtonB = 0.2f;
 
     [SerializeField]
-    private float cancleButtonB = 6f; 
-
+    private float cancleButtonB = 6f;
 
     [SerializeField]
-    private PlayMove_Photon playerPhoton;
+    private Peekaboo_XRPlayerMovement xrPlay; 
 
     private float staminaTime = 0f;
 

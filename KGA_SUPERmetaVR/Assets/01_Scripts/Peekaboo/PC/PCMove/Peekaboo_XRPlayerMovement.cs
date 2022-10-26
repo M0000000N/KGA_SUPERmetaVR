@@ -1,144 +1,134 @@
-using Photon.Pun;
-using System.Collections;
+using Photon.Pun; 
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
-using UnityEngine.XR;
-using UnityEngine.Events;
-using System.Net.NetworkInformation;
 using UnityEngine.XR.Interaction.Toolkit;
-
-[System.Serializable]
-public class PrimaryButtonEvent : UnityEvent<bool> { }
+using UnityEngine.XR;
+using UnityEngine.Events; 
 
 public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 {
-    
-    // XR version controller
-    [SerializeField]
-    private XRNode xrNode = XRNode.LeftHand;
-    private List<InputDevice> devices = new List<InputDevice>();
-    private InputDevice device;
-
-    private bool primary2DAxisIsChosen;
-    private bool triggerIsPressed;
-    private Vector2 primary2DAxisValue = Vector2.zero;
-    private Vector2 prevPrimary2DAxisValue;
-
-    // PC Speed
-    [SerializeField]
-    private float walkSpeed;
+    [Header("PC Speed")]
 
     [SerializeField]
-    private float runSpeed;
+    private float walkSpeed = 1f;
+
+    [SerializeField]
+    private float runSpeed = 2f;
 
     [SerializeField]
     private Stamina stamina;
 
+    [Header("XR")]
     [SerializeField]
-    private Transform myCharacter;
+    private XRNode controllerNode = XRNode.LeftHand;
 
-    private NavMeshAgent navMeshAgent;
+    private List<InputDevice> devices = new List<InputDevice>();
+    private InputDevice device;
+
+    private bool buttonPressed;
+
     private float applySpeed;
     private bool isRun = false;
-
+    private NavMeshAgent navMeshAgent;
+ 
     Vector3 setPos;
     Quaternion setRot;
 
-    void GetDevice()
+    void Start()
     {
-        InputDevices.GetDevicesAtXRNode(xrNode, devices);
+        if (photonView == false) return;
+
+        GetDevice(); 
+        applySpeed = walkSpeed;
+        navMeshAgent = GetComponent<NavMeshAgent>();
+    }
+
+    private void GetDevice()
+    {
+        //InputDevices.GetDevices(devices);
+         InputDevices.GetDevicesAtXRNode(controllerNode, devices);
+       // InputDevices.GetDevicesAtXRNode(controllerRight, devices);
+       // InputDevices.GetDevices(devices);
         device = devices.FirstOrDefault();
     }
 
-    private void OnEnable()
+    void Update()
     {
-        if (device.isValid == false)
+        if (photonView == false) return;
+
+        if (device == null)
         {
             GetDevice();
         }
-    }
 
-    private void Start()
-    {
-        //navMeshAgent = GetComponent<NavMeshAgent>();
-        GetDevice();
-        applySpeed = walkSpeed;
+        TryRun();
+        Move();
     }
-
-    private void Update()
-    {
-        if (photonView.IsMine)
-        {
-            // if (PeekabooGameManager.Instance.IsGameOver == false)
-            TryRun();
-            Move();
-        }
-    }
-
 
     private void Move()
     {
+
         Vector2 primary2dValue;
         InputFeatureUsage<Vector2> primary2DVector = CommonUsages.primary2DAxis;
 
-        if (device.TryGetFeatureValue(primary2DVector, out primary2dValue))
+        if (device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
-            //Vector3 dircetion = new Vector3(primary2dValue.x, 0, primary2dValue.y).normalized;
-            //dircetion = Camera.main.transform.TransformDirection(dircetion);
-
-            //transform.position += dircetion * applySpeed * Time.deltaTime;
-            //navMeshAgent.SetDestination(transform.position);
-            primary2DAxisIsChosen = false;
             var xAxis = primary2dValue.x * applySpeed * Time.deltaTime;
             var zAxis = primary2dValue.y * applySpeed * Time.deltaTime;
 
             Vector3 right = transform.TransformDirection(Vector3.right);
             Vector3 forward = transform.TransformDirection(Vector3.forward);
+            Vector3 left = transform.TransformDirection(Vector3.left);
+            Vector3 back = transform.TransformDirection(Vector3.back);
 
             transform.position += right * xAxis;
             transform.position += forward * zAxis;
+            transform.position -= left * xAxis;
+            transform.position -= back * zAxis; 
 
-            // navMeshAgent.SetDestination(transform.position);
+            navMeshAgent.SetDestination(transform.position);
         }
     }
 
-    // 버튼 입력
     public void TryRun()
     {
-        bool triggerButtonValue = false;
-        InputFeatureUsage<bool> triggerButton = CommonUsages.secondaryButton;
+        bool pressbutton;
+        InputFeatureUsage<bool> secondaryBbutoon = CommonUsages.secondaryButton;
 
         Vector2 primary2dValue;
         InputFeatureUsage<Vector2> primary2DVector = CommonUsages.primary2DAxis;
 
-        if (device.TryGetFeatureValue(triggerButton, out triggerButtonValue) && device.TryGetFeatureValue(primary2DVector, out primary2dValue))
+       if (device.TryGetFeatureValue(secondaryBbutoon, out pressbutton) && pressbutton && stamina.GetProgress() > 0 && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
-            Debug.Log("뛰어라");
-            triggerIsPressed = true;
-            Running();
+            if (buttonPressed == false)
+            {
+                Debug.Log("달리나?");
+                Running();
+                buttonPressed = true;
+            }
         }
-        else if (triggerButtonValue == false && triggerIsPressed)
+        else if (buttonPressed && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero && stamina.GetProgress() > 0)
         {
-            triggerIsPressed = false;
+
             RunningCancle();
+            buttonPressed = false;
         }
     }
+
 
     public void Running()
     {
         isRun = true;
-        //stamina.DecreaseProgress();
+        stamina.DecreaseProgress();
         applySpeed = runSpeed;
     }
 
     public void RunningCancle()
     {
         isRun = false;
-        //stamina.IncreaseProgress();
+        stamina.IncreaseProgress();
         applySpeed = walkSpeed;
     }
 
@@ -148,7 +138,7 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(myCharacter.rotation);
+            stream.SendNext(transform.rotation);
         }
         else if (stream.IsReading)
         {
