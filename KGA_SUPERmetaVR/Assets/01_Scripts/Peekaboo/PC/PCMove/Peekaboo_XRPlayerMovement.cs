@@ -2,8 +2,9 @@ using Photon.Pun;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.XR;
 using UnityEngine.AI;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR;
 
 public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 {
@@ -19,11 +20,14 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
     private Stamina stamina;
 
     [Header("XR")]
-
     [SerializeField]
     private XRNode controllerNode = XRNode.LeftHand;
+    [SerializeField]
+    private XRNode controllerRight = XRNode.RightHand;
+
     private List<InputDevice> devices = new List<InputDevice>();
-    private InputDevice controller;
+    private InputDevice device;
+
     private bool buttonPressed;
 
     private float applySpeed;
@@ -37,7 +41,7 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
     {
         if (photonView == false) return;
 
-        GetDevice();
+        GetDevice(); 
         applySpeed = walkSpeed;
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
@@ -45,14 +49,17 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
     private void GetDevice()
     {
         InputDevices.GetDevicesAtXRNode(controllerNode, devices);
-        controller = devices.FirstOrDefault();
+        InputDevices.GetDevicesAtXRNode(controllerRight, devices);
+       // InputDevices.GetDevicesAtXRNode(controllerRight, devices);
+       // InputDevices.GetDevices(devices);
+        device = devices.FirstOrDefault();
     }
 
     void Update()
     {
         if (photonView == false) return;
 
-        if (controller == null)
+        if (device == null)
         {
             GetDevice();
         }
@@ -67,7 +74,7 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
         Vector2 primary2dValue;
         InputFeatureUsage<Vector2> primary2DVector = CommonUsages.primary2DAxis;
 
-        if (controller.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
+        if (device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
             Debug.Log("primary2DAxisClick is pressed " + primary2dValue);
 
@@ -76,9 +83,14 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
             Vector3 right = transform.TransformDirection(Vector3.right);
             Vector3 forward = transform.TransformDirection(Vector3.forward);
+            Vector3 left = transform.TransformDirection(Vector3.left);
+            Vector3 back = transform.TransformDirection(Vector3.back);
 
-            transform.position -= right * xAxis;
-            transform.position -= forward * zAxis;
+            transform.position += right * xAxis;
+            transform.position += forward * zAxis;
+            transform.position -= left * xAxis;
+            transform.position -= back * zAxis; 
+
             navMeshAgent.SetDestination(transform.position);
         }
     }
@@ -91,15 +103,16 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
         Vector2 primary2dValue;
         InputFeatureUsage<Vector2> primary2DVector = CommonUsages.primary2DAxis;
 
-        if (controller.TryGetFeatureValue(secondaryBbutoon, out pressbutton) && pressbutton && controller.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
+       if (device.TryGetFeatureValue(secondaryBbutoon, out pressbutton) && pressbutton && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
-            if (!buttonPressed)
+            if (buttonPressed == false)
             {
+                Debug.Log("´Þ¸®³ª?");
                 Running();
                 buttonPressed = true;
             }
         }
-        else if (buttonPressed && controller.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
+        else if (buttonPressed && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
 
             RunningCancle();
