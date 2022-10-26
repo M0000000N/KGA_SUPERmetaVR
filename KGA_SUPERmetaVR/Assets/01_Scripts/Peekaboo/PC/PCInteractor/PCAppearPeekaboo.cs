@@ -13,61 +13,62 @@ using UnityEngine.Events;
 public class PCAppearPeekaboo : MonoBehaviourPun
 {
     [SerializeField]
-    public XRNode XRNode = XRNode.LeftHand;
+    public XRNode XrNode = XRNode.LeftHand;
+    private List<InputDevice> devices = new List<InputDevice>();
+    private InputDevice device;
+    private bool triggerIsPressed;
 
     [SerializeField]
     private XRRaycast raycastHit;
 
-    private bool triggerButton;
-    private List<InputDevice> devices = new List<InputDevice>();
-    private InputDevice device;
+    void GetDevice()
+    {
+        InputDevices.GetDevicesAtXRNode(XrNode, devices);
+        device = devices.FirstOrDefault();
+    }
 
-    private bool TriggerButton { get { return triggerButton; } }
+    void OnEnable()
+    {
+        if (!device.isValid)
+        {
+            GetDevice();
+        }
+    }
 
     private void Start()
     {   
         raycastHit = PeekabooGameManager.Instance.OVRCamera.GetComponent<XRRaycast>();
     }
 
-    void GetDevice()
-    {
-        InputDevices.GetDevicesAtXRNode(XRNode, devices);
-        device = devices.FirstOrDefault();
-    }
 
     private void Update()
-    {
-        if (!device.isValid)
-        {
-            GetDevice();
-        }
-
+    {      
         ShowPeekaboo();
     }
 
     public void ShowPeekaboo()
     {
         //XR·Î ¹Ù²Þ 
-        bool isTrigger; 
-        if (device.TryGetFeatureValue(CommonUsages.triggerButton, out isTrigger))
+        bool triggerButtonValue = false;
+        if (device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerButtonValue) && triggerButtonValue && !triggerIsPressed)
         {
             if (raycastHit.InteractCharacter() == null) return;
+
             if (raycastHit.InteractCharacter().GetComponent<PeekabooCharacter>() == null) return;
 
             PeekabooCharacter targetCharacter = raycastHit.InteractCharacter().GetComponent<PeekabooCharacter>();
 
-            if (isTrigger != true)
+            if (targetCharacter != null)
             {
-                if (targetCharacter != null)
-                {
-                    targetCharacter.TakeDamage(gameObject);
-                }
-                isTrigger = true;
+                targetCharacter.TakeDamage(gameObject);
             }
-            else
-            { isTrigger = false; }
-            //if (layser.CreateRaycast().transform.gameObject == gameObject)
-            //    StartCoroutine("FadeOutPeekaboo");
+            triggerIsPressed = true;
+        }
+
+        else if (!triggerButtonValue && triggerIsPressed)
+        {
+            triggerIsPressed = false;
+            Debug.Log("Æ®¸®°Å ¾Æ¿ô");
         }
     }
 

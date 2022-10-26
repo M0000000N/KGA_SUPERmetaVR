@@ -5,30 +5,26 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
+using UnityEngine.Events; 
 
 public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 {
     [Header("PC Speed")]
-
-    [SerializeField]
-    private float walkSpeed = 1f;
-
-    [SerializeField]
-    private float runSpeed = 2f;
-
-    [SerializeField]
-    private Stamina stamina;
+    [SerializeField] private float walkSpeed = 1f;
+    [SerializeField] private float runSpeed = 2f;
+    [SerializeField] private Stamina stamina;
 
     [Header("XR")]
-    [SerializeField]
-    private XRNode controllerNode = XRNode.LeftHand;
-    [SerializeField]
-    private XRNode controllerRight = XRNode.RightHand;
-
+    [SerializeField] private XRNode xRNode = XRNode.LeftHand;
     private List<InputDevice> devices = new List<InputDevice>();
     private InputDevice device;
 
-    private bool buttonPressed;
+    private bool triggerIsPressed;
+    private bool primaryButtonIsPressed; // X / A 버튼
+    private bool secondaryButtonIsPressed; // Y / B 버튼 
+    private bool primary2DAxisIsChosen;
+    private Vector2 primary2DAxisValue = Vector2.zero;
+    private Vector2 prevPrimary2DAxisValue;
 
     private float applySpeed;
     private bool isRun = false;
@@ -36,6 +32,20 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
  
     Vector3 setPos;
     Quaternion setRot;
+
+    void GetDevice()
+    {
+        InputDevices.GetDevicesAtXRNode(xRNode, devices);
+        device = devices.FirstOrDefault();
+    }
+
+    void OnEnable()
+    {
+        if (!device.isValid)
+        {
+            GetDevice();
+        }
+    }
 
     void Start()
     {
@@ -46,20 +56,11 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    private void GetDevice()
-    {
-        InputDevices.GetDevicesAtXRNode(controllerNode, devices);
-        InputDevices.GetDevicesAtXRNode(controllerRight, devices);
-       // InputDevices.GetDevicesAtXRNode(controllerRight, devices);
-       // InputDevices.GetDevices(devices);
-        device = devices.FirstOrDefault();
-    }
-
     void Update()
     {
         if (photonView == false) return;
 
-        if (device == null)
+        if (!device.isValid)
         {
             GetDevice();
         }
@@ -70,14 +71,11 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
     private void Move()
     {
-
         Vector2 primary2dValue;
         InputFeatureUsage<Vector2> primary2DVector = CommonUsages.primary2DAxis;
 
         if (device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
-            Debug.Log("primary2DAxisClick is pressed " + primary2dValue);
-
             var xAxis = primary2dValue.x * applySpeed * Time.deltaTime;
             var zAxis = primary2dValue.y * applySpeed * Time.deltaTime;
 
@@ -89,7 +87,7 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
             transform.position += right * xAxis;
             transform.position += forward * zAxis;
             transform.position -= left * xAxis;
-            transform.position -= back * zAxis; 
+            transform.position -= back * zAxis;
 
             navMeshAgent.SetDestination(transform.position);
         }
@@ -97,29 +95,24 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
     public void TryRun()
     {
-        bool pressbutton;
-        InputFeatureUsage<bool> secondaryBbutoon = CommonUsages.secondaryButton;
+        bool secondaryButton = false;
+        InputFeatureUsage<bool> secondaryBottonUsage = CommonUsages.secondaryButton;
 
         Vector2 primary2dValue;
         InputFeatureUsage<Vector2> primary2DVector = CommonUsages.primary2DAxis;
 
-       if (device.TryGetFeatureValue(secondaryBbutoon, out pressbutton) && pressbutton && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
+        if (device.TryGetFeatureValue(secondaryBottonUsage, out secondaryButton) && secondaryButton && !secondaryButtonIsPressed && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
-            if (buttonPressed == false)
-            {
-                Debug.Log("달리나?");
-                Running();
-                buttonPressed = true;
-            }
+            Debug.Log("B버튼 입력");
+            Running();
+            secondaryButtonIsPressed = true; 
         }
-        else if (buttonPressed && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
+        else if (!secondaryButton && secondaryButtonIsPressed)
         {
-
             RunningCancle();
-            buttonPressed = false;
-        }
+            secondaryButtonIsPressed = false; 
+        }           
     }
-
 
     public void Running()
     {
