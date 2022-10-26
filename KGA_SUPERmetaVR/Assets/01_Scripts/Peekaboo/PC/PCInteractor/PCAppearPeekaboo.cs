@@ -40,7 +40,6 @@ public class PCAppearPeekaboo : MonoBehaviourPun
         raycastHit = PeekabooGameManager.Instance.OVRCamera.GetComponent<XRRaycast>();
     }
 
-
     private void Update()
     {
         if (photonView.IsMine == false) return;
