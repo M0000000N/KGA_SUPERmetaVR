@@ -100,6 +100,7 @@ public class PeekabooPC : PeekabooCharacter
     private void TakeDamageRPC(int _attackerViewNumber)
     {
         photonView.RPC("ChangeMyInteractState", Photon.Pun.RpcTarget.All, true);
+        photonView.RPC("AppearPeekaboo", RpcTarget.All);
         Attacker = PhotonView.Find(_attackerViewNumber).gameObject;
         myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
     }
