@@ -13,11 +13,11 @@ public class PeekabooNPCDieState : PeekabooCharacterState
     [SerializeField]
     private NavMeshAgent playerNavMeshAgent;
 
-    private Material myMaterial;
+    public Material myMaterial;
 
     protected override void Initialize()
     {
-
+        myMaterial = myRenderer.material;
     }
 
     public override void OnEnter()
@@ -43,7 +43,7 @@ public class PeekabooNPCDieState : PeekabooCharacterState
 
     private IEnumerator DieCoroutine(float _time)
     {
-        myMaterial = myRenderer.material;
+        // myMaterial = myRenderer.material;
         myRenderer.material = fadeMaterial;
         Color myColor = myRenderer.material.color;
         float decreaseValue = 1 / _time;
@@ -73,7 +73,7 @@ public class PeekabooNPCDieState : PeekabooCharacterState
         transform.position = PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);  
         transform.position += Vector3.up * 15f;
         myRenderer.material = myMaterial;
-        Color myColor = myRenderer.material.color;
+        Color myColor = myMaterial.color;
         myColor.a = 255f;
         myRenderer.material.color = myColor;
         while (transform.position.y > 1.2f)

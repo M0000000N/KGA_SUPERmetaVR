@@ -14,19 +14,22 @@ public class Test : MonoBehaviourPun
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC("TestMethod", RpcTarget.All);
+                photonView.RPC("TestMethod", RpcTarget.All, myNPC.photonView.ViewID);
             }
             else
             {
-                photonView.RPC("TestMethod", RpcTarget.MasterClient);
+                int photonViewID = myNPC.gameObject.GetPhotonView().ViewID;
+                photonView.RPC("TestMethod", RpcTarget.MasterClient, photonViewID);
             }
             
         }
     }
 
     [PunRPC]
-    private void TestMethod()
+    private void TestMethod(int _viewID)
     {
-        myNPC.TakeDamage(gameObject);
+        GameObject target = PhotonView.Find(_viewID).gameObject;
+        PeekabooCharacter tttarget = target.GetComponent<PeekabooCharacter>();
+        tttarget.TakeDamage(gameObject);
     }
 }

@@ -37,9 +37,8 @@ public class PeekabooCharacterIdleState : PeekabooCharacterState
 
     public override void OnUpdate()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (photonView.IsMine)
         {
-            Debug.Log("마스터라 실행중~");
             elapsedTime += Time.deltaTime;
         }
 
