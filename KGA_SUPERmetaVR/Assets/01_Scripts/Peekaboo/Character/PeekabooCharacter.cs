@@ -18,6 +18,9 @@ public abstract class PeekabooCharacter : MonoBehaviourPun
 
     protected PeekabooCharacterFSM myFSM;
 
+    //테스트용 
+    public PeekabooCharacterFSM MyFSM { get { return myFSM;} set { myFSM = value; } }
+
     protected void BaseInitialize()
     {
         IsLookingSomeone = false;
