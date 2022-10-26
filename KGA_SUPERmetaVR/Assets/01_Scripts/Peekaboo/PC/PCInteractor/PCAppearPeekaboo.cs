@@ -42,7 +42,8 @@ public class PCAppearPeekaboo : MonoBehaviourPun
 
 
     private void Update()
-    {      
+    {
+        if (photonView.IsMine == false) return;
         ShowPeekaboo();
     }
 
