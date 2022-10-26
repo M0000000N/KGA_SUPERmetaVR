@@ -12,7 +12,6 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
     [Header("PC Speed")]
     [SerializeField] private float walkSpeed = 1f;
     [SerializeField] private float runSpeed = 2f;
-    [SerializeField] private Stamina stamina;
 
     [Header("XR")]
     [SerializeField] private XRNode xRNode = XRNode.LeftHand;
@@ -31,8 +30,10 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
     private float applySpeed;
     private bool isRun = false;
+    private Stamina stamina;
     private NavMeshAgent navMeshAgent;
- 
+    private Camera camera;
+
     Vector3 setPos;
     Quaternion setRot;
 
@@ -52,16 +53,18 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
     void Start()
     {
-        if (photonView == false) return;
+        if (photonView.IsMine == false) return;
 
         GetDevice(); 
+
         applySpeed = walkSpeed;
         navMeshAgent = GetComponent<NavMeshAgent>();
+        stamina = GameObject.Find("Stamina").GetComponent<Stamina>();
     }
 
     void Update()
     {
-        if (photonView == false) return;
+        if (photonView.IsMine == false) return;
 
         if (!device.isValid)
         {
@@ -97,48 +100,54 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
             //transform.position -= left * xAxis;
             //transform.position -= back * zAxis;
 
+            Vector3 direction = new Vector3(transform.position.x, 0, transform.position.y).normalized;
+            direction = Camera.main.transform.TransformDirection(direction);
             navMeshAgent.SetDestination(transform.position);
         }
     }
 
     public void TryRun()
     {
-        bool secondaryButton = false;
-        InputFeatureUsage<bool> secondaryBottonUsage = CommonUsages.secondaryButton;
+        bool primaryButtonValue = false;
+        InputFeatureUsage<bool> primaryButtonUsage = CommonUsages.primaryButton;
 
         Vector2 primary2dValue;
         InputFeatureUsage<Vector2> primary2DVector = CommonUsages.primary2DAxis;
 
-        if (device.TryGetFeatureValue(secondaryBottonUsage, out secondaryButton) && secondaryButton && !secondaryButtonIsPressed && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
+        // 빠른 이동 X 값으로 받는 중
+        // 스태미나 함수 실행이 안 됨 
+        if (device.TryGetFeatureValue(primaryButtonUsage, out primaryButtonValue) && primaryButtonValue && !primaryButtonIsPressed && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
-            Debug.Log("B버튼 입력");
+            Debug.Log("버튼 입력");
             Running();
-            secondaryButtonIsPressed = true; 
+            primaryButtonIsPressed = true;
         }
-        else if (!secondaryButton && secondaryButtonIsPressed)
+        else if (!primaryButtonValue && primaryButtonIsPressed)
         {
+            Debug.Log("버튼 out");
             RunningCancle();
-            secondaryButtonIsPressed = false; 
-        }           
+            primaryButtonIsPressed = false;
+        }         
     }
 
     public void Running()
     {
         isRun = true;
-        stamina.DecreaseProgress();
+        //stamina.DecreaseProgress();
+        stamina.GetComponent<Stamina>().DecreaseProgress();
         applySpeed = runSpeed;
     }
 
     public void RunningCancle()
     {
         isRun = false;
-        stamina.IncreaseProgress();
+        //stamina.IncreaseProgress();
+        stamina.GetComponent<Stamina>().IncreaseProgress();
         applySpeed = walkSpeed;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);

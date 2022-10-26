@@ -43,7 +43,6 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
         }
     }
 
-
     public void GameOverUI()
     {
         // 게임시간이 0이하일시 모든 관전하기 버튼 비활성화
