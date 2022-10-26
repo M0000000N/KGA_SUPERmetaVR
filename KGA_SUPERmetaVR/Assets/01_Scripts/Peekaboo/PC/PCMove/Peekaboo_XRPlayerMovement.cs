@@ -22,15 +22,14 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
     [SerializeField]
     private XRNode controllerNode = XRNode.LeftHand;
+    private List<InputDevice> devices = new List<InputDevice>();
+    private InputDevice controller;
+    private bool buttonPressed;
 
     private float applySpeed;
     private bool isRun = false;
-    private bool isPressedButton = false; 
     private NavMeshAgent navMeshAgent;
-    private InputDevice controller;
  
-    private List<InputDevice> devices = new List<InputDevice>();
-
     Vector3 setPos;
     Quaternion setRot;
 
@@ -58,6 +57,7 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
             GetDevice();
         }
 
+        TryRun();
         Move();
     }
 
@@ -85,27 +85,26 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
     public void TryRun()
     {
-        bool pressbutton = false;
+        bool pressbutton;
         InputFeatureUsage<bool> secondaryBbutoon = CommonUsages.secondaryButton;
 
         Vector2 primary2dValue;
         InputFeatureUsage<Vector2> primary2DVector = CommonUsages.primary2DAxis;
 
-            if (controller.TryGetFeatureValue(secondaryBbutoon, out pressbutton) == true && controller.TryGetFeatureValue(primary2DVector, out primary2dValue))
+        if (controller.TryGetFeatureValue(secondaryBbutoon, out pressbutton) && pressbutton && controller.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
+        {
+            if (!buttonPressed)
             {
                 Running();
-                Debug.Log(pressbutton);
-                pressbutton = false;
+                buttonPressed = true;
             }
-       
-        else 
+        }
+        else if (buttonPressed && controller.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
-            if(controller.TryGetFeatureValue(secondaryBbutoon, out pressbutton) == false)
-            {
-                RunningCancle();
-                pressbutton = true;
-            }
-          }
+
+            RunningCancle();
+            buttonPressed = false;
+        }
     }
 
 
