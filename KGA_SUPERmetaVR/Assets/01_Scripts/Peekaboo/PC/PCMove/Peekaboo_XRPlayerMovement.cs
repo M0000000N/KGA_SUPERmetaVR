@@ -19,6 +19,9 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
     private List<InputDevice> devices = new List<InputDevice>();
     private InputDevice device;
 
+    [SerializeField]
+    private Transform myCameraTransform;
+
     private bool triggerIsPressed;
     private bool primaryButtonIsPressed; // X / A 버튼
     private bool secondaryButtonIsPressed; // Y / B 버튼 
@@ -76,18 +79,23 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
         if (device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
-            var xAxis = primary2dValue.x * applySpeed * Time.deltaTime;
-            var zAxis = primary2dValue.y * applySpeed * Time.deltaTime;
+            var xAxis = primary2dValue.x;// * applySpeed * Time.deltaTime;
+            var zAxis = primary2dValue.y;// * applySpeed * Time.deltaTime;
 
-            Vector3 right = transform.TransformDirection(Vector3.right);
-            Vector3 forward = transform.TransformDirection(Vector3.forward);
-            Vector3 left = transform.TransformDirection(Vector3.left);
-            Vector3 back = transform.TransformDirection(Vector3.back);
+            Vector3 direction = new Vector3(xAxis, 0f, zAxis).normalized;
+            direction = myCameraTransform.TransformDirection(direction);
+            direction.y = 0f;
+            transform.position += direction * applySpeed * Time.deltaTime;
 
-            transform.position += right * xAxis;
-            transform.position += forward * zAxis;
-            transform.position -= left * xAxis;
-            transform.position -= back * zAxis;
+            //Vector3 right = transform.TransformDirection(Vector3.right);
+            //Vector3 forward = transform.TransformDirection(Vector3.forward);
+            //Vector3 left = transform.TransformDirection(Vector3.left);
+            //Vector3 back = transform.TransformDirection(Vector3.back);
+
+            //transform.position += right * xAxis;
+            //transform.position += forward * zAxis;
+            //transform.position -= left * xAxis;
+            //transform.position -= back * zAxis;
 
             navMeshAgent.SetDestination(transform.position);
         }
