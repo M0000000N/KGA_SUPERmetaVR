@@ -8,7 +8,9 @@ using UnityEngine.XR;
 // PC에게 공격 받았을 때
 public class PCAppearPeekaboo : MonoBehaviourPun
 {
- 
+    private List<InputDevice> devices = new List<InputDevice>();
+    private InputDevice device;
+
     [SerializeField]
     private XRRaycast raycastHit;
 
@@ -29,10 +31,10 @@ public class PCAppearPeekaboo : MonoBehaviourPun
 
     public void ShowPeekaboo()
     {
-        bool _triggerValue = false; 
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) && (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger)) || Input.GetKeyDown(KeyCode.Space))
-           // if(controller.TryGetFeatureUsages(CommonUsages.triggerButton, out _triggerValue))
-            
+
+        //XR로 바꿈 
+        if (device.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue) &&
+        triggerValue > 0.1f)
         {
             if (raycastHit.InteractCharacter() == null) return;
             if (raycastHit.InteractCharacter().GetComponent<PeekabooCharacter>() == null) return;
@@ -43,7 +45,7 @@ public class PCAppearPeekaboo : MonoBehaviourPun
             {
                 targetCharacter.TakeDamage(gameObject);
             }
-         
+
 
             //if (layser.CreateRaycast().transform.gameObject == gameObject)
             //    StartCoroutine("FadeOutPeekaboo");

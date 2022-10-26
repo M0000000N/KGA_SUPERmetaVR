@@ -37,7 +37,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
         GameObject camera = PeekabooGameManager.Instance.OVRCamera;
 
         cameraRig = camera.transform.GetChild(0).gameObject;
-        stamina = camera.GetComponentInChildren<Stamina>();
+       // stamina = camera.GetComponentInChildren<Stamina>();
 
         applySpeed = walkSpeed;
         navMeshAgent = GetComponent<NavMeshAgent>(); 
