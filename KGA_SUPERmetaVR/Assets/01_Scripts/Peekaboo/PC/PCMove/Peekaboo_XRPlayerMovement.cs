@@ -100,8 +100,6 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
             //transform.position -= left * xAxis;
             //transform.position -= back * zAxis;
 
-            Vector3 direction = new Vector3(transform.position.x, 0, transform.position.y).normalized;
-            direction = Camera.main.transform.TransformDirection(direction);
             navMeshAgent.SetDestination(transform.position);
         }
     }
