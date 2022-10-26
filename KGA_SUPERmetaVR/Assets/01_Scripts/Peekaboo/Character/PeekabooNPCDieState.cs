@@ -13,6 +13,8 @@ public class PeekabooNPCDieState : PeekabooCharacterState
     [SerializeField]
     private NavMeshAgent playerNavMeshAgent;
 
+    private Material myMaterial;
+
     protected override void Initialize()
     {
 
@@ -41,6 +43,8 @@ public class PeekabooNPCDieState : PeekabooCharacterState
 
     private IEnumerator DieCoroutine(float _time)
     {
+        myMaterial = myRenderer.material;
+        myRenderer.material = fadeMaterial;
         Color myColor = myRenderer.material.color;
         float decreaseValue = 1 / _time;
         while (0 < myRenderer.material.color.a)
@@ -50,18 +54,25 @@ public class PeekabooNPCDieState : PeekabooCharacterState
 
             yield return null;
         }
-        Debug.Log("�״���");
-        StartCoroutine(RespawnCoroutine(3f));
 
+        // photonView.RPC("StartRespawn", RpcTarget.All);
+        StartCoroutine(RespawnCoroutine(3f));
+    }
+
+    [PunRPC]
+    private void StartRespawn()
+    {
+        StartCoroutine(RespawnCoroutine(3f));
     }
 
     private IEnumerator RespawnCoroutine(float _time)
     {
         yield return new WaitForSeconds(_time);
-       
-        transform.position = PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);  
+
         playerNavMeshAgent.enabled = false;
+        transform.position = PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);  
         transform.position += Vector3.up * 15f;
+        myRenderer.material = myMaterial;
         Color myColor = myRenderer.material.color;
         myColor.a = 255f;
         myRenderer.material.color = myColor;
@@ -70,7 +81,8 @@ public class PeekabooNPCDieState : PeekabooCharacterState
             transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, 1, transform.position.z), 0.01f);
             yield return new WaitForSeconds(0.01f);
         }
-       
+
         playerNavMeshAgent.enabled = true;
+        myFSM.ChangeState(PEEKABOOCHARACTERSTATE.IDLE);
     }
 }

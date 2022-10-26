@@ -102,8 +102,8 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        Debug.Log($"서버룸 접속자 수{PhotonNetwork.CountOfPlayers}");
-        Debug.Log($"룸 접속자 수{PhotonNetwork.CurrentRoom.PlayerCount}");
+        //Debug.Log($"서버룸 접속자 수{PhotonNetwork.CountOfPlayers}");
+        //Debug.Log($"룸 접속자 수{PhotonNetwork.CurrentRoom.PlayerCount}");
 
     }
 

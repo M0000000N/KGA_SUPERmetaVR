@@ -1047,7 +1047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
+  m_SynchronizePosition: 0
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
@@ -1067,10 +1067,10 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 3
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: State
   m_SynchronizeLayers:
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 0
 --- !u!114 &6358703972339205772
 MonoBehaviour:
@@ -2236,6 +2236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265dad709c6e4a2479787a988c40bbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  XRNode: 4
   raycastHit: {fileID: 0}
 --- !u!195 &1678958039754479521
 NavMeshAgent:
@@ -2289,6 +2290,7 @@ MonoBehaviour:
   runSpeed: 4
   stamina: {fileID: 5368171037414792193}
   controllerNode: 4
+  controllerRight: 5
 --- !u!114 &2147433967527688602
 MonoBehaviour:
   m_ObjectHideFlags: 0

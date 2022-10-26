@@ -140,4 +140,9 @@ public class PeekabooNPC : PeekabooCharacter
         _method();
         MoveState = PEEKABOONPCMOVESTATE.MOVING;
     }
+
+    public void SetMoveState(PEEKABOONPCMOVESTATE _state)
+    {
+        MoveState = _state;
+    }
 }
