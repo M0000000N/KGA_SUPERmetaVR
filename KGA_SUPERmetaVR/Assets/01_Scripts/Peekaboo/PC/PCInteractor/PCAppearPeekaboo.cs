@@ -68,7 +68,6 @@ public class PCAppearPeekaboo : MonoBehaviourPun
         else if (!triggerButtonValue && triggerIsPressed)
         {
             triggerIsPressed = false;
-            Debug.Log("Æ®¸®°Å ¾Æ¿ô");
         }
     }
 
