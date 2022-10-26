@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
+using UnityEngine.Events; 
 
 public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 {
@@ -22,8 +23,6 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
     [Header("XR")]
     [SerializeField]
     private XRNode controllerNode = XRNode.LeftHand;
-    [SerializeField]
-    private XRNode controllerRight = XRNode.RightHand;
 
     private List<InputDevice> devices = new List<InputDevice>();
     private InputDevice device;
@@ -48,8 +47,8 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
     private void GetDevice()
     {
-        InputDevices.GetDevicesAtXRNode(controllerNode, devices);
-        InputDevices.GetDevicesAtXRNode(controllerRight, devices);
+        //InputDevices.GetDevices(devices);
+         InputDevices.GetDevicesAtXRNode(controllerNode, devices);
        // InputDevices.GetDevicesAtXRNode(controllerRight, devices);
        // InputDevices.GetDevices(devices);
         device = devices.FirstOrDefault();
@@ -76,8 +75,6 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
         if (device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
-            Debug.Log("primary2DAxisClick is pressed " + primary2dValue);
-
             var xAxis = primary2dValue.x * applySpeed * Time.deltaTime;
             var zAxis = primary2dValue.y * applySpeed * Time.deltaTime;
 
@@ -103,7 +100,7 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
         Vector2 primary2dValue;
         InputFeatureUsage<Vector2> primary2DVector = CommonUsages.primary2DAxis;
 
-       if (device.TryGetFeatureValue(secondaryBbutoon, out pressbutton) && pressbutton && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
+       if (device.TryGetFeatureValue(secondaryBbutoon, out pressbutton) && pressbutton && stamina.GetProgress() > 0 && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
         {
             if (buttonPressed == false)
             {
@@ -112,7 +109,7 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
                 buttonPressed = true;
             }
         }
-        else if (buttonPressed && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero)
+        else if (buttonPressed && device.TryGetFeatureValue(primary2DVector, out primary2dValue) && primary2dValue != Vector2.zero && stamina.GetProgress() > 0)
         {
 
             RunningCancle();

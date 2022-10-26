@@ -78,7 +78,7 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
             if (OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0 && OVRInput.Get(OVRInput.Touch.PrimaryThumbstick))
                 Running();
 
-            if (!OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() >= 0)
+            if (!OVRInput.Get(OVRInput.RawButton.B) && stamina.GetProgress() > 0)
                 RunningCancle();
         }
     }

@@ -14,6 +14,8 @@ public class PCAppearPeekaboo : MonoBehaviourPun
 {
     [SerializeField]
     public XRNode XRNode = XRNode.LeftHand;
+    [SerializeField]
+    private XRNode controllerRight = XRNode.RightHand;
 
     [SerializeField]
     private XRRaycast raycastHit;
@@ -32,6 +34,8 @@ public class PCAppearPeekaboo : MonoBehaviourPun
     void GetDevice()
     {
         InputDevices.GetDevicesAtXRNode(XRNode, devices);
+        InputDevices.GetDevicesAtXRNode(controllerRight, devices);
+
         device = devices.FirstOrDefault();
     }
 

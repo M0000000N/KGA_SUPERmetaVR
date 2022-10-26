@@ -2236,6 +2236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265dad709c6e4a2479787a988c40bbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  XRNode: 4
+  controllerRight: 5
   raycastHit: {fileID: 0}
 --- !u!195 &1678958039754479521
 NavMeshAgent:
@@ -2289,6 +2291,7 @@ MonoBehaviour:
   runSpeed: 4
   stamina: {fileID: 5368171037414792193}
   controllerNode: 4
+  controllerRight: 5
 --- !u!114 &2147433967527688602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2317,7 +2320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 0}
   m_OriginBaseGameObject: {fileID: 6358703973372794484}
-  m_CameraFloorOffsetObject: {fileID: 0}
+  m_CameraFloorOffsetObject: {fileID: 6358703973372794484}
   m_RequestedTrackingOriginMode: 1
   m_CameraYOffset: 1.1176
 --- !u!114 &3734097466604505184
@@ -2999,6 +3002,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 1.2
       objectReference: {fileID: 0}
+    - target: {fileID: 6353434591285382589, guid: cc974f5b06951f44a8ab60e10314e2b9, type: 3}
+      propertyPath: xrPlay
+      value: 
+      objectReference: {fileID: 778853916429597510}
+    - target: {fileID: 6353434591285382589, guid: cc974f5b06951f44a8ab60e10314e2b9, type: 3}
+      propertyPath: playerPhoton
+      value: 
+      objectReference: {fileID: 6358703973372794487}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc974f5b06951f44a8ab60e10314e2b9, type: 3}
 --- !u!224 &1206758827927273999 stripped
