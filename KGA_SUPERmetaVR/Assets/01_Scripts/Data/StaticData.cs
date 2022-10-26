@@ -40,6 +40,8 @@ public class StaticData : SingletonBehaviour<StaticData>
     //}
     //// ---------------------------------------------------------------------------------------
 
+    // ============================================== PEEKABOO ==============================================
+    
     [SerializeField] private NoticePopup noticePopup;
     public static NoticePopupData[] NoticePopupData { get { return Instance.noticePopup.dataArray; } }
 
@@ -69,7 +71,7 @@ public class StaticData : SingletonBehaviour<StaticData>
         }
         return null;
     }
-    // ---------------------------------------------------------------------------------------
+
     [SerializeField] private PeekabooCharacterBehaviour peekabooCharacterBehaviour;
     public static PeekabooCharacterBehaviourData[] PeekabooCharacterBehaviourData { get { return Instance.peekabooCharacterBehaviour.dataArray; } }
 
@@ -84,4 +86,27 @@ public class StaticData : SingletonBehaviour<StaticData>
         }
         return null;
     }
+
+    // ============================================== PEEKABOO ==============================================
+
+    // ================================================ LOBBY ================================================
+
+    [SerializeField] private SpeechBubbleSheet SpeechBubbleSheet;
+    public static SpeechBubbleSheetData[] SpeechBubbleSheetData { get { return Instance.SpeechBubbleSheet.dataArray; } }
+
+    public static SpeechBubbleSheetData GetSpeechBubbleSheet(int _id)
+    {
+        for (int i = 0; i < SpeechBubbleSheetData.Length; i++)
+        {
+            if (SpeechBubbleSheetData[i].ID == _id)
+            {
+                return SpeechBubbleSheetData[i];
+            }
+        }
+        return null;
+    }
+
+    // ================================================ LOBBY ================================================
+
+
 }
