@@ -324,6 +324,8 @@ GameObject:
   - component: {fileID: 3669574797765440455}
   - component: {fileID: 3669574797765440497}
   - component: {fileID: 3669574797765440454}
+  - component: {fileID: 3514874640291148401}
+  - component: {fileID: 3541900799113230209}
   m_Layer: 6
   m_Name: Spook
   m_TagString: PC
@@ -684,6 +686,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRenderer: {fileID: 3669574797496445621}
   fadeMaterial: {fileID: 2100000, guid: e5adb67387f0bb04ba7bc0774afc76da, type: 2}
+--- !u!54 &3514874640291148401
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669574797765440499}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &3541900799113230209
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669574797765440499}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.986765
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6859066, z: 0}
 --- !u!1 &3669574797810674027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,7 +1279,6 @@ GameObject:
   - component: {fileID: 519526756048888448}
   - component: {fileID: 3669574798854071098}
   - component: {fileID: 3669574798854071099}
-  - component: {fileID: 7349762149229720320}
   - component: {fileID: 3580300435204786165}
   - component: {fileID: 1340376387529605137}
   - component: {fileID: 9051828662146835181}
@@ -1353,22 +1384,6 @@ MonoBehaviour:
   cameraRig: {fileID: 0}
   stamina: {fileID: 0}
   myCamera: {fileID: 0}
---- !u!54 &7349762149229720320
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3669574798854071096}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 116
-  m_CollisionDetection: 0
 --- !u!95 &3580300435204786165
 Animator:
   serializedVersion: 3
@@ -2699,13 +2714,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 201a3c7470659d74f8adb74cb91d3a32, type: 3}
---- !u!1 &5654517517296187340 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 659702940675810772, guid: 201a3c7470659d74f8adb74cb91d3a32, type: 3}
-  m_PrefabInstance: {fileID: 5142932573427241496}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5654517517296187343 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 659702940675810775, guid: 201a3c7470659d74f8adb74cb91d3a32, type: 3}
+  m_PrefabInstance: {fileID: 5142932573427241496}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5654517517296187340 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 659702940675810772, guid: 201a3c7470659d74f8adb74cb91d3a32, type: 3}
   m_PrefabInstance: {fileID: 5142932573427241496}
   m_PrefabAsset: {fileID: 0}
