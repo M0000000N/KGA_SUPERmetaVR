@@ -19,12 +19,22 @@ public class FFF_ButtonListMenu : MonoBehaviour
 
     private void Update()
     {
-        if(buttonList[index].IsDone)
+        SetNextButtonList();
+    }
+    private void SetNextButtonList()
+    {
+        if (buttonList[index].IsDone)
         {
             buttonList[index].gameObject.SetActive(false);
-            index++;
-            buttonList[index].gameObject.SetActive(true);
-
+            if (index == buttonList.Length - 1)
+            {
+                return;
+            }
+            else
+            {
+                index++;
+                buttonList[index].gameObject.SetActive(true);
+            }
         }
     }
 }
