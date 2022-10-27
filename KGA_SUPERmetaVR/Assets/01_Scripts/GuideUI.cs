@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class GuideUI : MonoBehaviour
+public class GuideUI : SingletonBehaviour<GuideUI>
 {
     [SerializeField] TextMeshProUGUI sizeText;
     [SerializeField] TextMeshProUGUI text;
