@@ -72,7 +72,7 @@ public class PeekabooPC : PeekabooCharacter
             }
             else
             {
-                photonView.RPC("AttackRPC", RpcTarget.MasterClient);
+                photonView.RPC("AttackRPC", RpcTarget.MasterClient, _attackTarget.GetPhotonView().ViewID);
             }
         }
     }
@@ -90,9 +90,10 @@ public class PeekabooPC : PeekabooCharacter
     }
 
     [PunRPC]
-    private void AttackRPC()
+    private void AttackRPC(int _photonViewNumber)
     {
         photonView.RPC("ChangeMyInteractState", RpcTarget.All, true);
+        AttackTarget = PhotonView.Find(_photonViewNumber).gameObject;
         myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOTARGET);
     }
 
