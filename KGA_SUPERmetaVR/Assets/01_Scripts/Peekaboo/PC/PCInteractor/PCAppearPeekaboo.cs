@@ -21,6 +21,9 @@ public class PCAppearPeekaboo : MonoBehaviourPun
     [SerializeField]
     private XRRaycast raycastHit;
 
+    [SerializeField]
+    private PeekabooPC myPC;
+
     void GetDevice()
     {
         InputDevices.GetDevicesAtXRNode(XrNode, devices);
@@ -60,6 +63,7 @@ public class PCAppearPeekaboo : MonoBehaviourPun
 
             if (targetCharacter != null)
             {
+                myPC.Attack(targetCharacter.gameObject);
                 targetCharacter.TakeDamage(gameObject);
             }
             triggerIsPressed = true;
