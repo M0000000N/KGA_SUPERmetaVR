@@ -33,7 +33,7 @@ public class PeekabooPC : PeekabooCharacter
 
     private void OnTriggerStay(Collider _other)
     {
-        if (photonView.IsMine && IsLookingSomeone == false && IsInteracting == false)
+        if (IsLookingSomeone == false && IsInteracting == false)
         {
             if (_other.tag == "Player" || _other.tag == "Enemy")
             {
@@ -49,7 +49,7 @@ public class PeekabooPC : PeekabooCharacter
 
     private void OnTriggerExit(Collider _other)
     {
-        if (photonView.IsMine && IsInteracting == false)
+        if (IsInteracting == false)
         {
             if (CheckTarget(_other.gameObject))
             {
