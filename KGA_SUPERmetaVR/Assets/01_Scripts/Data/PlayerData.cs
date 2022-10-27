@@ -17,6 +17,10 @@ public class PlayerData
 
     PlayerPeekabooData playerPeekabooData;
     public PlayerPeekabooData PlayerPeekabooData { get { return playerPeekabooData; } set { playerPeekabooData = value; } }
+
+    PlayerFeefawfumData playerFeefawfumData;
+    public PlayerFeefawfumData PlayerFeefawfumData { get { return playerFeefawfumData; } set { playerFeefawfumData = value; } }
+
 }
 
 [System.Serializable]
@@ -37,4 +41,11 @@ public class PlayerPeekabooData
 public class PlayerCharacter
 {
     public int[] Character;
+}
+
+[System.Serializable]
+public class PlayerFeefawfumData
+{
+    public string CoolTime;
+    public int ClearCount;
 }

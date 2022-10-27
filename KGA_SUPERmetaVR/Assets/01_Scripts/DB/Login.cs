@@ -80,6 +80,7 @@ public class Login : MonoBehaviour
             // 테스트 코드
             peekabooLogin.SaveCharacterList();
             PeekabooDataBase.Instance.LoadPeekabooData();
+            FeefawfumDataBase.Instance.LoadFeefawfumData();
             // 테스트 코드
 
             PhotonNetwork.LoadLevel("PKB_Main");
