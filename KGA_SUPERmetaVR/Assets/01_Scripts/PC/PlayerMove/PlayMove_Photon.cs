@@ -95,10 +95,6 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
                 // 이동방향 설정 후 이동
                 Vector3 moveDir = new Vector3(dirX * applySpeed, 0, dirZ * applySpeed);
                 transform.Translate(moveDir * Time.deltaTime);
-                if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) && (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger)))
-                {
-                    Attack();
-                }
             }
         }
     }
@@ -125,14 +121,6 @@ public class PlayMove_Photon : MonoBehaviourPun, IPunObservable
         applySpeed = walkSpeed;
     }
 
-    public void Attack()
-    {
-        if (layser.CalculatedEnd() != null)
-        {
-            pointerEvents.CallPeekaboo();
-        }
-
-    }
 
     // 데이터 동기화를 위한 데이터 전송 및 수신 기능 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

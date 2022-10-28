@@ -17,20 +17,10 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField]
     private int showPeekabooTime = 2;
 
-    [SerializeField]
-    private GameObject Peekaboo;
-
-    [SerializeField]
-    private PlayMove_Photon playermove; 
-
     private MeshRenderer meshRenderer = null;
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();      
-    }
-    private void Start()
-    {
-        Peekaboo.SetActive(false);   
     }
 
     public void OnPointerEnter(PointerEventData enventData)
@@ -56,15 +46,6 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         OnClick.Invoke();
        
-    }
- 
-    public void PopPeekaboo()
-    {
-        Peekaboo.SetActive(true);
-    }
-    public void CallPeekaboo()
-    {
-        Invoke("PopPeekaboo", 1f); 
     }
 
  }
