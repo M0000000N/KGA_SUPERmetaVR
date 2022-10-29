@@ -72,6 +72,7 @@ public class CanvasPointer : MonoBehaviour
         }
         return new RaycastResult(); 
     }    
+
     private Vector3 CalculateEnd(float _lenght)
     {
         return transform.position + (transform.forward * _lenght); 
