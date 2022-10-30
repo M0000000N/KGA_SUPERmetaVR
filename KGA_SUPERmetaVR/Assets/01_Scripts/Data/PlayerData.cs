@@ -47,5 +47,7 @@ public class PlayerCharacter
 public class PlayerFeefawfumData
 {
     public string CoolTime;
-    public int ClearCount;
+    public int TodayCount;
+
+    public int TotalCount;
 }

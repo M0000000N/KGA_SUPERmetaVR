@@ -55,8 +55,9 @@ public class Login : MonoBehaviour
         else if(DataBase.Instance.CheckUse(UserTableInfo.nickname,CreateNickName.text))
         {
             DataBase.Instance.CreateUser(CreateID.text, CreatePW.text, CreateNickName.text);
-
-            
+            GetDataBase(CreateNickName.text);
+            FeefawfumDataBase.Instance.CreateFeefawfumData();
+            JoinPage();
         }
     }
 
@@ -65,25 +66,17 @@ public class Login : MonoBehaviour
         if (DataBase.Instance.Login(LoginID.text, LoginPW.text))
         {
             UnityEngine.Debug.Log("로그인에 성공했습니다.");
-            GameManager.Instance.PlayerData.ID = LoginID.text;
-            GetDataBase();
-
-            // 테스트 코드
-            //peekabooLogin.LoadPeekabooData();
-            //UnityEngine.Debug.Log($"Peekaboo : {GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter}");
-            //for (int i = 0; i < GameManager.Instance.PlayerData.PlayerPeekabooData.Character.Length; i++)
-            //{
-            //    UnityEngine.Debug.Log($"PeekabooCharacter : {GameManager.Instance.PlayerData.PlayerPeekabooData.Character[i]}");
-            //}
-            // 테스트 코드
+            GetDataBase(LoginID.text);
 
             // 테스트 코드
             peekabooLogin.SaveCharacterList();
-            PeekabooDataBase.Instance.LoadPeekabooData();
-            FeefawfumDataBase.Instance.LoadFeefawfumData();
             // 테스트 코드
 
-            PhotonNetwork.LoadLevel("PKB_Main");
+            PeekabooDataBase.Instance.LoadPeekabooData();
+            FeefawfumDataBase.Instance.LoadFeefawfumData();
+
+            // PhotonNetwork.LoadLevel("PKB_Main");
+            PhotonNetwork.LoadLevel("FeeFawFum_TestDB_AJJ");
         }
     }
 
@@ -100,13 +93,14 @@ public class Login : MonoBehaviour
     }
 
     // 테스트 코드
-    public void GetDataBase()
+    public void GetDataBase(string _userID)
     {
-        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*", UserTableInfo.user_id, GameManager.Instance.PlayerData.ID);
+        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*", UserTableInfo.user_id, _userID);
         if (dataTable.Rows.Count > 0)
         {
             foreach (DataRow row in dataTable.Rows)
             {
+                GameManager.Instance.PlayerData.ID = row[UserTableInfo.user_id].ToString();
                 GameManager.Instance.PlayerData.Nickname = row[UserTableInfo.nickname].ToString();
                 PhotonNetwork.NickName = GameManager.Instance.PlayerData.Nickname;
                 GameManager.Instance.PlayerData.Coin =  int.Parse(row[UserTableInfo.coin].ToString());
