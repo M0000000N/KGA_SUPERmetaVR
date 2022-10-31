@@ -16,6 +16,11 @@ public class GuideUI : SingletonBehaviour<GuideUI>
         StartCoroutine("ActiveGuideCoroutine", _time);
     }
 
+    public void DeActiveGuideUI()
+    {
+        sizeText.gameObject.SetActive(false);
+    }
+
     IEnumerator ActiveGuideCoroutine(float _time)
     {
         if(_time <= 0)
