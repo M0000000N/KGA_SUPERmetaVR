@@ -12,7 +12,6 @@ public class FFF_NPC : MonoBehaviour
 
     private void Start()
     {
-        npcName.color = new Color(192, 0, 0, 0);
 
         exclamationButton.onClick.AddListener(OnClickExclamationButton);
         startButton.onClick.AddListener(OnClickStartButton);
@@ -40,12 +39,12 @@ public class FFF_NPC : MonoBehaviour
     {
         if(_isActive)
         {
-            npcName.color = new Color(135, 247, 242, 0);
+            npcName.color = new Color32(135, 247, 242, 255);
             exclamationButton.gameObject.SetActive(true);
         }
         else
         {
-            npcName.color = new Color(192, 0, 0, 0);
+            npcName.color = new Color32(192, 0, 0, 255);
             exclamationButton.gameObject.SetActive(false);
         }
     }
