@@ -6,7 +6,6 @@ public class PeekabooSoundManager : MonoBehaviour
 {
     [SerializeField]
     private AudioSource mainBGM;
-
     private void Start()
     {
         mainBGM.Play();

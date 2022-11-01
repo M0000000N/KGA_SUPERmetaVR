@@ -152,27 +152,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             SetReadyUp(!playerIsReady);
         }
 
-        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
-        {
-            if (player.Value == PhotonNetwork.LocalPlayer)
-            {
-                Hashtable customProperty = player.Value.CustomProperties;
-                ICollection valueColl = customProperty.Values;
-                foreach (bool _isReady in valueColl) //value가 string일 때
-                {
-                    if (_isReady)
-                    {
-                        SetStartButton("준비완료", true);
-                    }
-                    else
-                    {
-                        SetStartButton("준비", true);
-                    }
-                    playerIsReady = _isReady;
-                }
-                return;
-            }
-        }
+
     }
 
     // 플레이어가 모두 준비완료가 되었는지 확인
@@ -216,6 +196,30 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             else
             {
                 SetStartButton("대기중", false);
+            }
+        }
+        else
+        {
+            foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+            {
+                if (player.Value == PhotonNetwork.LocalPlayer)
+                {
+                    Hashtable customProperty = player.Value.CustomProperties;
+                    ICollection valueColl = customProperty.Values;
+                    foreach (bool _isReady in valueColl) //value가 string일 때
+                    {
+                        if (_isReady)
+                        {
+                            SetStartButton("준비완료", true);
+                        }
+                        else
+                        {
+                            SetStartButton("준비", true);
+                        }
+                        playerIsReady = _isReady;
+                    }
+                    return;
+                }
             }
         }
     }

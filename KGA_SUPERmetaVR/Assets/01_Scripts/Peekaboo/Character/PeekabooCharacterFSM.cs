@@ -7,7 +7,6 @@ using Photon.Pun;
 public enum PEEKABOOCHARACTERSTATE
 {
     IDLE,
-    ROTATETOSOMEONE,
     LOOKINGSOMEONE,
     FRONTTOLEFT,
     LOOKINGLEFT,
@@ -42,7 +41,6 @@ public abstract class PeekabooCharacterFSM : MonoBehaviourPun
     protected PeekabooCharacterState nowState;
 
     protected PeekabooCharacterIdleState idleState;
-    protected PeekabooCharacterRotateToSomeoneState rotateToSomeoneState;
     protected PeekabooCharacterLookingSomeoneState lookingSomeoneState;
     protected PeekabooCharacterFrontToLeftState frontToLeftState;
     protected PeekabooCharacterLookingLeftState lookingLeftState;
@@ -63,7 +61,6 @@ public abstract class PeekabooCharacterFSM : MonoBehaviourPun
         nowState = idleState;
 
         idleState = GetComponent<PeekabooCharacterIdleState>();
-        rotateToSomeoneState = GetComponent<PeekabooCharacterRotateToSomeoneState>();
         lookingSomeoneState = GetComponent<PeekabooCharacterLookingSomeoneState>();
         frontToLeftState = GetComponent<PeekabooCharacterFrontToLeftState>();
         lookingLeftState = GetComponent<PeekabooCharacterLookingLeftState>();
@@ -73,7 +70,6 @@ public abstract class PeekabooCharacterFSM : MonoBehaviourPun
         rightToFrontState = GetComponent<PeekabooCharacterRightToFrontState>();
 
         AddState(PEEKABOOCHARACTERSTATE.IDLE, idleState);
-        AddState(PEEKABOOCHARACTERSTATE.ROTATETOSOMEONE, rotateToSomeoneState);
         AddState(PEEKABOOCHARACTERSTATE.LOOKINGSOMEONE, lookingSomeoneState);
         AddState(PEEKABOOCHARACTERSTATE.FRONTTOLEFT, frontToLeftState);
         AddState(PEEKABOOCHARACTERSTATE.LOOKINGLEFT, lookingLeftState);
@@ -106,7 +102,6 @@ public abstract class PeekabooCharacterFSM : MonoBehaviourPun
 
     public void ChangeState(PEEKABOOCHARACTERSTATE _stateKey)
     {
-        StopAllCoroutines();
         nowState.OnExit();
         nowState = myStates[_stateKey];
         nowState.OnEnter();

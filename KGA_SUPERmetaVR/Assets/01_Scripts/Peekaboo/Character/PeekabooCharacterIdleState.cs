@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,9 @@ public class PeekabooCharacterIdleState : PeekabooCharacterState
     #endregion
     // -----------------------------------
 
+    Quaternion initialQuaternion;
     private float waitTimeToNextBehaviour;
+    private float elapsedTime;
 
     protected override void Initialize()
     {
@@ -26,14 +29,23 @@ public class PeekabooCharacterIdleState : PeekabooCharacterState
     public override void OnEnter()
     {
         myFSM.MyAnimator.SetInteger("State", (int)PEEKABOOCHARACTERSTATE.IDLE);
+        myFSM.MyCharacter.SetMyInteractingState(false);
         waitTimeToNextBehaviour = Random.Range(minTimeToNextBehaviour, maxTimeToNextBehaviour);
-
-        StartCoroutine(myFSM.WaitForNextBehaviourCoroutine(waitTimeToNextBehaviour, PEEKABOOCHARACTERSTATE.FRONTTOLEFT));
+        initialQuaternion = transform.rotation;
+        elapsedTime = 0f;
     }
 
     public override void OnUpdate()
     {
-
+        elapsedTime += Time.deltaTime;
+        if (waitTimeToNextBehaviour <= elapsedTime)
+        {
+            myFSM.ChangeState(PEEKABOOCHARACTERSTATE.FRONTTOLEFT);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Lerp(initialQuaternion, myFSM.MyBodyRotation, elapsedTime * minTimeToNextBehaviour);
+        }
     }
 
     public override void OnExit()

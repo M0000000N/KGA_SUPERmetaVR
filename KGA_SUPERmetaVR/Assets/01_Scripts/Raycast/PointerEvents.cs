@@ -14,8 +14,6 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private Color downColor = Color.white;
     [SerializeField]
     private UnityEvent OnClick = new UnityEvent();
-    [SerializeField]
-    private int showPeekabooTime = 2;
 
     private MeshRenderer meshRenderer = null;
     private void Awake()
@@ -44,8 +42,7 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerClick(PointerEventData enventData)
     {
-        OnClick.Invoke();
-       
+        OnClick.Invoke();      
     }
-
+ 
  }

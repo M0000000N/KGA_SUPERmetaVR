@@ -13,7 +13,11 @@ public class PeekabooPCLosingSoulState : PeekabooCharacterState
     {
         myFSM.MyAnimator.SetInteger("State", (int)PEEKABOOPCANIMATIONSTATE.LOSINGSOUL);
 
-        if (myFSM.MyCharacter.Attacker != null)
+        if (myFSM.MyCharacter.Attacker == null)
+        {
+            StartCoroutine(myFSM.WaitForNextBehaviourCoroutine(2f, PEEKABOOCHARACTERSTATE.IDLE));
+        }
+        else
         {
             StartCoroutine(myFSM.WaitForNextBehaviourCoroutine(2f, PEEKABOOCHARACTERSTATE.PCDIE));
         }

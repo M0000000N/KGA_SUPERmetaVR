@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PeekabooPCPeekabooState : PeekabooCharacterState
 {
@@ -16,12 +17,11 @@ public class PeekabooPCPeekabooState : PeekabooCharacterState
         PEEKABOOCHARACTERSTATE stateKey;
         if (myFSM.MyCharacter.AttackTarget.tag == "PC")
         {
-            Debug.Log("공격 대상이 PC입니다!");
+            photonView.RPC("RPCPlayerGetScore", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
             stateKey = PEEKABOOCHARACTERSTATE.IDLE;
         }
         else
         {
-            Debug.Log("공격 대상이 NPC입니다!");
             stateKey = PEEKABOOCHARACTERSTATE.PCSUPRISED;
         }
 
@@ -35,6 +35,12 @@ public class PeekabooPCPeekabooState : PeekabooCharacterState
 
     public override void OnExit()
     {
+        StopAllCoroutines();
+    }
 
+    [PunRPC]
+    private void RPCPlayerGetScore(int _playerActorNumber)
+    {
+        PeekabooGameManager.Instance.PlayerScoreList[_playerActorNumber]++;
     }
 }
