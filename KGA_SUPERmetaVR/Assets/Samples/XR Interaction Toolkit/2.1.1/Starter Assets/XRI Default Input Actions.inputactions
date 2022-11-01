@@ -385,6 +385,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Teleport Action",
+                    "type": "Button",
+                    "id": "2c8b6861-7839-4a03-8134-ed3cb95280b7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Teleport Mode Activate",
                     "type": "Value",
                     "id": "a21db72c-4843-4839-b4d0-3ce8d287cb86",
@@ -447,8 +456,8 @@
                 {
                     "name": "",
                     "id": "b8aebee7-fa03-43d4-bfb7-77a3f87452cc",
-                    "path": "<XRController>{LeftHand}/gripPressed",
-                    "interactions": "",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "interactions": "Hold(duration=2)",
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Teleport Mode Cancel",
@@ -474,6 +483,17 @@
                     "processors": "StickDeadzone",
                     "groups": "Continuous Move",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7400ba80-df97-47e5-ad90-53d392ca5f0e",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "interactions": "Hold(duration=2)",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Teleport Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -815,6 +835,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Teleport Action",
+                    "type": "Button",
+                    "id": "79924308-1092-4047-9a75-c72ef1c858d0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Teleport Mode Activate",
                     "type": "Value",
                     "id": "a6c7231d-c55d-4dd4-9e87-877bb5522ef5",
@@ -877,8 +906,8 @@
                 {
                     "name": "",
                     "id": "de466e6e-12bf-46a1-b0fd-ffbc343f3399",
-                    "path": "<XRController>{RightHand}/gripPressed",
-                    "interactions": "",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "Press(pressPoint=2)",
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Teleport Mode Cancel",
@@ -904,6 +933,17 @@
                     "processors": "StickDeadzone",
                     "groups": "Continuous Move",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d648a3be-7075-4e09-b30a-e4b1cdd51223",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Teleport Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
