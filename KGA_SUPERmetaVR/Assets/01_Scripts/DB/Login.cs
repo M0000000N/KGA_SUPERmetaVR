@@ -56,7 +56,11 @@ public class Login : MonoBehaviour
         {
             DataBase.Instance.CreateUser(CreateID.text, CreatePW.text, CreateNickName.text);
             GetDataBase(CreateNickName.text);
-            FeefawfumDataBase.Instance.CreateFeefawfumData();
+            
+            FeeFawFumDataBase.Instance.CreateFeefawfumData();
+            PaperSwanDataBase.Instance.CreatePaperswanData();
+            CloverColonyDataBase.Instance.CreateCloverColonyData();
+
             JoinPage();
         }
     }
@@ -73,10 +77,11 @@ public class Login : MonoBehaviour
             // 테스트 코드
 
             PeekabooDataBase.Instance.LoadPeekabooData();
-            FeefawfumDataBase.Instance.LoadFeefawfumData();
+            FeeFawFumDataBase.Instance.LoadFeefawfumData();
+            PaperSwanDataBase.Instance.LoadPaperswanData();
+            CloverColonyDataBase.Instance.LoadCloverColonyData();
 
-            // PhotonNetwork.LoadLevel("PKB_Main");
-            PhotonNetwork.LoadLevel("FeeFawFum_TestDB_AJJ");
+            PhotonNetwork.LoadLevel("PKB_Main");
         }
     }
 

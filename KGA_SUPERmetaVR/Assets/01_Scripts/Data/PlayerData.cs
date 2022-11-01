@@ -15,16 +15,21 @@ public class PlayerData
     int coin;
     public int Coin { get { return coin; } set { coin = value; } }
 
-    PlayerPeekabooData playerPeekabooData;
-    public PlayerPeekabooData PlayerPeekabooData { get { return playerPeekabooData; } set { playerPeekabooData = value; } }
+    PeekabooData peekabooData;
+    public PeekabooData PeekabooData { get { return peekabooData; } set { peekabooData = value; } }
 
-    PlayerFeefawfumData playerFeefawfumData;
-    public PlayerFeefawfumData PlayerFeefawfumData { get { return playerFeefawfumData; } set { playerFeefawfumData = value; } }
+    FeeFawFumData feeFawFumData;
+    public FeeFawFumData FeeFawFumData { get { return feeFawFumData; } set { feeFawFumData = value; } }
 
+    PaperSwanData paperSwanData;
+    public PaperSwanData PaperSwanData { get { return paperSwanData; } set { paperSwanData = value; } }
+
+    CloverColonyData cloverColonyData;
+    public CloverColonyData CloverColonyData { get { return cloverColonyData; } set { cloverColonyData = value; } }
 }
 
 [System.Serializable]
-public class PlayerPeekabooData
+public class PeekabooData
 {
     public int SelectCharacter;
     public PlayerCharacter CharacterList;
@@ -44,7 +49,25 @@ public class PlayerCharacter
 }
 
 [System.Serializable]
-public class PlayerFeefawfumData
+public class FeeFawFumData
+{
+    public string CoolTime;
+    public int TodayCount;
+
+    public int TotalCount;
+}
+
+[System.Serializable]
+public class PaperSwanData
+{
+    public string CoolTime;
+    public int TodayCount;
+
+    public int TotalCount;
+}
+
+[System.Serializable]
+public class CloverColonyData
 {
     public string CoolTime;
     public int TodayCount;

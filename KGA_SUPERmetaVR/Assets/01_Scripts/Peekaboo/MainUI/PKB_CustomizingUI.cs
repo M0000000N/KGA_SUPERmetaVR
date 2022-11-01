@@ -80,7 +80,7 @@ public class PKB_CustomizingUI : MonoBehaviour
     public void OnClickCharacterButton(int _characterValue)
     {
         UnityEngine.Debug.Log("_characterValue : " + _characterValue);
-        GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter = _characterValue;
+        GameManager.Instance.PlayerData.PeekabooData.SelectCharacter = _characterValue;
         PKB_MainUIManager.Instance.MainUI.RefreshUI();
         RefreshUI();
         PeekabooDataBase.Instance.SaveSelectCharater();
@@ -109,9 +109,9 @@ public class PKB_CustomizingUI : MonoBehaviour
 
     public void ChangeCharacterUI(int _countNumber)
     {
-        if (GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[_countNumber] > 0)
+        if (GameManager.Instance.PlayerData.PeekabooData.CharacterList.Character[_countNumber] > 0)
         {
-            if (GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter == _countNumber)
+            if (GameManager.Instance.PlayerData.PeekabooData.SelectCharacter == _countNumber)
             {
                 character[_countNumber].GetComponent<PKB_CustomizingCharacter>().Button.interactable = false;
                 character[_countNumber].GetComponent<PKB_CustomizingCharacter>().ButtonText.text = "РћПыСп";

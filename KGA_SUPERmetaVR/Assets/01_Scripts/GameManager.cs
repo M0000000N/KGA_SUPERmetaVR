@@ -18,17 +18,17 @@ public class GameManager : SingletonBehaviour<GameManager>
     public void Initialize()
     {
         playerData = new PlayerData();
-        PlayerData.PlayerPeekabooData = new PlayerPeekabooData();
-        PlayerData.PlayerPeekabooData.CharacterList = new PlayerCharacter();
-        playerData.PlayerFeefawfumData = new PlayerFeefawfumData();
+        PlayerData.PeekabooData = new PeekabooData();
+        PlayerData.PeekabooData.CharacterList = new PlayerCharacter();
+        playerData.FeeFawFumData = new FeeFawFumData();
 
         // 테스트 코드
-        GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character = new int[5];
-        GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[0] = 1;
-        GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[1] = 1;
-        GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[2] = 1;
-        GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[3] = 1;
-        GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[4] = 1;
+        GameManager.Instance.PlayerData.PeekabooData.CharacterList.Character = new int[5];
+        GameManager.Instance.PlayerData.PeekabooData.CharacterList.Character[0] = 1;
+        GameManager.Instance.PlayerData.PeekabooData.CharacterList.Character[1] = 1;
+        GameManager.Instance.PlayerData.PeekabooData.CharacterList.Character[2] = 1;
+        GameManager.Instance.PlayerData.PeekabooData.CharacterList.Character[3] = 1;
+        GameManager.Instance.PlayerData.PeekabooData.CharacterList.Character[4] = 1;
         // 테스트 코드
     }
 }
