@@ -12,31 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e14a72067f1ad408ec8d661bc560ce, type: 3}
   m_Name: _Data
   m_EditorClassIdentifier: 
-  templatePath: Assets/Sheet/Data.xlsx
+  templatePath: QuickSheet/ExcelPlugin/Templates
   scriptFilePath: Data.xlsx
   editorScriptFilePath: QuickSheet/Editor
   sheetName: Data.xlsx
-  workSheetName: Item
+  workSheetName: SpeechBubbleSheet
   columnHeaderList:
-  - type: 0
+  - type: 3
     name: ID
     isEnable: 0
     isArray: 0
-  - type: 0
-    name: Name
-    isEnable: 0
-    isArray: 0
-  - type: 0
-    name: Discription
-    isEnable: 0
-    isArray: 0
-  - type: 0
-    name: PrefabName
+  - type: 1
+    name: SpeechText
     isEnable: 0
     isArray: 0
   excelFilePath: Assets/Sheet/Data.xlsx
   SheetNames:
   - NoticePopup
-  - Item
   - PeekabooCustomizing
-  currentSelectedSheet: 1
+  - SpeechBubbleSheet
+  currentSelectedSheet: 2
