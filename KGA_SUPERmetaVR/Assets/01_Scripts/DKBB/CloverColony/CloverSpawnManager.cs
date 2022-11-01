@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloverSpawnManager : MonoBehaviour
+public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
 {
     [SerializeField] private Transform area1;
     private List<Transform> area1List = new List<Transform>();
@@ -148,13 +148,13 @@ public class CloverSpawnManager : MonoBehaviour
         }
     }
 
-    IEnumerator PickUpThreeLeafClover(GameObject _clover)
-    {
-        yield return new WaitForSeconds(2);
-        // TODO : 사라지는 연출이 있다면 추가 필요
-        // TODO : 잡은 판정이 있다면 취소가 필요
-        ReSpawnClover(_clover.transform, _clover.GetComponent<CloverInfo>().Area);
-    }
+    //IEnumerator PickUpThreeLeafClover(GameObject _clover)
+    //{
+    //    yield return new WaitForSeconds(2);
+    //    // TODO : 사라지는 연출이 있다면 추가 필요
+    //    // TODO : 잡은 판정이 있다면 취소가 필요
+    //    ReSpawnClover(_clover.transform, _clover.GetComponent<CloverInfo>().Area);
+    //}
 
     void Update()
     {
