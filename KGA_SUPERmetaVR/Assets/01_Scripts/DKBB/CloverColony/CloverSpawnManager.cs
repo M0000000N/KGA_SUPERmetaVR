@@ -22,6 +22,9 @@ public class CloverSpawnManager : MonoBehaviour
     private List<GameObject> fourLeafCloverList = new List<GameObject>();
     private List<GameObject> threeLeafCloverList = new List<GameObject>();
 
+    private float randomMinValue = -2f;
+    private float randomMaxValue = 2f;
+
     void Awake()
     {
         for (int i = 0; i < area1.childCount; i++)
@@ -62,8 +65,8 @@ public class CloverSpawnManager : MonoBehaviour
         {
             int area = Random.Range(0, 2);
 
-            float randomX = Random.Range(-1f, 1f);
-            float randomY = Random.Range(-1f, 1f);
+            float randomX = Random.Range(randomMinValue, randomMaxValue);
+            float randomY = Random.Range(randomMinValue, randomMaxValue);
 
             switch (area)
             {
@@ -106,10 +109,10 @@ public class CloverSpawnManager : MonoBehaviour
 
     public void SpawnClovers(Transform _clover, Transform _areaRoom)
     {
-        float randomX = Random.Range(-1f, 1f);
-        float randomY = Random.Range(-1f, 1f);
+        float randomX = Random.Range(randomMinValue, randomMaxValue);
+        float randomY = Random.Range(randomMinValue, randomMaxValue);
 
-        _clover.transform.position = _areaRoom.position - new Vector3(randomX, -0.1f, randomY);
+        _clover.transform.position = _areaRoom.position - new Vector3(randomX, -0.5f, randomY);
         _clover.gameObject.SetActive(true);
     }
 
