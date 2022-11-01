@@ -29,6 +29,8 @@ public class GameManager : SingletonBehaviour<GameManager>
         GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[2] = 1;
         GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[3] = 1;
         GameManager.Instance.PlayerData.PlayerPeekabooData.CharacterList.Character[4] = 1;
+
+        // TODO : 아이템 임시 코드 넣어주기
         // 테스트 코드
     }
 }

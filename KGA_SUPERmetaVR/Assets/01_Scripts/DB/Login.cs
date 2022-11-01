@@ -14,6 +14,7 @@ public static class UserTableInfo
 
     public static readonly string nickname = "nickname";
     public static readonly string coin = "coin";
+    public static readonly string item = "item";
 
     public static readonly string create_at = "create_at"; // join_date와 동일
     public static readonly string update_at = "update_at"; // 최근 정보가 변경된 시점
@@ -104,6 +105,7 @@ public class Login : MonoBehaviour
                 GameManager.Instance.PlayerData.Nickname = row[UserTableInfo.nickname].ToString();
                 PhotonNetwork.NickName = GameManager.Instance.PlayerData.Nickname;
                 GameManager.Instance.PlayerData.Coin =  int.Parse(row[UserTableInfo.coin].ToString());
+                // TODO : 아이템 리스트 적용 필요
             }
         }
     }
