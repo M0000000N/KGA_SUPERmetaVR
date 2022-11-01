@@ -6,7 +6,7 @@ using System.Collections;
 /// !!! DO NOT CHANGE Tabs to Spaces !!!
 /// 
 [System.Serializable]
-public class ItemData
+public class ItemSheetData
 {
   [SerializeField]
   int id;
