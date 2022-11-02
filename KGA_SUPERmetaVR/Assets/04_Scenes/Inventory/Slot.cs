@@ -5,32 +5,29 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class SlotData
-{
-    public int ItemID;
-
-    public int ItemCount;
-}
-
 public class Slot : MonoBehaviour
 {
-  
     [SerializeField]
-    private Image itemImage;
-    public Image ItemImage {get { return itemImage; } set { itemImage = value; } }
+    private GameObject itemPrefab;
+    public GameObject ItemPrefab { get { return itemPrefab; } set { itemPrefab = value; } }
 
     [SerializeField]
     private TextMeshProUGUI countText;
+
     [SerializeField]
     private GameObject countImage;
 
-    
-    // 슬롯에 아이템의 유무에 따라 투명도 조절
-    private void SetColor (float _alpha)
+    public void SetItemCount(int _count)
     {
-        Color itemcolor = itemImage.color;
-        itemcolor.a = _alpha;
-        itemImage.color = itemcolor;
+        if(_count > 1)
+        {
+            countText.text = _count.ToString();
+            countImage.SetActive(true);
+        }
+        else
+        {
+            countImage.SetActive(false);
+        }
     }
 
     //public void AddItem(Item _item, int _count = 1)

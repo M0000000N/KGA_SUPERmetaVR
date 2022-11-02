@@ -2,15 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class SlotData111
-{
-    private int itemID;
-    public int ItemID { get { return itemID; } set { itemID = value; } }
-
-    private int itemCount;
-    public int ItemCount { get { return itemCount; } set { itemCount = value; } }
-}
+using Photon.Pun;
 
 public class Inventory : MonoBehaviour
 {
@@ -19,14 +11,23 @@ public class Inventory : MonoBehaviour
 
     private Slot[] slots;
 
-    private Dictionary<int,SlotData> slotDB;
-
     private void Start()
     {
         slots = SlotGrid.GetComponentsInChildren<Slot>();
-        slotDB = new Dictionary<int, SlotData>();
-        
+        Initialize();
     }
+
+    private void Initialize()
+    {
+        for (int i = 0; i < GameManager.Instance.PlayerData.ItemSlotData.ItemData.Length; i++)
+        {
+            GameObject prefab = Resources.Load<GameObject>("Item/" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemID).Prefabname);
+            slots[i].ItemPrefab = Instantiate(prefab, slots[i].transform);
+            slots[i].ItemPrefab.transform.localPosition = Vector3.zero;
+            slots[i].SetItemCount(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemCount);
+        }
+    }
+
 
     //private void SlotDB()
     //{

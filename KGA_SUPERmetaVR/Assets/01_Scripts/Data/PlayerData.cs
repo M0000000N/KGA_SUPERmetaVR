@@ -6,26 +6,42 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    string id;
+    private string id;
     public string ID { get { return id; } set { id = value; } }
 
-    string nickName;
+    private string nickName;
     public string Nickname { get { return nickName;} set { nickName = value; } }
 
-    int coin;
+    private int coin;
     public int Coin { get { return coin; } set { coin = value; } }
 
-    PeekabooData peekabooData;
+    private ItemSlotData itemSlotData;
+    public ItemSlotData ItemSlotData { get { return itemSlotData; } set { itemSlotData = value; } }
+
+    private PeekabooData peekabooData;
     public PeekabooData PeekabooData { get { return peekabooData; } set { peekabooData = value; } }
 
-    FeeFawFumData feeFawFumData;
+    private FeeFawFumData feeFawFumData;
     public FeeFawFumData FeeFawFumData { get { return feeFawFumData; } set { feeFawFumData = value; } }
 
-    PaperSwanData paperSwanData;
+    private PaperSwanData paperSwanData;
     public PaperSwanData PaperSwanData { get { return paperSwanData; } set { paperSwanData = value; } }
 
-    CloverColonyData cloverColonyData;
+    private CloverColonyData cloverColonyData;
     public CloverColonyData CloverColonyData { get { return cloverColonyData; } set { cloverColonyData = value; } }
+}
+
+[System.Serializable]
+public class ItemSlotData
+{
+    public ItemData[] ItemData;
+}
+
+[System.Serializable]
+public class ItemData
+{
+    public int ItemID;
+    public int ItemCount;
 }
 
 [System.Serializable]
