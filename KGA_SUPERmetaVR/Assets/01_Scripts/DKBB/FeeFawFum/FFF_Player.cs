@@ -57,11 +57,19 @@ public class FFF_Player : MonoBehaviour
     {
         if (rightRayInteractor.TryGetCurrentUIRaycastResult(out rightRaycastResult))
         {
-            rightRaycastResult.gameObject.GetComponent<Button>().interactable = false;
+            if (rightRaycastResult.gameObject.GetComponent<Button>().interactable == true)
+            {
+                rightRaycastResult.gameObject.GetComponent<Button>().onClick.Invoke();
+                rightRaycastResult.gameObject.GetComponent<Button>().interactable = false;
+            }
         }
         else if (leftRayInteractor.TryGetCurrentUIRaycastResult(out leftRaycastResult))
         {
-            leftRaycastResult.gameObject.GetComponent<Button>().interactable = false;
+            if (leftRaycastResult.gameObject.GetComponent<Button>().interactable == true)
+            {
+                leftRaycastResult.gameObject.GetComponent<Button>().onClick.Invoke();
+                leftRaycastResult.gameObject.GetComponent<Button>().interactable = false;
+            }
         }
         else
         {

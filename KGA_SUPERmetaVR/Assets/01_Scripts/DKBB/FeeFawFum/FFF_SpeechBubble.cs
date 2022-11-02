@@ -8,6 +8,7 @@ public class FFF_SpeechBubble : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI sizeText;
     [SerializeField] TextMeshProUGUI text;
+
     public string SpeechText { get { return text.text; } private set { text.text = value; sizeText.text = text.text; } }
 
     private void Start()
@@ -26,7 +27,6 @@ public class FFF_SpeechBubble : MonoBehaviour
 
         while(true)
         {
-
             for (int i = 0; i < count; i++)
             {
                 SetSpeechText(StaticData.GetSpeechBubbleSheet(i).Speechtext);

@@ -18,7 +18,6 @@ public class FFF_ButtonList : MonoBehaviour
 
     public void OnClickButton()
     {
-        EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable = false;
         clickCount++;
         if (clickCount == button.Length)
         {
