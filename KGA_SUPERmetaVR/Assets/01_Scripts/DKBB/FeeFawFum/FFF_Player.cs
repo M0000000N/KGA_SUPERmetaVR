@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.EventSystems;
+using UnityEngine.Animations.Rigging;
 
 public class FFF_Player : MonoBehaviour
 {
@@ -11,15 +12,15 @@ public class FFF_Player : MonoBehaviour
     private XRRayInteractor leftRayInteractor;
     private XRController leftXRController;
     private LineRenderer leftLineRenderer;
-    private RaycastResult leftRaycastResult;
+    private RaycastResult leftRayResult;
+    private RaycastHit leftRayHit;
 
     [SerializeField] GameObject rightHand;
     private XRRayInteractor rightRayInteractor;
     private XRController rightXRController;
     private LineRenderer rightLineRenderer;
-    private RaycastResult rightRaycastResult;
-
-    private GameObject targetObject;
+    private RaycastResult rightRayResult;
+    private RaycastHit rightRayHit;
 
     void Start()
     {
@@ -34,14 +35,24 @@ public class FFF_Player : MonoBehaviour
 
     void Update()
     {
-        if (FFF_GameManager.Instance.isReady)
+        switch (FFF_GameManager.Instance.flow)
         {
-            SetRay(0.2f, false);
-            RayCastHit();
-        }
-        else
-        {
-            SetRay(20, true);
+            case 0:
+                SetRay(20, true);
+                break;
+            case 1:
+                SetRay(0.2f, false);
+                Get3DRayCastHit();
+                // 한손 내미는 애니메이션
+                break;
+            case 2:
+                SetRay(0.2f, false);
+                Get3DRayCastHit();
+                // 양손 내미는 애니메이션
+                break;
+            case 3:
+                GetUIRayCastHit();
+                break;
         }
     }
 
@@ -52,28 +63,44 @@ public class FFF_Player : MonoBehaviour
         leftLineRenderer.useWorldSpace = _useWorldSpace;
         rightLineRenderer.useWorldSpace = _useWorldSpace;
     }
-
-    public void RayCastHit()
+    
+    public void Get3DRayCastHit()
     {
-        if (rightRayInteractor.TryGetCurrentUIRaycastResult(out rightRaycastResult))
+        if (rightRayInteractor.TryGetCurrent3DRaycastHit(out rightRayHit))
         {
-            if (rightRaycastResult.gameObject.GetComponent<Button>().interactable == true)
+            // NPC 손이랑 부딪혔을 때
+            if(rightRayHit.transform.gameObject.tag == "NPCHand")
             {
-                rightRaycastResult.gameObject.GetComponent<Button>().onClick.Invoke();
-                rightRaycastResult.gameObject.GetComponent<Button>().interactable = false;
+                // rightRayHit.gameObject.GetComponent<TwoBoneIKConstraintData>().target = righttHand.transform;
             }
         }
-        else if (leftRayInteractor.TryGetCurrentUIRaycastResult(out leftRaycastResult))
+        if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit))
         {
-            if (leftRaycastResult.gameObject.GetComponent<Button>().interactable == true)
+            // NPC 손이랑 부딪혔을 때
+            if (leftRayHit.transform.gameObject.tag == "NPCHand")
             {
-                leftRaycastResult.gameObject.GetComponent<Button>().onClick.Invoke();
-                leftRaycastResult.gameObject.GetComponent<Button>().interactable = false;
+                // leftRayHit.gameObject.GetComponent<TwoBoneIKConstraintData>().target = lefttHand.transform;
             }
         }
-        else
+    }
+
+    public void GetUIRayCastHit()
+    {
+        if (rightRayInteractor.TryGetCurrentUIRaycastResult(out rightRayResult))
         {
-            return;
+            if (rightRayResult.gameObject.GetComponent<Button>().interactable == true)
+            {
+                rightRayResult.gameObject.GetComponent<Button>().onClick.Invoke();
+                rightRayResult.gameObject.GetComponent<Button>().interactable = false;
+            }
+        }
+        if (leftRayInteractor.TryGetCurrentUIRaycastResult(out leftRayResult))
+        {
+            if (leftRayResult.gameObject.GetComponent<Button>().interactable == true)
+            {
+                leftRayResult.gameObject.GetComponent<Button>().onClick.Invoke();
+                leftRayResult.gameObject.GetComponent<Button>().interactable = false;
+            }
         }
     }
 }

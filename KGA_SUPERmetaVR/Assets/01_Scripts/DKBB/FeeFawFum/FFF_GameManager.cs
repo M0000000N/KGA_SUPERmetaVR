@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
 {
-    public bool isReady;
+    public int flow; // 0 : 레디 전, 1: 퍼즐1(한손 잡기), 2 : 퍼즐2(양손잡기), 3 : 퍼즐3(gui에 손 맞추기)
 
+    public void initioalize()
+    {
+        flow = 0;
+    }
     private void OnTriggerExit(Collider other)
     {
         // 경고 UI 출력

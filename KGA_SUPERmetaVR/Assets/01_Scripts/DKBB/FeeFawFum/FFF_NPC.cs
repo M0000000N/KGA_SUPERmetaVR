@@ -16,13 +16,11 @@ public class FFF_NPC : MonoBehaviour
 
         exclamationButton.gameObject.SetActive(false);
         startButton.gameObject.SetActive(false);
-
-        FFF_GameManager.Instance.isReady = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (FFF_GameManager.Instance.isReady == false && other.tag == "Player")
+        if (FFF_GameManager.Instance.flow == 0 && other.tag == "Player")
         {
             detectPlayer(true);
         }
@@ -30,7 +28,7 @@ public class FFF_NPC : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (FFF_GameManager.Instance.isReady == false && other.tag == "Player")
+        if (FFF_GameManager.Instance.flow == 0 && other.tag == "Player")
         {
             detectPlayer(false);
         }
@@ -40,6 +38,7 @@ public class FFF_NPC : MonoBehaviour
     {
         if (_isActive)
         {
+            // TODO : 세마리 다 이렇게 바뀌어야함
             npcName.color = new Color32(135, 247, 242, 255);
             exclamationButton.gameObject.SetActive(true);
         }
@@ -54,11 +53,12 @@ public class FFF_NPC : MonoBehaviour
     {
         exclamationButton.gameObject.SetActive(false);
         startButton.gameObject.SetActive(true);
+        // TODO : 나머지 두마리 모여모여
     }
 
     public void OnClickStartButton()
     {
         startButton.gameObject.SetActive(false);
-        FFF_GameManager.Instance.isReady = true;
+        FFF_GameManager.Instance.flow = 1;
     }
 }
