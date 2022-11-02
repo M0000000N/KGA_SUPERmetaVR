@@ -8,36 +8,37 @@ public class FFF_NPC : MonoBehaviour
     [SerializeField] TextMeshPro npcName;
     [SerializeField] Button exclamationButton;
     [SerializeField] Button startButton;
-    private bool readyState;
 
     private void Start()
     {
-
         exclamationButton.onClick.AddListener(OnClickExclamationButton);
         startButton.onClick.AddListener(OnClickStartButton);
 
         exclamationButton.gameObject.SetActive(false);
         startButton.gameObject.SetActive(false);
 
-        readyState = true;
+        FFF_GameManager.Instance.isReady = false;
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(readyState && other.tag == "Player")
+        if (FFF_GameManager.Instance.isReady == false && other.tag == "Player")
         {
             detectPlayer(true);
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
-        if (readyState && other.tag == "Player")
+        if (FFF_GameManager.Instance.isReady == false && other.tag == "Player")
         {
             detectPlayer(false);
         }
     }
+
     private void detectPlayer(bool _isActive)
     {
-        if(_isActive)
+        if (_isActive)
         {
             npcName.color = new Color32(135, 247, 242, 255);
             exclamationButton.gameObject.SetActive(true);
@@ -58,6 +59,6 @@ public class FFF_NPC : MonoBehaviour
     public void OnClickStartButton()
     {
         startButton.gameObject.SetActive(false);
-        readyState = false;
-    } 
+        FFF_GameManager.Instance.isReady = true;
+    }
 }

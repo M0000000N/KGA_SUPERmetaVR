@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
 {
+    public bool isReady;
+
     private void OnTriggerExit(Collider other)
     {
         // 경고 UI 출력
