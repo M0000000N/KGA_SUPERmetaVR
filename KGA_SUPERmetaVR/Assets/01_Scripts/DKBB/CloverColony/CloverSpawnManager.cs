@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloverSpawnManager : MonoBehaviour
+public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
 {
     [SerializeField] private Transform area1;
     private List<Transform> area1List = new List<Transform>();
@@ -24,6 +24,8 @@ public class CloverSpawnManager : MonoBehaviour
 
     private float randomMinValue = -2f;
     private float randomMaxValue = 2f;
+
+    bool isFourLeafCloverRespawn;
 
     void Awake()
     {
@@ -61,7 +63,7 @@ public class CloverSpawnManager : MonoBehaviour
     {
         fourLeafCloverSpawnCount = Random.Range(1, fourLeafCloverMaxCount + 1);
 
-        for (int i = 0; i < fourLeafCloverList.Count; i++)
+        for (int i = 0; i < fourLeafCloverSpawnCount; i++)
         {
             int area = Random.Range(0, 2);
 
@@ -118,6 +120,8 @@ public class CloverSpawnManager : MonoBehaviour
 
     public void ReSpawnClover(Transform _clover, int _area)
     {
+        // TODO : MasterClient만 실행해야함
+
         switch (_area)
         {
             case 0:
@@ -136,28 +140,53 @@ public class CloverSpawnManager : MonoBehaviour
         }
     }
 
-    public void PickUpClover(GameObject _clover)
+    public void ReSpawnFourLeafClover()
     {
-        if(_clover.GetComponent<CloverInfo>().IsFourLeaf)
-        {
+        // TODO : MasterClient만 실행해야함
+        if (isFourLeafCloverRespawn) return;
 
-        }
-        else
+        for (int i = 0; i < fourLeafCloverList.Count; i++)
         {
-            StartCoroutine("PickUpThreeLeafClover", _clover);
+            if(fourLeafCloverList[i].activeSelf)
+            {
+                return;
+            }
         }
+        isFourLeafCloverRespawn = true;
+        StartCoroutine("RespawnFourLeafCloverCoroutine");
     }
 
-    IEnumerator PickUpThreeLeafClover(GameObject _clover)
+    IEnumerator RespawnFourLeafCloverCoroutine()
     {
-        yield return new WaitForSeconds(2);
-        // TODO : 사라지는 연출이 있다면 추가 필요
-        // TODO : 잡은 판정이 있다면 취소가 필요
-        ReSpawnClover(_clover.transform, _clover.GetComponent<CloverInfo>().Area);
-    }
+        yield return new WaitForSecondsRealtime(2400);
+        fourLeafCloverSpawnCount = Random.Range(1, fourLeafCloverMaxCount + 1);
 
-    void Update()
-    {
-        
+        for (int i = 0; i < fourLeafCloverSpawnCount; i++)
+        {
+            int area = Random.Range(0, 2);
+
+            float randomX = Random.Range(randomMinValue, randomMaxValue);
+            float randomY = Random.Range(randomMinValue, randomMaxValue);
+
+            switch (area)
+            {
+                case 0:
+                    {
+                        int areaRoomNumber = Random.Range(0, area1List.Count);
+                        fourLeafCloverList[i].GetComponent<CloverInfo>().Area = area;
+                        SpawnClovers(fourLeafCloverList[i].transform, area1List[areaRoomNumber]);
+                    }
+                    break;
+
+                default:
+                    {
+                        int areaRoomNumber = Random.Range(0, area2List.Count);
+                        fourLeafCloverList[i].GetComponent<CloverInfo>().Area = area;
+                        SpawnClovers(fourLeafCloverList[i].transform, area2List[areaRoomNumber]);
+                    }
+                    break;
+            }
+        }
+        isFourLeafCloverRespawn = false;
     }
 }

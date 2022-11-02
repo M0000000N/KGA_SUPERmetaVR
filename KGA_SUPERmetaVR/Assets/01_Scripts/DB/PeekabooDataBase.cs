@@ -43,14 +43,14 @@ public class PeekabooDataBase : SingletonBehaviour<PeekabooDataBase>
 
     public void SaveCharacterList() // 캐릭터 구매 등 변경사항 발생시
     {
-        playerPeekabooCharacterList = JsonUtility.ToJson(playerData.PlayerPeekabooData.CharacterList);
+        playerPeekabooCharacterList = JsonUtility.ToJson(playerData.PeekabooData.CharacterList);
         UnityEngine.Debug.Log("playerPeekabooCharacterList : " + playerPeekabooCharacterList);
         DataBase.Instance.UpdateDB(PeekabooTableInfo.table_name, PeekabooTableInfo.character_list, playerPeekabooCharacterList, PeekabooTableInfo.user_id, playerData.ID);
     }
 
     public void SaveSelectCharater() // 게임 종료시점에 데이터 저장
     {
-        int selectCharacter = playerData.PlayerPeekabooData.SelectCharacter;
+        int selectCharacter = playerData.PeekabooData.SelectCharacter;
         DataBase.Instance.UpdateDB(PeekabooTableInfo.table_name, PeekabooTableInfo.character_now, selectCharacter.ToString(), PeekabooTableInfo.user_id, playerData.ID);
     }
 
@@ -64,16 +64,16 @@ public class PeekabooDataBase : SingletonBehaviour<PeekabooDataBase>
 
             foreach (DataRow row in dataTable.Rows)
             {
-                playerData.PlayerPeekabooData.SelectCharacter = int.Parse(row[PeekabooTableInfo.character_now].ToString());
+                playerData.PeekabooData.SelectCharacter = int.Parse(row[PeekabooTableInfo.character_now].ToString());
                 playerPeekabooCharacterList = row[PeekabooTableInfo.character_list].ToString();
-                playerData.PlayerPeekabooData.CharacterList = JsonUtility.FromJson<PlayerCharacter>(playerPeekabooCharacterList);
+                playerData.PeekabooData.CharacterList = JsonUtility.FromJson<PlayerCharacter>(playerPeekabooCharacterList);
 
-                playerData.PlayerPeekabooData.PlayCount = int.Parse(row[PeekabooTableInfo.play_count].ToString());
-                playerData.PlayerPeekabooData.WinCount = int.Parse(row[PeekabooTableInfo.win_count].ToString());
-                playerData.PlayerPeekabooData.DieCount = int.Parse(row[PeekabooTableInfo.die_count].ToString());
-                playerData.PlayerPeekabooData.SurviveTime = float.Parse(row[PeekabooTableInfo.survive_time].ToString());
-                playerData.PlayerPeekabooData.AttackPC = int.Parse(row[PeekabooTableInfo.attack_player].ToString());
-                playerData.PlayerPeekabooData.AttackNPC = int.Parse(row[PeekabooTableInfo.attack_npc].ToString());
+                playerData.PeekabooData.PlayCount = int.Parse(row[PeekabooTableInfo.play_count].ToString());
+                playerData.PeekabooData.WinCount = int.Parse(row[PeekabooTableInfo.win_count].ToString());
+                playerData.PeekabooData.DieCount = int.Parse(row[PeekabooTableInfo.die_count].ToString());
+                playerData.PeekabooData.SurviveTime = float.Parse(row[PeekabooTableInfo.survive_time].ToString());
+                playerData.PeekabooData.AttackPC = int.Parse(row[PeekabooTableInfo.attack_player].ToString());
+                playerData.PeekabooData.AttackNPC = int.Parse(row[PeekabooTableInfo.attack_npc].ToString());
             }
         }
         else if (dataTable.Rows.Count <= 0)

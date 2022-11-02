@@ -18,6 +18,8 @@ public class PS_GrabPaperSwan : MonoBehaviour
     private RaycastHit RightRayHit;
     private GameObject targetObject;
 
+    bool isCoroutine;
+
     private void Start()
     {
         leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
@@ -41,9 +43,18 @@ public class PS_GrabPaperSwan : MonoBehaviour
         {
             if (RayCastHit())
             {
-                if (targetObject.tag == _tag)
+                if (targetObject.tag == _tag && isCoroutine == false)
                 {
-                    StartCoroutine("DestroyObject", _time);
+                    if(PaperSwanDataBase.Instance.CheckCooltime(3))
+                    {
+                        PaperSwanDataBase.Instance.UpdatePlayData();
+                        isCoroutine = true;
+                        StartCoroutine("DestroyObject", _time);
+                    }
+                }
+                else
+                {
+                    isCoroutine = false;
                 }
             }
         }
@@ -73,6 +84,22 @@ public class PS_GrabPaperSwan : MonoBehaviour
         if (targetObject.tag == "PaperSwan")
         {
             targetObject.SetActive(false);
+            StopCoroutine("ResultMessage");
+            StartCoroutine("ResultMessage");
+        }
+        isCoroutine = false;
+    }
+
+    IEnumerator ResultMessage()
+    {
+        while(true)
+        {
+            yield return new WaitForSecondsRealtime(600f);
+            if(PaperSwanDataBase.Instance.CheckCooltime(2))
+            {
+                UnityEngine.Debug.Log("메시지 출력");
+                break;
+            }
         }
     }
 }

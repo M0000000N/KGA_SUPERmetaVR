@@ -17,12 +17,17 @@ public class CC_GrabClover : MonoBehaviour
     private RaycastHit leftRayHit;
     private RaycastHit RightRayHit;
     private GameObject targetObject;
+
+    private bool isGrab;
+
+    private bool isCoroutine = false;
     private void Start()
     {
         leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
         rightRayInteractor = rightHand.GetComponent<XRRayInteractor>();
         leftXRController = leftHand.GetComponent<XRController>();
         rightXRController = rightHand.GetComponent<XRController>();
+        isGrab = false;
     }
 
     void Update()
@@ -37,24 +42,35 @@ public class CC_GrabClover : MonoBehaviour
         InputHelpers.IsPressed(leftXRController.inputDevice, InputHelpers.Button.Grip, out leftTriggerValue);
         InputHelpers.IsPressed(rightXRController.inputDevice, InputHelpers.Button.Grip, out rightTriggerValue);
 
-        if (leftTriggerValue || rightTriggerValue) // 오른손 왼손중 하나라도 trigger를 누르면
+        if (leftTriggerValue || rightTriggerValue && isGrab == false) // 오른손 왼손중 하나라도 trigger를 누르면
         {
-            if (RayCastHit()) // hit 정보를 받아옴
+            if(isGrab == false)
             {
-                string targetTag = targetObject.tag;
-                if (targetTag == _tag)
+                isGrab = true;
+
+                if (RayCastHit()) // hit 정보를 받아옴
                 {
-                    if (targetTag == "ThreeLeafClover")
+                    string targetTag = targetObject.tag;
+                    if (targetTag == _tag)
                     {
-                        StartCoroutine(targetTag, _time);
-                    }
-                    else if (targetTag == "FourLeafClover")
-                    {
-                        //  TODO : 멋진 파티클효과
+                        if (targetTag == "ThreeLeafClover" && isCoroutine == false)
+                        {
+                            isCoroutine = true;
+                            StartCoroutine("DestroyObject", _time);
+                        }
+                        else if (targetTag == "FourLeafClover")
+                        {
+                            //  TODO : 멋진 파티클효과
+                        }
                     }
                 }
             }
         }
+        //else
+        //{
+        //    isGrab = false;
+        //    targetObject.SetActive(false);
+        //}
     }
 
     public bool RayCastHit()
@@ -81,6 +97,16 @@ public class CC_GrabClover : MonoBehaviour
         if (targetObject.tag == "ThreeLeafClover")
         {
             targetObject.SetActive(false);
+            GameObject respawnClover = targetObject;
+            targetObject = null;
+
+            // TODO : 잡은 판정이 있다면 취소가 필요
+
+            yield return new WaitForSeconds(1);
+
+            respawnClover.SetActive(true);
+            CloverSpawnManager.Instance.ReSpawnClover(respawnClover.transform, respawnClover.GetComponent<CloverInfo>().Area);
         }
+        isCoroutine = false;
     }
 }
