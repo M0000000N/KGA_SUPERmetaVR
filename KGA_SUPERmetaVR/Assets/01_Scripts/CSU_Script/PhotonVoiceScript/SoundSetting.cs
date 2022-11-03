@@ -27,13 +27,9 @@ public class SoundSetting : MonoBehaviour
     {
         soundSettingImage.SetActive(false);
         closeButton.enabled = false; 
-    }
 
-    private void Update()
-    {
         soundSetting.onClick.AddListener(clickSoundSetting);
         closeButton.onClick.AddListener(CloseSoundSetting);
-        //micActivate.Invoke("CloseSoundSetting", 0.1f);
     }
 
     // 설정창 켜짐
@@ -51,9 +47,7 @@ public class SoundSetting : MonoBehaviour
     // 마이크 음소거
     public void micMute(bool mute)
     {
-
-        Recorder recorder = GetComponent<Recorder>();
-        // recorder.TransmitEnabled = mute;       
+        Recorder recorder = GetComponent<Recorder>();   
         if (mute)
         {
             micActivate.isOn = recorder.TransmitEnabled;
