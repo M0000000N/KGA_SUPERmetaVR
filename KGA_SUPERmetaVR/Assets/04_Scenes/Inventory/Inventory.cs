@@ -11,6 +11,9 @@ public class Inventory : MonoBehaviour
 
     private Slot[] slots;
 
+    private int slotCount = 8;
+    private int nowSlot;
+
     private void Start()
     {
         slots = SlotGrid.GetComponentsInChildren<Slot>();
@@ -19,15 +22,41 @@ public class Inventory : MonoBehaviour
 
     private void Initialize()
     {
+        nowSlot = 0;
+        RefreshUI();
+    }
+
+    private void RefreshUI()
+    {
         for (int i = 0; i < GameManager.Instance.PlayerData.ItemSlotData.ItemData.Length; i++)
         {
-            GameObject prefab = Resources.Load<GameObject>("Item/" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemID).Prefabname);
-            slots[i].ItemPrefab = Instantiate(prefab, slots[i].transform);
-            slots[i].ItemPrefab.transform.localPosition = Vector3.zero;
-            slots[i].SetItemCount(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemCount);
+            if(nowSlot * slotCount <= i && i < (slotCount + slotCount * nowSlot))
+            {
+                GameObject prefab = Resources.Load<GameObject>("Item/" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
+                slots[i].ItemPrefab = Instantiate(prefab, slots[i].transform);
+                slots[i].ItemPrefab.transform.localPosition = Vector3.zero;
+                slots[i].SetItemCount(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count);
+            }
         }
     }
 
+    public void PressNextButton()
+    {
+        if(nowSlot < 3)
+        {
+            nowSlot++;
+        }
+        RefreshUI();
+    }
+
+    public void PressPreviousButton()
+    {
+        if (nowSlot > 0)
+        {
+            nowSlot--;
+        }
+        RefreshUI();
+    }
 
     //private void SlotDB()
     //{
@@ -59,7 +88,7 @@ public class Inventory : MonoBehaviour
     //                    {
 
     //                    }
-                        
+
     //                }
     //            }                                                                                                
     //        }
