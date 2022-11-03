@@ -7,7 +7,7 @@ using System;
 
 public static class FeeFawFumTableInfo
 {
-    public static readonly string table_name = "FeeFawFumData";
+    public static readonly string table_name = "feefawfumdata";
 
     public static readonly string user_id = "user_id";
 

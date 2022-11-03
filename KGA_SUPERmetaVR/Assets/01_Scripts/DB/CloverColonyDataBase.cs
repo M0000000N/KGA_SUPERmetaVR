@@ -7,7 +7,7 @@ using System;
 
 public class CloverColonyTableInfo
 {
-    public static readonly string table_name = "CloverColonyData";
+    public static readonly string table_name = "clovercolonydata";
 
     public static readonly string user_id = "user_id";
 
