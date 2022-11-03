@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+
 public class FFF_NPC : MonoBehaviour
 {
     [SerializeField] TextMeshPro npcName;

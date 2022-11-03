@@ -41,14 +41,14 @@ public class FFF_Player : MonoBehaviour
                 SetRay(20, true);
                 break;
             case 1:
-                SetRay(0.2f, false);
+                // 오른손 내미는 애니메이션
+                SetRay(10f, true);
                 Get3DRayCastHit();
-                // 한손 내미는 애니메이션
                 break;
             case 2:
+                // 양손 내미는 애니메이션
                 SetRay(0.2f, false);
                 Get3DRayCastHit();
-                // 양손 내미는 애니메이션
                 break;
             case 3:
                 GetUIRayCastHit();
@@ -66,21 +66,26 @@ public class FFF_Player : MonoBehaviour
     
     public void Get3DRayCastHit()
     {
-        if (rightRayInteractor.TryGetCurrent3DRaycastHit(out rightRayHit))
-        {
-            // NPC 손이랑 부딪혔을 때
-            if(rightRayHit.transform.gameObject.tag == "NPCHand")
-            {
-                // rightRayHit.gameObject.GetComponent<TwoBoneIKConstraintData>().target = righttHand.transform;
-            }
-        }
         if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit))
         {
-            // NPC 손이랑 부딪혔을 때
-            if (leftRayHit.transform.gameObject.tag == "NPCHand")
-            {
-                // leftRayHit.gameObject.GetComponent<TwoBoneIKConstraintData>().target = lefttHand.transform;
-            }
+            GrabHand(leftRayHit, leftHand.transform);
+        }
+        if (rightRayInteractor.TryGetCurrent3DRaycastHit(out rightRayHit))
+        {
+            GrabHand(rightRayHit, rightHand.transform);
+            Debug.Log(rightRayHit.transform.gameObject.name);
+        }        
+    }
+
+    public void GrabHand(RaycastHit _raycastHit, Transform _transform)
+    {
+        if (_raycastHit.transform.gameObject.tag == "FFF_LeftHand")
+        {
+            _raycastHit.transform.gameObject.GetComponentInParent<RigBuilder>().layers[0].rig.GetComponentInChildren<SetTarget>().SetTransform(_transform);
+        }
+        if (_raycastHit.transform.gameObject.tag == "FFF_RightHand")
+        {
+            _raycastHit.transform.gameObject.GetComponentInParent<RigBuilder>().layers[1].rig.GetComponentInChildren<SetTarget>().SetTransform(_transform);
         }
     }
 
@@ -88,18 +93,20 @@ public class FFF_Player : MonoBehaviour
     {
         if (rightRayInteractor.TryGetCurrentUIRaycastResult(out rightRayResult))
         {
-            if (rightRayResult.gameObject.GetComponent<Button>().interactable == true)
+            Button rightButton = rightRayResult.gameObject.GetComponent<Button>();
+            if (rightButton.interactable == true)
             {
-                rightRayResult.gameObject.GetComponent<Button>().onClick.Invoke();
-                rightRayResult.gameObject.GetComponent<Button>().interactable = false;
+                rightButton.onClick.Invoke();
+                rightButton.interactable = false;
             }
         }
         if (leftRayInteractor.TryGetCurrentUIRaycastResult(out leftRayResult))
         {
-            if (leftRayResult.gameObject.GetComponent<Button>().interactable == true)
+            Button leftButton = leftRayResult.gameObject.GetComponent<Button>();
+            if (leftButton.interactable == true)
             {
-                leftRayResult.gameObject.GetComponent<Button>().onClick.Invoke();
-                leftRayResult.gameObject.GetComponent<Button>().interactable = false;
+                leftButton.onClick.Invoke();
+                leftButton.interactable = false;
             }
         }
     }

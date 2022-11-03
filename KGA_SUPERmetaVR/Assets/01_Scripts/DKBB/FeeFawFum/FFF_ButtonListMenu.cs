@@ -19,7 +19,10 @@ public class FFF_ButtonListMenu : MonoBehaviour
 
     private void Update()
     {
-        SetNextButtonList();
+        if(FFF_GameManager.Instance.flow ==3)
+        {
+            SetNextButtonList();
+        }
     }
     private void SetNextButtonList()
     {
