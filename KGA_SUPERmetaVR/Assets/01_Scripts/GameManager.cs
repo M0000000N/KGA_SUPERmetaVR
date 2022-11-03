@@ -39,17 +39,18 @@ public class GameManager : SingletonBehaviour<GameManager>
         PlayerData.PeekabooData.CharacterList.Character[3] = 1;
         PlayerData.PeekabooData.CharacterList.Character[4] = 1;
 
-        PlayerData.ItemSlotData.ItemData = new ItemData[2];
+        PlayerData.ItemSlotData.ItemData = new ItemData[32];
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 32; i++)
         {
             PlayerData.ItemSlotData.ItemData[i] = new ItemData();
         }
 
-        PlayerData.ItemSlotData.ItemData[0].ItemCount = 5;
-        PlayerData.ItemSlotData.ItemData[0].ItemID = StaticData.GetItemSheet(60001).ID;
-        PlayerData.ItemSlotData.ItemData[1].ItemCount = 99;
-        PlayerData.ItemSlotData.ItemData[1].ItemID = StaticData.GetItemSheet(60002).ID;
+        //UserDataBase.Instance.LoadItemData();
+        //PlayerData.ItemSlotData.ItemData[0].ItemCount = 5;
+        //PlayerData.ItemSlotData.ItemData[0].ItemID = StaticData.GetItemSheet(60001).ID;
+        //PlayerData.ItemSlotData.ItemData[1].ItemCount = 99;
+        //PlayerData.ItemSlotData.ItemData[1].ItemID = StaticData.GetItemSheet(60002).ID;
         // TODO : 아이템 임시 코드 넣어주기
         // 테스트 코드
     }

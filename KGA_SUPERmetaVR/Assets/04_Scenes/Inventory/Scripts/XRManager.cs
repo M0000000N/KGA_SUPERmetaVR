@@ -24,12 +24,14 @@ public class XRManager : MonoBehaviour
 
     private void OpenInvetoryUI()
     {
+        UserDataBase.Instance.LoadItemData();
         menuUI.SetActive(false);
         inventoryUI.SetActive(true);
     }
 
     private void CloseInventoryUI()
     {
+        UserDataBase.Instance.SaveItemData();
         inventoryUI.SetActive(false);
         menuUI.SetActive(true);
     }

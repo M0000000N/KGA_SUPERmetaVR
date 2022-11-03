@@ -23,7 +23,7 @@ public static class UserTableInfo
     public static readonly string peekaboo = "peekaboo";
 }
 
-public class UserDataBase : MonoBehaviour
+public class UserDataBase : SingletonBehaviour<UserDataBase>
 {
     [Header("·Î±×ÀÎ")]
     public TMP_InputField LoginID;

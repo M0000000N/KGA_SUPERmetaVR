@@ -30,13 +30,9 @@ public class Slot : MonoBehaviour
         }
     }
 
-    //public void AddItem(Item _item, int _count = 1)
+    //public void AddItem(Item _item, int _count)
     //{
-    //    item = _item;
-    //    itemCount = _count;
-    //    itemImage.sprite = item.ItemImage;
-
-    //    if (item.ItemType != Item.ITEMTYPE.EQUIPMENT)
+    //    if (StaticData.GetItemSheet(_item.ItemID).Type != "EQUIPMENT")
     //    {
     //        countImage.SetActive(true);
     //        countText.text = itemCount.ToString();

@@ -24,4 +24,8 @@ public class ItemSheetData
   string prefabname;
   public string Prefabname { get {return prefabname; } set { this.prefabname = value;} }
   
+  [SerializeField]
+  string type;
+  public string Type { get {return type; } set { this.type = value;} }
+  
 }
