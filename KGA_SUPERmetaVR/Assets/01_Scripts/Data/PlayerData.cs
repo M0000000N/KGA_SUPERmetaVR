@@ -40,8 +40,8 @@ public class ItemSlotData
 [System.Serializable]
 public class ItemData
 {
-    public int ItemID;
-    public int ItemCount;
+    public int ID;
+    public int Count;
 }
 
 [System.Serializable]

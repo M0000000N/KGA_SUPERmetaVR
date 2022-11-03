@@ -29,7 +29,14 @@ public class GameManager : SingletonBehaviour<GameManager>
         PlayerData.PeekabooData = new PeekabooData();
         PlayerData.PeekabooData.CharacterList = new PlayerCharacter();
         playerData.FeeFawFumData = new FeeFawFumData();
+
         PlayerData.ItemSlotData = new ItemSlotData();
+        playerData.ItemSlotData.ItemData = new ItemData[32];
+        for (int i = 0; i < 32; i++)
+        {
+            PlayerData.ItemSlotData.ItemData[i] = new ItemData();
+        }
+
 
         // 테스트 코드
         PlayerData.PeekabooData.CharacterList.Character = new int[5];
@@ -39,17 +46,18 @@ public class GameManager : SingletonBehaviour<GameManager>
         PlayerData.PeekabooData.CharacterList.Character[3] = 1;
         PlayerData.PeekabooData.CharacterList.Character[4] = 1;
 
-        PlayerData.ItemSlotData.ItemData = new ItemData[2];
-
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 32; i++)
         {
-            PlayerData.ItemSlotData.ItemData[i] = new ItemData();
+            int randomKey = Random.Range(1, 3);
+            int randomValue = Random.Range(1, 3);
+
+            playerData.ItemSlotData.ItemData[i].ID = StaticData.GetItemSheet(60000 + randomKey).ID;
+            playerData.ItemSlotData.ItemData[i].Count = randomValue;
         }
 
-        PlayerData.ItemSlotData.ItemData[0].ItemCount = 5;
-        PlayerData.ItemSlotData.ItemData[0].ItemID = StaticData.GetItemSheet(60001).ID;
-        PlayerData.ItemSlotData.ItemData[1].ItemCount = 99;
-        PlayerData.ItemSlotData.ItemData[1].ItemID = StaticData.GetItemSheet(60002).ID;
+        string playerItemList = JsonUtility.ToJson(playerData.ItemSlotData);
+        UnityEngine.Debug.Log("ItemList : " + playerItemList);
+        UnityEngine.Debug.Log(playerItemList.Length);
         // TODO : 아이템 임시 코드 넣어주기
         // 테스트 코드
     }
