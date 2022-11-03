@@ -15,6 +15,9 @@ public class Inventory : MonoBehaviour
     private int numberOfSlots;
     public int NumberOfSlots { get { return numberOfSlots; } set { numberOfSlots = value; } }
 
+    private int nowSlot;
+    private int slotCount = 8;
+
     private void Start()
     {
         slots = SlotGrid.GetComponentsInChildren<Slot>();
@@ -23,13 +26,40 @@ public class Inventory : MonoBehaviour
 
     private void Initialize()
     {
+        nowSlot = 0;
+        RefreshUI();
+    }
+
+    private void RefreshUI()
+    {
         for (int i = 0; i < GameManager.Instance.PlayerData.ItemSlotData.ItemData.Length; i++)
         {
-            GameObject prefab = Resources.Load<GameObject>("Item/" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemID).Prefabname);
-            slots[i].ItemPrefab = Instantiate(prefab, slots[i].transform);
-            slots[i].ItemPrefab.transform.localPosition = Vector3.zero;
-            slots[i].SetItemCount(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemCount);
+            if (nowSlot * slotCount <= i && i < (slotCount + slotCount * nowSlot))
+            {
+                GameObject prefab = Resources.Load<GameObject>("Item/" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
+                slots[i].ItemPrefab = Instantiate(prefab, slots[i].transform);
+                slots[i].ItemPrefab.transform.localPosition = Vector3.zero;
+                slots[i].SetItemCount(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count);
+            }
         }
+    }
+
+    public void PressNextButton()
+    {
+        if (nowSlot < 3)
+        {
+            nowSlot++;
+        }
+        RefreshUI();
+    }
+
+    public void PressPreviousButton()
+    {
+        if (nowSlot > 0)
+        {
+            nowSlot--;
+        }
+        RefreshUI();
     }
 
     public void AcquireItem(Item _item, int _count)
@@ -42,22 +72,22 @@ public class Inventory : MonoBehaviour
                 {
                     if (slots[i].ItemPrefab.name == StaticData.GetItemSheet(_item.ItemID).Prefabname)
                     {
-                        if (GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemCount + _count <= 99)
+                        if (GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count + _count <= 99)
                         {
-                            GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemCount += _count;
+                            GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count += _count;
                             UserDataBase.Instance.SaveItemData();
                             return;
                         }
                         else
                         {
-                            int remainNumber = GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemCount + _count - 99;
-                            GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemCount = 99;
+                            int remainNumber = GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count + _count - 99;
+                            GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count = 99;
                             for (int j = i + 1; j < numberOfSlots; ++j)
                             {
                                 if (slots[j].ItemPrefab == null)
                                 {
-                                    GameManager.Instance.PlayerData.ItemSlotData.ItemData[j].ItemID = _item.ItemID;
-                                    GameManager.Instance.PlayerData.ItemSlotData.ItemData[j].ItemCount = remainNumber;
+                                    GameManager.Instance.PlayerData.ItemSlotData.ItemData[j].ID = _item.ItemID;
+                                    GameManager.Instance.PlayerData.ItemSlotData.ItemData[j].Count = remainNumber;
                                     UserDataBase.Instance.SaveItemData();
                                     return;
                                 }
@@ -74,8 +104,8 @@ public class Inventory : MonoBehaviour
         {
             if (slots[i].ItemPrefab == null)
             {
-                GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemID = _item.ItemID;
-                GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ItemCount = _count;
+                GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID = _item.ItemID;
+                GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count = _count;
                 UserDataBase.Instance.SaveItemData();
                 return;
             }
