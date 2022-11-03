@@ -63,7 +63,7 @@ public class FFF_Player : MonoBehaviour
         leftLineRenderer.useWorldSpace = _useWorldSpace;
         rightLineRenderer.useWorldSpace = _useWorldSpace;
     }
-    
+
     public void Get3DRayCastHit()
     {
         if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit))
@@ -73,8 +73,7 @@ public class FFF_Player : MonoBehaviour
         if (rightRayInteractor.TryGetCurrent3DRaycastHit(out rightRayHit))
         {
             GrabHand(rightRayHit, rightHand.transform);
-            Debug.Log(rightRayHit.transform.gameObject.name);
-        }        
+        }
     }
 
     public void GrabHand(RaycastHit _raycastHit, Transform _transform)
