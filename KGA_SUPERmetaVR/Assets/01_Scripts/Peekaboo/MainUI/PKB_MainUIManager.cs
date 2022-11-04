@@ -38,7 +38,7 @@ public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
     }
     public void Initionalize()
     {
-        CreateRoomUI.gameObject.SetActive(false);
+       CreateRoomUI.gameObject.SetActive(false);
         CustomizingUI.gameObject.SetActive(false);
         ExitUI.gameObject.SetActive(false);
         FindRoomUI.gameObject.SetActive(false);

@@ -15,6 +15,10 @@ using Photon.Voice;
 using Facebook.WitAi.Lib;
 using Photon.Voice.Unity.Demos;
 
+/// <summary>
+/// 마이크 활성화 / 비활성화 
+/// 말하기 아이콘 
+/// </summary>
 public class SoundSetting : MonoBehaviourPun
 {
     // 설정버튼 누르면 sound setting 나옴
@@ -80,20 +84,20 @@ public class SoundSetting : MonoBehaviourPun
     private void TurnonMute()
     {
         // 마이크 꺼짐 
-        PeekabooSoundManager.Instance.recorder.TransmitEnabled = false; 
+        VoiceroomManager.Instance.recorder.TransmitEnabled = false; 
     }
 
     private void TurnOffMute()
     {
         // 마이크 켜짐
-        PeekabooSoundManager.Instance.recorder.TransmitEnabled = true;
+        VoiceroomManager.Instance.recorder.TransmitEnabled = true;
     }
 
 
     private void micAnimation()
     {
         // 음성 감지되면 
-        if (PeekabooSoundManager.Instance.recorder.VoiceDetectionThreshold > 0.2f)
+        if (VoiceroomManager.Instance.recorder.VoiceDetectionThreshold > 0.2f)
         {
             talking.gameObject.SetActive(true);
             talking.SetBool("VocieTalk", true);
@@ -104,7 +108,7 @@ public class SoundSetting : MonoBehaviourPun
         else
         {
             // 음소거 
-            if (PeekabooSoundManager.Instance.recorder.TransmitEnabled == false)
+            if (VoiceroomManager.Instance.recorder.TransmitEnabled == false)
             {
                 mute.SetActive(true);
                 talking.gameObject.SetActive(false);
