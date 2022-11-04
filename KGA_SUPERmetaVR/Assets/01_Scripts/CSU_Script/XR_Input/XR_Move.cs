@@ -1,13 +1,13 @@
-using Photon.Pun; 
+using Photon.Pun;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
-using UnityEngine.Events; 
+using UnityEngine.Events;
 
-public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
+public class XR_Move : MonoBehaviourPun
 {
     [Header("PC Speed")]
     [SerializeField] private float walkSpeed = 1f;
@@ -18,7 +18,8 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
     private List<InputDevice> devices = new List<InputDevice>();
     private InputDevice device;
 
-    private Transform myCameraTransform;
+    [SerializeField]
+    private Camera camera;
 
     private bool triggerIsPressed;
     private bool primaryButtonIsPressed; // X / A 버튼
@@ -28,10 +29,6 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
     private Vector2 prevPrimary2DAxisValue;
 
     private float applySpeed;
-    private bool isRun = false;
-    private Stamina stamina;
-    private NavMeshAgent navMeshAgent;
-    private Camera camera;
 
     Vector3 setPos;
     Quaternion setRot;
@@ -53,17 +50,8 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
     void Start()
     {
         if (photonView.IsMine == false) return;
-
-        GetDevice(); 
-
+        GetDevice();
         applySpeed = walkSpeed;
-        navMeshAgent = GetComponent<NavMeshAgent>();
-       // stamina = GameObject.Find("Stamina").GetComponent<Stamina>();
-
-        if (photonView.IsMine)
-        {
-            myCameraTransform = GameObject.Find("Main Camera").transform;
-        }
     }
 
     void Update()
@@ -90,21 +78,10 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
             var zAxis = primary2dValue.y;// * applySpeed * Time.deltaTime;
 
             Vector3 direction = new Vector3(xAxis, 0f, zAxis).normalized;
-            direction = myCameraTransform.TransformDirection(direction);
+            direction = camera.transform.TransformDirection(direction);
             direction.y = 0f;
             transform.position += direction * applySpeed * Time.deltaTime;
-
-            //Vector3 right = transform.TransformDirection(Vector3.right);
-            //Vector3 forward = transform.TransformDirection(Vector3.forward);
-            //Vector3 left = transform.TransformDirection(Vector3.left);
-            //Vector3 back = transform.TransformDirection(Vector3.back);
-
-            //transform.position += right * xAxis;
-            //transform.position += forward * zAxis;
-            //transform.position -= left * xAxis;
-            //transform.position -= back * zAxis;
-
-            navMeshAgent.SetDestination(transform.position);
+  
         }
     }
 
@@ -129,22 +106,16 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
             Debug.Log("버튼 out");
             RunningCancle();
             primaryButtonIsPressed = false;
-        }         
+        }
     }
 
     public void Running()
-    {
-        isRun = true;
-        //stamina.DecreaseProgress();
-        stamina.GetComponent<Stamina>().DecreaseProgress();
+    {    
         applySpeed = runSpeed;
     }
 
     public void RunningCancle()
     {
-        isRun = false;
-        //stamina.IncreaseProgress();
-        stamina.GetComponent<Stamina>().IncreaseProgress();
         applySpeed = walkSpeed;
     }
 
@@ -162,6 +133,5 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
         }
     }
 }
-
 
 
