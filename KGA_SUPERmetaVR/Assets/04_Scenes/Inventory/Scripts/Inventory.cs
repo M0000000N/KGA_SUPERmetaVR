@@ -36,6 +36,11 @@ public class Inventory : MonoBehaviour
         Initialize();
     }
 
+    private void OnEnable()
+    {
+        Initialize();
+    }
+
     private void Initialize()
     {
         nowPage = 0;
@@ -44,19 +49,21 @@ public class Inventory : MonoBehaviour
 
     private void RefreshUI()
     {
-        
+        for (int i = 0; i < NumberOfSlots; i++)
+        {
+            slots[i].Initialize();
+        }
+
         for (int i = 0; i < GameManager.Instance.PlayerData.ItemSlotData.ItemData.Length; i++)
         {
-            if (nowPage * numberOfSlots <= i && i < (numberOfSlots + numberOfSlots * nowPage))
+            int pageSlotNumber = nowPage * numberOfSlots;
+            if (pageSlotNumber <= i && i < (numberOfSlots + pageSlotNumber))
             {
-                if (GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID > 0)
-                {
-                    GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
-                    slots[i - nowPage * numberOfSlots].ItemPrefab = Instantiate(prefab, slots[i - nowPage * numberOfSlots].transform);
-                    slots[i - nowPage * numberOfSlots].ItemPrefab.transform.localPosition = Vector3.zero;
-                    slots[i - nowPage * numberOfSlots].SetItemCount(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count);
-
-                }
+                GameObject prefab = Resources.Load<GameObject>("Item/" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
+                if (prefab == null) continue;
+                slots[i - pageSlotNumber].ItemPrefab = Instantiate(prefab, slots[i - pageSlotNumber].transform);
+                slots[i - pageSlotNumber].ItemPrefab.transform.localPosition = Vector3.zero;
+                slots[i - pageSlotNumber].SetItemCount(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count);
             }
         }
     }
@@ -79,23 +86,11 @@ public class Inventory : MonoBehaviour
         RefreshUI();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            Item testitem = new Item();
-            testitem.ItemID = 60001;
-
-            AcquireItem(testitem, 50);
-            RefreshUI();
-        }
-    }
-
     public void AcquireItem(Item _item, int _count)
     {
-        for (int i = 0; i < numberOfSlots * (nowPage + 1); i++)
+        for (int i = 0; i < playerData.ItemSlotData.ItemData.Length; i++)
         {
-            if (playerData.ItemSlotData.ItemData[i].ID == 0)
+            if (playerData.ItemSlotData.ItemData[i].ID <= 0)
             {
                 playerData.ItemSlotData.ItemData[i].ID = _item.ItemID;
                 playerData.ItemSlotData.ItemData[i].Count = _count;
@@ -105,7 +100,7 @@ public class Inventory : MonoBehaviour
                 slots[i].AddItem(_item, _count);
 
                 //UserDataBase.Instance.SaveItemData();
-                Debug.Log("Àåºñ¾ÆÀÌÅÛÀÌ µé¾î¿È");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 return;
             }
             else
@@ -119,7 +114,7 @@ public class Inventory : MonoBehaviour
                             playerData.ItemSlotData.ItemData[i].Count += _count;
                             slots[i - nowPage * numberOfSlots].SetSlotCount(playerData.ItemSlotData.ItemData[i].Count);
                             // UserDataBase.Instance.SaveItemData();
-                            Debug.Log("99°³ ¾È³ÑÀ½ : ¾ÆÀÌÅÛÀÌ µé¾î¿È");
+                            Debug.Log("99ï¿½ï¿½ ï¿½È³ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                             return;
                         }
                         else
@@ -127,7 +122,7 @@ public class Inventory : MonoBehaviour
                             int remainNumber = playerData.ItemSlotData.ItemData[i].Count + _count - 99;
                             playerData.ItemSlotData.ItemData[i].Count = 99;
                             slots[i].SetSlotCount(playerData.ItemSlotData.ItemData[i].Count);
-                            for (int j = i + 1; j < numberOfSlots * 4; ++j)
+                             for (int j = i + 1; j < playerData.ItemSlotData.ItemData.Length; ++j)
                             {
                                 if (playerData.ItemSlotData.ItemData[j].ID == _item.ItemID && playerData.ItemSlotData.ItemData[j].Count + remainNumber > 99)
                                 {
@@ -140,7 +135,7 @@ public class Inventory : MonoBehaviour
                                     playerData.ItemSlotData.ItemData[j].Count += remainNumber;
                                     //UserDataBase.Instance.SaveItemData();
                                     slots[j].SetSlotCount(playerData.ItemSlotData.ItemData[j].Count);
-                                    Debug.Log("99°³ ³ÑÀ½ : ¾ÆÀÌÅÛÀÌ µé¾î¿È");
+                                    Debug.Log("99ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                                     return;
                                 }
                                 else if (playerData.ItemSlotData.ItemData[j].ID == 0)

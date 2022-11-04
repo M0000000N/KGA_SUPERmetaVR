@@ -17,6 +17,23 @@ public class Slot : MonoBehaviour
     [SerializeField]
     private GameObject countImage;
 
+    private void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        for (int childCount = 1; childCount < transform.childCount; childCount++)
+        {
+            Destroy(transform.GetChild(childCount).gameObject);
+        }
+
+        itemPrefab = null;
+        countText.text = "";
+        countImage.SetActive(false);
+    }
+
     public void SetItemCount(int _count)
     {
         if(_count > 1)
