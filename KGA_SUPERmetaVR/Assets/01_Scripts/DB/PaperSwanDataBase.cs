@@ -7,7 +7,7 @@ using System;
 
 public class PaperSwanTableInfo
 {
-    public static readonly string table_name = "PaperSwanData";
+    public static readonly string table_name = "paperswandata";
 
     public static readonly string user_id = "user_id";
 

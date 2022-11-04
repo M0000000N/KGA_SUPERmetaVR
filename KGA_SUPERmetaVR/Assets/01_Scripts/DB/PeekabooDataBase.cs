@@ -5,7 +5,7 @@ using System.Data;
 
 public static class PeekabooTableInfo
 {
-    public static readonly string table_name = "Peekaboo";
+    public static readonly string table_name = "peekaboodata";
 
     public static readonly string user_id = "user_id";
     public static readonly string nickname = "nickname";

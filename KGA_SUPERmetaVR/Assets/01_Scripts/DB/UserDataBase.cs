@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public static class UserTableInfo
 {
-    public static readonly string table_name = "UserData";
+    public static readonly string table_name = "userdata";
 
     public static readonly string user_id = "user_id";
     public static readonly string user_pw = "user_pw";

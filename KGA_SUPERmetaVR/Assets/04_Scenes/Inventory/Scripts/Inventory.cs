@@ -6,6 +6,8 @@ using Photon.Pun;
 
 public class Inventory : MonoBehaviour
 {
+    private PlayerData playerData;
+
     [SerializeField]
     private GameObject SlotGrid;
 
@@ -15,18 +17,18 @@ public class Inventory : MonoBehaviour
     private int numberOfSlots;
     public int NumberOfSlots { get { return numberOfSlots; } set { numberOfSlots = value; } }
 
-    private int nowSlot;
-    private int slotCount = 8;
+    private int nowPage;
 
     private void Start()
     {
+        playerData = GameManager.Instance.PlayerData;
         slots = SlotGrid.GetComponentsInChildren<Slot>();
         Initialize();
     }
 
     private void Initialize()
     {
-        nowSlot = 0;
+        nowPage = 0;
         RefreshUI();
     }
 
@@ -34,80 +36,86 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < GameManager.Instance.PlayerData.ItemSlotData.ItemData.Length; i++)
         {
-            if (nowSlot * slotCount <= i && i < (slotCount + slotCount * nowSlot))
+            if (nowPage * numberOfSlots <= i && i < (numberOfSlots + numberOfSlots * nowPage))
             {
                 GameObject prefab = Resources.Load<GameObject>("Item/" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
-                slots[i].ItemPrefab = Instantiate(prefab, slots[i].transform);
-                slots[i].ItemPrefab.transform.localPosition = Vector3.zero;
-                slots[i].SetItemCount(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count);
+                slots[i - nowPage * numberOfSlots].ItemPrefab = Instantiate(prefab, slots[i - nowPage * numberOfSlots].transform);
+                slots[i - nowPage * numberOfSlots].ItemPrefab.transform.localPosition = Vector3.zero;
+                slots[i - nowPage * numberOfSlots].SetItemCount(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count);
             }
         }
     }
 
     public void PressNextButton()
     {
-        if (nowSlot < 3)
+        if (nowPage < 3)
         {
-            nowSlot++;
+            nowPage++;
         }
         RefreshUI();
     }
 
     public void PressPreviousButton()
     {
-        if (nowSlot > 0)
+        if (nowPage > 0)
         {
-            nowSlot--;
+            nowPage--;
         }
         RefreshUI();
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            Item testitem = new Item();
+            testitem.ItemID = 60001;
+
+            AcquireItem(testitem, 50);
+            RefreshUI();
+        }
+    }
+
     public void AcquireItem(Item _item, int _count)
     {
-        if (StaticData.GetItemSheet(_item.ItemID).Type != "EQUIPMENT")
+        for (int i = 0; i < numberOfSlots; i++)
         {
-            for (int i = 0; i < numberOfSlots; i++)
+            if (playerData.ItemSlotData.ItemData[i] == null)
             {
-                if (slots[i].ItemPrefab != null)
+                playerData.ItemSlotData.ItemData[i].ID = _item.ItemID;
+                playerData.ItemSlotData.ItemData[i].Count = _count;
+                // UserDataBase.Instance.SaveItemData();
+                return;
+            }
+            else
+            {
+                if (StaticData.GetItemSheet(_item.ItemID).Type != "EQUIPMENT")
                 {
-                    if (slots[i].ItemPrefab.name == StaticData.GetItemSheet(_item.ItemID).Prefabname)
+                    if (playerData.ItemSlotData.ItemData[i].ID == _item.ItemID)
                     {
-                        if (GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count + _count <= 99)
+                        if (playerData.ItemSlotData.ItemData[i].Count + _count <= 99)
                         {
-                            GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count += _count;
-                            UserDataBase.Instance.SaveItemData();
+                            playerData.ItemSlotData.ItemData[i].Count += _count;
+                            // UserDataBase.Instance.SaveItemData();
                             return;
                         }
                         else
                         {
-                            int remainNumber = GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count + _count - 99;
-                            GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count = 99;
+                            int remainNumber = playerData.ItemSlotData.ItemData[i].Count + _count - 99;
+                            playerData.ItemSlotData.ItemData[i].Count = 99;
                             for (int j = i + 1; j < numberOfSlots; ++j)
                             {
-                                if (slots[j].ItemPrefab == null)
+                                if (playerData.ItemSlotData.ItemData[i] == null)
                                 {
-                                    GameManager.Instance.PlayerData.ItemSlotData.ItemData[j].ID = _item.ItemID;
-                                    GameManager.Instance.PlayerData.ItemSlotData.ItemData[j].Count = remainNumber;
-                                    UserDataBase.Instance.SaveItemData();
+                                    playerData.ItemSlotData.ItemData[j].ID = _item.ItemID;
+                                    playerData.ItemSlotData.ItemData[j].Count = remainNumber;
+                                    // UserDataBase.Instance.SaveItemData();
                                     return;
                                 }
                             }
                         }
-
                     }
                 }
-            }
-        }
-
-        // 아이템 종류가 장착 아이템일 시
-        for (int i = 0; i < numberOfSlots; ++i)
-        {
-            if (slots[i].ItemPrefab == null)
-            {
-                GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID = _item.ItemID;
-                GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count = _count;
-                UserDataBase.Instance.SaveItemData();
-                return;
             }
         }
     }
