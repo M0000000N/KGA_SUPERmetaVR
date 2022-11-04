@@ -21,6 +21,8 @@ public class XRHandController : MonoBehaviour
     private float thumbValue;
     private float threeFingersValue;
 
+    public float ThreeFingersValue { get { return threeFingersValue; } private set { threeFingersValue = value; } }
+
     private bool inputDeviceValid;
 
     // Start is called before the first frame update
