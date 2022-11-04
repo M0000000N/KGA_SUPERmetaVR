@@ -1,4 +1,3 @@
-using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +27,7 @@ public class PeekabooCharacterIdleState : PeekabooCharacterState
 
     public override void OnEnter()
     {
+        Debug.Log("Idle 상태 돌입!");
         myFSM.MyAnimator.SetInteger("State", (int)PEEKABOOCHARACTERSTATE.IDLE);
         myFSM.MyCharacter.SetMyInteractingState(false);
         waitTimeToNextBehaviour = Random.Range(minTimeToNextBehaviour, maxTimeToNextBehaviour);

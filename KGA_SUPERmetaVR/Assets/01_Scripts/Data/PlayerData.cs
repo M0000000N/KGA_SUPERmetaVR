@@ -6,21 +6,46 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    string id;
+    private string id;
     public string ID { get { return id; } set { id = value; } }
 
-    string nickName;
+    private string nickName;
     public string Nickname { get { return nickName;} set { nickName = value; } }
 
-    int coin;
+    private int coin;
     public int Coin { get { return coin; } set { coin = value; } }
 
-    PlayerPeekabooData playerPeekabooData;
-    public PlayerPeekabooData PlayerPeekabooData { get { return playerPeekabooData; } set { playerPeekabooData = value; } }
+    private ItemSlotData itemSlotData;
+    public ItemSlotData ItemSlotData { get { return itemSlotData; } set { itemSlotData = value; } }
+
+    private PeekabooData peekabooData;
+    public PeekabooData PeekabooData { get { return peekabooData; } set { peekabooData = value; } }
+
+    private FeeFawFumData feeFawFumData;
+    public FeeFawFumData FeeFawFumData { get { return feeFawFumData; } set { feeFawFumData = value; } }
+
+    private PaperSwanData paperSwanData;
+    public PaperSwanData PaperSwanData { get { return paperSwanData; } set { paperSwanData = value; } }
+
+    private CloverColonyData cloverColonyData;
+    public CloverColonyData CloverColonyData { get { return cloverColonyData; } set { cloverColonyData = value; } }
 }
 
 [System.Serializable]
-public class PlayerPeekabooData
+public class ItemSlotData
+{
+    public ItemData[] ItemData;
+}
+
+[System.Serializable]
+public class ItemData
+{
+    public int ID;
+    public int Count;
+}
+
+[System.Serializable]
+public class PeekabooData
 {
     public int SelectCharacter;
     public PlayerCharacter CharacterList;
@@ -37,4 +62,31 @@ public class PlayerPeekabooData
 public class PlayerCharacter
 {
     public int[] Character;
+}
+
+[System.Serializable]
+public class FeeFawFumData
+{
+    public string CoolTime;
+    public int TodayCount;
+
+    public int TotalCount;
+}
+
+[System.Serializable]
+public class PaperSwanData
+{
+    public string CoolTime;
+    public int TodayCount;
+
+    public int TotalCount;
+}
+
+[System.Serializable]
+public class CloverColonyData
+{
+    public string CoolTime;
+    public int TodayCount;
+
+    public int TotalCount;
 }
