@@ -30,40 +30,36 @@ public class Slot : MonoBehaviour
         }
     }
 
-    //public void AddItem(Item _item, int _count)
-    //{
-    //    if (StaticData.GetItemSheet(_item.ItemID).Type != "EQUIPMENT")
-    //    {
-    //        countImage.SetActive(true);
-    //        countText.text = itemCount.ToString();
-    //    }
-    //    else
-    //    {
-    //        countText.text = "0";
-    //        countImage.SetActive(false);
-    //    }
-    //    SetColor(1);
-    //}
+    public void AddItem(Item _item, int _count)
+    {
+        
+        if (StaticData.GetItemSheet(_item.ItemID).Type != "EQUIPMENT")
+        {
+            countImage.SetActive(true);
+            countText.text = _count.ToString();
+        }
+        else
+        {
+            countText.text = _count.ToString();
+            countImage.SetActive(false);
+        }
+        
+    }
 
-    //public void SetSlotCount(int _count)
-    //{
-    //    itemCount += _count;
-    //    countText.text = itemCount.ToString();
+    public void SetSlotCount(int _count)
+    {
+        countText.text = _count.ToString();
 
-    //    if (itemCount <= 0)
-    //    {
-    //        ClearSlot();
-    //    }
-    //}
+        if (_count <= 0)
+        {
+            ClearSlot();
+        }
+    }
 
-    //private void ClearSlot()
-    //{
-    //    item = null;
-    //    itemCount = 0;
-    //    itemImage.sprite = null;
-    //    SetColor(0);
-
-    //    countText.text = "0";
-    //    countImage.SetActive(false);
-    //}
+    private void ClearSlot()
+    {
+        itemPrefab = null;
+        countText.text = "0";
+        countImage.SetActive(false);
+    }
 }
