@@ -106,6 +106,21 @@ public class StaticData : SingletonBehaviour<StaticData>
         return null;
     }
 
+    [SerializeField] private ItemSheet ItemSheet;
+    public static ItemSheetData[] ItemSheetData { get { return Instance.ItemSheet.dataArray; } }
+
+    public static ItemSheetData GetItemSheet(int _id)
+    {
+        for (int i = 0; i < ItemSheetData.Length; i++)
+        {
+            if (ItemSheetData[i].ID == _id)
+            {
+                return ItemSheetData[i];
+            }
+        }
+        return null;
+    }
+
     // ================================================ LOBBY ================================================
 
 

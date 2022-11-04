@@ -7,13 +7,14 @@ using Photon.Pun;
 
 public static class UserTableInfo
 {
-    public static readonly string table_name = "UserData";
+    public static readonly string table_name = "userdata";
 
     public static readonly string user_id = "user_id";
     public static readonly string user_pw = "user_pw";
 
     public static readonly string nickname = "nickname";
     public static readonly string coin = "coin";
+    public static readonly string item = "item";
 
     public static readonly string create_at = "create_at"; // join_date와 동일
     public static readonly string update_at = "update_at"; // 최근 정보가 변경된 시점
@@ -22,7 +23,7 @@ public static class UserTableInfo
     public static readonly string peekaboo = "peekaboo";
 }
 
-public class Login : MonoBehaviour
+public class UserDataBase : SingletonBehaviour<UserDataBase>
 {
     [Header("로그인")]
     public TMP_InputField LoginID;
@@ -36,12 +37,16 @@ public class Login : MonoBehaviour
     public TMP_InputField CreateNickName;
     public GameObject CreateUI;
 
+    private PlayerData playerData;
+    private string playerItemList;
+    
     // 테스트 코드
-    PeekabooDataBase peekabooLogin;
+    private PeekabooDataBase peekabooLogin;
 
     private void Awake()
     {
         peekabooLogin = transform.GetComponent<PeekabooDataBase>();
+        playerData = GameManager.Instance.PlayerData;
     }
     // 테스트 코드
 
@@ -55,9 +60,23 @@ public class Login : MonoBehaviour
         else if(DataBase.Instance.CheckUse(UserTableInfo.nickname,CreateNickName.text))
         {
             DataBase.Instance.CreateUser(CreateID.text, CreatePW.text, CreateNickName.text);
+
+            // TestCode 저장
+            playerItemList = JsonUtility.ToJson(playerData.ItemSlotData);
+            UnityEngine.Debug.Log("ItemList : " + playerItemList);
+            DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.item, playerItemList, UserTableInfo.user_id, CreateID.text);
+            // TestCode
+
+
             GetDataBase(CreateNickName.text);
-            FeefawfumDataBase.Instance.CreateFeefawfumData();
+            
+            FeeFawFumDataBase.Instance.CreateFeefawfumData();
+            PaperSwanDataBase.Instance.CreatePaperswanData();
+            CloverColonyDataBase.Instance.CreateCloverColonyData();
+
             JoinPage();
+
+
         }
     }
 
@@ -73,10 +92,11 @@ public class Login : MonoBehaviour
             // 테스트 코드
 
             PeekabooDataBase.Instance.LoadPeekabooData();
-            FeefawfumDataBase.Instance.LoadFeefawfumData();
+            FeeFawFumDataBase.Instance.LoadFeefawfumData();
+            PaperSwanDataBase.Instance.LoadPaperswanData();
+            CloverColonyDataBase.Instance.LoadCloverColonyData();
 
-            // PhotonNetwork.LoadLevel("PKB_Main");
-            PhotonNetwork.LoadLevel("FeeFawFum_TestDB_AJJ");
+            PhotonNetwork.LoadLevel("InventoryRDScene_RWJ");
         }
     }
 
@@ -92,6 +112,26 @@ public class Login : MonoBehaviour
         CreateUI.SetActive(false);
     }
 
+    public void SaveItemData() // Local -> DB
+    {
+        playerItemList = JsonUtility.ToJson(playerData.ItemSlotData);
+        UnityEngine.Debug.Log("ItemList : " + playerItemList);
+        DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.item, playerItemList, UserTableInfo.user_id, playerData.ID);
+    }
+
+    public void LoadItemData() // DB -> Local
+    {
+        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*", UserTableInfo.user_id, playerData.ID);
+        if (dataTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                playerItemList = row[UserTableInfo.item].ToString();
+                playerData.ItemSlotData = JsonUtility.FromJson<ItemSlotData>(playerItemList);
+            }
+        }
+    }
+
     // 테스트 코드
     public void GetDataBase(string _userID)
     {
@@ -100,12 +140,16 @@ public class Login : MonoBehaviour
         {
             foreach (DataRow row in dataTable.Rows)
             {
-                GameManager.Instance.PlayerData.ID = row[UserTableInfo.user_id].ToString();
-                GameManager.Instance.PlayerData.Nickname = row[UserTableInfo.nickname].ToString();
-                PhotonNetwork.NickName = GameManager.Instance.PlayerData.Nickname;
-                GameManager.Instance.PlayerData.Coin =  int.Parse(row[UserTableInfo.coin].ToString());
+                playerData.ID = row[UserTableInfo.user_id].ToString();
+                playerData.Nickname = row[UserTableInfo.nickname].ToString();
+                PhotonNetwork.NickName = playerData.Nickname;
+                playerData.Coin =  int.Parse(row[UserTableInfo.coin].ToString());
+                playerItemList = row[UserTableInfo.item].ToString();
+                playerData.ItemSlotData = JsonUtility.FromJson<ItemSlotData>(playerItemList);
             }
         }
     }
     // 테스트 코드
+
+
 }
