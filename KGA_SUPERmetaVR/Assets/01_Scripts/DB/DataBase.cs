@@ -152,12 +152,7 @@ public class DataBase : SingletonBehaviour<DataBase>
 
             // 생성시 create_at, update_at 설정을 포함해준다.
             InsertDB(UserTableInfo.table_name, $"{UserTableInfo.user_id}, {UserTableInfo.user_pw}, {UserTableInfo.nickname}, {UserTableInfo.create_at}, {UserTableInfo.update_at}", $"'{_id}','{securityPW}','{_nickName}', NOW(), NOW()");
-
-            UnityEngine.Debug.Log("ID :" + _id);
-            UnityEngine.Debug.Log("PW :" + securityPW);
-            UnityEngine.Debug.Log("PW :" + _nickName);
         }
-
     }
 
     // 아이디 중복 처리

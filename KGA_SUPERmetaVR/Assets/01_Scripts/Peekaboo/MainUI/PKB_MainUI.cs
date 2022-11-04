@@ -123,7 +123,7 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         {
             customCharacter[i].SetActive(false);
         }
-        customCharacter[GameManager.Instance.PlayerData.PlayerPeekabooData.SelectCharacter].SetActive(true);
+        customCharacter[GameManager.Instance.PlayerData.PeekabooData.SelectCharacter].SetActive(true);
     }
 
     public void RefreshUI()
