@@ -17,14 +17,23 @@ public class Slot : MonoBehaviour
     [SerializeField]
     private GameObject countImage;
 
+    [SerializeField]
+    private Button infoButton;
+    [SerializeField]
+    private GameObject itemInfoUI;
+
+
     private void Start()
     {
         Initialize();
+        infoButton.onClick.AddListener(() => { OpenInfo(); } );
+        itemInfoUI.SetActive(false);
     }
+
 
     public void Initialize()
     {
-        for (int childCount = 1; childCount < transform.childCount; childCount++)
+        for (int childCount = 3; childCount < transform.childCount; childCount++)
         {
             Destroy(transform.GetChild(childCount).gameObject);
         }
@@ -34,9 +43,9 @@ public class Slot : MonoBehaviour
         countImage.SetActive(false);
     }
 
-    public void SetItemCount(int _count)
+    public void SetItemCount(string _itemType, int _count)
     {
-        if(_count > 1)
+        if(_itemType != "EQUIPMENT")
         {
             countText.text = _count.ToString();
             countImage.SetActive(true);
@@ -47,10 +56,10 @@ public class Slot : MonoBehaviour
         }
     }
 
-    public void AddItem(Item _item, int _count)
+    public void AddItem(string _itemType, int _count)
     {
         
-        if (StaticData.GetItemSheet(_item.ItemID).Type != "EQUIPMENT")
+        if (_itemType != "EQUIPMENT")
         {
             countImage.SetActive(true);
             countText.text = _count.ToString();
@@ -78,5 +87,10 @@ public class Slot : MonoBehaviour
         itemPrefab = null;
         countText.text = "0";
         countImage.SetActive(false);
+    }
+    private void OpenInfo()
+    {
+        itemInfoUI.transform.SetAsLastSibling();
+        itemInfoUI.SetActive(true);
     }
 }

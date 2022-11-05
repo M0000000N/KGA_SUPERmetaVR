@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class XRManager : MonoBehaviour
+public class XRManager : OnlyOneSceneSingleton<XRManager>
 {
     [SerializeField]
     private GameObject menuUI;
@@ -34,4 +34,6 @@ public class XRManager : MonoBehaviour
         inventoryUI.SetActive(false);
         menuUI.SetActive(true);
     }
+
+
 }
