@@ -9,12 +9,16 @@ public static class UserTableInfo
 {
     public static readonly string table_name = "userdata";
 
+    public static readonly string id = "id";
+
     public static readonly string user_id = "user_id";
     public static readonly string user_pw = "user_pw";
 
     public static readonly string nickname = "nickname";
     public static readonly string coin = "coin";
     public static readonly string item = "item";
+    public static readonly string friend = "friend";
+    public static readonly string is_connect = "is_connect";
 
     public static readonly string create_at = "create_at"; // join_date와 동일
     public static readonly string update_at = "update_at"; // 최근 정보가 변경된 시점
@@ -39,7 +43,8 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
 
     private PlayerData playerData;
     private string playerItemList;
-    
+    private string friendList;
+
     // 테스트 코드
     private PeekabooDataBase peekabooLogin;
 
@@ -61,12 +66,18 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
         {
             DataBase.Instance.CreateUser(CreateID.text, CreatePW.text, CreateNickName.text);
 
-            // TestCode 저장
-            playerItemList = JsonUtility.ToJson(playerData.ItemSlotData);
-            UnityEngine.Debug.Log("ItemList : " + playerItemList);
-            DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.item, playerItemList, UserTableInfo.user_id, CreateID.text);
-            // TestCode
+            // --------------------------------------------------------------------------------------------- 테스트 코드
+            // 만들 때 PlayerData에 값이 없기 때문에 CreateID를 통해 데이터를 넣어주고 있다.
 
+            // [아이템]
+            playerItemList = JsonUtility.ToJson(playerData.ItemSlotData);
+            DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.item, playerItemList, UserTableInfo.user_id, CreateID.text);
+
+            // [친구]
+            friendList = JsonUtility.ToJson(playerData.Friends);
+            DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.friend, friendList, UserTableInfo.user_id, CreateID.text);
+
+            // --------------------------------------------------------------------------------------------- 테스트 코드
 
             GetDataBase(CreateNickName.text);
             
@@ -75,8 +86,6 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
             //CloverColonyDataBase.Instance.CreateCloverColonyData();
 
             JoinPage();
-
-
         }
     }
 
@@ -89,15 +98,22 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
 
             // 테스트 코드
             peekabooLogin.SaveCharacterList();
+
             // 테스트 코드
 
-           // PeekabooDataBase.Instance.LoadPeekabooData();
-            //FeeFawFumDataBase.Instance.LoadFeefawfumData();
-            //PaperSwanDataBase.Instance.LoadPaperswanData();
-            //CloverColonyDataBase.Instance.LoadCloverColonyData();
+            PeekabooDataBase.Instance.LoadPeekabooData();
+            FeeFawFumDataBase.Instance.LoadFeefawfumData();
+            PaperSwanDataBase.Instance.LoadPaperswanData();
+            CloverColonyDataBase.Instance.LoadCloverColonyData();
 
+            DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.is_connect, "1", UserTableInfo.user_id, playerData.ID);
             PhotonNetwork.LoadLevel("InventoryRDScene_RWJ");
         }
+    }
+
+    public void OnApplicationQuit()
+    {
+        DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.is_connect, "0", UserTableInfo.user_id, playerData.ID);
     }
 
     public void CreatePage()
@@ -132,6 +148,31 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
         }
     }
 
+    public void SaveFriend()
+    {
+        friendList = JsonUtility.ToJson(playerData.Friends);
+        UnityEngine.Debug.Log("friendList : " + friendList);
+        DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.friend, friendList, UserTableInfo.user_id, playerData.ID);
+    }
+
+    public void LoadFriend()
+    {
+        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*", UserTableInfo.user_id, playerData.ID);
+        if (dataTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                friendList = row[UserTableInfo.friend].ToString();
+                playerData.Friends = JsonUtility.FromJson<FriendData>(friendList);
+            }
+        }
+    }
+
+    public void UpdateConnect(int _isConnect)
+    {
+        DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.is_connect, _isConnect.ToString(), UserTableInfo.user_id, playerData.ID); ;
+    }
+
     // 테스트 코드
     public void GetDataBase(string _userID)
     {
@@ -140,12 +181,19 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
         {
             foreach (DataRow row in dataTable.Rows)
             {
+                // 아이디
                 playerData.ID = row[UserTableInfo.user_id].ToString();
+                // 닉네임
                 playerData.Nickname = row[UserTableInfo.nickname].ToString();
                 PhotonNetwork.NickName = playerData.Nickname;
+                // 코인 (사라짐)
                 playerData.Coin =  int.Parse(row[UserTableInfo.coin].ToString());
+                // 아이템
                 playerItemList = row[UserTableInfo.item].ToString();
                 playerData.ItemSlotData = JsonUtility.FromJson<ItemSlotData>(playerItemList);
+                // 친구
+                friendList = row[UserTableInfo.friend].ToString();
+                playerData.Friends = JsonUtility.FromJson<FriendData>(friendList);
             }
         }
     }
