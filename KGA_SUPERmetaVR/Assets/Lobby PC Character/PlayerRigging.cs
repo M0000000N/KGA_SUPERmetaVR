@@ -1,0 +1,57 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Photon.Pun;
+
+[System.Serializable]
+public class VRMap
+{
+    public Transform VRTarget { get { return vrTarget; } }
+
+    [SerializeField] private Transform vrTarget;
+    [SerializeField] private Transform rigTarget;
+    [SerializeField] private Vector3 trackingPositionOffset;
+    [SerializeField] private Vector3 trackingRotationOffset;
+
+    public void Map()
+    {
+        rigTarget.position = vrTarget.TransformPoint(trackingPositionOffset);
+        rigTarget.rotation = vrTarget.rotation * Quaternion.Euler(trackingRotationOffset);
+    }
+}
+
+public class PlayerRigging : MonoBehaviourPun
+{
+    public VRMap Head { get { return head; } }
+
+    [SerializeField] private VRMap head;
+    [SerializeField] private VRMap leftHand;
+    [SerializeField] private VRMap rightHand;
+    [SerializeField] private Transform headConstraint;
+    [SerializeField] private Vector3 headBodyOffset;
+
+    private void Start()
+    {
+        if (photonView.IsMine == false)
+        {
+            return;
+        }
+
+        headBodyOffset = transform.position - headConstraint.position;
+    }
+
+    private void FixedUpdate()
+    {
+        if (photonView.IsMine == false)
+        {
+            return;
+        }
+
+        transform.position = headConstraint.position + headBodyOffset;
+        transform.forward = Vector3.ProjectOnPlane(headConstraint.forward, Vector3.up).normalized;
+
+        head.Map();
+        leftHand.Map();
+        rightHand.Map();
+    }
+}
