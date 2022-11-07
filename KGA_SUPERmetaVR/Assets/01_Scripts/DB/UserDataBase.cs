@@ -96,7 +96,7 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
             PaperSwanDataBase.Instance.LoadPaperswanData();
             CloverColonyDataBase.Instance.LoadCloverColonyData();
 
-            PhotonNetwork.LoadLevel("InventoryRDScene_RWJ");
+            PhotonNetwork.LoadLevel("PKB_Main");
         }
     }
 

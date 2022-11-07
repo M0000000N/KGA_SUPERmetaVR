@@ -58,7 +58,7 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
         applySpeed = walkSpeed;
         navMeshAgent = GetComponent<NavMeshAgent>();
-        stamina = GameObject.Find("Stamina").GetComponent<Stamina>();
+       // stamina = GameObject.Find("Stamina").GetComponent<Stamina>();
 
         if (photonView.IsMine)
         {
