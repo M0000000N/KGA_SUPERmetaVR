@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -580,7 +580,7 @@ MonoBehaviour:
   fourLeafCloverPrefab: {fileID: 2471326774521291294}
   threeLeafCloverPrefab: {fileID: 9205386578497781996}
   fourLeafCloverMaxCount: 4
-  threeLeafCloverMaxCount: 160
+  threeLeafCloverMaxCount: 600
 --- !u!4 &433042831
 Transform:
   m_ObjectHideFlags: 0
@@ -2328,7 +2328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 419644, guid: 44493354c836447b3bc68d4018793e21, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 419644, guid: 44493354c836447b3bc68d4018793e21, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2407,7 +2407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LineWidth: 0.02
   m_OverrideInteractorLineLength: 1
-  m_LineLength: 10
+  m_LineLength: 0.2
   m_WidthCurve:
     serializedVersion: 2
     m_Curve:
@@ -3176,7 +3176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LineWidth: 0.02
   m_OverrideInteractorLineLength: 1
-  m_LineLength: 10
+  m_LineLength: 0.2
   m_WidthCurve:
     serializedVersion: 2
     m_Curve:
@@ -3287,13 +3287,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 927422817}
     m_Modifications:
-    - target: {fileID: 6069344022375752384, guid: 5f7cf4676e5e7bb4d9f8c6175732b48e, type: 3}
-      propertyPath: m_Constraints
-      value: 126
-      objectReference: {fileID: 0}
     - target: {fileID: 7215745757974614440, guid: 5f7cf4676e5e7bb4d9f8c6175732b48e, type: 3}
       propertyPath: m_Name
       value: ThreeLeafClover
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215745757974614440, guid: 5f7cf4676e5e7bb4d9f8c6175732b48e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7477100747226277597, guid: 5f7cf4676e5e7bb4d9f8c6175732b48e, type: 3}
       propertyPath: m_RootOrder
@@ -3305,11 +3305,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7477100747226277597, guid: 5f7cf4676e5e7bb4d9f8c6175732b48e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7477100747226277597, guid: 5f7cf4676e5e7bb4d9f8c6175732b48e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.994
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7477100747226277597, guid: 5f7cf4676e5e7bb4d9f8c6175732b48e, type: 3}
       propertyPath: m_LocalRotation.w
