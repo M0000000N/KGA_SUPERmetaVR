@@ -70,9 +70,9 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
 
             GetDataBase(CreateNickName.text);
             
-            FeeFawFumDataBase.Instance.CreateFeefawfumData();
-            PaperSwanDataBase.Instance.CreatePaperswanData();
-            CloverColonyDataBase.Instance.CreateCloverColonyData();
+            //FeeFawFumDataBase.Instance.CreateFeefawfumData();
+            //PaperSwanDataBase.Instance.CreatePaperswanData();
+            //CloverColonyDataBase.Instance.CreateCloverColonyData();
 
             JoinPage();
 
@@ -91,10 +91,10 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
             peekabooLogin.SaveCharacterList();
             // 테스트 코드
 
-            PeekabooDataBase.Instance.LoadPeekabooData();
-            FeeFawFumDataBase.Instance.LoadFeefawfumData();
-            PaperSwanDataBase.Instance.LoadPaperswanData();
-            CloverColonyDataBase.Instance.LoadCloverColonyData();
+           // PeekabooDataBase.Instance.LoadPeekabooData();
+            //FeeFawFumDataBase.Instance.LoadFeefawfumData();
+            //PaperSwanDataBase.Instance.LoadPaperswanData();
+            //CloverColonyDataBase.Instance.LoadCloverColonyData();
 
             PhotonNetwork.LoadLevel("InventoryRDScene_RWJ");
         }

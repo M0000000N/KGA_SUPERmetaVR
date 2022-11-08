@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class XRManager : MonoBehaviour
+public class XRManager : OnlyOneSceneSingleton<XRManager>
 {
     [SerializeField]
     private GameObject menuUI;
@@ -14,17 +14,24 @@ public class XRManager : MonoBehaviour
     private Button inventoryButton;
     [SerializeField]
     private Button returnMenuButton;
+    [SerializeField]
+    private GameObject itemInfoUI;
+    [SerializeField]
+    private Button itemInfoCloseButton;
+    
 
     private void Start()
     {
         inventoryButton.onClick.AddListener(() => { OpenInvetoryUI(); });
         returnMenuButton.onClick.AddListener(() => { CloseInventoryUI(); });
+        itemInfoCloseButton.onClick.AddListener(() => { CloseItemInfoUI(); });
         inventoryUI.SetActive(false);
+        itemInfoUI.SetActive(false);
+        
     }
 
     private void OpenInvetoryUI()
     {
-        UserDataBase.Instance.LoadItemData();
         menuUI.SetActive(false);
         inventoryUI.SetActive(true);
     }
@@ -35,4 +42,17 @@ public class XRManager : MonoBehaviour
         inventoryUI.SetActive(false);
         menuUI.SetActive(true);
     }
+
+    public void OpenItemInfo()
+    {
+        //XRManager.Instance.ItemInfoUI.transform.SetAsLastSibling();
+        itemInfoUI.SetActive(true);
+    }
+
+    private void CloseItemInfoUI()
+    {
+        itemInfoUI.SetActive(false);
+    }
+
+
 }
