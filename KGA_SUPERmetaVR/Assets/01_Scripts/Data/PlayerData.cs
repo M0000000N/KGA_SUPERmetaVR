@@ -6,6 +6,9 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
+    private string uid;
+    public string UID { get { return uid; } set { uid = value; } }
+
     private string id;
     public string ID { get { return id; } set { id = value; } }
 

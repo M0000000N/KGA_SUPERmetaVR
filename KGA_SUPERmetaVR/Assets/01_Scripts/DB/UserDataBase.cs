@@ -100,14 +100,13 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
             peekabooLogin.SaveCharacterList();
 
             // 테스트 코드
-
             PeekabooDataBase.Instance.LoadPeekabooData();
             FeeFawFumDataBase.Instance.LoadFeefawfumData();
             PaperSwanDataBase.Instance.LoadPaperswanData();
             CloverColonyDataBase.Instance.LoadCloverColonyData();
 
             DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.is_connect, "1", UserTableInfo.user_id, playerData.ID);
-            PhotonNetwork.LoadLevel("InventoryRDScene_RWJ");
+            PhotonNetwork.LoadLevel("PKB_Main");
         }
     }
 
@@ -181,6 +180,7 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
         {
             foreach (DataRow row in dataTable.Rows)
             {
+                playerData.UID = row[UserTableInfo.id].ToString();
                 // 아이디
                 playerData.ID = row[UserTableInfo.user_id].ToString();
                 // 닉네임

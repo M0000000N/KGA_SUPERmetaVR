@@ -32,13 +32,11 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         PlayerData.ItemSlotData = new ItemSlotData();
         playerData.ItemSlotData.ItemData = new ItemData[32];
-        Debug.Log($"아이템슬롯 길이{playerData.ItemSlotData.ItemData.Length}");
         for (int i = 0; i < 32; i++)
         {
             playerData.ItemSlotData.ItemData[i] = new ItemData();
             PlayerData.ItemSlotData.ItemData[i].ID = 0;
             PlayerData.ItemSlotData.ItemData[i].Count = 0;
-            Debug.Log($"아이템슬롯 길이{playerData.ItemSlotData.ItemData[i].ID}");
         }
 
         playerData.Friends = new FriendData();

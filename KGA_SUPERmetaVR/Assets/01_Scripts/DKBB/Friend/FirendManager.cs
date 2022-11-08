@@ -2,18 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
+using Photon.Pun;
+using UnityEngine.Events;
 
-public class FirendManager : MonoBehaviour
+public class FirendManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject friendListObject;
     [SerializeField] private Transform viewportTransform;
     [SerializeField] private GameObject friendContent;
 
-    PlayerData playerData;
+    private PlayerData playerData;
+    private string targetUID;
+    private string targetNickName;
+
+    private PhotonView photonView;
+
+    private void Update()
+    {
+        // 테스트 코드
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            SendRequest("33", "moon");
+        }
+    }
 
     private void Awake()
     {
         playerData = GameManager.Instance.PlayerData;
+        photonView = PhotonView.Get(this);
         Initialize();
     }
 
@@ -36,13 +52,13 @@ public class FirendManager : MonoBehaviour
         friendListObject.SetActive(false);
     }
 
-    public void AddFriend(int _id)
+    public void AddFriend(int _uid)
     {
-        int index = FindFriend(_id);
+        int index = FindFriend(_uid);
 
         if (index < 0)
         {
-            playerData.Friends.Friend.Add(_id);
+            playerData.Friends.Friend.Add(_uid);
         }
         else
         {
@@ -58,13 +74,14 @@ public class FirendManager : MonoBehaviour
         {
             playerData.Friends.Friend.RemoveAt(index);
         }
+        UpdateFriendData();
     }
 
     public int FindFriend(int _id)
     {
         for (int i = 0; i < playerData.Friends.Friend.Count; i++)
         {
-            if(playerData.Friends.Friend[i] == _id)
+            if (playerData.Friends.Friend[i] == _id)
             {
                 return i;
             }
@@ -103,7 +120,7 @@ public class FirendManager : MonoBehaviour
                         friendList.ID = int.Parse(row[UserTableInfo.id].ToString());
                         friendList.NickNameText.text = row[UserTableInfo.nickname].ToString();
 
-                        if(int.Parse(row[UserTableInfo.is_connect].ToString()) > 0)
+                        if (int.Parse(row[UserTableInfo.is_connect].ToString()) > 0)
                         {
                             friendList.ConnectImage.SetActive(true);
                         }
@@ -124,12 +141,66 @@ public class FirendManager : MonoBehaviour
         {
             foreach (DataRow row in _dataTable.Rows)
             {
-                    if (_userID == int.Parse(row[UserTableInfo.user_id].ToString()))
-                    {
-                        return true;
-                    }
+                if (_userID == int.Parse(row[UserTableInfo.user_id].ToString()))
+                {
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    // 친구 추가 요청
+    public void SendRequest(string _targetUID, string _targetNickname)
+    {
+        photonView.RPC("SendRequestMessage", RpcTarget.Others, _targetUID, playerData.UID, playerData.Nickname);
+        RequestPopupUI.Instance.SetPopup(102, _targetNickname);
+    }
+
+    [PunRPC]
+    public void SendRequestMessage(string _playerUID, string _targetUID, string _targetNickName)
+    {
+        UnityEngine.Debug.Log("메크로");
+
+        targetUID = _targetUID;
+        targetNickName = _targetNickName;
+
+        if (playerData.UID == _playerUID)
+        {
+            UnityEngine.Debug.Log("메크로");
+            RequestPopupUI.Instance.SetPopup(105, _targetNickName, Approve, Reject);
+        }
+    }
+
+    public void Approve()
+    {
+        photonView.RPC("ApproveMessage", RpcTarget.Others, targetUID, playerData.UID, playerData.Nickname);
+        AddFriend(int.Parse(targetUID));
+        // 친구등록
+    }
+
+    public void Reject()
+    {
+        photonView.RPC("RejectMessage", RpcTarget.Others, targetUID, playerData.Nickname);
+    }
+
+    [PunRPC]
+    public void ApproveMessage(string _uid, string _targetUID, string _nickname)
+    {
+        if (playerData.UID == _uid)
+        {
+            RequestPopupUI.Instance.SetPopup(103, _nickname);
+            AddFriend(int.Parse(_targetUID));
+            // 친구등록
+        }
+    }
+
+    [PunRPC]
+    public void RejectMessage(string _uid, string _nickname)
+    {
+        if (playerData.UID == _uid)
+        {
+            RequestPopupUI.Instance.SetPopup(104, _nickname);
+        }
     }
 }
