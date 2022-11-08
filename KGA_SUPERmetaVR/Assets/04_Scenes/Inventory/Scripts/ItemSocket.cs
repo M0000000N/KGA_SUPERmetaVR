@@ -16,7 +16,7 @@ public class ItemSocket : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "GrabItem")
+        if (other.gameObject.tag == "Item")
         {
             playerInventory.AcquireItem(other.GetComponent<Item>() , 50);
             Destroy(other.gameObject);

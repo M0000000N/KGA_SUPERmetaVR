@@ -24,6 +24,8 @@ public class ItemSelect : MonoBehaviour
 
     private bool isLeftRayCast;
     private bool isRightRayCast;
+
+    private bool isGrabItem;
     void Start()
     {
         leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
@@ -36,6 +38,7 @@ public class ItemSelect : MonoBehaviour
 
         isLeftRayCast = false;
         isRightRayCast = false;
+        isGrabItem = false;
     }
 
     void Update()
@@ -57,68 +60,87 @@ public class ItemSelect : MonoBehaviour
     {
         if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit))
         {
-            isLeftRayCast = true;
-            GrabHand(leftRayHit);
-        }
-        if (rightRayInteractor.TryGetCurrent3DRaycastHit(out rightRayHit))
-        {
-            isRightRayCast = true;
-            GrabHand(rightRayHit);
+            if (!isGrabItem)
+            {
+                GrabHand(leftRayHit);
+            }
+            else
+            {
+                GrabOutHnad(leftRayHit);
+            }
         }
     }
 
     public void HoverGet3DRayCastHit()
     {
-        if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit))
+        if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit) && isGrabItem == false)
         {
             HoverGrabHand(leftRayHit);
-        }
-        if (rightRayInteractor.TryGetCurrent3DRaycastHit(out rightRayHit))
-        {
-            HoverGrabHand(rightRayHit);
         }
     }
 
     public void HoverGrabHand(RaycastHit _raycastHit)
     {
         Debug.Log("호버잡았다");
-        
-        if (_raycastHit.transform.gameObject.tag == "GrabItem")
+
+        if (_raycastHit.transform.gameObject.tag == "DeleteItem")
         {
-            _raycastHit.transform.gameObject.tag = "Item";
+            
+            Debug.Log("세잎클로버입니다");
         }
+        else if (_raycastHit.transform.gameObject.tag == "LuckyItem")
+        {
+            Debug.Log("네잎클로버입니다");
+        }
+    }
+
+    IEnumerator DeleteItem(GameObject _item)
+    {
+        yield return new WaitForSeconds(2f);
+        Destroy(_item);
+        isGrabItem = true;
     }
 
     public void GrabHand(RaycastHit _raycastHit)
     {
         Debug.Log("잡았다");
-        if (_raycastHit.transform.gameObject.tag == "Item")
+        
+        if (_raycastHit.transform.gameObject.tag == "DeleteItem")
         {
-            if (isLeftRayCast)
-            {
-                leftLineRenderer.enabled = false;
-            }
-            if (isRightRayCast)
-            {
-                rightLineRenderer.enabled = false;
-            }
-            _raycastHit.transform.gameObject.tag = "GrabItem";
+            StartCoroutine(DeleteItem((_raycastHit.transform.gameObject)));
+            Debug.Log("세잎클로버입니다 꽝~~~~~~~~~~~~~~~~~~~~~~~~~");
+        }
+        else if (_raycastHit.transform.gameObject.tag == "LuckyItem")
+        {
+            isGrabItem = true;
+            Debug.Log("네잎클로버입니다 빨리 인벤토리에 넣으세요");
+            _raycastHit.transform.gameObject.tag = "Item";
         }
     }
 
-    public void GrabOutHnad()
+    public void GrabOutHnad(RaycastHit _raycastHit)
     {
-        Debug.Log("놓았다");
-        if (isLeftRayCast == false)
+        //Debug.Log("놓았다");
+        //StartCoroutine(ChangeTag(_raycastHit.transform.gameObject));
+        //    leftLineRenderer.enabled = true;
+        //isGrabItem = false;
+        if (_raycastHit.transform.gameObject.tag == "DeleteItem")
         {
-            leftLineRenderer.enabled = true;
-            isLeftRayCast = true;
+            Destroy(_raycastHit.transform.gameObject);
+            Debug.Log("세잎클로버가 삭제됩니다~");
         }
-        if (isRightRayCast == false)
+        else if (_raycastHit.transform.gameObject.tag == "Item")
         {
-            rightLineRenderer.enabled = true;
-            isRightRayCast = true;
+            Destroy(_raycastHit.transform.gameObject);
+            Debug.Log("네잎클로버가 삭제됩니다 ㅠㅠ");
         }
+        isGrabItem = false;
+    }
+
+    IEnumerator ChangeTag(GameObject _item)
+    {
+        yield return new WaitForSeconds(3f);
+        _item.tag = "Item";
     }
 
     public void GetUIRayCastHit()
