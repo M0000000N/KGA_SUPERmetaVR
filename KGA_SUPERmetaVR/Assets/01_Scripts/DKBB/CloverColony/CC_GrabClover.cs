@@ -33,8 +33,8 @@ public class CC_GrabClover : MonoBehaviour
         xRLefttHand = leftHand.GetComponentInChildren<XRHandController>();
         xRRightHand = rightHand.GetComponentInChildren<XRHandController>();
 
-        leftRayInteractor = leftHand.GetComponentInChildren<XRRayInteractor>();
-        rightRayInteractor = rightHand.GetComponentInChildren<XRRayInteractor>();
+        leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
+        rightRayInteractor = rightHand.GetComponent<XRRayInteractor>();
 
     }
 
@@ -98,6 +98,7 @@ public class CC_GrabClover : MonoBehaviour
     {
         Debug.Log("Destroy");
         yield return new WaitForSeconds(_time); // 몇초뒤에
+        _targetObject.SetActive(false);
         //FadeoutObject(_targetObject); // 없애버려
         targetObject = null;
 
