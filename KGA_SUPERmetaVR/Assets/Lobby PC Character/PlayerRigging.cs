@@ -13,6 +13,11 @@ public class VRMap
     [SerializeField] private Vector3 trackingPositionOffset;
     [SerializeField] private Vector3 trackingRotationOffset;
 
+    public void SetMyVRTarget(GameObject _gameObject)
+    {
+        vrTarget = _gameObject.transform;
+    }
+
     public void Map()
     {
         rigTarget.position = vrTarget.TransformPoint(trackingPositionOffset);
@@ -29,6 +34,20 @@ public class PlayerRigging : MonoBehaviourPun
     [SerializeField] private VRMap rightHand;
     [SerializeField] private Transform headConstraint;
     [SerializeField] private Vector3 headBodyOffset;
+
+    private GameObject myXROrigin;
+
+    private void Awake()
+    {
+        if (photonView.IsMine)
+        {
+            myXROrigin = GameObject.Find("XR Origin");
+
+            head.SetMyVRTarget(myXROrigin.transform.GetChild(0).Find("Main Camera").gameObject);
+            leftHand.SetMyVRTarget(myXROrigin.transform.GetChild(0).Find("Left Ray Interactor").gameObject);
+            rightHand.SetMyVRTarget(myXROrigin.transform.GetChild(0).Find("Right Ray Interactor").gameObject);
+        }
+    }
 
     private void Start()
     {

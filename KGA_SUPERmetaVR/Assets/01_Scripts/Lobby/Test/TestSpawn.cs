@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class testSpawn : MonoBehaviourPun
+public class TestSpawn : MonoBehaviourPun
 {
     private void Awake()
     {
         Vector3 position = new Vector3(0f, 0f, 0f);
-        PhotonNetwork.Instantiate("TestPlayer", position, Quaternion.identity);
+        GameObject spawnObject = PhotonNetwork.Instantiate("Áö¿ÁÀÇ ¸Ô¹°À¯·É", position, Quaternion.identity);
     }
 }
