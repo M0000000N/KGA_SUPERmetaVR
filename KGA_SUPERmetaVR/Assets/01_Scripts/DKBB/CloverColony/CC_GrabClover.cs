@@ -44,7 +44,6 @@ public class CC_GrabClover : MonoBehaviour
         GetTriggerValue("FourLeafClover", 0f);
     }
 
-
     public void GetTriggerValue(string _tag, float _time)
     {
         xRLefttHand.InputDevice.TryGetFeatureValue(UnityEngine.XR.CommonUsages.gripButton, out bool leftGrab);

@@ -9,159 +9,145 @@ using UnityEngine.Animations.Rigging;
 public class ItemSelect : MonoBehaviour
 {
     [SerializeField] GameObject leftHand;
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material fadeMaterial;
+    
     private XRRayInteractor leftRayInteractor;
-    private XRController leftXRController;
-    private LineRenderer leftLineRenderer;
-    private RaycastResult leftRayResult;
-    private RaycastHit leftRayHit;
 
-    [SerializeField] GameObject rightHand;
-    private XRRayInteractor rightRayInteractor;
-    private XRController rightXRController;
-    private LineRenderer rightLineRenderer;
-    private RaycastResult rightRayResult;
-    private RaycastHit rightRayHit;
-
-    private bool isLeftRayCast;
-    private bool isRightRayCast;
+    private GameObject targetObject;
+    
+    private float fadeoutTime = 2f;
 
     private bool isGrabItem;
+    private bool isStartdestroy;
+    private bool isStartFadedout;
+    private bool isStartRespawn;
+
     void Start()
     {
         leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
-        leftXRController = leftHand.GetComponent<XRController>();
-        leftLineRenderer = leftHand.GetComponent<LineRenderer>();
 
-        rightRayInteractor = rightHand.GetComponent<XRRayInteractor>();
-        rightXRController = rightHand.GetComponent<XRController>();
-        rightLineRenderer = rightHand.GetComponent<LineRenderer>();
-
-        isLeftRayCast = false;
-        isRightRayCast = false;
         isGrabItem = false;
+        isStartdestroy = false;
+        isStartFadedout = false;
+        isStartRespawn = false;
     }
 
-    void Update()
+    private void Update()
     {
-
-       // Get3DRayCastHit();
-
-    }
-
-    private void SetRay(float _maxRaycastDistance, bool _useWorldSpace)
-    {
-        leftRayInteractor.maxRaycastDistance = _maxRaycastDistance;
-        rightRayInteractor.maxRaycastDistance = _maxRaycastDistance;
-        leftLineRenderer.useWorldSpace = _useWorldSpace;
-        rightLineRenderer.useWorldSpace = _useWorldSpace;
-    }
-
-    public void Get3DRayCastHit()
-    {
-        if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit))
+        if (isStartdestroy)
         {
-            if (!isGrabItem)
+            StartCoroutine("DestroyObject"); // 2초뒤에 폭발
+        }
+        if (isStartFadedout)
+        {
+            StartCoroutine("FadeoutObject");
+        }
+        if (isStartRespawn)
+        {
+            StartCoroutine("RespawnObject");
+        }
+    }
+
+    /// <summary>
+    /// 쥐고있지 않을 때 타겟오브젝트 실시간 설정
+    /// </summary>
+    public void HoverGet3DRayCastHit()
+    {
+        if (leftRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit _leftRayHit) && isGrabItem == false)
+        {
+            string targetTag = _leftRayHit.transform.gameObject.tag;
+
+            if (targetTag == "ThreeLeafClover" || targetTag == "FourLeafClover")
             {
-                GrabHand(leftRayHit);
+                targetObject = _leftRayHit.transform.gameObject;
             }
             else
             {
-                GrabOutHnad(leftRayHit);
+                targetObject = null;
             }
         }
     }
 
-    public void HoverGet3DRayCastHit()
+    /// <summary>
+    /// 쥐었을 때 태그별 함수 실행
+    /// </summary>
+    public void GrabHand()
     {
-        if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit) && isGrabItem == false)
-        {
-            HoverGrabHand(leftRayHit);
-        }
-    }
-
-    public void HoverGrabHand(RaycastHit _raycastHit)
-    {
-        Debug.Log("호버잡았다");
-
-        if (_raycastHit.transform.gameObject.tag == "DeleteItem")
-        {
-            
-            Debug.Log("세잎클로버입니다");
-        }
-        else if (_raycastHit.transform.gameObject.tag == "LuckyItem")
-        {
-            Debug.Log("네잎클로버입니다");
-        }
-    }
-
-    IEnumerator DeleteItem(GameObject _item)
-    {
-        yield return new WaitForSeconds(2f);
-        Destroy(_item);
         isGrabItem = true;
+        string targetTag = "";
+        if (targetObject != null)
+        {
+            targetTag = targetObject.tag;
+        }
+        if (targetTag == "ThreeLeafClover") // 세잎클로버면
+        {
+            if (isStartdestroy == false)
+            {
+                isStartdestroy = true;
+            }
+        }
+        if (targetTag == "FourLeafClover") // 네잎클로버면
+        {
+            //  TODO : 멋진 파티클효과
+        }
     }
 
-    public void GrabHand(RaycastHit _raycastHit)
+    /// <summary>
+    /// 떼었을 때 페이드아웃 실행
+    /// </summary>
+    public void GrabOutHand()
     {
-        Debug.Log("잡았다");
-        
-        if (_raycastHit.transform.gameObject.tag == "DeleteItem")
+        if (isStartFadedout == false)
         {
-            StartCoroutine(DeleteItem((_raycastHit.transform.gameObject)));
-            Debug.Log("세잎클로버입니다 꽝~~~~~~~~~~~~~~~~~~~~~~~~~");
-        }
-        else if (_raycastHit.transform.gameObject.tag == "LuckyItem")
-        {
-            isGrabItem = true;
-            Debug.Log("네잎클로버입니다 빨리 인벤토리에 넣으세요");
-            _raycastHit.transform.gameObject.tag = "Item";
+            isStartFadedout = true;
         }
     }
 
-    public void GrabOutHnad(RaycastHit _raycastHit)
+    private IEnumerator DestroyObject()
     {
-        //Debug.Log("놓았다");
-        //StartCoroutine(ChangeTag(_raycastHit.transform.gameObject));
-        //    leftLineRenderer.enabled = true;
-        //isGrabItem = false;
-        if (_raycastHit.transform.gameObject.tag == "DeleteItem")
+        isStartdestroy = false;
+        yield return new WaitForSeconds(2f);
+        isStartFadedout = true;
+    }
+
+    private IEnumerator FadeoutObject()
+    {
+        isStartFadedout = false;
+
+        MeshRenderer myRenderer = targetObject.GetComponentInChildren<MeshRenderer>();
+        myRenderer.material = fadeMaterial;
+        Color myColor = myRenderer.material.color;
+        float decreaseValue = 1 / fadeoutTime;
+
+        while (0 < myRenderer.material.color.a)
         {
-            Destroy(_raycastHit.transform.gameObject);
-            Debug.Log("세잎클로버가 삭제됩니다~");
+            myColor.a -= decreaseValue * Time.deltaTime;
+            myRenderer.material.color = myColor;
+            yield return null;
         }
-        else if (_raycastHit.transform.gameObject.tag == "Item")
+        targetObject.SetActive(false);
+        myRenderer.material = defaultMaterial;
+        // photonView.RPC("PlayerDie", RpcTarget.All);
+
+        if (isStartRespawn == false)
         {
-            Destroy(_raycastHit.transform.gameObject);
-            Debug.Log("네잎클로버가 삭제됩니다 ㅠㅠ");
+            isStartRespawn = true;
         }
         isGrabItem = false;
+    }
+
+    IEnumerator RespawnObject()
+    {
+        isStartRespawn = false;
+        yield return new WaitForSeconds(1f);
+        CloverSpawnManager.Instance.ReSpawnClover(targetObject.transform, targetObject.GetComponent<CloverInfo>().Area);
+        targetObject.SetActive(true);
     }
 
     IEnumerator ChangeTag(GameObject _item)
     {
         yield return new WaitForSeconds(3f);
         _item.tag = "Item";
-    }
-
-    public void GetUIRayCastHit()
-    {
-        if (rightRayInteractor.TryGetCurrentUIRaycastResult(out rightRayResult))
-        {
-            Button rightButton = rightRayResult.gameObject.GetComponent<Button>();
-            if (rightButton.interactable == true)
-            {
-                rightButton.onClick.Invoke();
-                rightButton.interactable = false;
-            }
-        }
-        if (leftRayInteractor.TryGetCurrentUIRaycastResult(out leftRayResult))
-        {
-            Button leftButton = leftRayResult.gameObject.GetComponent<Button>();
-            if (leftButton.interactable == true)
-            {
-                leftButton.onClick.Invoke();
-                leftButton.interactable = false;
-            }
-        }
     }
 }
