@@ -1,4 +1,3 @@
-using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine;
 public class PeekabooCharacterIdleState : PeekabooCharacterState
 {
     // -----------------------------------
-    #region DB Ãß°¡ ¿äÃ»ÇÒ ºÎºÐ
+    #region DB ï¿½ß°ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Îºï¿½
     private float minTimeToNextBehaviour;
     private float maxTimeToNextBehaviour;
     #endregion
@@ -19,7 +18,7 @@ public class PeekabooCharacterIdleState : PeekabooCharacterState
     protected override void Initialize()
     {
         // -----------------------------------
-        #region DB ¼öÁ¤ ÈÄ ¼öÁ¤ ÇÒ ÄÚµå ±¸¹®
+        #region DB ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
         minTimeToNextBehaviour = 0f;
         maxTimeToNextBehaviour = 13f;
         #endregion
@@ -28,6 +27,7 @@ public class PeekabooCharacterIdleState : PeekabooCharacterState
 
     public override void OnEnter()
     {
+        Debug.Log("Idle ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
         myFSM.MyAnimator.SetInteger("State", (int)PEEKABOOCHARACTERSTATE.IDLE);
         myFSM.MyCharacter.SetMyInteractingState(false);
         waitTimeToNextBehaviour = Random.Range(minTimeToNextBehaviour, maxTimeToNextBehaviour);
