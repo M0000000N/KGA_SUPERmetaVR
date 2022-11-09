@@ -36,5 +36,11 @@ public class Punch : MonoBehaviour
             newVector3 = new Vector3(-1f, 0f, 0f) * attackPower;
             pumpkin.AddForce(newVector3);
         }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            newVector3 = new Vector3(0f, 0f, 0f);
+            pumpkin.velocity = newVector3;
+        }
     }
 }
