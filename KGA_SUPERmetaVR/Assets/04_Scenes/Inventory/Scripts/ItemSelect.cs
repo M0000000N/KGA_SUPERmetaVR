@@ -21,7 +21,6 @@ public class ItemSelect : MonoBehaviour
     private bool isGrabItem;
     private bool isStartdestroy;
     private bool isStartFadedout;
-    private bool isStartRespawn;
 
     void Start()
     {
@@ -30,22 +29,17 @@ public class ItemSelect : MonoBehaviour
         isGrabItem = false;
         isStartdestroy = false;
         isStartFadedout = false;
-        isStartRespawn = false;
     }
 
     private void Update()
     {
         if (isStartdestroy)
         {
-            StartCoroutine("DestroyObject"); // 2초뒤에 폭발
+            StartCoroutine("DestroyObject");
         }
         if (isStartFadedout)
         {
-            StartCoroutine("FadeoutObject");
-        }
-        if (isStartRespawn)
-        {
-            StartCoroutine("RespawnObject");
+            StartCoroutine("FadeoutRespawnClover", targetObject);
         }
     }
 
@@ -91,6 +85,7 @@ public class ItemSelect : MonoBehaviour
         {
             //  TODO : 멋진 파티클효과
         }
+        // GetComponent<XRRayInteractor>().enabled = false;
     }
 
     /// <summary>
@@ -98,51 +93,61 @@ public class ItemSelect : MonoBehaviour
     /// </summary>
     public void GrabOutHand()
     {
+        isGrabItem = false;
         if (isStartFadedout == false)
         {
+            // 이걸 하는 이유는 같은 클로버에서 페이드아웃 코루틴을 두번 실행하는 걸 방지하기 위함이다
+                    // 근데 각기 다른 클로버는 페이드아웃 코루틴을 동시에 진행할 수 있음
+                // 그럼 페이드아웃은 각각의 클로버가 실행하는게 맞는듯
+                // 그럼 같은 클로버의 페이드아웃 코루틴을 두번 실항할 일이 없다
+            StopCoroutine("DestroyObject"); // 이거떄문에 이전에 잡고있던 클로버를 2초지나기 전에 떼면 페이드아웃이 안됨
+
             isStartFadedout = true;
         }
+        // GetComponent<XRRayInteractor>().enabled = true;
     }
 
     private IEnumerator DestroyObject()
     {
         isStartdestroy = false;
         yield return new WaitForSeconds(2f);
-        isStartFadedout = true;
+        if (isStartFadedout == false)
+        {
+            isStartFadedout = true;
+        }
+        Debug.Log(targetObject.name + "없애라");
     }
 
-    private IEnumerator FadeoutObject()
+    private IEnumerator FadeoutRespawnClover(GameObject _targetClover)
     {
+        string tag = _targetClover.tag;
+        _targetClover.GetComponent<XRGrabInteractable>().enabled = false;
+        _targetClover.tag = "Untagged";
+        Debug.Log(_targetClover.name + "없앤다");
         isStartFadedout = false;
 
-        MeshRenderer myRenderer = targetObject.GetComponentInChildren<MeshRenderer>();
+        MeshRenderer myRenderer = _targetClover.GetComponentInChildren<MeshRenderer>();
         myRenderer.material = fadeMaterial;
         Color myColor = myRenderer.material.color;
-        float decreaseValue = 1 / fadeoutTime;
+        // float decreaseValue = 1 / fadeoutTime;
 
         while (0 < myRenderer.material.color.a)
         {
-            myColor.a -= decreaseValue * Time.deltaTime;
+            myColor.a -= 0.1f / fadeoutTime;
             myRenderer.material.color = myColor;
-            yield return null;
+            yield return new WaitForSeconds(0.1f);
         }
-        targetObject.SetActive(false);
+        Debug.Log(_targetClover.name + "없어졌다");
+
+        _targetClover.SetActive(false);
         myRenderer.material = defaultMaterial;
-        // photonView.RPC("PlayerDie", RpcTarget.All);
 
-        if (isStartRespawn == false)
-        {
-            isStartRespawn = true;
-        }
-        isGrabItem = false;
-    }
+        yield return new WaitForSeconds(0.1f);
+        CloverSpawnManager.Instance.ReSpawnClover(_targetClover.transform, _targetClover.GetComponent<CloverInfo>().Area);
+        Debug.Log(_targetClover.name + "리스폰한다");
+        _targetClover.tag = tag;
+        _targetClover.GetComponent<XRGrabInteractable>().enabled = true;
 
-    IEnumerator RespawnObject()
-    {
-        isStartRespawn = false;
-        yield return new WaitForSeconds(1f);
-        CloverSpawnManager.Instance.ReSpawnClover(targetObject.transform, targetObject.GetComponent<CloverInfo>().Area);
-        targetObject.SetActive(true);
     }
 
     IEnumerator ChangeTag(GameObject _item)
