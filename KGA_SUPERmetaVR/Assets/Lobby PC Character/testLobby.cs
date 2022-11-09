@@ -17,6 +17,6 @@ public class testLobby : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("LobbySynchronization");
+        PhotonNetwork.LoadLevel("Lobby");
     }
 }
