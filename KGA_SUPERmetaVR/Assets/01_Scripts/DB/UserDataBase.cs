@@ -16,6 +16,8 @@ public static class UserTableInfo
     public static readonly string coin = "coin";
     public static readonly string item = "item";
 
+    public static readonly string clear_tutorial = "clear_tutorial";
+
     public static readonly string create_at = "create_at"; // join_date와 동일
     public static readonly string update_at = "update_at"; // 최근 정보가 변경된 시점
     public static readonly string is_delete = "is_delete";
@@ -61,22 +63,19 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
         {
             DataBase.Instance.CreateUser(CreateID.text, CreatePW.text, CreateNickName.text);
 
+            // DB 생성
+            FeeFawFumDataBase.Instance.CreateFeefawfumData();
+            PaperSwanDataBase.Instance.CreatePaperswanData();
+            CloverColonyDataBase.Instance.CreateCloverColonyData();
+            PeekabooDataBase.Instance.CreatePeekabooData();
+
             // TestCode 저장
             playerItemList = JsonUtility.ToJson(playerData.ItemSlotData);
-            UnityEngine.Debug.Log("ItemList : " + playerItemList);
             DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.item, playerItemList, UserTableInfo.user_id, CreateID.text);
             // TestCode
 
-
             GetDataBase(CreateNickName.text);
-            
-            //FeeFawFumDataBase.Instance.CreateFeefawfumData();
-            //PaperSwanDataBase.Instance.CreatePaperswanData();
-            //CloverColonyDataBase.Instance.CreateCloverColonyData();
-
             JoinPage();
-
-
         }
     }
 
@@ -115,7 +114,6 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
     public void SaveItemData() // Local -> DB
     {
         playerItemList = JsonUtility.ToJson(playerData.ItemSlotData);
-        UnityEngine.Debug.Log("ItemList : " + playerItemList);
         DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.item, playerItemList, UserTableInfo.user_id, playerData.ID);
     }
 

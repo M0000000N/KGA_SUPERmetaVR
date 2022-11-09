@@ -46,10 +46,9 @@ public class PaperSwanDataBase : SingletonBehaviour<PaperSwanDataBase>
                 CheckTodayData(row);
 
                 // 데이터 들어감
-
-                //playerData.PlayerFeefawfumData.CoolTime = row[FeefawfumTableInfo.cooltime].ToString();
-                //playerData.PlayerFeefawfumData.TodayCount = int.Parse(row[FeefawfumTableInfo.today_count].ToString());
-                //playerData.PlayerFeefawfumData.TotalCount = int.Parse(row[FeefawfumTableInfo.total_count].ToString());
+                playerData.PaperSwanData.CoolTime = row[PaperSwanTableInfo.cooltime].ToString();
+                playerData.PaperSwanData.TodayCount = int.Parse(row[PaperSwanTableInfo.today_count].ToString());
+                playerData.PaperSwanData.TotalCount = int.Parse(row[PaperSwanTableInfo.total_count].ToString());
             }
         }
         else if (dataTable.Rows.Count <= 0)

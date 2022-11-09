@@ -15,6 +15,9 @@ public class PlayerData
     private int coin;
     public int Coin { get { return coin; } set { coin = value; } }
 
+    private int clearTutorial;
+    public int ClearTutorial { get { return clearTutorial; } set { clearTutorial = value; } }
+
     private ItemSlotData itemSlotData;
     public ItemSlotData ItemSlotData { get { return itemSlotData; } set { itemSlotData = value; } }
 
@@ -69,7 +72,6 @@ public class FeeFawFumData
 {
     public string CoolTime;
     public int TodayCount;
-
     public int TotalCount;
 }
 
@@ -78,7 +80,6 @@ public class PaperSwanData
 {
     public string CoolTime;
     public int TodayCount;
-
     public int TotalCount;
 }
 
@@ -87,6 +88,5 @@ public class CloverColonyData
 {
     public string CoolTime;
     public int TodayCount;
-
     public int TotalCount;
 }
