@@ -65,7 +65,7 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
 
             // DB »ý¼º
             FeeFawFumDataBase.Instance.CreateFeefawfumData();
-            PaperSwanDataBase.Instance.CreatePaperswanData();
+            FlyDragonDataBase.Instance.CreateFlyDragonData();
             CloverColonyDataBase.Instance.CreateCloverColonyData();
             PeekabooDataBase.Instance.CreatePeekabooData();
 
