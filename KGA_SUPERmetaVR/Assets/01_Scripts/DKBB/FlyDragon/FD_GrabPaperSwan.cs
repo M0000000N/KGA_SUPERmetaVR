@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class PS_GrabPaperSwan : MonoBehaviour
+public class FD_GrabPaperSwan : MonoBehaviour
 {
     [Header("Hand")]
     [SerializeField] GameObject leftHand;
@@ -45,9 +45,9 @@ public class PS_GrabPaperSwan : MonoBehaviour
             {
                 if (targetObject.tag == _tag && isCoroutine == false)
                 {
-                    if(PaperSwanDataBase.Instance.CheckCooltime(3))
+                    if(FlyDragonDataBase.Instance.CheckCooltime(3))
                     {
-                        PaperSwanDataBase.Instance.UpdatePlayData();
+                        FlyDragonDataBase.Instance.UpdatePlayData();
                         isCoroutine = true;
                         StartCoroutine("DestroyObject", _time);
                     }
@@ -95,7 +95,7 @@ public class PS_GrabPaperSwan : MonoBehaviour
         while(true)
         {
             yield return new WaitForSecondsRealtime(600f);
-            if(PaperSwanDataBase.Instance.CheckCooltime(2))
+            if(FlyDragonDataBase.Instance.CheckCooltime(2))
             {
                 UnityEngine.Debug.Log("메시지 출력");
                 break;
