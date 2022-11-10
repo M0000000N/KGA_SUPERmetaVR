@@ -1480,34 +1480,10 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2675898376678142646}
-        m_TargetAssemblyTypeName: ItemSelect, Assembly-CSharp
-        m_MethodName: GrabHand
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2675898376678142646}
-        m_TargetAssemblyTypeName: ItemSelect, Assembly-CSharp
-        m_MethodName: GrabOutHand
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_OnHoverEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -2397,6 +2373,7 @@ GameObject:
   - component: {fileID: 3444113867972910263}
   - component: {fileID: 2675898376678142646}
   - component: {fileID: 8206381396950437934}
+  - component: {fileID: 1810838016}
   m_Layer: 0
   m_Name: Player(NM)
   m_TagString: Player
@@ -2538,8 +2515,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftHand: {fileID: 6462282890406875768}
-  defaultMaterial: {fileID: 2100000, guid: 0e3c9b6c1f88340deb9be14921b07bcf, type: 2}
-  fadeMaterial: {fileID: 2100000, guid: 0958287541fce724095c9f867285ee14, type: 2}
+  isGrap:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Is Grap
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 9dc46680-8cb0-4204-a423-03b01aa2e972
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: One Modifier
+        m_Id: eeaa6c42-405f-44df-bc82-6bafcd4b5bbc
+        m_Path: OneModifier
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Is Grap
+        m_Flags: 4
+      - m_Name: modifier
+        m_Id: 9586cd48-d075-4418-9255-8a1973e17e69
+        m_Path: 
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Is Grap
+        m_Flags: 8
+      - m_Name: binding
+        m_Id: 1cbea1ea-6faa-4af0-92dd-ead827006142
+        m_Path: 
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Is Grap
+        m_Flags: 8
+      m_Flags: 0
+    m_Reference: {fileID: -6765604669446463330, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!114 &8206381396950437934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2554,6 +2565,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_System: {fileID: 3444113867972910263}
   m_DelayTime: 0
+--- !u!114 &1810838016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6462282891063754409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017c5e3933235514c9520e1dace2a4b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ActionAssets:
+  - {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1001 &2273786831178668525
 PrefabInstance:
   m_ObjectHideFlags: 0
