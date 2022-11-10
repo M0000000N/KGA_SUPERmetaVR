@@ -44,7 +44,7 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
 
     public void Initialize()
     {
-        fourLeafCloverSpawnCount = Random.Range(0, fourLeafCloverList.Count);
+        fourLeafCloverSpawnCount = Random.Range(1, fourLeafCloverList.Count +1);
 
         for (int i = 0; i < fourLeafCloverSpawnCount; i++)
         {
