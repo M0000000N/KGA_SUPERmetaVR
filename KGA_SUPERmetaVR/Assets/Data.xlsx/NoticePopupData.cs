@@ -21,6 +21,10 @@ public class NoticePopupData
   public string Description { get {return description; } set { this.description = value;} }
   
   [SerializeField]
+  int type;
+  public int Type { get {return type; } set { this.type = value;} }
+  
+  [SerializeField]
   string buttontext;
   public string Buttontext { get {return buttontext; } set { this.buttontext = value;} }
   

@@ -54,7 +54,7 @@ public class CloverColonyDataBase : SingletonBehaviour<CloverColonyDataBase>
         }
         else if (dataTable.Rows.Count <= 0)
         {
-            UnityEngine.Debug.Log("<color=red>Paperswan 데이터가 없습니다</color>");
+            UnityEngine.Debug.Log("<color=red>CloverColony 데이터가 없습니다</color>");
         }
     }
 
@@ -123,8 +123,7 @@ public class CloverColonyDataBase : SingletonBehaviour<CloverColonyDataBase>
         }
         else
         {
-            UnityEngine.Debug.Log($"<color=red>아직 하루가 지나지 않았습니다.</color> \n" +
-                $"{nowtime} - {updateTime} = {(nowtime - updateTime).Days}");
+
         }
     }
 }

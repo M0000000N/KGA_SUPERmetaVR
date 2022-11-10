@@ -6,6 +6,9 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
+    private string uid;
+    public string UID { get { return uid; } set { uid = value; } }
+
     private string id;
     public string ID { get { return id; } set { id = value; } }
 
@@ -17,6 +20,9 @@ public class PlayerData
 
     private ItemSlotData itemSlotData;
     public ItemSlotData ItemSlotData { get { return itemSlotData; } set { itemSlotData = value; } }
+
+    private FriendData friends;
+    public FriendData Friends { get { return friends; } set { friends = value; } }
 
     private PeekabooData peekabooData;
     public PeekabooData PeekabooData { get { return peekabooData; } set { peekabooData = value; } }
@@ -42,6 +48,12 @@ public class ItemData
 {
     public int ID;
     public int Count;
+}
+
+[System.Serializable]
+public class FriendData
+{
+    public List<int> Friend;
 }
 
 [System.Serializable]

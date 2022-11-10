@@ -16,22 +16,26 @@ MonoBehaviour:
   scriptFilePath: Data.xlsx
   editorScriptFilePath: QuickSheet/Editor
   sheetName: Data.xlsx
-  workSheetName: PeekabooCustomizing
+  workSheetName: NoticePopup
   columnHeaderList:
   - type: 3
-    name: ID
+    name: id
+    isEnable: 0
+    isArray: 0
+  - type: 1
+    name: title
+    isEnable: 0
+    isArray: 0
+  - type: 1
+    name: description
     isEnable: 0
     isArray: 0
   - type: 3
-    name: GhostID
+    name: type
     isEnable: 0
     isArray: 0
   - type: 1
-    name: GhostName
-    isEnable: 0
-    isArray: 0
-  - type: 1
-    name: GhostImage
+    name: buttontext
     isEnable: 0
     isArray: 0
   excelFilePath: Assets/Sheet/Data.xlsx
@@ -40,4 +44,4 @@ MonoBehaviour:
   - PeekabooCustomizing
   - SpeechBubbleSheet
   - ItemSheet
-  currentSelectedSheet: 1
+  currentSelectedSheet: 0

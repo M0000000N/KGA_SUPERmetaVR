@@ -17,9 +17,35 @@ public class Slot : MonoBehaviour
     [SerializeField]
     private GameObject countImage;
 
-    public void SetItemCount(int _count)
+    [SerializeField]
+    private Button infoButton;
+    [SerializeField]
+    private GameObject itemInfoUI;
+
+
+    private void Start()
     {
-        if(_count > 1)
+        Initialize();
+        infoButton.onClick.AddListener(() => { OpenInfo(); } );
+        itemInfoUI.SetActive(false);
+    }
+
+
+    public void Initialize()
+    {
+        for (int childCount = 3; childCount < transform.childCount; childCount++)
+        {
+            Destroy(transform.GetChild(childCount).gameObject);
+        }
+
+        itemPrefab = null;
+        countText.text = "";
+        countImage.SetActive(false);
+    }
+
+    public void SetItemCount(string _itemType, int _count)
+    {
+        if(_itemType != "EQUIPMENT")
         {
             countText.text = _count.ToString();
             countImage.SetActive(true);
@@ -30,40 +56,41 @@ public class Slot : MonoBehaviour
         }
     }
 
-    //public void AddItem(Item _item, int _count)
-    //{
-    //    if (StaticData.GetItemSheet(_item.ItemID).Type != "EQUIPMENT")
-    //    {
-    //        countImage.SetActive(true);
-    //        countText.text = itemCount.ToString();
-    //    }
-    //    else
-    //    {
-    //        countText.text = "0";
-    //        countImage.SetActive(false);
-    //    }
-    //    SetColor(1);
-    //}
+    public void AddItem(string _itemType, int _count)
+    {
+        
+        if (_itemType != "EQUIPMENT")
+        {
+            countImage.SetActive(true);
+            countText.text = _count.ToString();
+        }
+        else
+        {
+            countText.text = _count.ToString();
+            countImage.SetActive(false);
+        }
+        
+    }
 
-    //public void SetSlotCount(int _count)
-    //{
-    //    itemCount += _count;
-    //    countText.text = itemCount.ToString();
+    public void SetSlotCount(int _count)
+    {
+        countText.text = _count.ToString();
 
-    //    if (itemCount <= 0)
-    //    {
-    //        ClearSlot();
-    //    }
-    //}
+        if (_count <= 0)
+        {
+            ClearSlot();
+        }
+    }
 
-    //private void ClearSlot()
-    //{
-    //    item = null;
-    //    itemCount = 0;
-    //    itemImage.sprite = null;
-    //    SetColor(0);
-
-    //    countText.text = "0";
-    //    countImage.SetActive(false);
-    //}
+    private void ClearSlot()
+    {
+        itemPrefab = null;
+        countText.text = "0";
+        countImage.SetActive(false);
+    }
+    private void OpenInfo()
+    {
+        itemInfoUI.transform.SetAsLastSibling();
+        itemInfoUI.SetActive(true);
+    }
 }

@@ -18,7 +18,7 @@ public class ItemSocket : MonoBehaviour
     {
         if (other.gameObject.tag == "Item")
         {
-            playerInventory.AcquireItem(other.GetComponent<Item>() , 1);
+            playerInventory.AcquireItem(other.GetComponent<Item>() , 50);
             Destroy(other.gameObject);
         }
     }
