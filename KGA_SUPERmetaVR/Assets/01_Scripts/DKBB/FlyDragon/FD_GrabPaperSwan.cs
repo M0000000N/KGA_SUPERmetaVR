@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class PS_GrabPaperSwan : MonoBehaviour
+public class FD_GrabPaperSwan : MonoBehaviour
 {
     [Header("Hand")]
     [SerializeField] GameObject leftHand;
