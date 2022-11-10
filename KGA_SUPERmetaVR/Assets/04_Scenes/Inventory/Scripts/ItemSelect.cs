@@ -105,7 +105,7 @@ public class ItemSelect : MonoBehaviour
     {
         Debug.Log("잡았다");
         
-        if (_raycastHit.transform.gameObject.tag == "DeleteItem")
+        if (_raycastHit.transform.gameObject.tag == "Item")
         {
             StartCoroutine(DeleteItem((_raycastHit.transform.gameObject)));
             Debug.Log("세잎클로버입니다 꽝~~~~~~~~~~~~~~~~~~~~~~~~~");

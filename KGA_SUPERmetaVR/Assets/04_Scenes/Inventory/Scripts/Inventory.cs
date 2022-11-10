@@ -18,6 +18,7 @@ public class Inventory : MonoBehaviour
     public int NumberOfSlots { get { return numberOfSlots; } set { numberOfSlots = value; } }
 
     private int nowPage;
+    public int NowPage { get { return nowPage; } }
 
     [SerializeField]
     private int maxNnumberOfItems;
@@ -25,6 +26,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         playerData = GameManager.Instance.PlayerData;
+        Debug.Log($"인벤토리 길이 {playerData.ItemSlotData.ItemData.Length}");
         ///테스트용
         for (int i = 0; i < 3; i++)
         {
@@ -43,7 +45,7 @@ public class Inventory : MonoBehaviour
 
     private void OnEnable()
     {
-        Initialize();
+        //Initialize();
     }
 
     private void Initialize()
@@ -54,21 +56,32 @@ public class Inventory : MonoBehaviour
 
     private void RefreshUI()
     {
-        for (int i = 0; i < NumberOfSlots; i++)
+        for (int i = 0; i < numberOfSlots; i++)
         {
-           // slots[i].Initialize();
+            int buttonID = i;
+            Debug.Log($"슬롯{i} 내용 {GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID}");
+            Debug.Log($"슬롯{i} 내용dd {slots[i]}");
+            //slots[i].SlotNumber = i;
+            //slots[i].InfoButton.onClick.RemoveAllListeners();
+            //if (GameManager.Instance.PlayerData.ItemSlotData.ItemData[nowPage * numberOfSlots + i].ID <= 0) return;
+            slots[i].Initialize();
         }
 
         for (int i = 0; i < GameManager.Instance.PlayerData.ItemSlotData.ItemData.Length; i++)
         {
+            int buttonID = i;
             int pageSlotNumber = nowPage * numberOfSlots;
             if (pageSlotNumber <= i && i < (numberOfSlots + pageSlotNumber))
             {
+                //Debug.Log($"슬롯{i} 내용 {GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID}");
                 GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
                 if (prefab == null) continue;
                 slots[i - pageSlotNumber].ItemPrefab = Instantiate(prefab, slots[i - pageSlotNumber].transform);
                 slots[i - pageSlotNumber].ItemPrefab.transform.localPosition = Vector3.zero;
                 slots[i - pageSlotNumber].SetItemCount(StaticData.GetItemSheet(playerData.ItemSlotData.ItemData[i].ID).Type, playerData.ItemSlotData.ItemData[i].Count);
+                
+                Debug.Log($"슬롯넘버~~~~{i}");
+                slots[i - pageSlotNumber].InfoButton.onClick.AddListener(() => { XRManager.Instance.OpenItemInfo(buttonID); });
             }
         }
     }

@@ -7,6 +7,9 @@ using System;
 
 public class Slot : MonoBehaviour
 {
+    private int slotNumber;
+    public int SlotNumber { get { return slotNumber; } set { slotNumber = value; } }
+
     [SerializeField]
     private GameObject itemPrefab;
     public GameObject ItemPrefab { get { return itemPrefab; } set { itemPrefab = value; } }
@@ -19,23 +22,26 @@ public class Slot : MonoBehaviour
 
     [SerializeField]
     private Button infoButton;
-   
 
+    public Button InfoButton { get { return infoButton; } }
+   
+    
 
     private void Start()
     {
-        Initialize();
-        infoButton.onClick.AddListener(() => { XRManager.Instance.OpenItemInfo(); } );
+        //Initialize();
+       // infoButton.onClick.AddListener(() => { XRManager.Instance.OpenItemInfo(slotNumber + XRManager.Instance.Inventory.NowPage * XRManager.Instance.Inventory.NumberOfSlots); } );
     }
 
 
     public void Initialize()
     {
-        for (int childCount = 3; childCount < transform.childCount; childCount++)
+        //if (itemPrefab = null) return;
+        for (int childCount = 2; childCount < transform.childCount; childCount++)
         {
             Destroy(transform.GetChild(childCount).gameObject);
         }
-
+        infoButton.onClick.RemoveAllListeners();
         itemPrefab = null;
         countText.text = "";
         countImage.SetActive(false);
@@ -45,6 +51,7 @@ public class Slot : MonoBehaviour
     {
         if(_itemType != "EQUIPMENT")
         {
+            Debug.Log("Àåºñ¾Æ´Ô");
             countText.text = _count.ToString();
             countImage.SetActive(true);
         }
