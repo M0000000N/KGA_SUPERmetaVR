@@ -134,8 +134,7 @@ public class FeeFawFumDataBase : SingletonBehaviour<FeeFawFumDataBase>
         }
         else
         {
-            UnityEngine.Debug.Log($"<color=red>아직 하루가 지나지 않았습니다.</color> \n" +
-                $"{nowtime} - {updateTime} = {(nowtime - updateTime).Days}");
+
         }
     }
 }

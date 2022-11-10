@@ -32,23 +32,27 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         PlayerData.ItemSlotData = new ItemSlotData();
         playerData.ItemSlotData.ItemData = new ItemData[32];
-        Debug.Log($"아이템슬롯 길이{playerData.ItemSlotData.ItemData.Length}");
         for (int i = 0; i < 32; i++)
         {
             playerData.ItemSlotData.ItemData[i] = new ItemData();
             PlayerData.ItemSlotData.ItemData[i].ID = 0;
             PlayerData.ItemSlotData.ItemData[i].Count = 0;
-            Debug.Log($"아이템슬롯 길이{playerData.ItemSlotData.ItemData[i].ID}");
         }
 
-        // 테스트 코드
+        playerData.Friends = new FriendData();
+        playerData.Friends.Friend = new List<int>();
+
+        // -------------------------------------------------------------------------------- 테스트 코드
         PlayerData.PeekabooData.CharacterList.Character = new int[5];
         PlayerData.PeekabooData.CharacterList.Character[0] = 1;
+
+        // [피카부 캐릭터 테스트 코드]
         PlayerData.PeekabooData.CharacterList.Character[1] = 1;
         PlayerData.PeekabooData.CharacterList.Character[2] = 1;
         PlayerData.PeekabooData.CharacterList.Character[3] = 1;
         PlayerData.PeekabooData.CharacterList.Character[4] = 1;
 
+        // [아이템 테스트 코드]
         //for (int i = 0; i < 6; i++)
         //{
         //    int randomKey = Random.Range(1, 6);
@@ -57,8 +61,15 @@ public class GameManager : SingletonBehaviour<GameManager>
         //    playerData.ItemSlotData.ItemData[i].ID = StaticData.GetItemSheet(60000 + randomKey).ID;
         //    playerData.ItemSlotData.ItemData[i].Count = randomValue;
         //}
-        
-        // TODO : 아이템 임시 코드 넣어주기
-        // 테스트 코드
+
+        // [친구]
+        playerData.Friends.Friend.Add(24);
+        playerData.Friends.Friend.Add(25);
+        playerData.Friends.Friend.Add(26);
+        playerData.Friends.Friend.Add(27);
+        playerData.Friends.Friend.Add(30);
+        playerData.Friends.Friend.Add(31);
+
+        // -------------------------------------------------------------------------------- 테스트 코드
     }
 }

@@ -44,7 +44,6 @@ public class PeekabooDataBase : SingletonBehaviour<PeekabooDataBase>
     public void SaveCharacterList() // 캐릭터 구매 등 변경사항 발생시
     {
         playerPeekabooCharacterList = JsonUtility.ToJson(playerData.PeekabooData.CharacterList);
-        UnityEngine.Debug.Log("playerPeekabooCharacterList : " + playerPeekabooCharacterList);
         DataBase.Instance.UpdateDB(PeekabooTableInfo.table_name, PeekabooTableInfo.character_list, playerPeekabooCharacterList, PeekabooTableInfo.user_id, playerData.ID);
     }
 
