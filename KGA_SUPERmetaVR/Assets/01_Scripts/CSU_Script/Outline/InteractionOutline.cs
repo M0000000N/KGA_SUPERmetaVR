@@ -3,10 +3,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class InteractionOutline : MonoBehaviour
 {
-    [SerializeField] XRRayInteractor leftRayInteractor;
     [SerializeField] XRRayInteractor RightRayInteractor;
 
-    private RaycastHit leftRayHit;
     private RaycastHit RightRayHit;
 
     [SerializeField]
@@ -33,21 +31,7 @@ public class InteractionOutline : MonoBehaviour
                     outline.enabled = true;
                 }
             }
-        }
-        else if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit))
-        {
-            targetObject = leftRayHit.transform.gameObject;
-            {
-                Outline outline = targetObject.GetComponent<Outline>();
-                if (leftRayHit.transform.tag == "InteractionOutlineObject")
-                {
-
-                    if (outline != null)
-                    {
-                        outline.enabled = true;
-                    }
-                }
-            }
+            outline.enabled = false;
         }
         else
         {
