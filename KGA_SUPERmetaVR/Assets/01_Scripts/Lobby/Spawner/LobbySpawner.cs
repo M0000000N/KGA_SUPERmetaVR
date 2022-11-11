@@ -31,7 +31,11 @@ public class LobbySpawner : MonoBehaviourPun
     {
         Transform lobbyCameraPosition = SpawnCamera(playerCase);
         SpawnCharacter(lobbyCameraPosition, myCharacterName, mySpawnEffect);
-        SpawnPumpkin();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            SpawnPumpkin();
+        }
     }
     
     public Transform SpawnCamera(string _case)
@@ -62,7 +66,9 @@ public class LobbySpawner : MonoBehaviourPun
         float positionZ = Random.Range(bottomLeft.z, topRight.z);
 
         Vector3 position = new Vector3(positionX, positionY, positionZ);
-        return Instantiate(LobbyCamera, position, Quaternion.identity).transform;
+        Debug.Log(position);
+        LobbyCamera.transform.position = position;
+        return LobbyCamera.transform;
     }
 
     private void SpawnCharacter(Transform spawnPosition, string _prefabName, string _effectName)
