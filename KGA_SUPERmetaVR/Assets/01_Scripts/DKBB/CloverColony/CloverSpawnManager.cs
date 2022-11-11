@@ -115,7 +115,7 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
         }
         int randomRotation = Random.Range(0, 360);
 
-        _clover.localRotation = Quaternion.Euler(0, randomRotation, 0);
+        _clover.localRotation = Quaternion.Euler(-90, randomRotation, 0);
         _clover.gameObject.SetActive(true);
     }
 
