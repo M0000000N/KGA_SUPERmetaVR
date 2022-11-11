@@ -41,7 +41,7 @@ public class PlayerRigging : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            myXROrigin = GameObject.Find("Lobby_Camera");
+            myXROrigin = GameObject.Find("Lobby Camera(Clone)");
 
             head.SetMyVRTarget(myXROrigin.transform.GetChild(0).Find("Main Camera").gameObject);
             leftHand.SetMyVRTarget(myXROrigin.transform.GetChild(0).Find("Left Ray Interactor").gameObject);
