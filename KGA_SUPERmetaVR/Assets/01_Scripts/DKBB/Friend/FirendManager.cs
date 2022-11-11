@@ -14,16 +14,13 @@ public class FirendManager : MonoBehaviourPunCallbacks
     private PlayerData playerData;
     private string targetUID;
     private string targetNickName;
-
+    private string requestTargetUID;
+    private string requestTargetNickName;
     private PhotonView photonView;
 
     private void Update()
     {
-        // 테스트 코드
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            SendRequest("33", "moon");
-        }
+
     }
 
     private void Awake()
@@ -151,10 +148,17 @@ public class FirendManager : MonoBehaviourPunCallbacks
     }
 
     // 친구 추가 요청
-    public void SendRequest(string _targetUID, string _targetNickname)
+    public void CheckRequest(string _targetUID, string _targetNickname)
     {
-        photonView.RPC("SendRequestMessage", RpcTarget.Others, _targetUID, playerData.UID, playerData.Nickname);
-        RequestPopupUI.Instance.SetPopup(102, _targetNickname);
+        requestTargetUID = _targetUID;
+        requestTargetNickName = _targetNickname;
+        RequestPopupUI.Instance.SetPopup(52000, _targetNickname, SendRequest);
+    }
+
+    public void SendRequest()
+    {
+        photonView.RPC("SendRequestMessage", RpcTarget.Others, requestTargetUID, playerData.UID, playerData.Nickname);
+        RequestPopupUI.Instance.SetPopup(52001, requestTargetNickName);
     }
 
     [PunRPC]
@@ -168,7 +172,7 @@ public class FirendManager : MonoBehaviourPunCallbacks
         if (playerData.UID == _playerUID)
         {
             UnityEngine.Debug.Log("메크로");
-            RequestPopupUI.Instance.SetPopup(105, _targetNickName, Approve, Reject);
+            RequestPopupUI.Instance.SetPopup(52004, _targetNickName, Approve, Reject);
         }
     }
 
@@ -189,7 +193,7 @@ public class FirendManager : MonoBehaviourPunCallbacks
     {
         if (playerData.UID == _uid)
         {
-            RequestPopupUI.Instance.SetPopup(103, _nickname);
+            RequestPopupUI.Instance.SetPopup(52002, _nickname);
             AddFriend(int.Parse(_targetUID));
             // 친구등록
         }
@@ -200,7 +204,7 @@ public class FirendManager : MonoBehaviourPunCallbacks
     {
         if (playerData.UID == _uid)
         {
-            RequestPopupUI.Instance.SetPopup(104, _nickname);
+            RequestPopupUI.Instance.SetPopup(52003, _nickname);
         }
     }
 }

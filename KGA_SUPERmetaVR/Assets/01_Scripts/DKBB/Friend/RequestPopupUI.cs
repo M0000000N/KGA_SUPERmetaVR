@@ -22,7 +22,7 @@ public class RequestPopupUI : SingletonBehaviour<RequestPopupUI>
         titleText.text = StaticData.GetNotificationData(_PopupID).Title;
         contentText.text = string.Format(StaticData.GetNotificationData(_PopupID).Description, _PlayerNickname);
 
-        if (StaticData.GetNotificationData(_PopupID).Type == 0)
+        if (StaticData.GetNotificationData(_PopupID).Type == 1)
         {
             buttonType[0].SetActive(true);
             buttonType[1].SetActive(false);
