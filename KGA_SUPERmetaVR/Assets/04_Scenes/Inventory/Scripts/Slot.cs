@@ -19,15 +19,13 @@ public class Slot : MonoBehaviour
 
     [SerializeField]
     private Button infoButton;
-    [SerializeField]
-    private GameObject itemInfoUI;
+   
 
 
     private void Start()
     {
         Initialize();
-        infoButton.onClick.AddListener(() => { OpenInfo(); } );
-        itemInfoUI.SetActive(false);
+        infoButton.onClick.AddListener(() => { XRManager.Instance.OpenItemInfo(); } );
     }
 
 
@@ -88,9 +86,5 @@ public class Slot : MonoBehaviour
         countText.text = "0";
         countImage.SetActive(false);
     }
-    private void OpenInfo()
-    {
-        itemInfoUI.transform.SetAsLastSibling();
-        itemInfoUI.SetActive(true);
-    }
+  
 }

@@ -81,7 +81,7 @@ public class CloverColonyDataBase : SingletonBehaviour<CloverColonyDataBase>
 
     public bool CheckCooltime(float _cooltime)
     {
-        if (playerData.CloverColonyData.CoolTime == "") return true;
+        if (playerData.CloverColonyData.CoolTime == string.Empty) return true;
 
         DateTime cooltime = DateTime.Parse(playerData.CloverColonyData.CoolTime);
         DateTime nowtime = DateTime.UtcNow; // TODO : 현재 UTC 기준으로 9시간 차이가 있습니다.
