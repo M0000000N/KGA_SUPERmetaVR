@@ -7,19 +7,19 @@ using Newtonsoft.Json.Bson;
 
 public class RestrictedRangeGround : MonoBehaviour
 {
-    [SerializeField]
     ActionBasedContinuousMoveProvider stickMove;
 
     private void Start()
     {
-        stickMove.enabled = false;
+        stickMove = GameObject.Find("Lobby Camera(Clone)").GetComponent<ActionBasedContinuousMoveProvider>();
+        stickMove.GetComponent<ActionBasedContinuousMoveProvider>().enabled = false; 
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
         {
-            stickMove.enabled = true;
+            stickMove.GetComponent<ActionBasedContinuousMoveProvider>().enabled = true; 
         }
     }
 
@@ -27,7 +27,7 @@ public class RestrictedRangeGround : MonoBehaviour
     {
         if (other.gameObject.tag.Equals("Player"))
         {
-            stickMove.enabled = false;
+            stickMove.GetComponent<ActionBasedContinuousMoveProvider>().enabled = false;
         }
     }
 }
