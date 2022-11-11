@@ -34,7 +34,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
             float randomX = Random.Range(-1, 2);
             float randomY = Random.Range(-1, 2);
 
-            spawnPosition = new Vector3(randomX, 0, randomY);
+            spawnPosition = new Vector3(randomX, -0.2f, randomY);
         }
         while (CheckSpawnArea(spawnArea, spawnPosition) == false);
 
@@ -44,7 +44,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
 
 
         _target.position = spawnArea.transform.position - spawnPosition;
-        _target.rotation = Quaternion.Euler(-90, randomRotation, 0);
+        _target.rotation = Quaternion.Euler(90, randomRotation, 0);
         _target.GetComponent<Rigidbody>().velocity = Vector3.zero;
         _target.gameObject.SetActive(true);
     }

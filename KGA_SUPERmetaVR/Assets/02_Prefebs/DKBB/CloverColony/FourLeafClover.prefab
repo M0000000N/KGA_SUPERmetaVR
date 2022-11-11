@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 9178097934951213881}
   - component: {fileID: 2471326774521291296}
   - component: {fileID: 6517766370842728142}
+  - component: {fileID: 4801644451105529641}
+  - component: {fileID: 8023482810688254949}
   m_Layer: 0
   m_Name: FourLeafClover
   m_TagString: FourLeafClover
@@ -186,6 +188,45 @@ MonoBehaviour:
   area: 0
   defaultMaterial: {fileID: 2100000, guid: 0e3c9b6c1f88340deb9be14921b07bcf, type: 2}
   fadeMaterial: {fileID: 2100000, guid: 0958287541fce724095c9f867285ee14, type: 2}
+--- !u!114 &4801644451105529641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 8023482810688254949}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &8023482810688254949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &2484669989789631496
 GameObject:
   m_ObjectHideFlags: 0
