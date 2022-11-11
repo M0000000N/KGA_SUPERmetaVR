@@ -10,16 +10,15 @@ GameObject:
   m_Component:
   - component: {fileID: 419644}
   - component: {fileID: 9178097934951213881}
-  - component: {fileID: 6517766370842728142}
   - component: {fileID: 2471326774521291296}
-  - component: {fileID: 2656845204313063392}
+  - component: {fileID: 6517766370842728142}
   m_Layer: 0
   m_Name: FourLeafClover
   m_TagString: FourLeafClover
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &419644
 Transform:
   m_ObjectHideFlags: 0
@@ -51,22 +50,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
---- !u!114 &6517766370842728142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 113232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e520fe53d86adc42a010614499a2e33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isFourLeaf: 0
-  area: 0
-  defaultMaterial: {fileID: 2100000, guid: 0e3c9b6c1f88340deb9be14921b07bcf, type: 2}
-  fadeMaterial: {fileID: 2100000, guid: 0958287541fce724095c9f867285ee14, type: 2}
 --- !u!114 &2471326774521291296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,20 +170,22 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
---- !u!64 &2656845204313063392
-MeshCollider:
+--- !u!114 &6517766370842728142
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 113232}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -8089699231438940418, guid: 2e2729abfd271704894b2767fd1af9d5, type: 3}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e520fe53d86adc42a010614499a2e33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFourLeaf: 0
+  area: 0
+  defaultMaterial: {fileID: 2100000, guid: 0e3c9b6c1f88340deb9be14921b07bcf, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: 0958287541fce724095c9f867285ee14, type: 2}
 --- !u!1 &2484669989789631496
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +197,7 @@ GameObject:
   - component: {fileID: 2469099967769929284}
   - component: {fileID: 4436515076001112092}
   - component: {fileID: 1404784042487751828}
+  - component: {fileID: 905486108837135726}
   m_Layer: 0
   m_Name: Mesh1
   m_TagString: Untagged
@@ -282,3 +268,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &905486108837135726
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2484669989789631496}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8089699231438940418, guid: 2e2729abfd271704894b2767fd1af9d5, type: 3}
