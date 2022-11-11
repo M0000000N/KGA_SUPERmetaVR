@@ -44,8 +44,8 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
 
 
         _target.position = spawnArea.transform.position - spawnPosition;
-        _target.rotation = Quaternion.Euler(0, randomRotation, 0);
-
+        _target.rotation = Quaternion.Euler(-90, randomRotation, 0);
+        _target.GetComponent<Rigidbody>().velocity = Vector3.zero;
         _target.gameObject.SetActive(true);
     }
 
@@ -80,7 +80,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
     {
         while(true)
         {
-            yield return new WaitForSecondsRealtime(5f);//10800);
+            yield return new WaitForSecondsRealtime(10800f);
             Initialize();
         }
     }

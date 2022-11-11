@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4922050145615167543}
   - component: {fileID: 6600879735581017711}
   - component: {fileID: 8463504455538115303}
+  - component: {fileID: 1085194009374388168}
   m_Layer: 0
   m_Name: Mesh1
   m_TagString: Untagged
@@ -25,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4931989018849813115}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7477100747226277597}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &6600879735581017711
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -81,6 +82,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1085194009374388168
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4931989018849813115}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8089699231438940418, guid: 82e6c18c2abf72d469a148b68a96d1f7, type: 3}
 --- !u!1 &7215745757974614440
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +108,6 @@ GameObject:
   - component: {fileID: 6069344022375752384}
   - component: {fileID: 8168645707982459182}
   - component: {fileID: 9205386578497781998}
-  - component: {fileID: 4767052737614554202}
   m_Layer: 0
   m_Name: ThreeLeafClover
   m_TagString: ThreeLeafClover
@@ -130,7 +144,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!114 &8168645707982459182
 MonoBehaviour:
@@ -141,11 +155,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7215745757974614440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d07324f3be61364595e42d1a2184c2b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e520fe53d86adc42a010614499a2e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isFourLeaf: 0
   area: 0
+  defaultMaterial: {fileID: 2100000, guid: 0e3c9b6c1f88340deb9be14921b07bcf, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: 0958287541fce724095c9f867285ee14, type: 2}
 --- !u!114 &9205386578497781998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,16 +282,3 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
---- !u!65 &4767052737614554202
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7215745757974614440}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.5, z: 0.1}
-  m_Center: {x: 0, y: 0.5, z: 0.05}

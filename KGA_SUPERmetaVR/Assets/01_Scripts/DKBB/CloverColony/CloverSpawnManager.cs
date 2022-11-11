@@ -14,13 +14,10 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
     [SerializeField] private GameObject fourLeafCloverPrefab;
     [SerializeField] private GameObject threeLeafCloverPrefab;
 
-    [SerializeField] private int fourLeafCloverMaxCount = 4;
-    [SerializeField] private int threeLeafCloverMaxCount = 80;
-
     private int fourLeafCloverSpawnCount;
 
-    private List<GameObject> fourLeafCloverList = new List<GameObject>();
-    private List<GameObject> threeLeafCloverList = new List<GameObject>();
+    [SerializeField] private List<GameObject> fourLeafCloverList = new List<GameObject>();
+    [SerializeField] private List<GameObject> threeLeafCloverList = new List<GameObject>();
 
     private float randomMinValue = -2f;
     private float randomMaxValue = 2f;
@@ -38,20 +35,6 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
         {
             area2List.Add(area2.GetChild(i));
         }
-
-        for (int i = 0; i < fourLeafCloverMaxCount; i++)
-        {
-            GameObject clover = Instantiate(fourLeafCloverPrefab, CloverParent);
-            clover.GetComponent<CloverInfo>().IsFourLeaf = true;
-            fourLeafCloverList.Add(clover);
-        }
-
-        for (int i = 0; i < threeLeafCloverMaxCount; i++)
-        {
-            GameObject clover = Instantiate(threeLeafCloverPrefab, CloverParent);
-            clover.GetComponent<CloverInfo>().IsFourLeaf = false;
-            threeLeafCloverList.Add(clover);
-        }
     }
 
     private void Start()
@@ -61,7 +44,7 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
 
     public void Initialize()
     {
-        fourLeafCloverSpawnCount = Random.Range(1, fourLeafCloverMaxCount + 1);
+        fourLeafCloverSpawnCount = Random.Range(1, fourLeafCloverList.Count +1);
 
         for (int i = 0; i < fourLeafCloverSpawnCount; i++)
         {
@@ -130,7 +113,9 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
                 _clover.transform.position = _areaRoom.position - new Vector3(randomX, -0.5f, randomY);
                 break;
         }
-        _clover.localRotation = Quaternion.identity;
+        int randomRotation = Random.Range(0, 360);
+
+        _clover.localRotation = Quaternion.Euler(-90, randomRotation, 0);
         _clover.gameObject.SetActive(true);
     }
 
@@ -175,7 +160,7 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
     IEnumerator RespawnFourLeafCloverCoroutine()
     {
         yield return new WaitForSecondsRealtime(2400);
-        fourLeafCloverSpawnCount = Random.Range(1, fourLeafCloverMaxCount + 1);
+        fourLeafCloverSpawnCount = Random.Range(0, fourLeafCloverSpawnCount);
 
         for (int i = 0; i < fourLeafCloverSpawnCount; i++)
         {
