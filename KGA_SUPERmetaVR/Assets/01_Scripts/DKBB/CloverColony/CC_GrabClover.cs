@@ -5,32 +5,37 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
 using InputDevice = UnityEngine.XR.InputDevice;
-using CommonUsages = UnityEngine.XR.CommonUsages;
 
 public class CC_GrabClover : MonoBehaviour
 {
-    [SerializeField] GameObject leftHand;
-    private XRRayInteractor leftRayInteractor;
-    private RaycastHit leftRayHit;
-
-    [SerializeField] GameObject rightHand;
-    private XRRayInteractor rightRayInteractor;
-    private RaycastHit RightRayHit;
-    private GameObject targetObject;
-
-    private bool isGrab;
+    [SerializeField] private GameObject leftHand;
+    [SerializeField] private GameObject rightHand;
+    [SerializeField] private Material fadeMaterial;
 
     private XRHandController xRLefttHand;
     private XRHandController xRRightHand;
 
-    private InputDevice inputDevice;
+    private XRRayInteractor leftRayInteractor;
+    private XRRayInteractor rightRayInteractor;
+
+    private GameObject targetObject;
+    private GameObject respawnClover;
+
+    private UnityEngine.XR.InputDevice inputDevice;
+
+    private bool isCoroutine;
+    private bool isRespawnCoroutine;
+    private Color alphaColor;
+    private float timeToFade = 2f;
 
     void Start()
     {
-        isGrab = false;
-
         xRLefttHand = leftHand.GetComponentInChildren<XRHandController>();
         xRRightHand = rightHand.GetComponentInChildren<XRHandController>();
+
+        leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
+        rightRayInteractor = rightHand.GetComponent<XRRayInteractor>();
+
     }
 
     void Update()
@@ -41,40 +46,109 @@ public class CC_GrabClover : MonoBehaviour
 
     public void GetTriggerValue(string _tag, float _time)
     {
-        inputDevice.TryGetFeatureValue(CommonUsages.gripButton, out isGrab);
-        if (isGrab)
+        xRLefttHand.InputDevice.TryGetFeatureValue(UnityEngine.XR.CommonUsages.gripButton, out bool leftGrab);
+        xRRightHand.InputDevice.TryGetFeatureValue(UnityEngine.XR.CommonUsages.gripButton, out bool rightGrab);
+
+
+        string targetTag = "";
+        if (targetObject != null)
+        {
+            targetTag = targetObject.tag;
+        }
+
+        if (leftGrab || rightGrab) // 잡았을 때
         {
             if (RayCastHit()) // hit 정보를 받아옴
             {
-                string targetTag = targetObject.tag;
-                if (targetTag == _tag)
+
+                if (targetTag == _tag) // 내가 잡은 클로버가
                 {
-                    if (targetTag == "ThreeLeafClover" /*&& isCoroutine == false*/)
+                    if (targetTag == "ThreeLeafClover") // 세잎클로버면
                     {
-                        StartCoroutine("DestroyObject", _time);
+                        if (isCoroutine)
+                        {
+                            isCoroutine = false;
+                            StopCoroutine("DestroyObject");
+                            StartCoroutine(DestroyObject(_time, targetObject)); // 2초뒤에 폭발
+                        }
                     }
-                    if (targetTag == "FourLeafClover")
+                    if (targetTag == "FourLeafClover") // 네잎클로버면
                     {
                         //  TODO : 멋진 파티클효과
                     }
+
                 }
             }
         }
         else
         {
-            StartCoroutine("DestroyObject", 0);
+            isCoroutine = true;
+            if (targetTag == "ThreeLeafClover" || targetTag == "FourLeafClover" && targetObject != null)
+            {
+                targetObject.SetActive(false); // 없애버려
+                respawnClover = targetObject;
+                targetObject = null;
+                StartCoroutine("RespawnObject", respawnClover);
+            }
         }
     }
 
+    IEnumerator DestroyObject(float _time, GameObject _targetObject)
+    {
+        Debug.Log("Destroy");
+        yield return new WaitForSeconds(_time); // 몇초뒤에
+        _targetObject.SetActive(false);
+        //FadeoutObject(_targetObject); // 없애버려
+        targetObject = null;
+
+        StartCoroutine("RespawnObject", _targetObject);
+        // TODO : 잡은 판정이 있다면 취소가 필요
+        isCoroutine = true;
+    }
+
+    IEnumerator RespawnObject(GameObject _respawnClover)
+    {
+        Debug.Log("Respawn");
+
+        yield return new WaitForSeconds(1);
+
+        _respawnClover.SetActive(true);
+        CloverSpawnManager.Instance.ReSpawnClover(_respawnClover.transform, _respawnClover.GetComponent<CloverInfo>().Area);
+
+        isRespawnCoroutine = true;
+    }
+
+    //private void FadeoutObject(GameObject _object)
+    //{
+    //}
+    //private IEnumerator DieCoroutine(GameObject _object)
+    //{
+    //    MeshRenderer myRenderer = _object.GetComponentInChildren<MeshRenderer>();
+
+    //    Color myColor = myRenderer.material.color;
+    //    myRenderer.material = fadeMaterial;
+    //    float decreaseValue = 1 / _time;
+    //    while (0 < myRenderer.material.color.a)
+    //    {
+    //        myColor.a -= decreaseValue * Time.deltaTime;
+    //        myRenderer.material.color = myColor;
+
+    //        yield return null;
+    //    }
+    //    PeekabooGameManager.Instance.PlayerGameOver();
+    //    photonView.RPC("PlayerDie", RpcTarget.All);
+    //    Destroy(gameObject);
+    //}
+
     public bool RayCastHit()
     {
-        if (rightRayInteractor.TryGetCurrent3DRaycastHit(out RightRayHit))
-        {
-            targetObject = RightRayHit.transform.gameObject;
-        }
-        else if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit))
+        if (leftRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit leftRayHit))
         {
             targetObject = leftRayHit.transform.gameObject;
+        }
+        else if (rightRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit RightRayHit))
+        {
+            targetObject = RightRayHit.transform.gameObject;
         }
         else
         {
@@ -82,22 +156,5 @@ public class CC_GrabClover : MonoBehaviour
             return false;
         }
         return true;
-    }
-
-    IEnumerator DestroyObject(float _time)
-    {
-        yield return new WaitForSeconds(_time);
-        targetObject.SetActive(false);
-
-        GameObject respawnClover = targetObject;
-        targetObject = null;
-
-        // TODO : 잡은 판정이 있다면 취소가 필요
-
-        yield return new WaitForSeconds(1);
-
-        respawnClover.SetActive(true);
-        CloverSpawnManager.Instance.ReSpawnClover(respawnClover.transform, respawnClover.GetComponent<CloverInfo>().Area);
-        StopCoroutine("DestroyObject");
     }
 }

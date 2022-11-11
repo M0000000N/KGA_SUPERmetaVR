@@ -14,13 +14,10 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
     [SerializeField] private GameObject fourLeafCloverPrefab;
     [SerializeField] private GameObject threeLeafCloverPrefab;
 
-    [SerializeField] private int fourLeafCloverMaxCount = 4;
-    [SerializeField] private int threeLeafCloverMaxCount = 80;
-
     private int fourLeafCloverSpawnCount;
 
-    private List<GameObject> fourLeafCloverList = new List<GameObject>();
-    private List<GameObject> threeLeafCloverList = new List<GameObject>();
+    [SerializeField] private List<GameObject> fourLeafCloverList = new List<GameObject>();
+    [SerializeField] private List<GameObject> threeLeafCloverList = new List<GameObject>();
 
     private float randomMinValue = -2f;
     private float randomMaxValue = 2f;
@@ -38,20 +35,6 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
         {
             area2List.Add(area2.GetChild(i));
         }
-
-        for (int i = 0; i < fourLeafCloverMaxCount; i++)
-        {
-            GameObject clover = Instantiate(fourLeafCloverPrefab, CloverParent);
-            clover.GetComponent<CloverInfo>().IsFourLeaf = true;
-            fourLeafCloverList.Add(clover);
-        }
-
-        for (int i = 0; i < threeLeafCloverMaxCount; i++)
-        {
-            GameObject clover = Instantiate(threeLeafCloverPrefab, CloverParent);
-            clover.GetComponent<CloverInfo>().IsFourLeaf = false;
-            threeLeafCloverList.Add(clover);
-        }
     }
 
     private void Start()
@@ -61,7 +44,7 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
 
     public void Initialize()
     {
-        fourLeafCloverSpawnCount = Random.Range(1, fourLeafCloverMaxCount + 1);
+        fourLeafCloverSpawnCount = Random.Range(1, fourLeafCloverList.Count +1);
 
         for (int i = 0; i < fourLeafCloverSpawnCount; i++)
         {
@@ -114,7 +97,25 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
         float randomX = Random.Range(randomMinValue, randomMaxValue);
         float randomY = Random.Range(randomMinValue, randomMaxValue);
 
-        _clover.transform.position = _areaRoom.position - new Vector3(randomX, -0.5f, randomY);
+        int randomSize = Random.Range(0, 3);
+        switch (randomSize)
+        {
+            case 0:
+                _clover.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                _clover.transform.position = _areaRoom.position - new Vector3(randomX, -0.75f, randomY);
+                break;
+            case 1:
+                _clover.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+                _clover.transform.position = _areaRoom.position - new Vector3(randomX, -0.6f, randomY);
+                break;
+            default:
+                _clover.localScale = new Vector3(1, 1, 1);
+                _clover.transform.position = _areaRoom.position - new Vector3(randomX, -0.5f, randomY);
+                break;
+        }
+        int randomRotation = Random.Range(0, 360);
+
+        _clover.localRotation = Quaternion.Euler(-90, randomRotation, 0);
         _clover.gameObject.SetActive(true);
     }
 
@@ -159,14 +160,11 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
     IEnumerator RespawnFourLeafCloverCoroutine()
     {
         yield return new WaitForSecondsRealtime(2400);
-        fourLeafCloverSpawnCount = Random.Range(1, fourLeafCloverMaxCount + 1);
+        fourLeafCloverSpawnCount = Random.Range(0, fourLeafCloverSpawnCount);
 
         for (int i = 0; i < fourLeafCloverSpawnCount; i++)
         {
             int area = Random.Range(0, 2);
-
-            float randomX = Random.Range(randomMinValue, randomMaxValue);
-            float randomY = Random.Range(randomMinValue, randomMaxValue);
 
             switch (area)
             {
@@ -188,5 +186,49 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
             }
         }
         isFourLeafCloverRespawn = false;
+        StopCoroutine("RelocationFourLeafCloverTransformCoroutine");
+        StartCoroutine("RelocationFourLeafCloverTransformCoroutine");
+    }
+
+    IEnumerator RelocationFourLeafCloverTransformCoroutine()
+    {
+        yield return new WaitForSecondsRealtime(1200);
+        for (int i = 0; i < fourLeafCloverList.Count; i++)
+        {
+            if (fourLeafCloverList[i].activeSelf)
+            {
+                int area = Random.Range(0, 2);
+
+                switch (area)
+                {
+                    case 0:
+                        {
+                            int areaRoomNumber = Random.Range(0, area1List.Count);
+                            SpawnClovers(fourLeafCloverList[i].transform, area1List[areaRoomNumber]);
+                        }
+                        break;
+
+                    default:
+                        {
+                            int areaRoomNumber = Random.Range(0, area2List.Count);
+                            SpawnClovers(fourLeafCloverList[i].transform, area2List[areaRoomNumber]);
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    // 네잎 클로버 뽑아 사라졌을 때 호출하여 확인 진행
+    public void CheckFourLeafCloverActiveSelf()
+    {
+        for (int i = 0; i < fourLeafCloverList.Count; i++)
+        {
+            if(fourLeafCloverList[i].activeSelf)
+            {
+                return;
+            }
+        }
+        ReSpawnFourLeafClover();
     }
 }

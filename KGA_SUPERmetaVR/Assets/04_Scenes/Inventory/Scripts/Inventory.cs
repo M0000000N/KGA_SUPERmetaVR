@@ -56,7 +56,7 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < NumberOfSlots; i++)
         {
-            slots[i].Initialize();
+           // slots[i].Initialize();
         }
 
         for (int i = 0; i < GameManager.Instance.PlayerData.ItemSlotData.ItemData.Length; i++)

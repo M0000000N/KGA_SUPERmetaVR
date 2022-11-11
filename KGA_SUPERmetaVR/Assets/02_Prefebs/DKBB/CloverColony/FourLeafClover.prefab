@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9178097934951213881}
   - component: {fileID: 6517766370842728142}
   - component: {fileID: 2471326774521291296}
-  - component: {fileID: 82385811863726871}
+  - component: {fileID: 2656845204313063392}
   m_Layer: 0
   m_Name: FourLeafClover
   m_TagString: FourLeafClover
@@ -29,9 +29,9 @@ Transform:
   m_GameObject: {fileID: 113232}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 441798}
+  - {fileID: 2469099967769929284}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -60,11 +60,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 113232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d07324f3be61364595e42d1a2184c2b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e520fe53d86adc42a010614499a2e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isFourLeaf: 0
   area: 0
+  defaultMaterial: {fileID: 2100000, guid: 0e3c9b6c1f88340deb9be14921b07bcf, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: 0958287541fce724095c9f867285ee14, type: 2}
 --- !u!114 &2471326774521291296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,8 +187,8 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
---- !u!65 &82385811863726871
-BoxCollider:
+--- !u!64 &2656845204313063392
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -195,10 +197,11 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.7, y: 5, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &123654
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8089699231438940418, guid: 2e2729abfd271704894b2767fd1af9d5, type: 3}
+--- !u!1 &2484669989789631496
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,45 +209,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 441798}
-  - component: {fileID: 3362874}
-  - component: {fileID: 2322112}
+  - component: {fileID: 2469099967769929284}
+  - component: {fileID: 4436515076001112092}
+  - component: {fileID: 1404784042487751828}
   m_Layer: 0
-  m_Name: pSphere7
+  m_Name: Mesh1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &441798
+--- !u!4 &2469099967769929284
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 123654}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 2484669989789631496}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 419644}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3362874
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!33 &4436515076001112092
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 123654}
-  m_Mesh: {fileID: 4300000, guid: 37914129b00aead4fa9454a5500859d2, type: 3}
---- !u!23 &2322112
+  m_GameObject: {fileID: 2484669989789631496}
+  m_Mesh: {fileID: -8089699231438940418, guid: 2e2729abfd271704894b2767fd1af9d5, type: 3}
+--- !u!23 &1404784042487751828
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 123654}
+  m_GameObject: {fileID: 2484669989789631496}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
