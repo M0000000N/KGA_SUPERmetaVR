@@ -65,7 +65,7 @@ public class NPC_Communication : MonoBehaviour
         else
         {
             button[0].GetComponentInChildren<TextMeshProUGUI>().text = npcDialogueData.SELECT1;
-            button[0].onClick.AddListener(() => { CheckCondition(1, StaticData.GetNPCDialogueData((int)this.SheetID, number).Select1condition1, StaticData.GetNPCDialogueData((int)this.SheetID, number).Condition1quantity); });
+            button[0].onClick.AddListener(() => { CheckCondition(1, npcDialogueData.Select1condition1, npcDialogueData.Condition1quantity); });
             button[0].gameObject.SetActive(true);
         }
 
@@ -77,7 +77,7 @@ public class NPC_Communication : MonoBehaviour
         else
         {
             button[1].GetComponentInChildren<TextMeshProUGUI>().text = npcDialogueData.SELECT2;
-            button[1].onClick.AddListener(() => { CheckCondition(2, StaticData.GetNPCDialogueData((int)this.SheetID, number).Select2condition2, StaticData.GetNPCDialogueData((int)this.SheetID, number).Condition2quantity); });
+            button[1].onClick.AddListener(() => { CheckCondition(2, npcDialogueData.Select2condition2, npcDialogueData.Condition2quantity); });
             button[1].gameObject.SetActive(true);
         }
     }
@@ -101,7 +101,7 @@ public class NPC_Communication : MonoBehaviour
 
         for (int i = 0; i < playerData.ItemSlotData.ItemData.Length; i++)
         {
-            if(playerData.ItemSlotData.ItemData[i].ID == _id)
+            if(playerData.ItemSlotData.ItemData[i].ID == _id && _id > 0)
             {
                 for (int j = 0; j < itemCount.Count; j++)
                 {
@@ -131,6 +131,7 @@ public class NPC_Communication : MonoBehaviour
                             break;
                     }
 
+                    number = 1;
                     SetDialogue();
                     return true;
                 }
@@ -152,6 +153,7 @@ public class NPC_Communication : MonoBehaviour
                 break;
         }
 
+        number = 1;
         SetDialogue();
         return false;
     }
