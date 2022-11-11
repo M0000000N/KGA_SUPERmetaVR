@@ -101,19 +101,19 @@ public class SoundControl : MonoBehaviourPun
         }
     }
 
-    private void TurnonMute()
+    public void TurnonMute()
     {
         // ¸¶ÀÌÅ© ²¨Áü 
-        VoiceroomManager.Instance.recorder.TransmitEnabled = false;
+        PeekabooSoundManager.Instance.recorder.TransmitEnabled = true; 
         //recorder.TransmitEnabled = false;
         Debug.Log("¸¶ÀÌÅ©²¨Áü");
     }
 
-    private void TurnOffMute()
+    public void TurnOffMute()
     {
         // ¸¶ÀÌÅ© ÄÑÁü
         //recorder.TransmitEnabled = true;
-        VoiceroomManager.Instance.recorder.TransmitEnabled = true;
+        PeekabooSoundManager.Instance.recorder.TransmitEnabled = false;
         Debug.Log("¸¶ÀÌÅ©ÄÑÁü");
     }
 

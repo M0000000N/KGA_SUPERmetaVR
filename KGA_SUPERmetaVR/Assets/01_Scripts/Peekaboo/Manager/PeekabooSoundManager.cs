@@ -8,8 +8,7 @@ public class PeekabooSoundManager : OnlyOneSceneSingleton<PeekabooSoundManager>
     [SerializeField]
     private AudioSource mainBGM;
 
-    [SerializeField]
-    Recorder recorder;
+    public Recorder recorder;
 
     private void Start()
     {
