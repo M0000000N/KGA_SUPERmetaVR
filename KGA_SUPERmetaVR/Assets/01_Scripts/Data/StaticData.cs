@@ -121,6 +121,21 @@ public class StaticData : SingletonBehaviour<StaticData>
         return null;
     }
 
+    [SerializeField] private NPCDialogue NPCDialogueSheet;
+    public static NPCDialogueData[] NPCDialogueSheetData { get { return Instance.NPCDialogueSheet.dataArray; } }
+
+    public static NPCDialogueData GetNPCDialogueData(int _id, int _number)
+    {
+        for (int i = 0; i < NPCDialogueSheetData.Length; i++)
+        {
+            if (NPCDialogueSheetData[i].ID == _id && NPCDialogueSheetData[i].Number == _number)
+            {
+                return NPCDialogueSheetData[i];
+            }
+        }
+        return null;
+    }
+
     // ================================================ LOBBY ================================================
 
 
