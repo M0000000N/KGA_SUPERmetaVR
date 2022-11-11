@@ -5,10 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class Slot : MonoBehaviour
+public class ItemSlot : MonoBehaviour
 {
     private int slotNumber;
-    public int SlotNumber { get { return slotNumber; } set { slotNumber = value; } }
 
     [SerializeField]
     private GameObject itemPrefab;
@@ -16,34 +15,24 @@ public class Slot : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI countText;
+    public TextMeshProUGUI CountText { get { return countText; } set { countText = value; } }
 
     [SerializeField]
     private GameObject countImage;
 
     [SerializeField]
     private Button infoButton;
-
     public Button InfoButton { get { return infoButton; } }
    
-    
-
-    private void Start()
-    {
-        //Initialize();
-       // infoButton.onClick.AddListener(() => { XRManager.Instance.OpenItemInfo(slotNumber + XRManager.Instance.Inventory.NowPage * XRManager.Instance.Inventory.NumberOfSlots); } );
-    }
-
-
     public void Initialize()
     {
-        //if (itemPrefab = null) return;
         for (int childCount = 2; childCount < transform.childCount; childCount++)
         {
             Destroy(transform.GetChild(childCount).gameObject);
         }
         infoButton.onClick.RemoveAllListeners();
         itemPrefab = null;
-        countText.text = "";
+        countText.text = string.Empty;
         countImage.SetActive(false);
     }
 
@@ -51,7 +40,6 @@ public class Slot : MonoBehaviour
     {
         if(_itemType != "EQUIPMENT")
         {
-            Debug.Log("Àåºñ¾Æ´Ô");
             countText.text = _count.ToString();
             countImage.SetActive(true);
         }
@@ -87,10 +75,15 @@ public class Slot : MonoBehaviour
         }
     }
 
-    private void ClearSlot()
+    public void ClearSlot()
     {
+        for (int childCount = 2; childCount < transform.childCount; childCount++)
+        {
+            Destroy(transform.GetChild(childCount).gameObject);
+        }
+        infoButton.onClick.RemoveAllListeners();
         itemPrefab = null;
-        countText.text = "0";
+        countText.text = string.Empty;
         countImage.SetActive(false);
     }
   

@@ -4,19 +4,12 @@ using UnityEngine;
 
 public class ItemSocket : MonoBehaviour
 {
-    private MeshCollider meshCollider;
-
     [SerializeField]
     private Inventory playerInventory;
 
-    private void Start()
-    {
-        meshCollider = GetComponent<MeshCollider>();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Item")
+        if (other.gameObject.CompareTag("Item"))
         {
             playerInventory.AcquireItem(other.GetComponent<Item>() , 50);
             Destroy(other.gameObject);

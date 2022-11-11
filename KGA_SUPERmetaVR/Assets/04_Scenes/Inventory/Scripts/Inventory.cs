@@ -11,41 +11,36 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private GameObject SlotGrid;
 
-    private Slot[] slots;
+    private ItemSlot[] slots;
+    public ItemSlot[] Slots { get { return slots; } }
 
     [SerializeField]
     private int numberOfSlots;
-    public int NumberOfSlots { get { return numberOfSlots; } set { numberOfSlots = value; } }
 
     private int nowPage;
-    public int NowPage { get { return nowPage; } }
 
     [SerializeField]
     private int maxNnumberOfItems;
+
 
     private void Start()
     {
         playerData = GameManager.Instance.PlayerData;
         Debug.Log($"인벤토리 길이 {playerData.ItemSlotData.ItemData.Length}");
         ///테스트용
-        for (int i = 0; i < 3; i++)
-        {
-            int randomKey = UnityEngine.Random.Range(1, 3);
-            int randomValue = UnityEngine.Random.Range(1, maxNnumberOfItems);
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    int randomKey = UnityEngine.Random.Range(1, 5);
+        //    int randomValue = UnityEngine.Random.Range(1, maxNnumberOfItems);
 
-            playerData.ItemSlotData.ItemData[i].ID = StaticData.GetItemSheet(60000 + randomKey).ID;
-            playerData.ItemSlotData.ItemData[i].Count = randomValue;
-        }
-        UserDataBase.Instance.SaveItemData();
+        //    playerData.ItemSlotData.ItemData[i].ID = StaticData.GetItemSheet(60000 + randomKey).ID;
+        //    playerData.ItemSlotData.ItemData[i].Count = randomValue;
+        //}
+         
         ///
-        // UserDataBase.Instance.LoadItemData();
-        slots = SlotGrid.GetComponentsInChildren<Slot>();
+         UserDataBase.Instance.LoadItemData();
+        slots = SlotGrid.GetComponentsInChildren<ItemSlot>();
         Initialize();
-    }
-
-    private void OnEnable()
-    {
-        //Initialize();
     }
 
     private void Initialize()
@@ -54,34 +49,25 @@ public class Inventory : MonoBehaviour
         RefreshUI();
     }
 
-    private void RefreshUI()
+    public void RefreshUI()
     {
         for (int i = 0; i < numberOfSlots; i++)
         {
-            int buttonID = i;
-            Debug.Log($"슬롯{i} 내용 {GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID}");
-            Debug.Log($"슬롯{i} 내용dd {slots[i]}");
-            //slots[i].SlotNumber = i;
-            //slots[i].InfoButton.onClick.RemoveAllListeners();
-            //if (GameManager.Instance.PlayerData.ItemSlotData.ItemData[nowPage * numberOfSlots + i].ID <= 0) return;
             slots[i].Initialize();
         }
 
         for (int i = 0; i < GameManager.Instance.PlayerData.ItemSlotData.ItemData.Length; i++)
         {
-            int buttonID = i;
+            int slotID = i;
             int pageSlotNumber = nowPage * numberOfSlots;
             if (pageSlotNumber <= i && i < (numberOfSlots + pageSlotNumber))
             {
-                //Debug.Log($"슬롯{i} 내용 {GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID}");
                 GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
                 if (prefab == null) continue;
                 slots[i - pageSlotNumber].ItemPrefab = Instantiate(prefab, slots[i - pageSlotNumber].transform);
                 slots[i - pageSlotNumber].ItemPrefab.transform.localPosition = Vector3.zero;
                 slots[i - pageSlotNumber].SetItemCount(StaticData.GetItemSheet(playerData.ItemSlotData.ItemData[i].ID).Type, playerData.ItemSlotData.ItemData[i].Count);
-                
-                Debug.Log($"슬롯넘버~~~~{i}");
-                slots[i - pageSlotNumber].InfoButton.onClick.AddListener(() => { XRManager.Instance.OpenItemInfo(buttonID); });
+                slots[i - pageSlotNumber].InfoButton.onClick.AddListener(() => { ItemManager.Instance.OpenItemInfo(slotID); });
             }
         }
     }
@@ -104,75 +90,54 @@ public class Inventory : MonoBehaviour
         RefreshUI();
     }
 
-    private void GetPrefab(Item _item, int _itemID)
-    {
-        GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(_item.ItemID).Prefabname);
-        if (prefab == null) return;
-        slots[_itemID].ItemPrefab = Instantiate(prefab, slots[_itemID].transform);
-        slots[_itemID].ItemPrefab.transform.localPosition = Vector3.zero;
-    }
-
     public void AcquireItem(Item _item, int _count)
     {
-        for (int i = 0; i < playerData.ItemSlotData.ItemData.Length; i++)
+        ItemData[] itemData = playerData.ItemSlotData.ItemData;
+        for (int i = 0; i < itemData.Length; i++)
         {
-            if (playerData.ItemSlotData.ItemData[i].ID <= 0)
+            if (itemData[i].ID <= 0)
             {
-                playerData.ItemSlotData.ItemData[i].ID = _item.ItemID;
-                playerData.ItemSlotData.ItemData[i].Count = _count;
+                itemData[i].ID = _item.ItemID;
+                itemData[i].Count = _count;
                 RefreshUI();
-                //slots[i].AddItem(_item, _count);
-
-                //UserDataBase.Instance.SaveItemData();
-                Debug.Log("장착아이템들어옴");
                 return;
             }
             else
             {
                 if (StaticData.GetItemSheet(_item.ItemID).Type != "EQUIPMENT")
                 {
-                    if (playerData.ItemSlotData.ItemData[i].ID == _item.ItemID)
+                    if (itemData[i].ID == _item.ItemID)
                     {
-                        if (playerData.ItemSlotData.ItemData[i].Count + _count <= maxNnumberOfItems)
+                        if (itemData[i].Count + _count <= maxNnumberOfItems)
                         {
-                            playerData.ItemSlotData.ItemData[i].Count += _count;
-                            slots[i - nowPage * numberOfSlots].SetSlotCount(playerData.ItemSlotData.ItemData[i].Count);
-                            // UserDataBase.Instance.SaveItemData();
+                            itemData[i].Count += _count;
+                            slots[i - nowPage * numberOfSlots].SetSlotCount(itemData[i].Count);
                             RefreshUI();
-                            Debug.Log("99개 안넘음");
                             return;
                         }
                         else
                         {
-                            int remainNumber = playerData.ItemSlotData.ItemData[i].Count + _count - maxNnumberOfItems;
-                            playerData.ItemSlotData.ItemData[i].Count = maxNnumberOfItems;
-                            //slots[i].SetSlotCount(playerData.ItemSlotData.ItemData[i].Count);
-                             for (int j = i + 1; j < playerData.ItemSlotData.ItemData.Length; ++j)
+                            int remainNumber = itemData[i].Count + _count - maxNnumberOfItems;
+                            itemData[i].Count = maxNnumberOfItems;
+                             for (int j = i + 1; j < itemData.Length; ++j)
                             {
-                                if (playerData.ItemSlotData.ItemData[j].ID == _item.ItemID && playerData.ItemSlotData.ItemData[j].Count + remainNumber > maxNnumberOfItems)
+                                if (itemData[j].ID == _item.ItemID && itemData[j].Count + remainNumber > maxNnumberOfItems)
                                 {
-                                    remainNumber = playerData.ItemSlotData.ItemData[j].Count + _count - maxNnumberOfItems;
-                                    playerData.ItemSlotData.ItemData[j].Count = maxNnumberOfItems;
-                                    //slots[j].SetSlotCount(playerData.ItemSlotData.ItemData[j].Count);
+                                    remainNumber = itemData[j].Count + _count - maxNnumberOfItems;
+                                    itemData[j].Count = maxNnumberOfItems;
                                 }
-                                else if (playerData.ItemSlotData.ItemData[j].ID == _item.ItemID && playerData.ItemSlotData.ItemData[j].Count + remainNumber <= maxNnumberOfItems)
+                                else if (itemData[j].ID == _item.ItemID && itemData[j].Count + remainNumber <= maxNnumberOfItems)
                                 {
-                                    playerData.ItemSlotData.ItemData[j].Count += remainNumber;
-                                    //UserDataBase.Instance.SaveItemData();
-                                    //slots[j].SetSlotCount(playerData.ItemSlotData.ItemData[j].Count);
-                                    Debug.Log("99개넘음");
+                                    itemData[j].Count += remainNumber;
                                     RefreshUI();
                                     return;
                                 }
-                                else if (playerData.ItemSlotData.ItemData[j].ID <= 0)
+                                else if (itemData[j].ID <= 0)
                                 {
-                                    playerData.ItemSlotData.ItemData[j].ID = _item.ItemID;
-                                    playerData.ItemSlotData.ItemData[j].Count = remainNumber;
+                                    itemData[j].ID = _item.ItemID;
+                                    itemData[j].Count = remainNumber;
                                     GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(_item.ItemID).Prefabname);
                                     RefreshUI();
-                                    //slots[j].ItemPrefab = Instantiate(prefab, slots[j].transform);
-                                    //slots[j].ItemPrefab.transform.localPosition = Vector3.zero;
-                                    //slots[j].AddItem(_item, remainNumber);
                                     return;
                                 }
                             }

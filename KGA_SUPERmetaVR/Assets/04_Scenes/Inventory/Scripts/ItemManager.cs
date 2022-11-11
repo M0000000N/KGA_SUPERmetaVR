@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class XRManager : OnlyOneSceneSingleton<XRManager>
+public class ItemManager : OnlyOneSceneSingleton<ItemManager>
 {
     [SerializeField]
     private GameObject menuUI;
@@ -35,8 +35,6 @@ public class XRManager : OnlyOneSceneSingleton<XRManager>
         inventoryUI.SetActive(false);
         itemInfoUI.SetActive(false);
         itemInfoCloseOutUI.SetActive(false);
-
-
     }
 
     private void OpenInvetoryUI()
@@ -54,7 +52,6 @@ public class XRManager : OnlyOneSceneSingleton<XRManager>
 
     public void OpenItemInfo(int _slotNumber)
     {
-        Debug.Log($"½½·Ô³Ñ¹ö{_slotNumber}");
         itemInfo.ItemPrefab(_slotNumber);
         itemInfo.ItemName(_slotNumber);
         itemInfo.ItemCount(_slotNumber);
@@ -66,6 +63,8 @@ public class XRManager : OnlyOneSceneSingleton<XRManager>
 
     public void CloseItemInfoUI()
     {
+        itemInfo.DestroyButton.onClick.RemoveAllListeners();
+        itemInfo.UseButton.onClick.RemoveAllListeners();
         itemInfo.ClearItemInfo();
         itemInfoCloseOutUI.SetActive(false);
         itemInfoUI.SetActive(false);

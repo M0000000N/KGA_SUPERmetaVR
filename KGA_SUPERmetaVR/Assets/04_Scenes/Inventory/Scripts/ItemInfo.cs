@@ -20,28 +20,40 @@ public class ItemInfo : MonoBehaviour
     private Button equipButton;
     [SerializeField]
     private Button useButton;
+    public Button UseButton { get { return useButton; } }
     [SerializeField]
     private Button destoryButton;
+    public Button DestroyButton { get { return destoryButton; } }
     [SerializeField]
     private Button closeButton;
+    [SerializeField]
+    private GameObject itemDeleteUI;
+    private ItemDelete itemDelete;
+    [SerializeField]
+    private GameObject itemUseUI;
+    private ItemUse itemUse;
 
     private void Start()
     {
-        closeButton.onClick.AddListener(() => { XRManager.Instance.CloseItemInfoUI(); });
+        closeButton.onClick.AddListener(() => { ItemManager.Instance.CloseItemInfoUI(); });
+        itemDelete = itemDeleteUI.GetComponent<ItemDelete>();
+        itemUse = itemUseUI.GetComponent<ItemUse>();
     }
 
     public void ActiveButton(int _slotNumber)
     {
         string itemType = StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].ID).Type;
         
-        if (itemType == "EQUIPMENT")
+        if (itemType.Equals("EQUIPMENT"))
         {
             useButton.interactable = false;
         }
-        else if (itemType == "USED")
+        else if (itemType.Equals("USED"))
         {
             equipButton.interactable = false;
         }
+        destoryButton.onClick.AddListener(() => { itemDelete.DeleteItem(_slotNumber); });
+        useButton.onClick.AddListener(() => { itemUse.UseItemButton(_slotNumber); });
     }
 
     public void ItemPrefab(int _slotNumber)
@@ -49,9 +61,6 @@ public class ItemInfo : MonoBehaviour
         GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].ID).Prefabname);
         itemPrefab = Instantiate(prefab, itemPrefabImage.transform);
         itemPrefab.transform.localPosition = Vector3.zero;
-
-        //itemPrefab.transform.position = new Vector3 (itemPrefab.transform.position.x - 0.2f, itemPrefab.transform.position.y);
-        //itemPrefab.transform.localScale = new Vector3(1f, 1f, 1f);
     }
 
     public void ItemName(int _slotNumber)
@@ -77,10 +86,8 @@ public class ItemInfo : MonoBehaviour
         {
             Destroy(itemPrefabImage.transform.GetChild(childCount).gameObject);
         }
-        //itemPrefab = null;
-        //itemPrefab.transform.localScale = new Vector3(1f, 1f, 1f);
-        itemName.text = "";
-        itemCount.text = "";
-        itemDiscription.text = "";
+        itemName.text = string.Empty;
+        itemCount.text = string.Empty;
+        itemDiscription.text = string.Empty;
     }
 }
