@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class XRManager : OnlyOneSceneSingleton<XRManager>
+public class ItemManager : OnlyOneSceneSingleton<ItemManager>
 {
     [SerializeField]
     private GameObject menuUI;
@@ -17,17 +17,24 @@ public class XRManager : OnlyOneSceneSingleton<XRManager>
     [SerializeField]
     private GameObject itemInfoUI;
     [SerializeField]
-    private Button itemInfoCloseButton;
+    private GameObject itemInfoCloseOutUI;
+    [SerializeField]
+    private ItemInfo itemInfo;
+    [SerializeField]
+    private Inventory inventory;
+    public Inventory Inventory { get { return inventory; } }
     
 
     private void Start()
     {
         inventoryButton.onClick.AddListener(() => { OpenInvetoryUI(); });
         returnMenuButton.onClick.AddListener(() => { CloseInventoryUI(); });
-        itemInfoCloseButton.onClick.AddListener(() => { CloseItemInfoUI(); });
+        
+        Button itemInfoCloseOutButton = itemInfoCloseOutUI.GetComponentInChildren<Button>();
+        itemInfoCloseOutButton.onClick.AddListener(() => { CloseItemInfoUI(); });
         inventoryUI.SetActive(false);
         itemInfoUI.SetActive(false);
-        
+        itemInfoCloseOutUI.SetActive(false);
     }
 
     private void OpenInvetoryUI()
@@ -43,14 +50,23 @@ public class XRManager : OnlyOneSceneSingleton<XRManager>
         menuUI.SetActive(true);
     }
 
-    public void OpenItemInfo()
+    public void OpenItemInfo(int _slotNumber)
     {
-        //XRManager.Instance.ItemInfoUI.transform.SetAsLastSibling();
+        itemInfo.ItemPrefab(_slotNumber);
+        itemInfo.ItemName(_slotNumber);
+        itemInfo.ItemCount(_slotNumber);
+        itemInfo.ItemDiscription(_slotNumber);
+        itemInfo.ActiveButton(_slotNumber);
+        itemInfoCloseOutUI.SetActive(true);
         itemInfoUI.SetActive(true);
     }
 
-    private void CloseItemInfoUI()
+    public void CloseItemInfoUI()
     {
+        itemInfo.DestroyButton.onClick.RemoveAllListeners();
+        itemInfo.UseButton.onClick.RemoveAllListeners();
+        itemInfo.ClearItemInfo();
+        itemInfoCloseOutUI.SetActive(false);
         itemInfoUI.SetActive(false);
     }
 
