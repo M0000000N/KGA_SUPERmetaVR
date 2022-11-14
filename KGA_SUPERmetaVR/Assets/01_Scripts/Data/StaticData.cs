@@ -136,6 +136,21 @@ public class StaticData : SingletonBehaviour<StaticData>
         return null;
     }
 
+    [SerializeField] private RewardSheet RewardSheet;
+    public static RewardSheetData[] RewardSheetData { get { return Instance.RewardSheet.dataArray; } }
+
+    public static RewardSheetData GetRewardData(int _id)
+    {
+        for (int i = 0; i < RewardSheetData.Length; i++)
+        {
+            if (RewardSheetData[i].ID == _id)
+            {
+                return RewardSheetData[i];
+            }
+        }
+        return null;
+    }
+
     // ================================================ LOBBY ================================================
 
 
