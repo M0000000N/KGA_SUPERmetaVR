@@ -68,8 +68,8 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         {
             PlayerGameOver();
         }
-        Debug.Log($"게임결과{IsGameOver}");
-        Debug.Log($"현재 플레이어 수{numberOfPlayers}");
+        //Debug.Log($"게임결과{IsGameOver}");
+        //Debug.Log($"현재 플레이어 수{numberOfPlayers}");
     }
 
     public void PlayerGameOver()
