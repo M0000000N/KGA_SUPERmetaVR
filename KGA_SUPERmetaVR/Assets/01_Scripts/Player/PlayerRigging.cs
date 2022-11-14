@@ -43,7 +43,7 @@ public class PlayerRigging : MonoBehaviourPun
         {
             myXROrigin = GameObject.Find("Lobby Camera");
 
-            head.SetMyVRTarget(myXROrigin.transform.GetChild(0).Find("Main Camera").gameObject);
+            head.SetMyVRTarget(myXROrigin.transform.GetChild(0).Find("LobbyPlayerCamera").gameObject);
             leftHand.SetMyVRTarget(myXROrigin.transform.GetChild(0).Find("Left Ray Interactor").gameObject);
             rightHand.SetMyVRTarget(myXROrigin.transform.GetChild(0).Find("Right Ray Interactor").gameObject);
         }
