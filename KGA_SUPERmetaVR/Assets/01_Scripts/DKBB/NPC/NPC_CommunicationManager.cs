@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NPC_CommunicationManager : MonoBehaviour
 {
+    
+
     public void HandShake(NPC_Communication _npc)
     {
         

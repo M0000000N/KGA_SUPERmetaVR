@@ -6,33 +6,74 @@ using TMPro;
 
 public class NPC_Communication : MonoBehaviour
 {
+    [SerializeField] private int startSheetID;
+
     private int sheetID;
     public int SheetID { get { return sheetID; } set { sheetID = value; } }
 
     private int number;
+
+    [SerializeField] private GameObject handshake;
+    [SerializeField] private GameObject communication;
 
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private Button[] button;
 
     PlayerData playerData;
 
+    [SerializeField] private Animator comunicationAnimationController;
+    private bool isComunicationAnimationEnd; 
+
     private void Start()
     {
         // id 설정해주기
         playerData = GameManager.Instance.PlayerData;
+        comunicationAnimationController = transform.GetComponent<Animator>();
 
         SheetID = 27002;
         Initialize();
+        SetDialogue();
     }
 
     public void Initialize()
     {
         number = 1;
-        SetDialogue();
+        SheetID = startSheetID;
+        isComunicationAnimationEnd = true;
+        handshake.SetActive(true);
+        communication.SetActive(false);
     }
 
+    private void Update()
+    {
+        Debug.Log(isComunicationAnimationEnd);
+    }
+
+    // Collider
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 대화 중
+        handshake.SetActive(true);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        // 대화 끝
+        Initialize();
+    }
+
+    // 시작
+    public void OnPressHand()
+    {
+        handshake.SetActive(false);
+        communication.SetActive(true);
+    }
+
+    // 대화
     public void SetDialogue()
     {
+        comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), false);
+        isComunicationAnimationEnd = true;
         NPCDialogueData npcDialogueData = StaticData.GetNPCDialogueData(SheetID, number);
 
         if (npcDialogueData == null) return;
@@ -84,17 +125,26 @@ public class NPC_Communication : MonoBehaviour
 
     public void EndCommunication()
     {
+        if (isComunicationAnimationEnd == false) return; 
+        isComunicationAnimationEnd = false;
 
+        transform.gameObject.SetActive(false);
     }
 
     public void NextNumber()
     {
+        if (isComunicationAnimationEnd == false) return;
+        isComunicationAnimationEnd = false;
+
         number++;
-        SetDialogue();
+        comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
     }
 
     public bool CheckCondition(int _type, int _id, int _count)
     {
+        if (isComunicationAnimationEnd == false) return false; ;
+        isComunicationAnimationEnd = false;
+
         List<int> itemID = new List<int>();
         List<int> itemCount = new List<int>();
         int totalCount = 0;
@@ -132,7 +182,7 @@ public class NPC_Communication : MonoBehaviour
                     }
 
                     number = 1;
-                    SetDialogue();
+                    comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
                     return true;
                 }
                 else
@@ -154,7 +204,7 @@ public class NPC_Communication : MonoBehaviour
         }
 
         number = 1;
-        SetDialogue();
+        comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
         return false;
     }
 }
