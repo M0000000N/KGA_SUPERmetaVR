@@ -124,7 +124,6 @@ public class DataBase : SingletonBehaviour<DataBase>
             {
                 if (securityPW == row[UserTableInfo.user_pw].ToString())
                 {
-                    UnityEngine.Debug.Log("로그인에 성공했습니다.");
                     UpdateAt(UserTableInfo.table_name, UserTableInfo.user_id, _id);
 
                     return true;
