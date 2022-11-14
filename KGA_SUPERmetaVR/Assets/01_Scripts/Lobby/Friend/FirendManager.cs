@@ -18,24 +18,10 @@ public class FirendManager : MonoBehaviourPunCallbacks
     private string requestTargetNickName;
     private PhotonView photonView;
 
-    private void Update()
-    {
-
-    }
-
     private void Awake()
     {
         playerData = GameManager.Instance.PlayerData;
         photonView = PhotonView.Get(this);
-        Initialize();
-    }
-
-    public void Initialize()
-    {
-        for (int i = 1; i < 20; i++) // TODO : 친구 최대 수 입력 필요
-        {
-            Instantiate(friendContent, viewportTransform);
-        }
     }
 
     public void OpenList()
