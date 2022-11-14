@@ -27,17 +27,16 @@ public class ItemInfo : MonoBehaviour
     [SerializeField]
     private Button closeButton;
     [SerializeField]
-    private GameObject itemDeleteUI;
     private ItemDelete itemDelete;
     [SerializeField]
-    private GameObject itemUseUI;
     private ItemUse itemUse;
+    [SerializeField]
+    private ItemEquip itemEquip;
+ 
 
     private void Start()
     {
         closeButton.onClick.AddListener(() => { ItemManager.Instance.CloseItemInfoUI(); });
-        itemDelete = itemDeleteUI.GetComponent<ItemDelete>();
-        itemUse = itemUseUI.GetComponent<ItemUse>();
     }
 
     public void ActiveButton(int _slotNumber)
@@ -54,6 +53,7 @@ public class ItemInfo : MonoBehaviour
         }
         destoryButton.onClick.AddListener(() => { itemDelete.DeleteItem(_slotNumber); });
         useButton.onClick.AddListener(() => { itemUse.UseItemButton(_slotNumber); });
+        equipButton.onClick.AddListener(() => { itemEquip.EquipItemButton(_slotNumber); });
     }
 
     public void ItemPrefab(int _slotNumber)

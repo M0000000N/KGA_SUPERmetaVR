@@ -18,7 +18,7 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
     [SerializeField]
     private GameObject itemInfoUI;
     [SerializeField]
-    private GameObject itemInfoCloseOutUI;
+    private Button itemInfoCloseOutUI;
     [SerializeField]
     private ItemInfo itemInfo;
     [SerializeField]
@@ -42,13 +42,13 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
         openExitButton.onClick.AddListener(() => { OpenExitUI(); });
         closeExitButton.onClick.AddListener(() => { CloseExitUI(); });
         quitGameButton.onClick.AddListener(() => { QuitGameButton(); });
-        
-        Button itemInfoCloseOutButton = itemInfoCloseOutUI.GetComponentInChildren<Button>();
-        itemInfoCloseOutButton.onClick.AddListener(() => { CloseItemInfoUI(); });
+
+        //Button itemInfoCloseOutButton = itemInfoCloseOutUI.GetComponentInChildren<Button>();
+        itemInfoCloseOutUI.onClick.AddListener(() => { CloseItemInfoUI(); });
         inventoryUI.SetActive(false);
         itemInfoUI.SetActive(false);
         exitUI.SetActive(false);
-        itemInfoCloseOutUI.SetActive(false);
+        itemInfoCloseOutUI.gameObject.SetActive(false);
     }
 
     private void QuitGameButton()
@@ -86,7 +86,7 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
         itemInfo.ItemCount(_slotNumber);
         itemInfo.ItemDiscription(_slotNumber);
         itemInfo.ActiveButton(_slotNumber);
-        itemInfoCloseOutUI.SetActive(true);
+        itemInfoCloseOutUI.gameObject.SetActive(true);
         itemInfoUI.SetActive(true);
     }
 
@@ -95,7 +95,7 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
         itemInfo.DestroyButton.onClick.RemoveAllListeners();
         itemInfo.UseButton.onClick.RemoveAllListeners();
         itemInfo.ClearItemInfo();
-        itemInfoCloseOutUI.SetActive(false);
+        itemInfoCloseOutUI.gameObject.SetActive(false);
         itemInfoUI.SetActive(false);
     }
 
