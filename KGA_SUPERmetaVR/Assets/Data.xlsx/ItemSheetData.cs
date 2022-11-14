@@ -28,4 +28,20 @@ public class ItemSheetData
   string type;
   public string Type { get {return type; } set { this.type = value;} }
   
+  [SerializeField]
+  int grade;
+  public int Grade { get {return grade; } set { this.grade = value;} }
+  
+  [SerializeField]
+  int parts;
+  public int Parts { get {return parts; } set { this.parts = value;} }
+  
+  [SerializeField]
+  int period;
+  public int Period { get {return period; } set { this.period = value;} }
+  
+  [SerializeField]
+  string image;
+  public string Image { get {return image; } set { this.image = value;} }
+  
 }
