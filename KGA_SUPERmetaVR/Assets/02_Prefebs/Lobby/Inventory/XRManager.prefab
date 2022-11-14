@@ -46,10 +46,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuUI: {fileID: 0}
   inventoryUI: {fileID: 0}
-  inventoryButton: {fileID: 0}
-  returnMenuButton: {fileID: 0}
+  openInventoryButton: {fileID: 0}
+  closeInventoryButton: {fileID: 0}
   itemInfoUI: {fileID: 0}
-  itemInfoCloseButton: {fileID: 0}
+  itemInfoCloseOutUI: {fileID: 0}
+  itemInfo: {fileID: 0}
+  inventory: {fileID: 0}
+  exitUI: {fileID: 0}
+  openExitButton: {fileID: 0}
+  closeExitButton: {fileID: 0}
+  quitGameButton: {fileID: 0}
 --- !u!114 &1447672321961312354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,4 +69,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftHand: {fileID: 0}
-  rightHand: {fileID: 0}
+  isGrap:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Is Grap
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 2e388fe5-5aa8-48f9-a005-9827b91e7e32
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
