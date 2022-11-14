@@ -439,6 +439,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Teleport Selection",
+                    "type": "Button",
+                    "id": "59361efb-8ce4-4576-8e4d-fff2a1fbf82d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -494,6 +503,17 @@
                     "processors": "StickDeadzone",
                     "groups": "Continuous Move",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8528b0d6-a350-4156-8c4b-5e9324b83f7d",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Teleport Selection",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -869,6 +889,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Teleport Selection",
+                    "type": "Button",
+                    "id": "756c0163-4036-4514-8a50-9285abbbc658",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -924,6 +953,17 @@
                     "processors": "StickDeadzone",
                     "groups": "Continuous Move",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d7b53b05-0109-4ce1-a6e4-774005c46f97",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Teleport Selection",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
