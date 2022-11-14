@@ -67,7 +67,11 @@ public class ItemSelect : MonoBehaviour
             grabObject = targetObject;
             targetTag = grabObject.tag;
         }
-        if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
+        if (targetTag.Equals("Item"))
+        {
+
+        }
+        else if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
         {
             if (isDestroyCloverRun == false)
             {

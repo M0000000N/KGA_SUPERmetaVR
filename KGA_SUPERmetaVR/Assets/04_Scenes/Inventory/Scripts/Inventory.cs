@@ -38,7 +38,7 @@ public class Inventory : MonoBehaviour
         //}
          
         ///
-         UserDataBase.Instance.LoadItemData();
+        
         slots = SlotGrid.GetComponentsInChildren<ItemSlot>();
         Initialize();
     }
