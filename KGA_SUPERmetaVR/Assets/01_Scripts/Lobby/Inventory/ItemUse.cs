@@ -30,9 +30,11 @@ public class ItemUse : MonoBehaviour
         {
             GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].ID = 0;
             GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].Count = 0;
-            ItemManager.Instance.Inventory.Slots[_slotNumber].ClearSlot();
+            ItemManager.Instance.Inventory.Slots[_slotNumber - (ItemManager.Instance.Inventory.NowPage * ItemManager.Instance.Inventory.NumberOfSlots)].ClearSlot();
         }
-        ItemManager.Instance.Inventory.Slots[_slotNumber].CountText.text = GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].Count.ToString();
+
+        ItemManager.Instance.Inventory.Slots[_slotNumber - (ItemManager.Instance.Inventory.NowPage * ItemManager.Instance.Inventory.NumberOfSlots)].CountText.text = GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].Count.ToString();
+
         gameObject.SetActive(false);
         ItemManager.Instance.CloseItemInfoUI();
     }

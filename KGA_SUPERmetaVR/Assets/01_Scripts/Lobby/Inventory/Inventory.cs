@@ -16,8 +16,10 @@ public class Inventory : MonoBehaviour
 
     [SerializeField]
     private int numberOfSlots;
+    public int NumberOfSlots { get { return numberOfSlots; } }
 
     private int nowPage;
+    public int NowPage { get { return nowPage; } }
 
     [SerializeField]
     private int maxNnumberOfItems;
@@ -62,12 +64,17 @@ public class Inventory : MonoBehaviour
             int pageSlotNumber = nowPage * numberOfSlots;
             if (pageSlotNumber <= i && i < (numberOfSlots + pageSlotNumber))
             {
-                GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
-                if (prefab == null) continue;
-                slots[i - pageSlotNumber].ItemPrefab = Instantiate(prefab, slots[i - pageSlotNumber].transform);
-                slots[i - pageSlotNumber].ItemPrefab.transform.localPosition = Vector3.zero;
-                slots[i - pageSlotNumber].SetItemCount(StaticData.GetItemSheet(playerData.ItemSlotData.ItemData[i].ID).Type, playerData.ItemSlotData.ItemData[i].Count);
-                slots[i - pageSlotNumber].InfoButton.onClick.AddListener(() => { ItemManager.Instance.OpenItemInfo(slotID); });
+                Debug.Log($"인벤토리 길이dsds {(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID)}");
+                if (GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID > 0)
+                {
+                    GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
+                    if (prefab == null) continue;
+                    slots[i - pageSlotNumber].ItemPrefab = Instantiate(prefab, slots[i - pageSlotNumber].transform);
+                    slots[i - pageSlotNumber].ItemPrefab.transform.localPosition = Vector3.zero;
+                    slots[i - pageSlotNumber].SetItemCount(StaticData.GetItemSheet(playerData.ItemSlotData.ItemData[i].ID).Type, playerData.ItemSlotData.ItemData[i].Count);
+                    slots[i - pageSlotNumber].InfoButton.onClick.AddListener(() => { ItemManager.Instance.OpenItemInfo(slotID); });
+                }
+                
             }
         }
     }
