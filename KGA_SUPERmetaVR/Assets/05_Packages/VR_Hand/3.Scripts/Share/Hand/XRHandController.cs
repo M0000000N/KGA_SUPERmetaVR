@@ -15,7 +15,7 @@ public class XRHandController : MonoBehaviour
     public float thumbMoveSpeed = 0.1f;
 
     private Animator animator;
-    public InputDevice InputDevice;
+    private InputDevice inputDevice;
 
     private float indexValue;
     private float thumbValue;
@@ -62,18 +62,18 @@ public class XRHandController : MonoBehaviour
 
         if (inputDevices != null && inputDevices.Count > 0)
         {
-            InputDevice = inputDevices[0];
+            inputDevice = inputDevices[0];
             inputDeviceValid = true;
         }
     }
 
     void AnimateHand()
     {
-        InputDevice.TryGetFeatureValue(CommonUsages.trigger, out indexValue);
-        InputDevice.TryGetFeatureValue(CommonUsages.grip, out threeFingersValue);
+        inputDevice.TryGetFeatureValue(CommonUsages.trigger, out indexValue);
+        inputDevice.TryGetFeatureValue(CommonUsages.grip, out threeFingersValue);
 
-        InputDevice.TryGetFeatureValue(CommonUsages.primaryTouch, out bool primaryTouched);
-        InputDevice.TryGetFeatureValue(CommonUsages.secondaryTouch, out bool secondaryTouched);
+        inputDevice.TryGetFeatureValue(CommonUsages.primaryTouch, out bool primaryTouched);
+        inputDevice.TryGetFeatureValue(CommonUsages.secondaryTouch, out bool secondaryTouched);
 
         if (primaryTouched || secondaryTouched)
         {
