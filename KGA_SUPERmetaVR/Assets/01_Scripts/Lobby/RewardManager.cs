@@ -19,12 +19,15 @@ public class RewardManager : SingletonBehaviour<RewardManager>
         return 0;
     }
 
-    public bool GetItme()
+    public bool GetItem()
     {
         int rewardItemID = ChooseItem();
         if(rewardItemID > 0)
         {
-            // æ∆¿Ã≈€ »πµÊ
+            Item newItem = new Item();
+            newItem.ItemID = rewardItemID;
+            ItemManager.Instance.Inventory.AcquireItem(newItem, 1);
+
             return true;
         }
         return false;
