@@ -11,18 +11,35 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private GameObject SlotGrid;
 
-    private Slot[] slots;
+    private ItemSlot[] slots;
+    public ItemSlot[] Slots { get { return slots; } }
 
     [SerializeField]
     private int numberOfSlots;
-    public int NumberOfSlots { get { return numberOfSlots; } set { numberOfSlots = value; } }
 
     private int nowPage;
+
+    [SerializeField]
+    private int maxNnumberOfItems;
+
 
     private void Start()
     {
         playerData = GameManager.Instance.PlayerData;
-        slots = SlotGrid.GetComponentsInChildren<Slot>();
+        Debug.Log($"인벤토리 길이 {playerData.ItemSlotData.ItemData.Length}");
+        ///테스트용
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    int randomKey = UnityEngine.Random.Range(1, 5);
+        //    int randomValue = UnityEngine.Random.Range(1, maxNnumberOfItems);
+
+        //    playerData.ItemSlotData.ItemData[i].ID = StaticData.GetItemSheet(60000 + randomKey).ID;
+        //    playerData.ItemSlotData.ItemData[i].Count = randomValue;
+        //}
+         
+        ///
+         UserDataBase.Instance.LoadItemData();
+        slots = SlotGrid.GetComponentsInChildren<ItemSlot>();
         Initialize();
     }
 
@@ -32,16 +49,25 @@ public class Inventory : MonoBehaviour
         RefreshUI();
     }
 
-    private void RefreshUI()
+    public void RefreshUI()
     {
+        for (int i = 0; i < numberOfSlots; i++)
+        {
+            slots[i].Initialize();
+        }
+
         for (int i = 0; i < GameManager.Instance.PlayerData.ItemSlotData.ItemData.Length; i++)
         {
-            if (nowPage * numberOfSlots <= i && i < (numberOfSlots + numberOfSlots * nowPage))
+            int slotID = i;
+            int pageSlotNumber = nowPage * numberOfSlots;
+            if (pageSlotNumber <= i && i < (numberOfSlots + pageSlotNumber))
             {
-                GameObject prefab = Resources.Load<GameObject>("Item/" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
-                slots[i - nowPage * numberOfSlots].ItemPrefab = Instantiate(prefab, slots[i - nowPage * numberOfSlots].transform);
-                slots[i - nowPage * numberOfSlots].ItemPrefab.transform.localPosition = Vector3.zero;
-                slots[i - nowPage * numberOfSlots].SetItemCount(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].Count);
+                GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
+                if (prefab == null) continue;
+                slots[i - pageSlotNumber].ItemPrefab = Instantiate(prefab, slots[i - pageSlotNumber].transform);
+                slots[i - pageSlotNumber].ItemPrefab.transform.localPosition = Vector3.zero;
+                slots[i - pageSlotNumber].SetItemCount(StaticData.GetItemSheet(playerData.ItemSlotData.ItemData[i].ID).Type, playerData.ItemSlotData.ItemData[i].Count);
+                slots[i - pageSlotNumber].InfoButton.onClick.AddListener(() => { ItemManager.Instance.OpenItemInfo(slotID); });
             }
         }
     }
@@ -64,52 +90,54 @@ public class Inventory : MonoBehaviour
         RefreshUI();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            Item testitem = new Item();
-            testitem.ItemID = 60001;
-
-            AcquireItem(testitem, 50);
-            RefreshUI();
-        }
-    }
-
     public void AcquireItem(Item _item, int _count)
     {
-        for (int i = 0; i < numberOfSlots; i++)
+        ItemData[] itemData = playerData.ItemSlotData.ItemData;
+        for (int i = 0; i < itemData.Length; i++)
         {
-            if (playerData.ItemSlotData.ItemData[i] == null)
+            if (itemData[i].ID <= 0)
             {
-                playerData.ItemSlotData.ItemData[i].ID = _item.ItemID;
-                playerData.ItemSlotData.ItemData[i].Count = _count;
-                // UserDataBase.Instance.SaveItemData();
+                itemData[i].ID = _item.ItemID;
+                itemData[i].Count = _count;
+                RefreshUI();
                 return;
             }
             else
             {
                 if (StaticData.GetItemSheet(_item.ItemID).Type != "EQUIPMENT")
                 {
-                    if (playerData.ItemSlotData.ItemData[i].ID == _item.ItemID)
+                    if (itemData[i].ID == _item.ItemID)
                     {
-                        if (playerData.ItemSlotData.ItemData[i].Count + _count <= 99)
+                        if (itemData[i].Count + _count <= maxNnumberOfItems)
                         {
-                            playerData.ItemSlotData.ItemData[i].Count += _count;
-                            // UserDataBase.Instance.SaveItemData();
+                            itemData[i].Count += _count;
+                            slots[i - nowPage * numberOfSlots].SetSlotCount(itemData[i].Count);
+                            RefreshUI();
                             return;
                         }
                         else
                         {
-                            int remainNumber = playerData.ItemSlotData.ItemData[i].Count + _count - 99;
-                            playerData.ItemSlotData.ItemData[i].Count = 99;
-                            for (int j = i + 1; j < numberOfSlots; ++j)
+                            int remainNumber = itemData[i].Count + _count - maxNnumberOfItems;
+                            itemData[i].Count = maxNnumberOfItems;
+                             for (int j = i + 1; j < itemData.Length; ++j)
                             {
-                                if (playerData.ItemSlotData.ItemData[i] == null)
+                                if (itemData[j].ID == _item.ItemID && itemData[j].Count + remainNumber > maxNnumberOfItems)
                                 {
-                                    playerData.ItemSlotData.ItemData[j].ID = _item.ItemID;
-                                    playerData.ItemSlotData.ItemData[j].Count = remainNumber;
-                                    // UserDataBase.Instance.SaveItemData();
+                                    remainNumber = itemData[j].Count + _count - maxNnumberOfItems;
+                                    itemData[j].Count = maxNnumberOfItems;
+                                }
+                                else if (itemData[j].ID == _item.ItemID && itemData[j].Count + remainNumber <= maxNnumberOfItems)
+                                {
+                                    itemData[j].Count += remainNumber;
+                                    RefreshUI();
+                                    return;
+                                }
+                                else if (itemData[j].ID <= 0)
+                                {
+                                    itemData[j].ID = _item.ItemID;
+                                    itemData[j].Count = remainNumber;
+                                    GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(_item.ItemID).Prefabname);
+                                    RefreshUI();
                                     return;
                                 }
                             }
