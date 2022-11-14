@@ -92,8 +92,7 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
 
     public void CloseItemInfoUI()
     {
-        itemInfo.DestroyButton.onClick.RemoveAllListeners();
-        itemInfo.UseButton.onClick.RemoveAllListeners();
+        itemInfo.ClearItemInfoButton();
         itemInfo.ClearItemInfo();
         itemInfoCloseOutUI.gameObject.SetActive(false);
         itemInfoUI.SetActive(false);
