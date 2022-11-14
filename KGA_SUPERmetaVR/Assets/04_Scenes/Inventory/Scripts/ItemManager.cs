@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ItemManager : OnlyOneSceneSingleton<ItemManager>
 {
@@ -11,9 +12,9 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
     [SerializeField]
     private GameObject inventoryUI;
     [SerializeField]
-    private Button inventoryButton;
+    private Button openInventoryButton;
     [SerializeField]
-    private Button returnMenuButton;
+    private Button closeInventoryButton;
     [SerializeField]
     private GameObject itemInfoUI;
     [SerializeField]
@@ -22,19 +23,48 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
     private ItemInfo itemInfo;
     [SerializeField]
     private Inventory inventory;
+    [SerializeField]
+    private GameObject exitUI;
+    [SerializeField]
+    private Button openExitButton;
+    [SerializeField]
+    private Button closeExitButton;
+    [SerializeField]
+    private Button quitGameButton;
     public Inventory Inventory { get { return inventory; } }
     
 
     private void Start()
     {
-        inventoryButton.onClick.AddListener(() => { OpenInvetoryUI(); });
-        returnMenuButton.onClick.AddListener(() => { CloseInventoryUI(); });
+        UserDataBase.Instance.LoadItemData();
+        openInventoryButton.onClick.AddListener(() => { OpenInvetoryUI(); });
+        closeInventoryButton.onClick.AddListener(() => { CloseInventoryUI(); });
+        openExitButton.onClick.AddListener(() => { OpenExitUI(); });
+        closeExitButton.onClick.AddListener(() => { CloseExitUI(); });
+        quitGameButton.onClick.AddListener(() => { QuitGameButton(); });
         
         Button itemInfoCloseOutButton = itemInfoCloseOutUI.GetComponentInChildren<Button>();
         itemInfoCloseOutButton.onClick.AddListener(() => { CloseItemInfoUI(); });
         inventoryUI.SetActive(false);
         itemInfoUI.SetActive(false);
+        exitUI.SetActive(false);
         itemInfoCloseOutUI.SetActive(false);
+    }
+
+    private void QuitGameButton()
+    {
+        UserDataBase.Instance.SaveItemData();
+        Application.Quit();
+    }
+
+    private void CloseExitUI()
+    {
+        exitUI.SetActive(false);
+    }
+
+    private void OpenExitUI()
+    {
+        exitUI.SetActive(true);
     }
 
     private void OpenInvetoryUI()
@@ -45,7 +75,6 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
 
     private void CloseInventoryUI()
     {
-        UserDataBase.Instance.SaveItemData();
         inventoryUI.SetActive(false);
         menuUI.SetActive(true);
     }
