@@ -64,4 +64,24 @@ public class NPCDialogueData
   int nexttalkid2;
   public int Nexttalkid2 { get {return nexttalkid2; } set { this.nexttalkid2 = value;} }
   
+  [SerializeField]
+  string soundeffect;
+  public string Soundeffect { get {return soundeffect; } set { this.soundeffect = value;} }
+  
+  [SerializeField]
+  int getitemid;
+  public int Getitemid { get {return getitemid; } set { this.getitemid = value;} }
+  
+  [SerializeField]
+  int getitemea;
+  public int Getitemea { get {return getitemea; } set { this.getitemea = value;} }
+  
+  [SerializeField]
+  int outitemid;
+  public int Outitemid { get {return outitemid; } set { this.outitemid = value;} }
+  
+  [SerializeField]
+  int outitemea;
+  public int Outitemea { get {return outitemea; } set { this.outitemea = value;} }
+  
 }
