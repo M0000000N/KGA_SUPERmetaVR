@@ -16,6 +16,10 @@ public class ItemSelect : MonoBehaviour
     private bool isDestroyCloverRun = false;
     private bool isGrabRun = false;
 
+    private string targetTag = string.Empty;
+    private CloverInfo targetCloverInfo;
+    private FD_Dragon targetStarInfo;
+
     void Start()
     {
         leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
@@ -61,7 +65,7 @@ public class ItemSelect : MonoBehaviour
     private void Grab()
     {
         isGrabRun = true;
-        string targetTag = string.Empty;
+        targetTag = string.Empty;
         if (targetObject != null)
         {
             grabObject = targetObject;
@@ -69,7 +73,6 @@ public class ItemSelect : MonoBehaviour
         }
         if (targetTag.Equals("Item"))
         {
-
         }
         else if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
         {
@@ -78,17 +81,20 @@ public class ItemSelect : MonoBehaviour
                 StartCoroutine(DestroyObject());
             }
         }
-        else if (targetTag.Equals("FourLeafClover")) // 네잎클로버면
-        {
-            //  TODO : 멋진 파티클효과
-        }
     }
 
     private void GrabOut()
     {
         isGrabRun = false;
         if (grabObject == null) return;
-        CloverInfo targetCloverInfo = grabObject.GetComponent<CloverInfo>();
+        if(targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover"))
+        {
+            targetCloverInfo = grabObject.GetComponent<CloverInfo>();
+        }
+        else if(targetTag.Equals("Star"))
+        {
+            targetStarInfo.ParticleOn();
+        }
         if (targetCloverInfo == null) return;
 
         if (targetCloverInfo.IsStartFadedout == false)
