@@ -45,15 +45,15 @@ public class ItemInfo : MonoBehaviour
         
         if (itemType.Equals("EQUIPMENT"))
         {
+            equipButton.onClick.AddListener(() => { itemEquip.EquipItemButton(_slotNumber); });
             useButton.interactable = false;
         }
         else if (itemType.Equals("USED"))
         {
+            useButton.onClick.AddListener(() => { itemUse.UseItemButton(_slotNumber); });
             equipButton.interactable = false;
         }
         destoryButton.onClick.AddListener(() => { itemDelete.DeleteItem(_slotNumber); });
-        useButton.onClick.AddListener(() => { itemUse.UseItemButton(_slotNumber); });
-        equipButton.onClick.AddListener(() => { itemEquip.EquipItemButton(_slotNumber); });
     }
 
     public void ItemPrefab(int _slotNumber)
@@ -89,5 +89,12 @@ public class ItemInfo : MonoBehaviour
         itemName.text = string.Empty;
         itemCount.text = string.Empty;
         itemDiscription.text = string.Empty;
+    }
+
+    public void ClearItemInfoButton()
+    {
+        equipButton.onClick.RemoveAllListeners();
+        useButton.onClick.RemoveAllListeners();
+        destoryButton.onClick.RemoveAllListeners();
     }
 }

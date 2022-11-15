@@ -15,6 +15,7 @@ public class ItemEquip : MonoBehaviour
 
     public void EquipItemButton(int _slotNumber)
     {
+        Debug.Log($" 슬롯넘버~~~~~@~!@#!@#$#${_slotNumber}");
         gameObject.SetActive(true);
         string itemName = StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].ID).Name;
         equipDiscriptionText.text = "'" + itemName + "'을(를) 장착하시겠습니까?";

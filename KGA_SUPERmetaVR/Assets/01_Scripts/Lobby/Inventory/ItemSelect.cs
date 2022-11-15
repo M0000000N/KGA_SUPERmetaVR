@@ -94,6 +94,11 @@ public class ItemSelect : MonoBehaviour
         else if(targetTag.Equals("Star"))
         {
             targetStarInfo.ParticleOn();
+            GameManager.Instance.PlayerData.PaperSwanData.TodayCount++;
+            GameManager.Instance.PlayerData.PaperSwanData.TotalCount++;
+
+            StopCoroutine(ResultMessage());
+            StartCoroutine(ResultMessage());
         }
         if (targetCloverInfo == null) return;
 
@@ -132,7 +137,6 @@ public class ItemSelect : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         leftRayInteractor.enableInteractions = true;
-
     }
 
     IEnumerator ChangeTag(GameObject _item)
@@ -140,4 +144,19 @@ public class ItemSelect : MonoBehaviour
         yield return new WaitForSeconds(3f);
         _item.tag = "Item";
     }
+
+    IEnumerator ResultMessage()
+    {
+        // TODO : 게임 시작 시 코루틴 체크 필요
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(600f);
+            if (FlyDragonDataBase.Instance.CheckCooltime(2))
+            {
+                UnityEngine.Debug.Log("메시지 출력");
+                break;
+            }
+        }
+    }
+
 }
