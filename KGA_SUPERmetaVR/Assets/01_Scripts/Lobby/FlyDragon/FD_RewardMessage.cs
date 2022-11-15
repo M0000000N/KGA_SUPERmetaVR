@@ -11,8 +11,6 @@ public class FD_RewardMessage : MonoBehaviour
     private void Start()
     {
         canvasGroup = transform.GetComponent<CanvasGroup>();
-
-        OpenUI();
     }
 
     public void OpenUI()
@@ -46,8 +44,8 @@ public class FD_RewardMessage : MonoBehaviour
             canvasGroup.alpha -= 0.1f / 2;
             yield return new WaitForSeconds(0.1f);
         }
-
-        gameObject.SetActive(true);
+        RewardManager.Instance.GetItem();
+        gameObject.SetActive(false);
     }
 
     public void OnPress()
