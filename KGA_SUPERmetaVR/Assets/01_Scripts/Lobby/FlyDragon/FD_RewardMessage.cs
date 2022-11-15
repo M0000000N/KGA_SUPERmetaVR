@@ -10,6 +10,7 @@ public class FD_RewardMessage : MonoBehaviour
 
     private void Start()
     {
+        isOpen = gameObject.activeSelf;
         canvasGroup = transform.GetComponent<CanvasGroup>();
     }
 
