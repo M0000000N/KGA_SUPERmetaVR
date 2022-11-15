@@ -7,9 +7,11 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
 {
     [SerializeField] private Transform[] area;
     [SerializeField] private FD_Dragon[] star;
+    private PhotonView photonView;
 
     void Awake()
     {
+        photonView = PhotonView.Get(this);
         photonView.RPC("Initialize",RpcTarget.AllViaServer);
         StartCoroutine(RespawnCoroutine());
     }

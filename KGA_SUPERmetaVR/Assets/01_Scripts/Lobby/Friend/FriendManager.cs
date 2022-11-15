@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
 
-public class FirendManager : MonoBehaviourPunCallbacks
+public class FriendManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject friendListObject;
     [SerializeField] private Transform viewportTransform;

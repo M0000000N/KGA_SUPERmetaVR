@@ -24,7 +24,7 @@ public class NPC_Communication : MonoBehaviour
     PlayerData playerData;
 
     [SerializeField] private Animator comunicationAnimationController;
-    private bool isComunicationAnimationEnd; 
+    private bool isComunicationAnimationEnd;
 
     private void Start()
     {
@@ -52,16 +52,22 @@ public class NPC_Communication : MonoBehaviour
     }
 
     // Collider
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        // 대화 중
-        handshake.SetActive(true);
+        if (other.tag.Equals("Player"))
+        {
+            // 대화 중
+            handshake.SetActive(true);
+        }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        // 대화 끝
-        Initialize();
+        if (other.tag.Equals("Player"))
+        {
+            // 대화 끝
+            Initialize();
+        }
     }
 
     // 시작
@@ -88,7 +94,7 @@ public class NPC_Communication : MonoBehaviour
         // 버튼1
         if (npcDialogueData.SELECT1.Equals(string.Empty))
         {
-            NPCDialogueData nextNPCDialogueData = StaticData.GetNPCDialogueData(SheetID, number+1);
+            NPCDialogueData nextNPCDialogueData = StaticData.GetNPCDialogueData(SheetID, number + 1);
             string text = string.Empty;
             if (nextNPCDialogueData != null)
             {
@@ -127,7 +133,7 @@ public class NPC_Communication : MonoBehaviour
 
     public void EndCommunication()
     {
-        if (isComunicationAnimationEnd == false) return; 
+        if (isComunicationAnimationEnd == false) return;
         isComunicationAnimationEnd = false;
 
         transform.gameObject.SetActive(false);
@@ -165,18 +171,18 @@ public class NPC_Communication : MonoBehaviour
         List<int> itemCount = new List<int>();
         int totalCount = 0;
 
-        if(checkID > 0)
+        if (checkID > 0)
         {
             for (int i = 0; i < playerData.ItemSlotData.ItemData.Length; i++)
             {
-                if(playerData.ItemSlotData.ItemData[i].ID == checkID)
+                if (playerData.ItemSlotData.ItemData[i].ID == checkID)
                 {
                     for (int j = 0; j < itemCount.Count; j++)
                     {
                         totalCount += itemCount[j];
                     }
 
-                    if(playerData.ItemSlotData.ItemData[i].Count + totalCount >= checkCount)
+                    if (playerData.ItemSlotData.ItemData[i].Count + totalCount >= checkCount)
                     {
                         for (int k = 0; k < itemID.Count; k++)
                         {
@@ -220,7 +226,7 @@ public class NPC_Communication : MonoBehaviour
             number = 1;
             comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
         }
-        
+
         GetItem(_npcDialogueData);
         comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
     }
