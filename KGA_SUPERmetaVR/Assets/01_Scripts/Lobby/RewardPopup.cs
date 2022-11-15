@@ -56,7 +56,7 @@ public class RewardPopup : MonoBehaviour
 
     IEnumerator CloseUICoroutine()
     {
-        if (itemObjectParent.GetChildCount() > 0)
+        if (itemObjectParent.childCount > 0)
         {
             GameObject item = itemObjectParent.GetChild(0).gameObject;
         
