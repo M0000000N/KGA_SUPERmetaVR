@@ -6,6 +6,8 @@ using TMPro;
 
 public class NPC_Communication : MonoBehaviour
 {
+    [SerializeField] private int npcID;
+
     [SerializeField] private int startSheetID;
 
     private int sheetID;
@@ -40,7 +42,7 @@ public class NPC_Communication : MonoBehaviour
         number = 1;
         SheetID = startSheetID;
         isComunicationAnimationEnd = true;
-        handshake.SetActive(true);
+        handshake.SetActive(false);
         communication.SetActive(false);
     }
 
