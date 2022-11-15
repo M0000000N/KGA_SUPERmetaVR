@@ -10,6 +10,7 @@ public class ItemSelect : MonoBehaviour
     private XRRayInteractor leftRayInteractor;
     private GameObject targetObject;
     private GameObject grabObject;
+    [SerializeField] GameObject itemSocket;
 
     [SerializeField] private InputActionProperty isGrap;
 
@@ -71,10 +72,15 @@ public class ItemSelect : MonoBehaviour
             grabObject = targetObject;
             targetTag = grabObject.tag;
         }
-        if (targetTag.Equals("Item"))
+        if (grabObject.layer == LayerMask.NameToLayer("Item"))
         {
+
+            itemSocket.SetActive(true);
+            grabObject.layer = LayerMask.NameToLayer("GrabItem");
+
         }
-        else if (targetTag.Equals("ThreeLeafClover")) // ¼¼ÀÙÅ¬·Î¹ö¸é
+        
+        if (targetTag.Equals("ThreeLeafClover")) // ì„¸ìí´ë¡œë²„ë©´
         {
             if (isDestroyCloverRun == false)
             {
@@ -86,6 +92,7 @@ public class ItemSelect : MonoBehaviour
     private void GrabOut()
     {
         isGrabRun = false;
+        itemSocket.SetActive(false);
         if (grabObject == null) return;
         if(targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover"))
         {
@@ -147,13 +154,13 @@ public class ItemSelect : MonoBehaviour
 
     IEnumerator ResultMessage()
     {
-        // TODO : °ÔÀÓ ½ÃÀÛ ½Ã ÄÚ·çÆ¾ Ã¼Å© ÇÊ¿ä
+        // TODO : ê²Œì„ ì‹œì‘ ì‹œ ì½”ë£¨í‹´ ì²´í¬ í•„ìš”
         while (true)
         {
             yield return new WaitForSecondsRealtime(600f);
             if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
-                UnityEngine.Debug.Log("¸Ş½ÃÁö Ãâ·Â");
+                UnityEngine.Debug.Log("ë©”ì‹œì§€ ì¶œë ¥");
                 break;
             }
         }
