@@ -84,8 +84,11 @@ public class ItemSelect : MonoBehaviour
                 StartCoroutine(DestroyObject());
             }
         }
+        else if (targetTag.Equals("Star"))
+        {
+            targetObject.GetComponent<Rigidbody>().isKinematic = false;
+        }
     }
-
     private void GrabOut()
     {
         isGrabRun = false;
@@ -98,8 +101,8 @@ public class ItemSelect : MonoBehaviour
         else if(targetTag.Equals("Star"))
         {
             targetStarInfo.ParticleOn();
-            GameManager.Instance.PlayerData.PaperSwanData.TodayCount++;
-            GameManager.Instance.PlayerData.PaperSwanData.TotalCount++;
+
+            FlyDragonDataBase.Instance.UpdatePlayData();
 
             StopCoroutine(ResultMessage());
             StartCoroutine(ResultMessage());
