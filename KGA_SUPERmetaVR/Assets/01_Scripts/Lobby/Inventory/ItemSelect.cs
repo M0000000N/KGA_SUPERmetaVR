@@ -10,6 +10,7 @@ public class ItemSelect : MonoBehaviour
     private XRRayInteractor leftRayInteractor;
     private GameObject targetObject;
     private GameObject grabObject;
+    [SerializeField] GameObject itemSocket;
 
     [SerializeField] private InputActionProperty isGrap;
 
@@ -71,22 +72,24 @@ public class ItemSelect : MonoBehaviour
             grabObject = targetObject;
             targetTag = grabObject.tag;
         }
-        else if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
+        if (grabObject.layer == LayerMask.NameToLayer("Item"))
+        {
+            itemSocket.SetActive(true);
+            grabObject.layer = LayerMask.NameToLayer("GrabItem");
+        }
+        if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
         {
             if (isDestroyCloverRun == false)
             {
                 StartCoroutine(DestroyObject());
             }
         }
-        else if (targetTag.Equals("Star"))
-        {
-            targetObject.GetComponent<Rigidbody>().isKinematic = false;
-        }
     }
 
     private void GrabOut()
     {
         isGrabRun = false;
+        itemSocket.SetActive(false);
         if (grabObject == null) return;
         if(targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover"))
         {
@@ -95,7 +98,8 @@ public class ItemSelect : MonoBehaviour
         else if(targetTag.Equals("Star"))
         {
             targetStarInfo.ParticleOn();
-            FlyDragonDataBase.Instance.UpdatePlayData();
+            GameManager.Instance.PlayerData.PaperSwanData.TodayCount++;
+            GameManager.Instance.PlayerData.PaperSwanData.TotalCount++;
 
             StopCoroutine(ResultMessage());
             StartCoroutine(ResultMessage());
