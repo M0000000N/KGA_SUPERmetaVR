@@ -17,7 +17,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
     {
         for (int i = 0; i < star.Length; i++)
         {
-            star[i].gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            star[i].gameObject.GetComponent<Rigidbody>().isKinematic = true;
             SpawnObject(star[i].transform);
         }
     }

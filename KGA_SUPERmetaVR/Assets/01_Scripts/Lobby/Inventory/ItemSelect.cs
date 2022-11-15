@@ -80,7 +80,7 @@ public class ItemSelect : MonoBehaviour
         }
         else if (targetTag.Equals("Star"))
         {
-            targetObject.GetComponent<Rigidbody>().isKinematic = true;
+            targetObject.GetComponent<Rigidbody>().isKinematic = false;
         }
     }
 
