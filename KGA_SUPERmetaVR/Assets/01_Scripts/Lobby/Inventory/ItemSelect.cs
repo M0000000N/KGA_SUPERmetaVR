@@ -71,15 +71,16 @@ public class ItemSelect : MonoBehaviour
             grabObject = targetObject;
             targetTag = grabObject.tag;
         }
-        if (targetTag.Equals("Item"))
-        {
-        }
         else if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
         {
             if (isDestroyCloverRun == false)
             {
                 StartCoroutine(DestroyObject());
             }
+        }
+        else if (targetTag.Equals("Star"))
+        {
+            targetObject.GetComponent<Rigidbody>().isKinematic = true;
         }
     }
 
@@ -94,8 +95,7 @@ public class ItemSelect : MonoBehaviour
         else if(targetTag.Equals("Star"))
         {
             targetStarInfo.ParticleOn();
-            GameManager.Instance.PlayerData.PaperSwanData.TodayCount++;
-            GameManager.Instance.PlayerData.PaperSwanData.TotalCount++;
+            FlyDragonDataBase.Instance.UpdatePlayData();
 
             StopCoroutine(ResultMessage());
             StartCoroutine(ResultMessage());
