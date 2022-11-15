@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class FD_Dragon : MonoBehaviour
+public class FD_Dragon : MonoBehaviourPun
 {
     private ParticleSystem[] particle;
     private Rigidbody rigidbody;
@@ -21,11 +22,22 @@ public class FD_Dragon : MonoBehaviour
         }
     }
 
+    public void ParticlePUN(string _name)
+    {
+        photonView.RPC(_name, RpcTarget.AllViaServer);
+    }
+
+    [PunRPC]
     public void ParticleOn()
     {
         for (int i = 0; i < particle.Length; i++)
         {
             particle[i].Play();
         }
+    }
+
+    public void DestroyStar()
+    {
+        gameObject.SetActive(false);
     }
 }

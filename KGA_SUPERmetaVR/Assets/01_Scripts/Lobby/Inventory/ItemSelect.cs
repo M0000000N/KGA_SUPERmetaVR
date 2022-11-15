@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
+
 public class ItemSelect : MonoBehaviour
 {
     [SerializeField] GameObject leftHand;
@@ -101,9 +102,9 @@ public class ItemSelect : MonoBehaviour
         }
         else if (targetTag.Equals("Star"))
         {
-            targetStarInfo.ParticleOn();
+            targetStarInfo.ParticlePUN("ParticleOn");
 
-            if(FlyDragonDataBase.Instance.CheckCooltime(2))
+            if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
                 FlyDragonDataBase.Instance.UpdatePlayData();
                 StopCoroutine(ResultMessage());
@@ -112,6 +113,7 @@ public class ItemSelect : MonoBehaviour
             else
             {
                 // 쿨타임이 지나지 않은 경우
+                targetStarInfo.DestroyStar();
             }
         }
         if (targetCloverInfo == null) return;
