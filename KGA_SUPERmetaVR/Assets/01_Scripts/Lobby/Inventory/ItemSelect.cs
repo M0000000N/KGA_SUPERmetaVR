@@ -11,21 +11,17 @@ public class ItemSelect : MonoBehaviour
     private GameObject targetObject;
     private GameObject grabObject;
     [SerializeField] GameObject itemSocket;
-
     [SerializeField] private InputActionProperty isGrap;
-
     private bool isDestroyCloverRun = false;
     private bool isGrabRun = false;
-
     private string targetTag = string.Empty;
+    private int targetLayer = 0;
     private CloverInfo targetCloverInfo;
     private FD_Dragon targetStarInfo;
-
     void Start()
     {
         leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
     }
-
     private void Update()
     {
         if (isGrap.action.IsPressed() && isGrabRun == false)
@@ -37,18 +33,24 @@ public class ItemSelect : MonoBehaviour
             GrabOut();
         }
     }
-
     public void HoverGet3DRayCastHit()
     {
-        //raycastall vs raycast 
+        //raycastall vs raycast
         if (leftRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit _leftRayHit))
         {
             if (isGrabRun == false)
             {
                 string targetTag = _leftRayHit.transform.gameObject.tag;
-
+                int targetLayer = _leftRayHit.transform.gameObject.layer;
+                Debug.Log($"»£πˆ∑π¿ÃæÓ{targetLayer}");
+                Debug.Log($"æ∆¿Ã≈€∑π¿ÃæÓ{LayerMask.NameToLayer("Item")}");
                 if (targetTag == "ThreeLeafClover" || targetTag == "FourLeafClover")
                 {
+                    targetObject = _leftRayHit.transform.gameObject;
+                }
+                else if (targetLayer == LayerMask.NameToLayer("Item"))
+                {
+                    Debug.Log("»£πˆ∑π¿ÃæÓµÂ∑∑ø»");
                     targetObject = _leftRayHit.transform.gameObject;
                 }
                 else
@@ -62,25 +64,26 @@ public class ItemSelect : MonoBehaviour
             targetObject = null;
         }
     }
-
     private void Grab()
     {
         isGrabRun = true;
         targetTag = string.Empty;
+        targetLayer = -1;
+        Debug.Log("±◊∑æ¥Ô");
         if (targetObject != null)
         {
             grabObject = targetObject;
             targetTag = grabObject.tag;
+            targetLayer = grabObject.layer;
+            Debug.Log("≈∏∞Ÿ¿’¿Ω");
         }
-        if (grabObject.layer == LayerMask.NameToLayer("Item"))
+        if (targetLayer == LayerMask.NameToLayer("Item"))
         {
-
+            Debug.Log("∑π¿ÃæÓµµµÂ∑∑ø»");
             itemSocket.SetActive(true);
             grabObject.layer = LayerMask.NameToLayer("GrabItem");
-
         }
-        
-        if (targetTag.Equals("ThreeLeafClover")) // ÏÑ∏ÏûéÌÅ¥Î°úÎ≤ÑÎ©¥
+        if (targetTag.Equals("ThreeLeafClover")) // ºº¿Ÿ≈¨∑Œπˆ∏È
         {
             if (isDestroyCloverRun == false)
             {
@@ -88,82 +91,79 @@ public class ItemSelect : MonoBehaviour
             }
         }
     }
-
     private void GrabOut()
     {
         isGrabRun = false;
         itemSocket.SetActive(false);
         if (grabObject == null) return;
-        if(targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover"))
+        if (targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover"))
         {
             targetCloverInfo = grabObject.GetComponent<CloverInfo>();
         }
-        else if(targetTag.Equals("Star"))
+        else if (targetTag.Equals("Star"))
         {
-            targetStarInfo.ParticleOn();
-            GameManager.Instance.PlayerData.PaperSwanData.TodayCount++;
-            GameManager.Instance.PlayerData.PaperSwanData.TotalCount++;
+            targetStarInfo.ParticlePUN("ParticleOn");
 
-            StopCoroutine(ResultMessage());
-            StartCoroutine(ResultMessage());
+            if (FlyDragonDataBase.Instance.CheckCooltime(2))
+            {
+                FlyDragonDataBase.Instance.UpdatePlayData();
+                StopCoroutine(ResultMessage());
+                StartCoroutine(ResultMessage());
+            }
+            else
+            {
+                // ƒ≈∏¿”¿Ã ¡ˆ≥™¡ˆ æ ¿∫ ∞ÊøÏ
+                targetStarInfo.DestroyStar();
+            }
         }
         if (targetCloverInfo == null) return;
-
         if (targetCloverInfo.IsStartFadedout == false)
         {
             leftRayInteractor.enableInteractions = false;
             StartCoroutine(Activeinteractor());
-
             StopCoroutine(DestroyObject());
-            targetCloverInfo.IsStartFadedout = true; 
+            targetCloverInfo.IsStartFadedout = true;
             isDestroyCloverRun = false;
             targetObject = null;
             grabObject = null;
         }
     }
-
     private IEnumerator DestroyObject()
     {
         if (grabObject == null) yield break;
-
         isDestroyCloverRun = true;
         CloverInfo targetCloverInfo = grabObject.GetComponent<CloverInfo>();
         yield return new WaitForSeconds(2f);
         if (targetCloverInfo.IsStartFadedout == false)
         {
             StartCoroutine(Activeinteractor());
-
             targetCloverInfo.IsStartFadedout = true;
             targetObject = null;
             grabObject = null;
         }
         isDestroyCloverRun = false;
     }
-
     IEnumerator Activeinteractor()
     {
         yield return new WaitForSeconds(2f);
         leftRayInteractor.enableInteractions = true;
     }
-
     IEnumerator ChangeTag(GameObject _item)
     {
         yield return new WaitForSeconds(3f);
         _item.tag = "Item";
     }
-
     IEnumerator ResultMessage()
     {
-        // TODO : Í≤åÏûÑ ÏãúÏûë Ïãú ÏΩîÎ£®Ìã¥ Ï≤¥ÌÅ¨ ÌïÑÏöî
+        // TODO : ∞‘¿” Ω√¿€ Ω√ ƒ⁄∑Á∆æ √º≈© « ø‰
         while (true)
         {
             yield return new WaitForSecondsRealtime(600f);
             if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
-                UnityEngine.Debug.Log("Î©îÏãúÏßÄ Ï∂úÎ†•");
+                RewardManager.Instance.OpenRewardMessage();
                 break;
             }
         }
     }
-
 }

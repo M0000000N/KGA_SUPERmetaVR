@@ -21,6 +21,4 @@ public class ItemSocket : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
-
-    
 }

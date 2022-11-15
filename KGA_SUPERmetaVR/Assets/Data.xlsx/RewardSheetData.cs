@@ -21,11 +21,11 @@ public class RewardSheetData
   public string Discription { get {return discription; } set { this.discription = value;} }
   
   [SerializeField]
-  int probability;
-  public int Probability { get {return probability; } set { this.probability = value;} }
-  
-  [SerializeField]
   int period;
   public int Period { get {return period; } set { this.period = value;} }
+  
+  [SerializeField]
+  int probability;
+  public int Probability { get {return probability; } set { this.probability = value;} }
   
 }
