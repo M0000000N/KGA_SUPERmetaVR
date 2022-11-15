@@ -18,11 +18,12 @@ public class VoiceEffect : MonoBehaviourPun
     [SerializeField] GameObject Mute; 
 
     private void Awake()
-    {
-        Mute.SetActive(false);
-        voiceView = GetComponent<PhotonVoiceView>();
+    {   
+           // Mute.SetActive(false);
+            voiceView = GetComponent<PhotonVoiceView>();
     }
 
+  
     //보이스 채팅 유무
     public bool GetSoundDetection()
     { 
@@ -34,24 +35,22 @@ public class VoiceEffect : MonoBehaviourPun
     {
         recorder.TransmitEnabled = isOn;
     }
-     
+
+
     private void Update()
     {
-                  
         if (GetSoundDetection())
-            {
-                // speakerIcon.SetActive(true);
-                Speaker.gameObject.SetActive(true);
-                Speaker.SetBool("VocieTalk", true);
-                Mute.SetActive(false);
-
-            }
-            else
-            {
-                Speaker.SetBool("VocieTalk", false);
-                Speaker.gameObject.SetActive(false);
-                Mute.SetActive(true);
-            }
-        
+        {
+            // speakerIcon.SetActive(true);
+            Speaker.gameObject.SetActive(true);
+            Speaker.SetBool("VocieTalk", true);
+            Mute.SetActive(false);
+        }
+        else
+        {
+            Speaker.SetBool("VocieTalk", false);
+            Speaker.gameObject.SetActive(false);
+            Mute.SetActive(true);
+        }
     }
 }

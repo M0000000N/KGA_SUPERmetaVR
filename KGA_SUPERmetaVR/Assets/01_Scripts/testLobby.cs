@@ -14,6 +14,6 @@ public class testLobby : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("FlyDragon");
+        PhotonNetwork.LoadLevel("Ver.1_Lobby");
     }
 }

@@ -10,6 +10,8 @@ using System.Threading;
 using Photon.Voice.Unity.UtilityScripts;
 using Photon.Voice.PUN.UtilityScripts;
 using UnityEngine.SocialPlatforms;
+using JetBrains.Annotations;
+using OVRSimpleJSON;
 
 // 마이크활성화 / 비활성화
 // 음량 조절
@@ -24,7 +26,6 @@ public class SoundControl : MonoBehaviourPun
     MicAmplifier MicAmplifier; 
     PhotonVoiceView photonvoice;
     PhotonView view;
-    MicAmplifier micAmplifier;
 
     [SerializeField] Toggle micActivate;  // 마이크 활성화, 비활성화 
     [SerializeField] Button soundSetting; // 설정 눌렀을 때 
@@ -34,26 +35,29 @@ public class SoundControl : MonoBehaviourPun
     private float micVolum;
 
     private void Start()
-    {
-        micAmplifier = GetComponent<MicAmplifier>();
-        micAmplifier = new MicAmplifier();
+    {    
+            MicAmplifier = GetComponent<MicAmplifier>();
+            MicAmplifier = new MicAmplifier();
 
-        micVolum = PlayerPrefs.GetFloat("micVolum", 0f);
-        micAmplifier.AmplificationFactor = micVolum;
+            micVolum = PlayerPrefs.GetFloat("micVolum", 0f);
+            MicAmplifier.BoostValue = micVolum;
 
-        soundSettingImage.SetActive(false);
-        soundSetting.onClick.AddListener(clickSoundSetting);
-        closeButton.onClick.AddListener(CloseSoundSetting);
+            soundSettingImage.SetActive(false);
+            soundSetting.onClick.AddListener(clickSoundSetting);
+            closeButton.onClick.AddListener(CloseSoundSetting);
 
-        micActivate.onValueChanged.AddListener(SetTransmitSound);
-        TurnOffMute(); // 마이크가 켜져있는 기본 상태 
+            MicVoulmSlider.onValueChanged.AddListener(micSlider);
 
+            micActivate.onValueChanged.AddListener(SetTransmitSound);
+            TurnOffMute(); // 마이크가 켜져있는 기본 상태 
     }
 
-    private void Update()
-    {     
-        micSlider();
-    }
+    //private void Update()
+    //{
+    //    if (!photonView.IsMine) return;
+
+    //    micSlider();
+    //}
 
     // 설정창 켜짐
     private void clickSoundSetting()
@@ -79,9 +83,9 @@ public class SoundControl : MonoBehaviourPun
         recorder.VoiceDetection = isOn;
     }
     
-    public void micSlider()
+    public void micSlider(float micVolum)
     {
-        micAmplifier.AmplificationFactor = MicVoulmSlider.value;
+        MicAmplifier.BoostValue = MicVoulmSlider.value;
         micVolum = MicVoulmSlider.value;
         PlayerPrefs.SetFloat("micVolum", micVolum);
     }
