@@ -106,7 +106,7 @@ public class NPC_Communication : MonoBehaviour
         else
         {
             button[0].GetComponentInChildren<TextMeshProUGUI>().text = npcDialogueData.SELECT1;
-            button[0].onClick.AddListener(() => { CheckCondition(1, npcDialogueData); });
+            button[0].onClick.AddListener(() => { CheckCondition(1, npcDialogueData.Select1condition1, npcDialogueData.Condition1quantity); });
             button[0].gameObject.SetActive(true);
         }
 
@@ -118,7 +118,7 @@ public class NPC_Communication : MonoBehaviour
         else
         {
             button[1].GetComponentInChildren<TextMeshProUGUI>().text = npcDialogueData.SELECT2;
-            button[1].onClick.AddListener(() => { CheckCondition(2, npcDialogueData); });
+            button[1].onClick.AddListener(() => { CheckCondition(2, npcDialogueData.Select2condition2, npcDialogueData.Condition2quantity); });
             button[1].gameObject.SetActive(true);
         }
     }
@@ -140,138 +140,71 @@ public class NPC_Communication : MonoBehaviour
         comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
     }
 
-    public void CheckCondition(int _type, NPCDialogueData _npcDialogueData) // _npcDialogueData.Select2condition2, _npcDialogueData.Condition2quantity)
+    public bool CheckCondition(int _type, int _id, int _count)
     {
-        int checkID = 0;
-        int checkCount = 0;
-        switch (_type)
-        {
-            case 1:
-                checkID = _npcDialogueData.Select1condition1;
-                checkCount = _npcDialogueData.Condition1quantity;
-                break;
-            default:
-                checkID = _npcDialogueData.Select2condition2;
-                checkCount = _npcDialogueData.Condition2quantity;
-                break;
-        }
-
-        if (isComunicationAnimationEnd == false) return;
+        if (isComunicationAnimationEnd == false) return false; ;
         isComunicationAnimationEnd = false;
 
         List<int> itemID = new List<int>();
         List<int> itemCount = new List<int>();
         int totalCount = 0;
 
-        if(checkID > 0)
+        for (int i = 0; i < playerData.ItemSlotData.ItemData.Length; i++)
         {
-            for (int i = 0; i < playerData.ItemSlotData.ItemData.Length; i++)
+            if(playerData.ItemSlotData.ItemData[i].ID == _id && _id > 0)
             {
-                if(playerData.ItemSlotData.ItemData[i].ID == checkID)
+                for (int j = 0; j < itemCount.Count; j++)
                 {
-                    for (int j = 0; j < itemCount.Count; j++)
+                    totalCount += itemCount[j];
+                }
+
+                if(playerData.ItemSlotData.ItemData[i].Count + totalCount >= _count)
+                {
+                    for (int k = 0; k < itemID.Count; k++)
                     {
-                        totalCount += itemCount[j];
+                        // 이 아이템의 모든 수량을 파괴 playerData.ItemSlotData.ItemData[id[k]]
+                        totalCount -= itemCount[k];
                     }
 
-                    if(playerData.ItemSlotData.ItemData[i].Count + totalCount >= checkCount)
+                    // 이 아이템을 남은 totalCount 수량만큼 파괴 playerData.ItemSlotData.ItemData[i]
+
+                    // inventory -> AcqireItem
+                    // TODO : 새로운 아이템 지급이 필요하면 지급할 것
+                    switch (_type)
                     {
-                        for (int k = 0; k < itemID.Count; k++)
-                        {
-                            totalCount -= itemCount[k];
-                        }
+                        case 1:
+                            SheetID = StaticData.GetNPCDialogueData(SheetID, number).Condition1nexttalkid;
+                            break;
 
-                        switch (_type)
-                        {
-                            case 1:
-                                SheetID = StaticData.GetNPCDialogueData(SheetID, number).Condition1nexttalkid;
-                                break;
-
-                            default:
-                                SheetID = StaticData.GetNPCDialogueData(SheetID, number).Condition2nexttalkid;
-                                break;
-                        }
-
-                        number = 1;
-                        comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
-                        break;
+                        default:
+                            SheetID = StaticData.GetNPCDialogueData(SheetID, number).Condition2nexttalkid;
+                            break;
                     }
-                    else
-                    {
-                        itemID.Add(i);
-                        itemID.Add(playerData.ItemSlotData.ItemData[i].Count);
-                    }
+
+                    number = 1;
+                    comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
+                    return true;
+                }
+                else
+                {
+                    itemID.Add(i);
+                    itemID.Add(playerData.ItemSlotData.ItemData[i].Count);
                 }
             }
-
-            switch (_type)
-            {
-                case 1:
-                    SheetID = StaticData.GetNPCDialogueData(SheetID, number).Nexttalkid1;
-                    break;
-
-                default:
-                    SheetID = StaticData.GetNPCDialogueData(SheetID, number).Nexttalkid2;
-                    break;
-            }
-
-            number = 1;
-            comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
         }
-        
-        GetItem(_npcDialogueData);
+        switch (_type)
+        {
+            case 1:
+                SheetID = StaticData.GetNPCDialogueData(SheetID, number).Nexttalkid1;
+                break;
+
+            default:
+                SheetID = StaticData.GetNPCDialogueData(SheetID, number).Nexttalkid2;
+                break;
+        }
+
+        number = 1;
         comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
-    }
-
-    public void GetItem(NPCDialogueData _npcDialogueData)
-    {
-        int getID = _npcDialogueData.Getitemid;
-        int getCount = _npcDialogueData.Getitemea;
-
-        int outID = _npcDialogueData.Outitemid;
-        int outCount = _npcDialogueData.Outitemea;
-
-        List<int> itemID = new List<int>();
-        List<int> itemCount = new List<int>();
-        int totalCount = 0;
-
-        if (getID > 0 && outID > 0)
-        {
-            for (int i = 0; i < playerData.ItemSlotData.ItemData.Length; i++)
-            {
-                if (playerData.ItemSlotData.ItemData[i].ID == outID)
-                {
-                    for (int j = 0; j < itemCount.Count; j++)
-                    {
-                        totalCount += itemCount[j];
-                    }
-
-                    if (playerData.ItemSlotData.ItemData[i].Count + totalCount >= outCount) // 5 + 3 >= 7
-                    {
-                        for (int k = 0; k < itemID.Count; k++)
-                        {
-                            playerData.ItemSlotData.ItemData[itemID[k]].ID = 0;
-                            playerData.ItemSlotData.ItemData[itemID[k]].Count = 0;
-                            totalCount -= itemCount[k];
-                        }
-
-                        // 남은 totalCount 수량만큼 파괴
-                        playerData.ItemSlotData.ItemData[i].Count -= totalCount;
-
-                        // 새로운 아이템 획득
-                        Item newItem = new Item();
-                        newItem.ItemID = getID;
-                        ItemManager.Instance.Inventory.AcquireItem(newItem, getCount);
-
-                        number = 1;
-                    }
-                    else
-                    {
-                        itemID.Add(i);
-                        itemCount.Add(playerData.ItemSlotData.ItemData[i].Count);
-                    }
-                }
-            }
-        }
+        return false;
     }
 }

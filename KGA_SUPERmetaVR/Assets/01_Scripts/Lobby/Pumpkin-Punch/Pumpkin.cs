@@ -15,13 +15,6 @@ public class Pumpkin : MonoBehaviourPun
     private void OnCollisionEnter(Collision _collision)
     {
         photonView.RPC("PlaySound", RpcTarget.AllViaServer);
-
-        int random = Random.Range(0, 100);
-        if(random == 21)
-        {
-            RewardManager.Instance.GetItem();
-        }
-        // ³·Àº È®·ü·Î º¸»ó
     }
 
     [PunRPC]

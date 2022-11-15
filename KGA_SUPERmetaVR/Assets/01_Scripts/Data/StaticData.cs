@@ -121,21 +121,6 @@ public class StaticData : SingletonBehaviour<StaticData>
         return null;
     }
 
-    [SerializeField] private NPCSheet NPCSheet;
-    public static NPCSheetData[] NPCSheetData { get { return Instance.NPCSheet.dataArray; } }
-
-    public static NPCSheetData GetNPCData(int _id)
-    {
-        for (int i = 0; i < NPCSheetData.Length; i++)
-        {
-            if (NPCSheetData[i].ID == _id)
-            {
-                return NPCSheetData[i];
-            }
-        }
-        return null;
-    }
-
     [SerializeField] private NPCDialogue NPCDialogueSheet;
     public static NPCDialogueData[] NPCDialogueSheetData { get { return Instance.NPCDialogueSheet.dataArray; } }
 

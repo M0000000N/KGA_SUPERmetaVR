@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using Photon.Pun;
 
-public class CloverInfo : MonoBehaviourPun
+public class CloverInfo : MonoBehaviour
 {
     [SerializeField] private bool isFourLeaf;
     public bool IsFourLeaf { get { return isFourLeaf; } set { isFourLeaf = value; } }
@@ -26,15 +25,8 @@ public class CloverInfo : MonoBehaviourPun
         set
         {
             isStartFadedout = value;
-            if (isStartFadedout && gameObject.activeSelf) photonView.RPC("StartFadeOut", RpcTarget.AllViaServer);
-            // StartCoroutine(FadeoutRespawnClover());
+            if (isStartFadedout && gameObject.activeSelf) StartCoroutine(FadeoutRespawnClover());
         }
-    }
-
-    [PunRPC]
-    private void StartFadeOut()
-    {
-        StartCoroutine(FadeoutRespawnClover());
     }
 
     public IEnumerator FadeoutRespawnClover()

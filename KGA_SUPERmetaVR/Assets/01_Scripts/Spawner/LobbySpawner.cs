@@ -11,8 +11,6 @@ public class LobbySpawner : MonoBehaviourPun
     [SerializeField] private string mySpawnEffect; // 스폰 파티클 관련 데이터 연동 시 수정해야 할 부분
     [SerializeField] private string playerCase; // 플레이어 스폰 위치 관련 값, 나중에 플레이어 데이터와 연동시켜야 함 (0 : 튜토리얼, 1 : 광장, 2 : 피카부)
     [SerializeField] private string pumpkin;
-    [SerializeField] private string clover;
-    [SerializeField] private string flyingStar;
     #endregion
 
     #region 스폰 포인트
@@ -37,8 +35,6 @@ public class LobbySpawner : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             SpawnPumpkin();
-            SpawnClover();
-            SpawnStar();
         }
     }
     
@@ -70,6 +66,7 @@ public class LobbySpawner : MonoBehaviourPun
         float positionZ = Random.Range(bottomLeft.z, topRight.z);
 
         Vector3 position = new Vector3(positionX, positionY, positionZ);
+        Debug.Log(position);
         LobbyCamera.transform.position = position;
         return LobbyCamera.transform;
     }
@@ -85,17 +82,5 @@ public class LobbySpawner : MonoBehaviourPun
     {
         Vector3 position = new Vector3(0f, 0f, 0f);
         PhotonNetwork.Instantiate(pumpkin, position, Quaternion.identity);
-    }
-
-    private void SpawnClover()
-    {
-        Vector3 position = new Vector3(0f, 0f, 0f);
-        PhotonNetwork.Instantiate(clover, position, Quaternion.identity);
-    }
-
-    private void SpawnStar()
-    {
-        Vector3 position = new Vector3(0f, 0f, 0f);
-        PhotonNetwork.Instantiate(flyingStar, position, Quaternion.identity);
     }
 }

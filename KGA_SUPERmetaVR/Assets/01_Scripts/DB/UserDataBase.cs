@@ -110,7 +110,7 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
             CloverColonyDataBase.Instance.LoadCloverColonyData();
 
             DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.is_connect, "1", UserTableInfo.user_id, playerData.ID);
-            PhotonNetwork.LoadLevel("TestMakeRoom");
+            PhotonNetwork.LoadLevel("Ver.1_Lobby");
         }
     }
 
