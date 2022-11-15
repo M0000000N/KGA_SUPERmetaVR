@@ -18,6 +18,7 @@ public class ItemSelect : MonoBehaviour
     private bool isGrabRun = false;
 
     private string targetTag = string.Empty;
+    private int targetLayer = 0;
     private CloverInfo targetCloverInfo;
     private FD_Dragon targetStarInfo;
 
@@ -46,9 +47,16 @@ public class ItemSelect : MonoBehaviour
             if (isGrabRun == false)
             {
                 string targetTag = _leftRayHit.transform.gameObject.tag;
-
+                int targetLayer = _leftRayHit.transform.gameObject.layer;
+                Debug.Log($"È£¹ö·¹ÀÌ¾î{targetLayer}");
+                Debug.Log($"¾ÆÀÌÅÛ·¹ÀÌ¾î{LayerMask.NameToLayer("Item")}");
                 if (targetTag == "ThreeLeafClover" || targetTag == "FourLeafClover")
                 {
+                    targetObject = _leftRayHit.transform.gameObject;
+                }
+                else if (targetLayer == LayerMask.NameToLayer("Item"))
+                {
+                    Debug.Log("È£¹ö·¹ÀÌ¾îµå··¿È");
                     targetObject = _leftRayHit.transform.gameObject;
                 }
                 else
@@ -67,13 +75,19 @@ public class ItemSelect : MonoBehaviour
     {
         isGrabRun = true;
         targetTag = string.Empty;
+        targetLayer = -1;
+        Debug.Log("±×·¾´ï");
         if (targetObject != null)
         {
             grabObject = targetObject;
             targetTag = grabObject.tag;
+            targetLayer = grabObject.layer;
+            Debug.Log("Å¸°ÙÀÕÀ½");
+
         }
-        if (grabObject.layer == LayerMask.NameToLayer("Item"))
+        if (targetLayer == LayerMask.NameToLayer("Item"))
         {
+            Debug.Log("·¹ÀÌ¾îµµµå··¿È");
             itemSocket.SetActive(true);
             grabObject.layer = LayerMask.NameToLayer("GrabItem");
         }
