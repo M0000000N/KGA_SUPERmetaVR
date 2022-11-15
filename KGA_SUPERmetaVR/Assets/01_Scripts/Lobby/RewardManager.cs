@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RewardManager : SingletonBehaviour<RewardManager>
 {
+    [SerializeField] private RewardPopup rewardPopup;
+
     public int ChooseItem()
     {
         int rewardItemProbability = Random.Range(0, 100000);
@@ -27,7 +29,7 @@ public class RewardManager : SingletonBehaviour<RewardManager>
             Item newItem = new Item();
             newItem.ItemID = rewardItemID;
             ItemManager.Instance.Inventory.AcquireItem(newItem, 1);
-
+            rewardPopup.SetPopupUI(rewardItemID);
             return true;
         }
         return false;
