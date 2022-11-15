@@ -10,11 +10,16 @@ public class ItemSelect : MonoBehaviour
     private XRRayInteractor leftRayInteractor;
     private GameObject targetObject;
     private GameObject grabObject;
+    [SerializeField] GameObject itemSocket;
 
     [SerializeField] private InputActionProperty isGrap;
 
     private bool isDestroyCloverRun = false;
     private bool isGrabRun = false;
+
+    private string targetTag = string.Empty;
+    private CloverInfo targetCloverInfo;
+    private FD_Dragon targetStarInfo;
 
     void Start()
     {
@@ -61,34 +66,47 @@ public class ItemSelect : MonoBehaviour
     private void Grab()
     {
         isGrabRun = true;
-        string targetTag = string.Empty;
+        targetTag = string.Empty;
         if (targetObject != null)
         {
             grabObject = targetObject;
             targetTag = grabObject.tag;
         }
-        if (targetTag.Equals("Item"))
+        if (grabObject.layer == LayerMask.NameToLayer("Item"))
         {
-
+            itemSocket.SetActive(true);
+            grabObject.layer = LayerMask.NameToLayer("GrabItem");
         }
-        else if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
+        if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
         {
             if (isDestroyCloverRun == false)
             {
                 StartCoroutine(DestroyObject());
             }
         }
-        else if (targetTag.Equals("FourLeafClover")) // 네잎클로버면
+        else if (targetTag.Equals("Star"))
         {
-            //  TODO : 멋진 파티클효과
+            targetObject.GetComponent<Rigidbody>().isKinematic = false;
         }
     }
-
     private void GrabOut()
     {
         isGrabRun = false;
+        itemSocket.SetActive(false);
         if (grabObject == null) return;
-        CloverInfo targetCloverInfo = grabObject.GetComponent<CloverInfo>();
+        if(targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover"))
+        {
+            targetCloverInfo = grabObject.GetComponent<CloverInfo>();
+        }
+        else if(targetTag.Equals("Star"))
+        {
+            targetStarInfo.ParticleOn();
+
+            FlyDragonDataBase.Instance.UpdatePlayData();
+
+            StopCoroutine(ResultMessage());
+            StartCoroutine(ResultMessage());
+        }
         if (targetCloverInfo == null) return;
 
         if (targetCloverInfo.IsStartFadedout == false)
@@ -126,7 +144,6 @@ public class ItemSelect : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         leftRayInteractor.enableInteractions = true;
-
     }
 
     IEnumerator ChangeTag(GameObject _item)
@@ -134,4 +151,19 @@ public class ItemSelect : MonoBehaviour
         yield return new WaitForSeconds(3f);
         _item.tag = "Item";
     }
+
+    IEnumerator ResultMessage()
+    {
+        // TODO : 게임 시작 시 코루틴 체크 필요
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(600f);
+            if (FlyDragonDataBase.Instance.CheckCooltime(2))
+            {
+                UnityEngine.Debug.Log("메시지 출력");
+                break;
+            }
+        }
+    }
+
 }

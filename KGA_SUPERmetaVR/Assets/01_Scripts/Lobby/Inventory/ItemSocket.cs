@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class ItemSocket : MonoBehaviour
 {
-    [SerializeField]
-    private Inventory playerInventory;
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Item"))
+    //    {
+    //        ItemManager.Instance.Inventory.AcquireItem(other.GetComponent<Item>(), 50);
+    //        Destroy(other.gameObject);
+    //    }
+    //}
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Item"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            playerInventory.AcquireItem(other.GetComponent<Item>() , 50);
-            Destroy(other.gameObject);
+            ItemManager.Instance.Inventory.AcquireItem(collision.gameObject.GetComponent<Item>(), 50);
+            Destroy(collision.gameObject);
         }
     }
 }

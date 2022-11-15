@@ -35,7 +35,6 @@ public class SoundControl : MonoBehaviourPun
 
     private void Start()
     {
-      
         micAmplifier = GetComponent<MicAmplifier>();
         micAmplifier = new MicAmplifier();
 
@@ -52,7 +51,7 @@ public class SoundControl : MonoBehaviourPun
     }
 
     private void Update()
-    {
+    {     
         micSlider();
     }
 
