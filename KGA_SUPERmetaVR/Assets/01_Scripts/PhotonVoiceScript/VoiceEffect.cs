@@ -19,7 +19,6 @@ public class VoiceEffect : MonoBehaviourPun
 
     private void Awake()
     {
-
         Mute.SetActive(false);
         voiceView = GetComponent<PhotonVoiceView>();
     }
@@ -38,8 +37,8 @@ public class VoiceEffect : MonoBehaviourPun
      
     private void Update()
     {
-       
-            if (GetSoundDetection())
+                  
+        if (GetSoundDetection())
             {
                 // speakerIcon.SetActive(true);
                 Speaker.gameObject.SetActive(true);
