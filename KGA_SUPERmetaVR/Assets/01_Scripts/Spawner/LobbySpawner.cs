@@ -66,7 +66,6 @@ public class LobbySpawner : MonoBehaviourPun
         float positionZ = Random.Range(bottomLeft.z, topRight.z);
 
         Vector3 position = new Vector3(positionX, positionY, positionZ);
-        Debug.Log(position);
         LobbyCamera.transform.position = position;
         return LobbyCamera.transform;
     }
