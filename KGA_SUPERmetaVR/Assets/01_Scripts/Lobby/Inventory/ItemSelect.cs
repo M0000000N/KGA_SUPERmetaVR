@@ -10,6 +10,7 @@ public class ItemSelect : MonoBehaviour
     private XRRayInteractor leftRayInteractor;
     private GameObject targetObject;
     private GameObject grabObject;
+    [SerializeField] GameObject itemSocket;
 
     [SerializeField] private InputActionProperty isGrap;
 
@@ -71,10 +72,12 @@ public class ItemSelect : MonoBehaviour
             grabObject = targetObject;
             targetTag = grabObject.tag;
         }
-        if (targetTag.Equals("Item"))
+        if (grabObject.layer == LayerMask.NameToLayer("Item"))
         {
+            itemSocket.SetActive(true);
+            grabObject.layer = LayerMask.NameToLayer("GrabItem");
         }
-        else if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
+        if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
         {
             if (isDestroyCloverRun == false)
             {
@@ -86,6 +89,7 @@ public class ItemSelect : MonoBehaviour
     private void GrabOut()
     {
         isGrabRun = false;
+        itemSocket.SetActive(false);
         if (grabObject == null) return;
         if(targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover"))
         {
