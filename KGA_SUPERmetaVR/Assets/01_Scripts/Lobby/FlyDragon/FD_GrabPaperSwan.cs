@@ -90,16 +90,5 @@ public class FD_GrabPaperSwan : MonoBehaviour
         isCoroutine = false;
     }
 
-    IEnumerator ResultMessage()
-    {
-        while(true)
-        {
-            yield return new WaitForSecondsRealtime(600f);
-            if(FlyDragonDataBase.Instance.CheckCooltime(2))
-            {
-                UnityEngine.Debug.Log("메시지 출력");
-                break;
-            }
-        }
-    }
+    
 }
