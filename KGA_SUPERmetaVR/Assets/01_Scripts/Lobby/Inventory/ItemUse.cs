@@ -35,6 +35,8 @@ public class ItemUse : MonoBehaviour
 
         ItemManager.Instance.Inventory.Slots[_slotNumber - (ItemManager.Instance.Inventory.NowPage * ItemManager.Instance.Inventory.NumberOfSlots)].CountText.text = GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].Count.ToString();
 
+        RewardManager.Instance.GetItem(); // º¸»ó È¹µæ
+
         gameObject.SetActive(false);
         ItemManager.Instance.CloseItemInfoUI();
     }

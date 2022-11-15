@@ -5,6 +5,7 @@ using UnityEngine;
 public class RewardManager : SingletonBehaviour<RewardManager>
 {
     [SerializeField] private RewardPopup rewardPopup;
+    [SerializeField] private FD_RewardMessage FD_RewardMessage;
 
     public int ChooseItem()
     {
@@ -33,5 +34,10 @@ public class RewardManager : SingletonBehaviour<RewardManager>
             return true;
         }
         return false;
+    }
+
+    public void OpenRewardMessage()
+    {
+        FD_RewardMessage.OpenUI();
     }
 }
