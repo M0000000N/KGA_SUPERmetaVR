@@ -5,7 +5,7 @@ using UnityEngine;
 public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
 {
     [SerializeField] private Transform[] area;
-    [SerializeField] private FD_Dragon[] dragon;
+    [SerializeField] private FD_Dragon[] star;
 
     void Awake()
     {
@@ -15,9 +15,10 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
 
     public void Initialize()
     {
-        for (int i = 0; i < dragon.Length; i++)
+        for (int i = 0; i < star.Length; i++)
         {
-            SpawnObject(dragon[i].transform);
+            star[i].gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            SpawnObject(star[i].transform);
         }
     }
 
@@ -44,7 +45,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
 
 
         _target.position = spawnArea.transform.position - spawnPosition;
-        _target.rotation = Quaternion.Euler(90, randomRotation, 0);
+        _target.rotation = Quaternion.Euler(0, randomRotation, 0);
         _target.GetComponent<Rigidbody>().velocity = Vector3.zero;
         _target.gameObject.SetActive(true);
     }
@@ -61,49 +62,29 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
         return true;
     }
 
-
-    public void DestroyObject(GameObject _target, float _time)
+    public void DestroyObject(GameObject _target)
     {
-        if (_target.CompareTag("PaperSwan"))
+        if (_target.CompareTag("Star"))
         {
             _target.SetActive(false);
-            // 쿨타임으로 2번 이상 진행이 불가능하지만 Stop을 추가하여 잘 못  
-            StopCoroutine(ResultMessageCoroutine());
-            StartCoroutine(ResultMessageCoroutine());
-
             FlyDragonDataBase.Instance.UpdatePlayData();
         }
-        // isCoroutine = false;
     }
 
     IEnumerator RespawnCoroutine()
     {
-        while(true)
+        while (true)
         {
             yield return new WaitForSecondsRealtime(10800f);
             Initialize();
         }
     }
 
-    IEnumerator ResultMessageCoroutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSecondsRealtime(600f);
-            if (FlyDragonDataBase.Instance.CheckCooltime(2))
-            {
-                UnityEngine.Debug.Log("메시지 출력");
-                break;
-            }
-        }
-    }
-
     public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PaperSwan"))
+        if (other.CompareTag("Star"))
         {
             other.gameObject.SetActive(false);
         }
     }
-
 }
