@@ -33,6 +33,9 @@ public class NPC_Communication : MonoBehaviour
         comunicationAnimationController = transform.GetComponent<Animator>();
 
         SheetID = 27002;
+        handshake.SetActive(false);
+        communication.SetActive(false);
+
         Initialize();
         SetDialogue();
     }
@@ -42,8 +45,6 @@ public class NPC_Communication : MonoBehaviour
         number = 1;
         SheetID = startSheetID;
         isComunicationAnimationEnd = true;
-        handshake.SetActive(false);
-        communication.SetActive(false);
     }
 
     private void Update()
@@ -73,6 +74,7 @@ public class NPC_Communication : MonoBehaviour
     // Ω√¿€
     public void OnPressHand()
     {
+        Initialize();
         handshake.SetActive(false);
         communication.SetActive(true);
     }
@@ -136,7 +138,7 @@ public class NPC_Communication : MonoBehaviour
         if (isComunicationAnimationEnd == false) return;
         isComunicationAnimationEnd = false;
 
-        transform.gameObject.SetActive(false);
+        communication.SetActive(false);
     }
 
     public void NextNumber()
