@@ -1132,7 +1132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61b1f035b73a40343b9f1cb21dcf1bcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myRenderer: {fileID: 0}
+  myRenderer: {fileID: 8587448847848641057}
   opaqueMaterial: {fileID: 3782892595097956658, guid: 59fba24c51a077142ac8320967444123, type: 3}
   transparentMaterial: {fileID: 2100000, guid: 9d7b3b687ef9dab45bd3ef578ac91896, type: 2}
 --- !u!114 &5313368706285102087
@@ -1694,7 +1694,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8307759231613629667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdb8e4922cef4814c9cbbaea4c1f0833, type: 3}
+  m_Script: {fileID: 11500000, guid: d949f6170cc551d40b3d86b1a32c0378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   head:
@@ -1723,7 +1723,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8307759231613629667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b4cb98779d3ca748aac1008765d8a7c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1446e5d85a5a0674eab760db12ba019c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   footOffset: {x: 0, y: 0, z: 0}
@@ -1740,11 +1740,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8307759231613629667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e02a6990bd23dbe44b1c2c479b8e3a42, type: 3}
+  m_Script: {fileID: 11500000, guid: 84ac987526baf3b48bc0e57f8d01aaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedTreshold: 0.1
-  smoothing: 0.3
+  speedTreshold: 0
+  smoothing: 1
 --- !u!114 &4841290074401643762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1799,16 +1799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 1
-    Name: IsMoving
-  - Type: 1
-    SynchronizeType: 1
-    Name: DirectionX
-  - Type: 1
-    SynchronizeType: 1
-    Name: DirectionY
+  m_SynchronizeParameters: []
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
