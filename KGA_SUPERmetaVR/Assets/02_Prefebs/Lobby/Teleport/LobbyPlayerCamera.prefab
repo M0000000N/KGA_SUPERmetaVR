@@ -3553,7 +3553,7 @@ MonoBehaviour:
   openInventoryButton: {fileID: 2479156758098493585}
   closeInventoryButton: {fileID: 1126706562454186060}
   itemInfoUI: {fileID: 7899511367604721789}
-  itemInfoCloseOutUI: {fileID: 726024720782147243}
+  itemInfoCloseOutUI: {fileID: 0}
   itemInfo: {fileID: 1757274298246153872}
   inventory: {fileID: 0}
   exitUI: {fileID: 4440678939587504846}
@@ -3938,8 +3938,9 @@ MonoBehaviour:
   useButton: {fileID: 3010814538807493287}
   destoryButton: {fileID: 3010814536932434949}
   closeButton: {fileID: 3010814538141255512}
-  itemDeleteUI: {fileID: 2352494408658096332}
-  itemUseUI: {fileID: 2485060708246216404}
+  itemDelete: {fileID: 0}
+  itemUse: {fileID: 0}
+  itemEquip: {fileID: 0}
 --- !u!1 &3010814537241373284
 GameObject:
   m_ObjectHideFlags: 0
@@ -5638,7 +5639,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36583823dfeb2c04493ee183e1cd8169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInventory: {fileID: 0}
 --- !u!65 &359991974345911890
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9629,7 +9629,7 @@ MonoBehaviour:
   m_HapticSelectCancelDuration: 0
   m_PlayHapticsOnHoverEntered: 1
   m_HapticHoverEnterIntensity: 0.25
-  m_HapticHoverEnterDuration: 5
+  m_HapticHoverEnterDuration: 0
   m_PlayHapticsOnHoverExited: 0
   m_HapticHoverExitIntensity: 0
   m_HapticHoverExitDuration: 0
@@ -9813,7 +9813,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ValidColorGradient:
     serializedVersion: 2
-    key0: {r: 0.23380208, g: 0.423133, b: 0.6981132, a: 1}
+    key0: {r: 0.23380208, g: 0.423133, b: 0.6981132, a: 0.19607843}
     key1: {r: 0.23380208, g: 0.423133, b: 0.6981132, a: 0.19607843}
     key2: {r: 0.23380208, g: 0.423133, b: 0.6981132, a: 0.19607842}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -9842,8 +9842,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 0.9056604, g: 0.37350282, b: 0.18369527, a: 1}
-    key1: {r: 1, g: 0, b: 0, a: 0.23529412}
+    key0: {r: 0.23380208, g: 0.423133, b: 0.6981132, a: 0.19607843}
+    key1: {r: 0.23380208, g: 0.423133, b: 0.6981132, a: 0.19607843}
     key2: {r: 0, g: 0, b: 0, a: 0.23529412}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -11831,7 +11831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-
   m_Navigation:
     m_Mode: 3
     m_WrapAround: 0
@@ -11869,7 +11868,6 @@ MonoBehaviour:
       m_Calls: []
   m_IsOn: 1
 --- !u!1 &8370362896283567777
-
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12097,22 +12095,18 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-
   - component: {fileID: 8370362896632082246}
   - component: {fileID: 8370362896632082264}
   - component: {fileID: 8370362896632082247}
   m_Layer: 5
   m_Name: MicVolum
-
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-
   m_IsActive: 1
 --- !u!224 &8370362896632082246
 RectTransform:
-
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -12136,10 +12130,9 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-
   m_GameObject: {fileID: 8370362896632082245}
   m_CullTransparentMesh: 1
---- !u!114 &837036289663208224
+--- !u!114 &8370362896632082247
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12151,7 +12144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -12230,7 +12222,6 @@ MonoBehaviour:
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &8370362896700493708
-
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13001,7 +12992,6 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-
   m_fontSize: 66.15
   m_fontSizeBase: 24
   m_fontWeight: 400
@@ -13038,17 +13028,13 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-
   m_margin: {x: 5, y: 5, z: 5, w: 5}
-
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
-
 --- !u!1 &8780317384747681771
-
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14567,7 +14553,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-
   m_SourcePrefab: {fileID: 100100000, guid: aadb26ed3050d78419fa219f50158246, type: 3}
 --- !u!224 &1126706561951624091 stripped
 RectTransform:
@@ -14575,7 +14560,6 @@ RectTransform:
   m_PrefabInstance: {fileID: 2254230153658235188}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7006778752388165347
-
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
