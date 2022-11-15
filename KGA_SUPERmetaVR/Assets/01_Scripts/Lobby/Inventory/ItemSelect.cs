@@ -74,21 +74,21 @@ public class ItemSelect : MonoBehaviour
         }
         if (grabObject.layer == LayerMask.NameToLayer("Item"))
         {
-
             itemSocket.SetActive(true);
             grabObject.layer = LayerMask.NameToLayer("GrabItem");
-
         }
-        
-        if (targetTag.Equals("ThreeLeafClover")) // ì„¸ìí´ë¡œë²„ë©´
+        if (targetTag.Equals("ThreeLeafClover")) // ¼¼ÀÙÅ¬·Î¹ö¸é
         {
             if (isDestroyCloverRun == false)
             {
                 StartCoroutine(DestroyObject());
             }
         }
+        else if (targetTag.Equals("Star"))
+        {
+            targetObject.GetComponent<Rigidbody>().isKinematic = false;
+        }
     }
-
     private void GrabOut()
     {
         isGrabRun = false;
@@ -101,8 +101,8 @@ public class ItemSelect : MonoBehaviour
         else if(targetTag.Equals("Star"))
         {
             targetStarInfo.ParticleOn();
-            GameManager.Instance.PlayerData.PaperSwanData.TodayCount++;
-            GameManager.Instance.PlayerData.PaperSwanData.TotalCount++;
+
+            FlyDragonDataBase.Instance.UpdatePlayData();
 
             StopCoroutine(ResultMessage());
             StartCoroutine(ResultMessage());
@@ -154,13 +154,13 @@ public class ItemSelect : MonoBehaviour
 
     IEnumerator ResultMessage()
     {
-        // TODO : ê²Œì„ ì‹œì‘ ì‹œ ì½”ë£¨í‹´ ì²´í¬ í•„ìš”
+        // TODO : °ÔÀÓ ½ÃÀÛ ½Ã ÄÚ·çÆ¾ Ã¼Å© ÇÊ¿ä
         while (true)
         {
             yield return new WaitForSecondsRealtime(600f);
             if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
-                UnityEngine.Debug.Log("ë©”ì‹œì§€ ì¶œë ¥");
+                UnityEngine.Debug.Log("¸Ş½ÃÁö Ãâ·Â");
                 break;
             }
         }
