@@ -35,6 +35,7 @@ public class SoundControl : MonoBehaviourPun
 
     private void Start()
     {
+        if (!photonView.IsMine) return; 
       
         micAmplifier = GetComponent<MicAmplifier>();
         micAmplifier = new MicAmplifier();
@@ -53,6 +54,7 @@ public class SoundControl : MonoBehaviourPun
 
     private void Update()
     {
+        if (!photonView.IsMine) return;
         micSlider();
     }
 
