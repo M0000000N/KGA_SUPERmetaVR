@@ -107,7 +107,7 @@ public class ItemSelect : MonoBehaviour
         else if(grabTag.Equals("Star"))
         {
             isPlay = false;
-            if (FlyDragonDataBase.Instance.CheckCooltime(2))
+            if (FlyDragonDataBase.Instance.CheckCooltime(0))
             {
                 if(FlyDragonDataBase.Instance.UpdatePlayData())
                 {
@@ -154,7 +154,7 @@ public class ItemSelect : MonoBehaviour
             // grabStarInfo.ParticlePUN("ParticleOn");
             grabStarInfo.ParticleOn();
 
-            if (isPlay)
+             if (isPlay)
             {
                 playerData.PaperSwanData.beRewarded = 1;
                 StopCoroutine(ResultMessage());
@@ -197,11 +197,11 @@ public class ItemSelect : MonoBehaviour
         // TODO : 게임 시작 시 코루틴 체크 필요
         while (true)
         {
-            if (FlyDragonDataBase.Instance.CheckCooltime(2))
+            if (FlyDragonDataBase.Instance.CheckCooltime(0))
             {
                 GameManager.Instance.PlayerData.PaperSwanData.beRewarded = 0;
                 DataBase.Instance.sqlcmdall($"UPDATE {FlyDragonTableInfo.table_name} SET " +
-                            $"{FlyDragonTableInfo.be_rewarded} = {playerData.PaperSwanData.beRewarded}, " +
+                            $"{FlyDragonTableInfo.be_rewarded} = {playerData.PaperSwanData.beRewarded} " +
                             $"WHERE {FlyDragonTableInfo.user_id} = '{playerData.ID}'");
                 RewardManager.Instance.OpenRewardMessage();
                 break;
