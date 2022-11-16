@@ -54,21 +54,22 @@ public class VoiceEffect : MonoBehaviourPun
         {
             if (recentBool) return;
 
-            photonView.RPC(nameof(SetActive), RpcTarget.All, false);
+            photonView.RPC(nameof(SetActive), RpcTarget.All, true);
         }
         else
         {
             if (recentBool == false) return;
 
-            photonView.RPC(nameof(SetActive), RpcTarget.All, true);
+            photonView.RPC(nameof(SetActive), RpcTarget.All, false);
         }
     }
 
     [PunRPC]
     private void SetActive(bool _state)
     {
-        Speaker.gameObject.SetActive(!_state);
+        Speaker.gameObject.SetActive(_state);
         Speaker.SetBool("VoiceTalk", _state);
-        Mute.SetActive(_state);
+        Mute.SetActive(!_state);
+        recentBool = _state;
     }
 }
