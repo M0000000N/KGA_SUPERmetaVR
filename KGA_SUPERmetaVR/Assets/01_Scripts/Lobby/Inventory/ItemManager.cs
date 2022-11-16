@@ -71,6 +71,7 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
     {
         menuUI.SetActive(false);
         inventoryUI.SetActive(true);
+        inventory.RefreshUI();
     }
 
     private void CloseInventoryUI()
