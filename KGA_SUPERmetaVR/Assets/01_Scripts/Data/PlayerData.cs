@@ -91,6 +91,7 @@ public class FeeFawFumData
 public class PaperSwanData
 {
     public string CoolTime;
+    public int beRewarded;
     public int TodayCount;
     public int TotalCount;
 }
