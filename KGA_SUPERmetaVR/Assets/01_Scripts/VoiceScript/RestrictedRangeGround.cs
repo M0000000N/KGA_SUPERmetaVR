@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.UI;
-using Newtonsoft.Json.Bson;
+using Photon.Pun;
 
-public class RestrictedRangeGround : MonoBehaviour
+public class RestrictedRangeGround : MonoBehaviourPun
 {
     [SerializeField]
     ActionBasedContinuousMoveProvider stickMove;
@@ -17,6 +17,8 @@ public class RestrictedRangeGround : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (photonView.IsMine == false) return;
+
         if(other.gameObject.tag == "Player")
         {
             stickMove.enabled = true; 
@@ -25,6 +27,8 @@ public class RestrictedRangeGround : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (photonView.IsMine == false) return;
+
         if (other.gameObject.tag.Equals("Player"))
         {
             stickMove.enabled = false;
