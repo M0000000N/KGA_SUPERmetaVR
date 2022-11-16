@@ -8,6 +8,8 @@ using UnityEngine.Events;
 
 public class RequestPopupUI : SingletonBehaviour<RequestPopupUI>
 {
+    [SerializeField] private GameObject popupUI;
+
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI contentText;
     [SerializeField] private GameObject[] buttonType;
@@ -44,11 +46,11 @@ public class RequestPopupUI : SingletonBehaviour<RequestPopupUI>
 
     public void OpenPopup()
     {
-        gameObject.SetActive(true);
+        popupUI.gameObject.SetActive(true);
     }
 
     public void ClosePopup() 
     {
-        gameObject.SetActive(false);
+        popupUI.gameObject.SetActive(false);
     }
 }

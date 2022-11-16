@@ -47,11 +47,6 @@ public class NPC_Communication : MonoBehaviour
         SetDialogue();
     }
 
-    private void Update()
-    {
-        Debug.Log(isComunicationAnimationEnd);
-    }
-
     // Collider
     private void OnTriggerEnter(Collider other)
     {
