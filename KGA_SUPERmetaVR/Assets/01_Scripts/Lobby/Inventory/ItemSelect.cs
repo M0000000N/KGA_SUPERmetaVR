@@ -20,6 +20,7 @@ public class ItemSelect : MonoBehaviour
     private int grabLayer = 0;
     private CloverInfo grabCloverInfo;
     private FD_Dragon grabStarInfo;
+    private bool isPlay;
 
     void Start()
     {
@@ -105,11 +106,12 @@ public class ItemSelect : MonoBehaviour
         }
         else if(grabTag.Equals("Star"))
         {
-            if(FlyDragonDataBase.Instance.CheckCooltime(2))
+            isPlay = false;
+            if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
-                if(FlyDragonDataBase.Instance.UpdatePlayData() == false)
+                if(FlyDragonDataBase.Instance.UpdatePlayData())
                 {
-                    // 플레이 횟수를 모두 사용하였을 때
+                    isPlay = true;
                 }
             }
             else
@@ -152,7 +154,7 @@ public class ItemSelect : MonoBehaviour
             // grabStarInfo.ParticlePUN("ParticleOn");
             grabStarInfo.ParticleOn();
 
-            if (FlyDragonDataBase.Instance.CheckCooltime(2))
+            if (isPlay)
             {
                 playerData.PaperSwanData.beRewarded = 1;
                 StopCoroutine(ResultMessage());
