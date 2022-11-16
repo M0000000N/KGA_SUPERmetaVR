@@ -13,7 +13,7 @@ public class VoiceEffect : MonoBehaviourPun
 {
     PhotonVoiceView voiceView;
     // PhotonView photonView; 
-    Recorder recorder;
+   // Recorder recorder;
 
     [SerializeField] Animator Speaker;
     [SerializeField] GameObject Mute;
@@ -25,53 +25,42 @@ public class VoiceEffect : MonoBehaviourPun
       //  hotonView = GetComponent<PhotonView>();
         Mute.SetActive(false);
         voiceView = GetComponentInParent<PhotonVoiceView>();
-        recorder= GetComponent<Recorder>();
+       // recorder= GetComponent<Recorder>();
     }
 
     //보이스 채팅 유무
     public bool GetSoundDetection()
-    { 
+    {
         return voiceView.IsRecording;     
     }
 
     // 보이스 전송 유무 - 뮤트 관련 
-    public void SetTransmitSound(bool isOn)
-    {
-        recorder.TransmitEnabled = isOn;
-    }
+    //public void SetTransmitSound(bool isOn)
+    //{
+    //    recorder.TransmitEnabled = isOn;
+    //}
 
     private void Update()
     {
         if (photonView.IsMine == false) return;
-
         SpeakIcon();
     }
 
     public void SpeakIcon()
     {
-        photonView.RPC("VoiceConnection", RpcTarget.All);
-    }
-
-    [PunRPC]
-    private void VoiceConnection()
-    {
         if (GetSoundDetection())
         {
-
+            Debug.Log("ㅎㅇ");
             Speaker.gameObject.SetActive(true);
             Speaker.SetBool("VocieTalk", true);
-
             Mute.SetActive(false);
-
         }
         else
         {
-
+            Debug.Log("메롱");
             Speaker.SetBool("VocieTalk", false);
             Speaker.gameObject.SetActive(false);
-
             Mute.SetActive(true);
-
         }
     }
 }
