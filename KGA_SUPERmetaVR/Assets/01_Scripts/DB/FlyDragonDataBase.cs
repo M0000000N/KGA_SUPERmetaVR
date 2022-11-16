@@ -63,7 +63,7 @@ public class FlyDragonDataBase : SingletonBehaviour<FlyDragonDataBase>
     {
         LoadFlyDragonData();
 
-        if (playerData.PaperSwanData.TodayCount < 3) // TODO : 플레이 횟수는 나중에 Datatable로 관리될 수 있으니 수정이 발생할 수 있습니다.
+        if (playerData.PaperSwanData.TodayCount < 8) // TODO : 플레이 횟수는 나중에 Datatable로 관리될 수 있으니 수정이 발생할 수 있습니다.
         {
             ++playerData.PaperSwanData.TodayCount;
             ++playerData.PaperSwanData.TotalCount;
