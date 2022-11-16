@@ -12,65 +12,65 @@ using Photon.Voice.Unity;
 public class VoiceEffect : MonoBehaviourPun
 {
     PhotonVoiceView voiceView;
-    // PhotonView photonView; 
-   // Recorder recorder;
+   // PhotonView photonView; 
+    Recorder recorder;
 
     [SerializeField] Animator Speaker;
     [SerializeField] GameObject Mute;
 
-    bool isSpeaking = false;
-    bool recentBool;
+    bool isSpeaking = false; 
 
     private void Awake()
     {
       //  hotonView = GetComponent<PhotonView>();
         Mute.SetActive(false);
         voiceView = GetComponentInParent<PhotonVoiceView>();
-        recentBool = true;
-        Speaker.SetBool("VoiceTalk", true);
-       // recorder= GetComponent<Recorder>();
     }
 
     //보이스 채팅 유무
     public bool GetSoundDetection()
-    {
-        return voiceView.IsRecording;     
+    { 
+        return voiceView.IsRecording;
     }
 
-    // 보이스 전송 유무 - 뮤트 관련 
-    //public void SetTransmitSound(bool isOn)
-    //{
-    //    recorder.TransmitEnabled = isOn;
-    //}
+    // 보이스 전송 유무 
+    public void SetTransmitSound(bool isOn)
+    {
+        recorder.TransmitEnabled = isOn;
+    }
 
     private void Update()
     {
-        if (photonView.IsMine == false) return;
-        SpeakIcon();
+        if (photonView.IsMine == false) return; 
+
+        SpeakIcon(); 
     }
 
     public void SpeakIcon()
     {
+        photonView.RPC("VoiceConnection", RpcTarget.All);
+    }
+
+    // 함수 나눠서 bool 값으로 호출 
+    [PunRPC]
+    private void VoiceConnection()
+    {
         if (GetSoundDetection())
         {
-            if (recentBool) return;
-
-            photonView.RPC(nameof(SetActive), RpcTarget.All, true);
+            // speakerIcon.SetActive(true);
+            Speaker.gameObject.SetActive(true);
+            Speaker.SetBool("VocieTalk", true);
+            Mute.SetActive(false);
         }
         else
         {
-            if (recentBool == false) return;
+            Speaker.SetBool("VocieTalk", false);
+            Speaker.gameObject.SetActive(false);
 
-            photonView.RPC(nameof(SetActive), RpcTarget.All, false);
+            if (voiceView.IsSpeaking == false)
+            {
+                Mute.SetActive(true);
+            }
         }
-    }
-
-    [PunRPC]
-    private void SetActive(bool _state)
-    {
-        Speaker.gameObject.SetActive(_state);
-        Speaker.SetBool("VoiceTalk", _state);
-        Mute.SetActive(!_state);
-        recentBool = _state;
     }
 }

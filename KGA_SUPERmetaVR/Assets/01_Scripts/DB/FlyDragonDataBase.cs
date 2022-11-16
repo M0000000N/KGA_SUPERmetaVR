@@ -32,11 +32,9 @@ public class FlyDragonDataBase : SingletonBehaviour<FlyDragonDataBase>
         playerData = GameManager.Instance.PlayerData;
     }
 
-    public void CreateFlyDragonData(string _id) // 데이터가 없으면 생성
+    public void CreateFlyDragonData() // 데이터가 없으면 생성
     {
-        DataBase.Instance.InsertDB(FlyDragonTableInfo.table_name, 
-            $"{FlyDragonTableInfo.user_id}, {FlyDragonTableInfo.create_at}, {FlyDragonTableInfo.update_at}", 
-            $"'{_id}', NOW(), NOW()");
+        DataBase.Instance.InsertDB(FlyDragonTableInfo.table_name, $"{FlyDragonTableInfo.user_id}, {FlyDragonTableInfo.create_at}, {FlyDragonTableInfo.update_at}", $"'{playerData.ID}', NOW(), NOW()");
     }
 
     public void LoadFlyDragonData()
@@ -65,7 +63,7 @@ public class FlyDragonDataBase : SingletonBehaviour<FlyDragonDataBase>
     {
         LoadFlyDragonData();
 
-        if (playerData.PaperSwanData.TodayCount < 8) // TODO : 플레이 횟수는 나중에 Datatable로 관리될 수 있으니 수정이 발생할 수 있습니다.
+        if (playerData.PaperSwanData.TodayCount < 3) // TODO : 플레이 횟수는 나중에 Datatable로 관리될 수 있으니 수정이 발생할 수 있습니다.
         {
             ++playerData.PaperSwanData.TodayCount;
             ++playerData.PaperSwanData.TotalCount;

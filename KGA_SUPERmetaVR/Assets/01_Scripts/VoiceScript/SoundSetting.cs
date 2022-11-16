@@ -68,7 +68,6 @@ public class SoundSetting : MonoBehaviourPun
         soundSettingImage.SetActive(false);
     }
 
-    [PunRPC]
     // 마이크 음소거
     private void Mute(bool isOn)
     {

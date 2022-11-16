@@ -44,11 +44,9 @@ public class FeeFawFumDataBase : SingletonBehaviour<FeeFawFumDataBase>
     }
     // 테스트 코드
 
-    public void CreateFeefawfumData(string _id) // 데이터가 없으면 생성
+    public void CreateFeefawfumData() // 데이터가 없으면 생성
     {
-        DataBase.Instance.InsertDB(FeeFawFumTableInfo.table_name, 
-            $"{FeeFawFumTableInfo.user_id}, {FeeFawFumTableInfo.create_at}, {FeeFawFumTableInfo.update_at}", 
-            $"'{_id}', NOW(), NOW()");
+        DataBase.Instance.InsertDB(FeeFawFumTableInfo.table_name, $"{FeeFawFumTableInfo.user_id}, {FeeFawFumTableInfo.create_at}, {FeeFawFumTableInfo.update_at}", $"'{playerData.ID}', NOW(), NOW()");
     }
 
     public void LoadFeefawfumData()

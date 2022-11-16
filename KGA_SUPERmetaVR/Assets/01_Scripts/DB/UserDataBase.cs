@@ -73,10 +73,10 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
 
             // [아이템]
             // DB 생성
-            FeeFawFumDataBase.Instance.CreateFeefawfumData(CreateID.text);
-            FlyDragonDataBase.Instance.CreateFlyDragonData(CreateID.text);
-            CloverColonyDataBase.Instance.CreateCloverColonyData(CreateID.text);
-            PeekabooDataBase.Instance.CreatePeekabooData(CreateID.text);
+            FeeFawFumDataBase.Instance.CreateFeefawfumData();
+            FlyDragonDataBase.Instance.CreateFlyDragonData();
+            CloverColonyDataBase.Instance.CreateCloverColonyData();
+            PeekabooDataBase.Instance.CreatePeekabooData();
 
             // TestCode 저장
             playerItemList = JsonUtility.ToJson(playerData.ItemSlotData);

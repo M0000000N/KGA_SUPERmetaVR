@@ -24,13 +24,10 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private int maxNnumberOfItems;
 
-    private void Awake()
-    {
-        playerData = GameManager.Instance.PlayerData;
-    }
 
     private void Start()
     {
+        playerData = GameManager.Instance.PlayerData;
         Debug.Log($"인벤토리 길이 {playerData.ItemSlotData.ItemData.Length}");
         ///테스트용
         //for (int i = 0; i < 4; i++)

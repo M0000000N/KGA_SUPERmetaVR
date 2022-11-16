@@ -65,10 +65,6 @@ public class NPCDialogueData
   public int Nexttalkid2 { get {return nexttalkid2; } set { this.nexttalkid2 = value;} }
   
   [SerializeField]
-  string soudeffect;
-  public string Soudeffect { get {return soudeffect; } set { this.soudeffect = value;} }
-  
-  [SerializeField]
   int getitemid;
   public int Getitemid { get {return getitemid; } set { this.getitemid = value;} }
   
@@ -83,6 +79,10 @@ public class NPCDialogueData
   [SerializeField]
   int outitemea;
   public int Outitemea { get {return outitemea; } set { this.outitemea = value;} }
+  
+  [SerializeField]
+  string soudeffect;
+  public string Soudeffect { get {return soudeffect; } set { this.soudeffect = value;} }
   
   [SerializeField]
   string animation;

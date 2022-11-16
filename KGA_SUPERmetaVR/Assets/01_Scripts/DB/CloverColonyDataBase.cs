@@ -31,11 +31,9 @@ public class CloverColonyDataBase : SingletonBehaviour<CloverColonyDataBase>
         playerData = GameManager.Instance.PlayerData;
     }
 
-    public void CreateCloverColonyData(string _id) // 데이터가 없으면 생성
+    public void CreateCloverColonyData() // 데이터가 없으면 생성
     {
-        DataBase.Instance.InsertDB(CloverColonyTableInfo.table_name, 
-            $"{CloverColonyTableInfo.user_id}, {CloverColonyTableInfo.create_at}, {CloverColonyTableInfo.update_at}", 
-            $"'{_id}', NOW(), NOW()");
+        DataBase.Instance.InsertDB(CloverColonyTableInfo.table_name, $"{CloverColonyTableInfo.user_id}, {CloverColonyTableInfo.create_at}, {CloverColonyTableInfo.update_at}", $"'{playerData.ID}', NOW(), NOW()");
     }
 
     public void LoadCloverColonyData()
