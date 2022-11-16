@@ -13,7 +13,7 @@ public class NPC_Communication : MonoBehaviour
     private int sheetID;
     public int SheetID { get { return sheetID; } set { sheetID = value; } }
 
-    private int number;
+    [SerializeField] private int number;
 
     [SerializeField] private GameObject handshake;
     [SerializeField] private GameObject communication;
@@ -32,7 +32,9 @@ public class NPC_Communication : MonoBehaviour
         playerData = GameManager.Instance.PlayerData;
         comunicationAnimationController = transform.GetComponent<Animator>();
 
-        SheetID = 27002;
+        handshake.SetActive(false);
+        communication.SetActive(false);
+
         Initialize();
         SetDialogue();
     }
@@ -42,8 +44,7 @@ public class NPC_Communication : MonoBehaviour
         number = 1;
         SheetID = startSheetID;
         isComunicationAnimationEnd = true;
-        handshake.SetActive(false);
-        communication.SetActive(false);
+        SetDialogue();
     }
 
     private void Update()
@@ -57,7 +58,9 @@ public class NPC_Communication : MonoBehaviour
         if (other.tag.Equals("Player"))
         {
             // 대화 중
+            Initialize();
             handshake.SetActive(true);
+            communication.SetActive(false);
         }
     }
 
@@ -67,12 +70,15 @@ public class NPC_Communication : MonoBehaviour
         {
             // 대화 끝
             Initialize();
+            handshake.SetActive(false);
+            communication.SetActive(false);
         }
     }
 
     // 시작
     public void OnPressHand()
     {
+        Initialize();
         handshake.SetActive(false);
         communication.SetActive(true);
     }
@@ -136,7 +142,7 @@ public class NPC_Communication : MonoBehaviour
         if (isComunicationAnimationEnd == false) return;
         isComunicationAnimationEnd = false;
 
-        transform.gameObject.SetActive(false);
+        communication.SetActive(false);
     }
 
     public void NextNumber()

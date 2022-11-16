@@ -5,16 +5,18 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
 
-public class FriendManager : MonoBehaviourPunCallbacks
+public class FriendManager : SingletonBehaviour<FriendManager>
 {
     [SerializeField] private GameObject friendListObject;
     [SerializeField] private Transform viewportTransform;
     [SerializeField] private GameObject friendContent;
 
     private PlayerData playerData;
-    private string targetUID;
+    private int objectUID;
+
+    private int targetUID;
     private string targetNickName;
-    private string requestTargetUID;
+    private int requestTargetUID;
     private string requestTargetNickName;
     private PhotonView photonView;
 
@@ -35,6 +37,11 @@ public class FriendManager : MonoBehaviourPunCallbacks
         friendListObject.SetActive(false);
     }
 
+    // 각 플레이어의 데이터를 갖고 있어야한다.
+    // 버튼을 눌렀을 때
+    // 해당하는 오브젝트의 플레이어 데이터를 불러와야 한다.
+
+    
     public void AddFriend(int _uid)
     {
         int index = FindFriend(_uid);
@@ -134,7 +141,7 @@ public class FriendManager : MonoBehaviourPunCallbacks
     }
 
     // 친구 추가 요청
-    public void CheckRequest(string _targetUID, string _targetNickname)
+    public void CheckRequest(int _targetUID, string _targetNickname)
     {
         requestTargetUID = _targetUID;
         requestTargetNickName = _targetNickname;
@@ -148,7 +155,7 @@ public class FriendManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void SendRequestMessage(string _playerUID, string _targetUID, string _targetNickName)
+    public void SendRequestMessage(int _playerUID, int _targetUID, string _targetNickName)
     {
         UnityEngine.Debug.Log("메크로");
 
@@ -165,7 +172,7 @@ public class FriendManager : MonoBehaviourPunCallbacks
     public void Approve()
     {
         photonView.RPC("ApproveMessage", RpcTarget.Others, targetUID, playerData.UID, playerData.Nickname);
-        AddFriend(int.Parse(targetUID));
+        AddFriend(targetUID);
         // 친구등록
     }
 
@@ -175,12 +182,12 @@ public class FriendManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void ApproveMessage(string _uid, string _targetUID, string _nickname)
+    public void ApproveMessage(int _uid, int _targetUID, string _nickname)
     {
         if (playerData.UID == _uid)
         {
             RequestPopupUI.Instance.SetPopup(52002, _nickname);
-            AddFriend(int.Parse(_targetUID));
+            AddFriend(_targetUID);
             // 친구등록
         }
     }
@@ -188,7 +195,7 @@ public class FriendManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RejectMessage(string _uid, string _nickname)
     {
-        if (playerData.UID == _uid)
+        if (playerData.UID.ToString() == _uid)
         {
             RequestPopupUI.Instance.SetPopup(52003, _nickname);
         }

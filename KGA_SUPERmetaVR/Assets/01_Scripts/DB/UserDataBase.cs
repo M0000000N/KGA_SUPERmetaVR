@@ -183,7 +183,7 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
         {
             foreach (DataRow row in dataTable.Rows)
             {
-                playerData.UID = row[UserTableInfo.id].ToString();
+                playerData.UID = int.Parse(row[UserTableInfo.id].ToString());
                 // 아이디
                 playerData.ID = row[UserTableInfo.user_id].ToString();
                 // 닉네임
