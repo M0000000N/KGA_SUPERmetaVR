@@ -103,7 +103,23 @@ public class ItemSelect : MonoBehaviour
                 StartCoroutine(DestroyObject());
             }
         }
+        else if(grabTag.Equals("Star"))
+        {
+            if(FlyDragonDataBase.Instance.CheckCooltime(2))
+            {
+                if(FlyDragonDataBase.Instance.UpdatePlayData() == false)
+                {
+                    // 플레이 횟수를 모두 사용하였을 때
+                }
+            }
+            else
+            {
+                // 아직 쿨타임이 지나지 않았을 때
+                grabObject.GetComponent<FD_Dragon>().IsStartFadedout = true;
+            }
+        }
     }
+
     private void GrabOut()
     {
         isGrabRun = false;
@@ -139,7 +155,6 @@ public class ItemSelect : MonoBehaviour
             if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
                 playerData.PaperSwanData.beRewarded = 1;
-                FlyDragonDataBase.Instance.UpdatePlayData();
                 StopCoroutine(ResultMessage());
                 StartCoroutine(ResultMessage());
             }
