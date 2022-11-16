@@ -36,9 +36,11 @@ public class PeekabooDataBase : SingletonBehaviour<PeekabooDataBase>
         playerData = GameManager.Instance.PlayerData;
     }
 
-    public void CreatePeekabooData() // 데이터가 없으면 생성
+    public void CreatePeekabooData(string _id) // 데이터가 없으면 생성
     {
-        DataBase.Instance.InsertDB(PeekabooTableInfo.table_name, $"{PeekabooTableInfo.user_id}, {PeekabooTableInfo.create_at}, {PeekabooTableInfo.update_at}", $"'{playerData.ID}', NOW(), NOW()");
+        DataBase.Instance.InsertDB(PeekabooTableInfo.table_name, 
+            $"{PeekabooTableInfo.user_id}, {PeekabooTableInfo.create_at}, {PeekabooTableInfo.update_at}", 
+            $"'{_id}', NOW(), NOW()");
     }
 
     public void SaveCharacterList() // 캐릭터 구매 등 변경사항 발생시
@@ -77,7 +79,7 @@ public class PeekabooDataBase : SingletonBehaviour<PeekabooDataBase>
         }
         else if (dataTable.Rows.Count <= 0)
         {
-            CreatePeekabooData();
+            CreatePeekabooData(playerData.ID);
         }
     }
 

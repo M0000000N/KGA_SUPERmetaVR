@@ -95,8 +95,7 @@ public class SoundControl : MonoBehaviourPun
     {
         if (isOn)
         {
-            TurnOffMute();
-           
+            TurnOffMute();      
         }
         else
         {

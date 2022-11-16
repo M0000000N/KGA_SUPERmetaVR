@@ -20,6 +20,7 @@ public class ItemSelect : MonoBehaviour
     private int grabLayer = 0;
     private CloverInfo grabCloverInfo;
     private FD_Dragon grabStarInfo;
+    private bool isPlay;
 
     void Start()
     {
@@ -103,7 +104,24 @@ public class ItemSelect : MonoBehaviour
                 StartCoroutine(DestroyObject());
             }
         }
+        else if(grabTag.Equals("Star"))
+        {
+            isPlay = false;
+            if (FlyDragonDataBase.Instance.CheckCooltime(2))
+            {
+                if(FlyDragonDataBase.Instance.UpdatePlayData())
+                {
+                    isPlay = true;
+                }
+            }
+            else
+            {
+                // 아직 쿨타임이 지나지 않았을 때
+                grabObject.GetComponent<FD_Dragon>().IsStartFadedout = true;
+            }
+        }
     }
+
     private void GrabOut()
     {
         isGrabRun = false;
@@ -136,10 +154,9 @@ public class ItemSelect : MonoBehaviour
             // grabStarInfo.ParticlePUN("ParticleOn");
             grabStarInfo.ParticleOn();
 
-            if (FlyDragonDataBase.Instance.CheckCooltime(2))
+            if (isPlay)
             {
                 playerData.PaperSwanData.beRewarded = 1;
-                FlyDragonDataBase.Instance.UpdatePlayData();
                 StopCoroutine(ResultMessage());
                 StartCoroutine(ResultMessage());
             }
