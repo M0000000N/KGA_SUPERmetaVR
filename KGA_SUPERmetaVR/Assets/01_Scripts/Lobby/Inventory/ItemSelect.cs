@@ -14,10 +14,10 @@ public class ItemSelect : MonoBehaviour
     [SerializeField] private InputActionProperty isGrap;
     private bool isDestroyCloverRun = false;
     private bool isGrabRun = false;
-    private string targetTag = string.Empty;
-    private int targetLayer = 0;
-    private CloverInfo targetCloverInfo;
-    private FD_Dragon targetStarInfo;
+    private string grabTag = string.Empty;
+    private int grabLayer = 0;
+    private CloverInfo grabCloverInfo;
+    private FD_Dragon grabStarInfo;
     void Start()
     {
         leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
@@ -42,13 +42,12 @@ public class ItemSelect : MonoBehaviour
             {
                 string targetTag = _leftRayHit.transform.gameObject.tag;
                 int targetLayer = _leftRayHit.transform.gameObject.layer;
-                Debug.Log($"호버레이어{targetLayer}");
-                Debug.Log($"아이템레이어{LayerMask.NameToLayer("Item")}");
-                if (targetTag == "ThreeLeafClover" || targetTag == "FourLeafClover")
+
+                if (targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover") || targetTag.Equals("Star") )
                 {
                     targetObject = _leftRayHit.transform.gameObject;
                 }
-                else if (targetLayer == LayerMask.NameToLayer("Item"))
+                else if (targetLayer.Equals(LayerMask.NameToLayer("Item")))
                 {
                     Debug.Log("호버레이어드렁옴");
                     targetObject = _leftRayHit.transform.gameObject;
@@ -67,23 +66,22 @@ public class ItemSelect : MonoBehaviour
     private void Grab()
     {
         isGrabRun = true;
-        targetTag = string.Empty;
-        targetLayer = -1;
-        Debug.Log("그렙댐");
+        grabTag = string.Empty;
+        grabLayer = -1;
+
         if (targetObject != null)
         {
             grabObject = targetObject;
-            targetTag = grabObject.tag;
-            targetLayer = grabObject.layer;
+            grabTag = grabObject.tag;
+            grabLayer = grabObject.layer;
             Debug.Log("타겟잇음");
         }
-        if (targetLayer == LayerMask.NameToLayer("Item"))
+        if (grabLayer.Equals(LayerMask.NameToLayer("Item")))
         {
-            Debug.Log("레이어도드렁옴");
             itemSocket.SetActive(true);
             grabObject.layer = LayerMask.NameToLayer("GrabItem");
         }
-        if (targetTag.Equals("ThreeLeafClover")) // 세잎클로버면
+        if (grabTag.Equals("ThreeLeafClover")) // 세잎클로버면
         {
             if (isDestroyCloverRun == false)
             {
@@ -96,13 +94,32 @@ public class ItemSelect : MonoBehaviour
         isGrabRun = false;
         itemSocket.SetActive(false);
         if (grabObject == null) return;
-        if (targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover"))
+
+        if (grabTag.Equals("ThreeLeafClover") || grabTag.Equals("FourLeafClover"))
         {
-            targetCloverInfo = grabObject.GetComponent<CloverInfo>();
+            grabCloverInfo = grabObject.GetComponent<CloverInfo>();
+
+            if (grabCloverInfo == null) return;
+
+            if (grabCloverInfo.IsStartFadedout == false)
+            {
+                leftRayInteractor.enableInteractions = false;
+                StartCoroutine(Activeinteractor());
+                StopCoroutine(DestroyObject());
+                grabCloverInfo.IsStartFadedout = true;
+                isDestroyCloverRun = false;
+                targetObject = null;
+                grabObject = null;
+            }
         }
-        else if (targetTag.Equals("Star"))
+        else if (grabTag.Equals("Star"))
         {
-            targetStarInfo.ParticlePUN("ParticleOn");
+            grabStarInfo = grabObject.GetComponent<FD_Dragon>();
+
+            if (grabStarInfo == null) return;
+
+            // grabStarInfo.ParticlePUN("ParticleOn");
+            grabStarInfo.ParticleOn();
 
             if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
@@ -113,19 +130,8 @@ public class ItemSelect : MonoBehaviour
             else
             {
                 // 쿨타임이 지나지 않은 경우
-                targetStarInfo.DestroyStar();
+                grabStarInfo.DestroyStar();
             }
-        }
-        if (targetCloverInfo == null) return;
-        if (targetCloverInfo.IsStartFadedout == false)
-        {
-            leftRayInteractor.enableInteractions = false;
-            StartCoroutine(Activeinteractor());
-            StopCoroutine(DestroyObject());
-            targetCloverInfo.IsStartFadedout = true;
-            isDestroyCloverRun = false;
-            targetObject = null;
-            grabObject = null;
         }
     }
     private IEnumerator DestroyObject()
