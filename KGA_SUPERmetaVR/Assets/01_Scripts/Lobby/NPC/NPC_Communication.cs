@@ -100,12 +100,19 @@ public class NPC_Communication : MonoBehaviour
             if (nextNPCDialogueData != null)
             {
                 text = "다음";
-                button[0].onClick.AddListener(() => { NextNumber(); });
+                button[0].onClick.AddListener(() => { NextNumber(npcDialogueData); });
             }
             else
             {
                 text = "확인";
-                button[0].onClick.AddListener(() => { EndCommunication(); });
+
+                // TODO : 시스템화하면 좋겠지만 시간상 하드코딩을 진행
+                if(npcID == 20300 && sheetID == 24000)
+                {
+                    startSheetID = 24001;
+                }
+
+                button[0].onClick.AddListener(() => { EndCommunication(npcDialogueData); });
             }
             button[0].GetComponentInChildren<TextMeshProUGUI>().text = text;
 
@@ -132,21 +139,31 @@ public class NPC_Communication : MonoBehaviour
         }
     }
 
-    public void EndCommunication()
+    public void EndCommunication(NPCDialogueData _npcDialogueData)
     {
         if (isComunicationAnimationEnd == false) return;
         isComunicationAnimationEnd = false;
 
+        GetItem(_npcDialogueData);
         communication.SetActive(false);
     }
 
-    public void NextNumber()
+    public void NextNumber(NPCDialogueData _npcDialogueData)
     {
         if (isComunicationAnimationEnd == false) return;
         isComunicationAnimationEnd = false;
 
         number++;
+        GetItem(_npcDialogueData);
         comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            CheckCondition(1,StaticData.GetNPCDialogueData(24000, 1));
+        }
     }
 
     public void CheckCondition(int _type, NPCDialogueData _npcDialogueData) // _npcDialogueData.Select2condition2, _npcDialogueData.Condition2quantity)
@@ -203,7 +220,10 @@ public class NPC_Communication : MonoBehaviour
 
                         number = 1;
                         comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
-                        break;
+
+                        GetItem(_npcDialogueData);
+                        comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
+                        return;
                     }
                     else
                     {
@@ -255,7 +275,31 @@ public class NPC_Communication : MonoBehaviour
                         totalCount += itemCount[j];
                     }
 
-                    if (playerData.ItemSlotData.ItemData[i].Count + totalCount >= outCount) // 5 + 3 >= 7
+                    if (playerData.ItemSlotData.ItemData[i].Count > outCount) // 5 + 3 >= 7
+                    {
+                        // 남은 totalCount 수량만큼 파괴
+                        playerData.ItemSlotData.ItemData[i].Count -= outCount;
+
+                        // 새로운 아이템 획득
+                        Item newItem = new Item();
+                        newItem.ItemID = getID;
+                        ItemManager.Instance.Inventory.AcquireItem(newItem, getCount);
+
+                        number = 1;
+                    }
+                    else if (playerData.ItemSlotData.ItemData[i].Count == outCount)
+                    {
+                        playerData.ItemSlotData.ItemData[i].ID = 0;
+                        playerData.ItemSlotData.ItemData[i].Count = 0;
+
+                        // 새로운 아이템 획득
+                        Item newItem = new Item();
+                        newItem.ItemID = getID;
+                        ItemManager.Instance.Inventory.AcquireItem(newItem, getCount);
+
+                        number = 1;
+                    }
+                    else if (playerData.ItemSlotData.ItemData[i].Count + totalCount >= outCount) // 5 + 3 >= 7
                     {
                         for (int k = 0; k < itemID.Count; k++)
                         {

@@ -29,6 +29,8 @@ public class GameManager : SingletonBehaviour<GameManager>
         PlayerData.PeekabooData = new PeekabooData();
         PlayerData.PeekabooData.CharacterList = new PlayerCharacter();
         playerData.FeeFawFumData = new FeeFawFumData();
+        playerData.PaperSwanData = new PaperSwanData();
+        playerData.CloverColonyData = new CloverColonyData();
 
         PlayerData.ItemSlotData = new ItemSlotData();
         playerData.ItemSlotData.ItemData = new ItemData[32];
