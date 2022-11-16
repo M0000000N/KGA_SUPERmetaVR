@@ -32,9 +32,11 @@ public class FlyDragonDataBase : SingletonBehaviour<FlyDragonDataBase>
         playerData = GameManager.Instance.PlayerData;
     }
 
-    public void CreateFlyDragonData() // 데이터가 없으면 생성
+    public void CreateFlyDragonData(string _id) // 데이터가 없으면 생성
     {
-        DataBase.Instance.InsertDB(FlyDragonTableInfo.table_name, $"{FlyDragonTableInfo.user_id}, {FlyDragonTableInfo.create_at}, {FlyDragonTableInfo.update_at}", $"'{playerData.ID}', NOW(), NOW()");
+        DataBase.Instance.InsertDB(FlyDragonTableInfo.table_name, 
+            $"{FlyDragonTableInfo.user_id}, {FlyDragonTableInfo.create_at}, {FlyDragonTableInfo.update_at}", 
+            $"'{_id}', NOW(), NOW()");
     }
 
     public void LoadFlyDragonData()
