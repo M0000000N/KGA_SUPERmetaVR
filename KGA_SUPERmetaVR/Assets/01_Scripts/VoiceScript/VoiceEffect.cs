@@ -12,8 +12,8 @@ using Photon.Voice.Unity;
 public class VoiceEffect : MonoBehaviourPun
 {
     PhotonVoiceView voiceView;
-   // PhotonView photonView; 
-    Recorder recorder;
+    // PhotonView photonView; 
+   // Recorder recorder;
 
     [SerializeField] Animator Speaker;
     [SerializeField] GameObject Mute;
@@ -25,52 +25,42 @@ public class VoiceEffect : MonoBehaviourPun
       //  hotonView = GetComponent<PhotonView>();
         Mute.SetActive(false);
         voiceView = GetComponentInParent<PhotonVoiceView>();
+       // recorder= GetComponent<Recorder>();
     }
 
     //보이스 채팅 유무
     public bool GetSoundDetection()
-    { 
-        return voiceView.IsRecording;
+    {
+        return voiceView.IsRecording;     
     }
 
-    // 보이스 전송 유무 
-    public void SetTransmitSound(bool isOn)
-    {
-        recorder.TransmitEnabled = isOn;
-    }
+    // 보이스 전송 유무 - 뮤트 관련 
+    //public void SetTransmitSound(bool isOn)
+    //{
+    //    recorder.TransmitEnabled = isOn;
+    //}
 
     private void Update()
     {
-        if (photonView.IsMine == false) return; 
-
-        SpeakIcon(); 
+        if (photonView.IsMine == false) return;
+        SpeakIcon();
     }
 
     public void SpeakIcon()
     {
-        photonView.RPC("VoiceConnection", RpcTarget.All);
-    }
-
-    // 함수 나눠서 bool 값으로 호출 
-    [PunRPC]
-    private void VoiceConnection()
-    {
         if (GetSoundDetection())
         {
-            // speakerIcon.SetActive(true);
+            Debug.Log("ㅎㅇ");
             Speaker.gameObject.SetActive(true);
             Speaker.SetBool("VocieTalk", true);
             Mute.SetActive(false);
         }
         else
         {
+            Debug.Log("메롱");
             Speaker.SetBool("VocieTalk", false);
             Speaker.gameObject.SetActive(false);
-
-            if (voiceView.IsSpeaking == false)
-            {
-                Mute.SetActive(true);
-            }
+            Mute.SetActive(true);
         }
     }
 }
