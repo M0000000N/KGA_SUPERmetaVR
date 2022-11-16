@@ -17,7 +17,7 @@ public class RewardPopup : MonoBehaviour
 
     private void Start()
     {
-        canvasGroup = transform.GetComponent<CanvasGroup>();
+        canvasGroup = popupUI.transform.GetComponent<CanvasGroup>();
     }
 
     public void SetPopupUI(int _itemID)

@@ -87,10 +87,14 @@ public class ItemSelect : MonoBehaviour
             grabLayer = grabObject.layer;
             Debug.Log("≈∏∞Ÿ¿’¿Ω");
         }
-        if (grabLayer.Equals(LayerMask.NameToLayer("Item")))
+        if (grabLayer.Equals(LayerMask.NameToLayer("Item")) || grabLayer.Equals(LayerMask.NameToLayer("GrabItem")))
         {
             itemSocket.SetActive(true);
             grabObject.layer = LayerMask.NameToLayer("GrabItem");
+            foreach (Transform child in grabObject.transform)
+            {
+                child.gameObject.layer = LayerMask.NameToLayer("GrabItem");
+            }
         }
         if (grabTag.Equals("ThreeLeafClover")) // ºº¿Ÿ≈¨∑Œπˆ∏È
         {
