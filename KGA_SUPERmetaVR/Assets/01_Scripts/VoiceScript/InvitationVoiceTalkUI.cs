@@ -7,11 +7,13 @@ using Photon.Voice.PUN;
 using Photon.Voice.Unity;
 using Photon.Realtime;
 using TMPro;
+using Oculus.Interaction.PoseDetection.Debug;
 
 public class InvitationVoiceTalkUI : MonoBehaviourPun
 {
     // 2.5미터 안에 들면 악수 뜨기 
     // 2.5미터 벗어나면 악수 없어지기 
+    public Button GetHandShakeImage { get { return HandShakeImage; } }
 
     [SerializeField] GameObject DialogUI;
     [SerializeField] GameObject InvitationUI;
@@ -61,16 +63,40 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "Player")
+        if (photonView.IsMine == false) return;
+
+        if (other.gameObject.tag == "Player")
         {
-            HandShakeImage.gameObject.SetActive(true);
+            InvitationVoiceTalkUI talkUI = other.gameObject.GetComponent<InvitationVoiceTalkUI>();
+
+            if (talkUI != null)
+            {
+                talkUI.GetHandShakeImage.enabled = true;
+            }
+            else
+            {
+                Debug.Log("야 Null값 받아라~");
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        HandShakeImage.gameObject.SetActive(false);
-        DialogUI.SetActive(false);
+        if (photonView.IsMine == false) return;
+
+        if (other.gameObject.tag == "Player")
+        {
+            InvitationVoiceTalkUI talkUI = other.gameObject.GetComponent<InvitationVoiceTalkUI>();
+
+            if (talkUI != null)
+            {
+                talkUI.GetHandShakeImage.enabled = false;
+            }
+            else
+            {
+                Debug.Log("야 Null값 받아라~");
+            }
+        }
     }
 
     [PunRPC]
