@@ -30,6 +30,7 @@ public class FD_Dragon : MonoBehaviourPun
     [PunRPC]
     public void ParticleOn()
     {
+        rigidbody.isKinematic = false;
         for (int i = 0; i < particle.Length; i++)
         {
             particle[i].Play();

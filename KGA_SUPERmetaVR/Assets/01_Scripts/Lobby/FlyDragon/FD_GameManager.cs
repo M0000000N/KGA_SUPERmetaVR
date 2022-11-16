@@ -12,7 +12,8 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
     void Awake()
     {
         photonView = PhotonView.Get(this);
-        photonView.RPC("Initialize",RpcTarget.AllViaServer);
+        //photonView.RPC("Initialize",RpcTarget.AllViaServer);
+        Initialize();
         StartCoroutine(RespawnCoroutine());
     }
 

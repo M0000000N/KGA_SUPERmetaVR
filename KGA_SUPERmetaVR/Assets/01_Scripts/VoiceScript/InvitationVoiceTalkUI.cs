@@ -13,13 +13,13 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
 
     [SerializeField] GameObject DialogUI;
     [SerializeField] GameObject InvitationUI; 
-    [SerializeField] GameObject SucessPopUI;
+   // [SerializeField] GameObject SucessPopUI;
 
     [SerializeField] Button HandShakeImage;
     [SerializeField] Button Talking;
-    [SerializeField] Button Accept;
-    [SerializeField] Button Refuse;
-    [SerializeField] Button Accept_SucessUI; 
+    [SerializeField] Button Yes;
+    [SerializeField] Button No;
+  //  [SerializeField] Button Accept_SucessUI; 
 
     GameObject targetObject;
 
@@ -27,17 +27,15 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
     private void Start()
     {
         // 내가 조작할 수 없게 
-        if (!photonView.IsMine)
-        {
-            DialogUI.SetActive(false);
-            InvitationUI.SetActive(false);
-            SucessPopUI.SetActive(false);
+        DialogUI.SetActive(false);
+        InvitationUI.SetActive(false);
+        //SucessPopUI.SetActive(false);
 
-            Talking.onClick.AddListener(InvitationPopUI);
-            Accept.onClick.AddListener(AcceptButton);
-            Refuse.onClick.AddListener(RefuseButton);
-            HandShakeImage.onClick.AddListener(DialogPopUI);
-        }
+        Talking.onClick.AddListener(InvitationPopUI);
+        Yes.onClick.AddListener(AcceptButton);
+        No.onClick.AddListener(RefuseButton);
+        HandShakeImage.onClick.AddListener(DialogPopUI);
+
     }
 
     private void Update()
@@ -51,32 +49,6 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
         DialogUI.SetActive(true);
     }
 
-    //private void ConnectionVoice()
-    //{
-    //    RaycastHit hit;
-    //    if (Physics.Raycast(transform.position, Vector3.forward, out hit, 25f))
-    //    {
-    //        targetObject = hit.transform.gameObject;
-
-    //        // 태그가 플레이어 / 둘 사이의 거리가 2.5m 이내면 악수 띄움
-    //        if (hit.transform.gameObject.tag == "Player")
-    //        {
-    //            if (targetObject == null) return;
-
-    //            if (targetObject != null)
-    //            { 
-    //                if (photonView.IsMine == true) return;
-    //                HandShakeImage.gameObject.SetActive(true);
-    //                // 악수 클릭하면 상호작용할 수 있는 UI 출력 
-    //               // HandShakeImage.onClick.AddListener(DialogPopUI);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            return; 
-    //        }
-    //    }
-    //}
     [PunRPC]
     private void OnTriggerEnter(Collider other)
     {
@@ -84,6 +56,11 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
         {
             HandShakeImage.gameObject.SetActive(true);
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        HandShakeImage.gameObject.SetActive(false);
     }
 
     [PunRPC]
@@ -95,7 +72,7 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
     private void AcceptButton()
     {
         InvitationUI.SetActive(false);
-        SucessPopUI.SetActive(true);
+      //  SucessPopUI.SetActive(true);
     }
     [PunRPC]
     private void RefuseButton()

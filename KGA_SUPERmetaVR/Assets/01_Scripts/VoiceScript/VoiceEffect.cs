@@ -12,18 +12,21 @@ using Photon.Voice.Unity;
 public class VoiceEffect : MonoBehaviourPun
 {
     PhotonVoiceView voiceView;
+   // PhotonView photonView; 
     Recorder recorder;
 
     [SerializeField] Animator Speaker;
-    [SerializeField] GameObject Mute; 
+    [SerializeField] GameObject Mute;
+
+    bool isSpeaking = false; 
 
     private void Awake()
-    {   
-           // Mute.SetActive(false);
-            voiceView = GetComponent<PhotonVoiceView>();
+    {
+      //  hotonView = GetComponent<PhotonView>();
+        Mute.SetActive(false);
+        voiceView = GetComponentInParent<PhotonVoiceView>();
     }
 
-  
     //보이스 채팅 유무
     public bool GetSoundDetection()
     { 
@@ -36,8 +39,21 @@ public class VoiceEffect : MonoBehaviourPun
         recorder.TransmitEnabled = isOn;
     }
 
-
     private void Update()
+    {
+        if (photonView.IsMine == false) return; 
+
+        SpeakIcon(); 
+    }
+
+    public void SpeakIcon()
+    {
+        photonView.RPC("VoiceConnection", RpcTarget.All);
+    }
+
+    // 함수 나눠서 bool 값으로 호출 
+    [PunRPC]
+    private void VoiceConnection()
     {
         if (GetSoundDetection())
         {
@@ -50,7 +66,11 @@ public class VoiceEffect : MonoBehaviourPun
         {
             Speaker.SetBool("VocieTalk", false);
             Speaker.gameObject.SetActive(false);
-            Mute.SetActive(true);
+
+            if (voiceView.IsSpeaking == false)
+            {
+                Mute.SetActive(true);
+            }
         }
     }
 }
