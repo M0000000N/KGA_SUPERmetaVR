@@ -27,6 +27,7 @@ public class VoiceEffect : MonoBehaviourPun
         Mute.SetActive(false);
         voiceView = GetComponentInParent<PhotonVoiceView>();
         recentBool = true;
+        Speaker.SetBool("VoiceTalk", true);
        // recorder= GetComponent<Recorder>();
     }
 
