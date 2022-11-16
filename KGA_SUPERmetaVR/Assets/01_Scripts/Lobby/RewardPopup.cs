@@ -6,6 +6,8 @@ using TMPro;
 
 public class RewardPopup : MonoBehaviour
 {
+    [SerializeField] private GameObject popupUI;
+
     [SerializeField] private Transform itemObjectParent;
     [SerializeField] private Image gradeImage;
     [SerializeField] private TextMeshProUGUI itemName;
@@ -15,9 +17,7 @@ public class RewardPopup : MonoBehaviour
 
     private void Start()
     {
-        canvasGroup = transform.GetComponent<CanvasGroup>();
-
-        SetPopupUI(15014);
+        canvasGroup = popupUI.transform.GetComponent<CanvasGroup>();
     }
 
     public void SetPopupUI(int _itemID)
@@ -33,7 +33,7 @@ public class RewardPopup : MonoBehaviour
         gradeImage.sprite = Resources.Load<Sprite>("Item/Grade/" + itemImage[StaticData.GetItemSheet(_itemID).Grade]);
 
         itemName.text = StaticData.GetItemSheet(_itemID).Name;
-        gameObject.SetActive(true);
+        popupUI.gameObject.SetActive(true);
         StartCoroutine(OpenUICoroutine(item));
     }
 
@@ -77,6 +77,6 @@ public class RewardPopup : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        gameObject.SetActive(false);
+        popupUI.gameObject.SetActive(false);
     }
 }

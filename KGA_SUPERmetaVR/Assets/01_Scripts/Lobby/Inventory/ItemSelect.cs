@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class ItemSelect : MonoBehaviour
 {
+    PlayerData playerData;
+
     [SerializeField] GameObject leftHand;
     private XRRayInteractor leftRayInteractor;
     private GameObject targetObject;
@@ -18,10 +20,19 @@ public class ItemSelect : MonoBehaviour
     private int grabLayer = 0;
     private CloverInfo grabCloverInfo;
     private FD_Dragon grabStarInfo;
+
     void Start()
     {
+        playerData = GameManager.Instance.PlayerData;
         leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
+
+        if(playerData.PaperSwanData.beRewarded > 0)
+        {
+            StopCoroutine(ResultMessage());
+            StartCoroutine(ResultMessage());
+        }
     }
+
     private void Update()
     {
         if (isGrap.action.IsPressed() && isGrabRun == false)
@@ -76,10 +87,14 @@ public class ItemSelect : MonoBehaviour
             grabLayer = grabObject.layer;
             Debug.Log("타겟잇음");
         }
-        if (grabLayer.Equals(LayerMask.NameToLayer("Item")))
+        if (grabLayer.Equals(LayerMask.NameToLayer("Item")) || grabLayer.Equals(LayerMask.NameToLayer("GrabItem")))
         {
             itemSocket.SetActive(true);
             grabObject.layer = LayerMask.NameToLayer("GrabItem");
+            foreach (Transform child in grabObject.transform)
+            {
+                child.gameObject.layer = LayerMask.NameToLayer("GrabItem");
+            }
         }
         if (grabTag.Equals("ThreeLeafClover")) // 세잎클로버면
         {
@@ -123,6 +138,7 @@ public class ItemSelect : MonoBehaviour
 
             if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
+                playerData.PaperSwanData.beRewarded = 1;
                 FlyDragonDataBase.Instance.UpdatePlayData();
                 StopCoroutine(ResultMessage());
                 StartCoroutine(ResultMessage());
@@ -164,12 +180,16 @@ public class ItemSelect : MonoBehaviour
         // TODO : 게임 시작 시 코루틴 체크 필요
         while (true)
         {
-            yield return new WaitForSecondsRealtime(600f);
             if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
+                GameManager.Instance.PlayerData.PaperSwanData.beRewarded = 0;
+                DataBase.Instance.sqlcmdall($"UPDATE {FlyDragonTableInfo.table_name} SET " +
+                            $"{FlyDragonTableInfo.be_rewarded} = {playerData.PaperSwanData.beRewarded}, " +
+                            $"WHERE {FlyDragonTableInfo.user_id} = '{playerData.ID}'");
                 RewardManager.Instance.OpenRewardMessage();
                 break;
             }
+            yield return new WaitForSecondsRealtime(600f);
         }
     }
 }

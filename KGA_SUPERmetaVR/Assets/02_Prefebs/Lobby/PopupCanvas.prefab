@@ -145,7 +145,6 @@ GameObject:
   - component: {fileID: 8504833058352261442}
   - component: {fileID: 361209710729896630}
   - component: {fileID: 5449353976696887765}
-  - component: {fileID: 7472568824917497068}
   m_Layer: 0
   m_Name: PopupUI
   m_TagString: Untagged
@@ -214,25 +213,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7472568824917497068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1057048703518007092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d987fc35576ae24fa9b27248b900392, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleText: {fileID: 5008196949659542932}
-  contentText: {fileID: 2941661462265560634}
-  buttonType:
-  - {fileID: 5192044483037578449}
-  - {fileID: 1592206882628093380}
-  yesButton: {fileID: 1313618040360663320}
-  noButton: {fileID: 1924878565767194734}
 --- !u!1 &1290837004792087290
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,7 +887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1135563150453328652
 RectTransform:
   m_ObjectHideFlags: 0
@@ -917,7 +897,7 @@ RectTransform:
   m_GameObject: {fileID: 5382642976519629319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.002, y: 0.002, z: 0.002}
   m_Children:
   - {fileID: 8504833058352261442}
   m_Father: {fileID: 0}
@@ -1205,7 +1185,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7472568824917497068}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RequestPopupUI, Assembly-CSharp
         m_MethodName: ClosePopup
         m_Mode: 1

@@ -7,9 +7,9 @@ using UnityEngine.Events;
 
 public class FriendManager : SingletonBehaviour<FriendManager>
 {
-    [SerializeField] private GameObject friendListObject;
+    [SerializeField] private GameObject friendCanvas;
     [SerializeField] private Transform viewportTransform;
-    [SerializeField] private GameObject friendContent;
+    // [SerializeField] private GameObject friendContent;
 
     private PlayerData playerData;
     private int objectUID;
@@ -26,15 +26,15 @@ public class FriendManager : SingletonBehaviour<FriendManager>
         photonView = PhotonView.Get(this);
     }
 
-    public void OpenList()
+    public void OpenUI()
     {
         UpdateFriendData();
-        friendListObject.SetActive(true);
+        friendCanvas.SetActive(true);
     }
 
-    public void CloseList()
+    public void CloseUI()
     {
-        friendListObject.SetActive(false);
+        friendCanvas.SetActive(false);
     }
 
     // 각 플레이어의 데이터를 갖고 있어야한다.

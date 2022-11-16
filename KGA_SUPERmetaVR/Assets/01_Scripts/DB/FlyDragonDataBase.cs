@@ -12,6 +12,7 @@ public class FlyDragonTableInfo
     public static readonly string user_id = "user_id";
 
     public static readonly string cooltime = "cooltime"; // 쿨타임 (이벤트를 진행한 시간)
+    public static readonly string be_rewarded = "be_rewarded"; // 보상 받았는지 확인
     public static readonly string today_count = "today_count"; // 오늘 미션 완료 횟수
 
     public static readonly string total_count = "total_count"; // 총 미션 완료 횟수
@@ -47,6 +48,7 @@ public class FlyDragonDataBase : SingletonBehaviour<FlyDragonDataBase>
 
                 // 데이터 들어감
                 playerData.PaperSwanData.CoolTime = row[FlyDragonTableInfo.cooltime].ToString();
+                playerData.PaperSwanData.beRewarded = int.Parse(row[FlyDragonTableInfo.be_rewarded].ToString());
                 playerData.PaperSwanData.TodayCount = int.Parse(row[FlyDragonTableInfo.today_count].ToString());
                 playerData.PaperSwanData.TotalCount = int.Parse(row[FlyDragonTableInfo.total_count].ToString());
             }
@@ -68,6 +70,7 @@ public class FlyDragonDataBase : SingletonBehaviour<FlyDragonDataBase>
 
             DataBase.Instance.sqlcmdall($"UPDATE {FlyDragonTableInfo.table_name} SET " +
                                         $"{FlyDragonTableInfo.cooltime} = NOW(), " +
+                                        $"{FlyDragonTableInfo.be_rewarded} = {playerData.PaperSwanData.beRewarded}, " +
                                         $"{FlyDragonTableInfo.today_count} = {playerData.PaperSwanData.TodayCount}, " +
                                         $"{FlyDragonTableInfo.total_count} = {playerData.PaperSwanData.TotalCount} " +
                                         $"WHERE {FlyDragonTableInfo.user_id} = '{playerData.ID}'");

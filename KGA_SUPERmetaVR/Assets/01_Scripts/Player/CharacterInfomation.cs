@@ -35,6 +35,8 @@ public class CharacterInfomation : MonoBehaviourPunCallbacks
     // 이거 해봐야함...
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        UnityEngine.Debug.Log("OnPlayerEnteredRoom은 : " + newPlayer);
+
         if (photonView.IsMine)
         {
             UnityEngine.Debug.Log("OnPlayerEnteredRoom은 : " + newPlayer);

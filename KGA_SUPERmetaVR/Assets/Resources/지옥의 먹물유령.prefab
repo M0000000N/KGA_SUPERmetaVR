@@ -886,7 +886,7 @@ GameObject:
   - component: {fileID: 3445153667296240673}
   - component: {fileID: 2650332921601498957}
   - component: {fileID: 6530735077223665962}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: mixamorig:RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -918,7 +918,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -1708,14 +1708,14 @@ MonoBehaviour:
     vrTarget: {fileID: 0}
     rigTarget: {fileID: 7269903700712129044}
     trackingPositionOffset: {x: 0, y: 0, z: 0}
-    trackingRotationOffset: {x: 0, y: 0, z: 0}
+    trackingRotationOffset: {x: 120, y: 0, z: 0}
   rightHand:
     vrTarget: {fileID: 0}
     rigTarget: {fileID: 367546329307044731}
     trackingPositionOffset: {x: 0, y: 0, z: 0}
-    trackingRotationOffset: {x: 0, y: 0, z: 0}
+    trackingRotationOffset: {x: 120, y: 0, z: 0}
   headConstraint: {fileID: 8225409138418526953}
-  headBodyOffset: {x: 0, y: 0, z: 0}
+  headBodyOffset: {x: 0, y: -1.8, z: 0}
 --- !u!114 &815091769448741266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1745,7 +1745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ac987526baf3b48bc0e57f8d01aaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedTreshold: 0
+  speedTreshold: 0.1
   smoothing: 1
 --- !u!114 &4841290074401643762
 MonoBehaviour:
@@ -1953,7 +1953,7 @@ GameObject:
   - component: {fileID: 2176781141998726510}
   - component: {fileID: 8311471331912257640}
   - component: {fileID: 6786579151000052337}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: mixamorig:LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1985,7 +1985,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
