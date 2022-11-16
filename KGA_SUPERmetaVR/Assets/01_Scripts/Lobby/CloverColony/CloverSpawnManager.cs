@@ -231,4 +231,36 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
         }
         ReSpawnFourLeafClover();
     }
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player")) // ToDo : 연산 엄청 먹겠다
+        {
+            for (int i = 0; i < fourLeafCloverList.Count; i++)
+            {
+                fourLeafCloverList[i].GetComponent<Collider>().isTrigger = true;
+            }
+            for (int i = 0; i < threeLeafCloverList.Count; i++)
+            {
+                threeLeafCloverList[i].GetComponent<Collider>().isTrigger = true;
+            }
+        }
+    }
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player")) // ToDo : 연산 엄청 먹겠다
+        {
+            for (int i = 0; i < fourLeafCloverList.Count; i++)
+            {
+                fourLeafCloverList[i].GetComponent<Collider>().isTrigger = false;
+            }
+            for (int i = 0; i < threeLeafCloverList.Count; i++)
+            {
+                threeLeafCloverList[i].GetComponent<Collider>().isTrigger = false;
+            }
+        }
+        else if (other.gameObject.CompareTag("ThreeLeafClover") || other.gameObject.CompareTag("FourLeafClover"))
+        {
+            other.gameObject.SetActive(false);
+        }
+    }
 }
