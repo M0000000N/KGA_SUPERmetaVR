@@ -237,11 +237,11 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
         {
             for (int i = 0; i < fourLeafCloverList.Count; i++)
             {
-                fourLeafCloverList[i].GetComponent<Collider>().isTrigger = true;
+                fourLeafCloverList[i].GetComponentInChildren<Collider>().isTrigger = true;
             }
             for (int i = 0; i < threeLeafCloverList.Count; i++)
             {
-                threeLeafCloverList[i].GetComponent<Collider>().isTrigger = true;
+                threeLeafCloverList[i].GetComponentInChildren<Collider>().isTrigger = true;
             }
         }
     }
