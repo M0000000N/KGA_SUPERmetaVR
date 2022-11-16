@@ -244,14 +244,13 @@ GameObject:
   - component: {fileID: 8751312979270718086}
   - component: {fileID: 2221628987082280336}
   - component: {fileID: 7717649419099291846}
-  - component: {fileID: 9204053721192938910}
   m_Layer: 5
   m_Name: FD_RewardMessagePopupCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2887184941828115647
 RectTransform:
   m_ObjectHideFlags: 0
@@ -261,7 +260,7 @@ RectTransform:
   m_GameObject: {fileID: 1065648834263678979}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 600}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.003, y: 0.003, z: 0.003}
   m_Children:
   - {fileID: 4340777553756295838}
   m_Father: {fileID: 0}
@@ -315,7 +314,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &8751312979270718086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,18 +363,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &9204053721192938910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1065648834263678979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 569f4a64c3028774ba77f9dec9d264cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1609515835352581937
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,7 +693,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9204053721192938910}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FD_RewardMessage, Assembly-CSharp
         m_MethodName: OnPress
         m_Mode: 1
