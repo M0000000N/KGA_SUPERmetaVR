@@ -53,14 +53,20 @@ public class VoiceEffect : MonoBehaviourPun
             Debug.Log("¤¾¤·");
             Speaker.gameObject.SetActive(true);
             Speaker.SetBool("VocieTalk", true);
-            Mute.SetActive(false);
+            photonView.RPC(nameof(SetMute), RpcTarget.All, true);
         }
         else
         {
             Debug.Log("¸Þ·Õ");
             Speaker.SetBool("VocieTalk", false);
             Speaker.gameObject.SetActive(false);
-            Mute.SetActive(true);
+            photonView.RPC(nameof(SetMute), RpcTarget.All, false);
         }
+    }
+
+    [PunRPC]
+    private void SetMute(bool _state)
+    {
+        Mute.SetActive(_state);
     }
 }
