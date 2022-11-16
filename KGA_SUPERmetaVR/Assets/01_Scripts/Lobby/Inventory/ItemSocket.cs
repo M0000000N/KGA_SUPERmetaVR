@@ -15,7 +15,7 @@ public class ItemSocket : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("GrabItem"))
         {
             ItemManager.Instance.Inventory.AcquireItem(collision.gameObject.GetComponent<Item>(), 50);
             Destroy(collision.gameObject);
