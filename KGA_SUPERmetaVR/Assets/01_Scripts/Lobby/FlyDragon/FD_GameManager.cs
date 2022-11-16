@@ -14,7 +14,11 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
         photonView = PhotonView.Get(this);
         //photonView.RPC("Initialize",RpcTarget.AllViaServer);
         Initialize();
-        StartCoroutine(RespawnCoroutine());
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(RespawnCoroutine());
+        }
     }
 
     [PunRPC]
