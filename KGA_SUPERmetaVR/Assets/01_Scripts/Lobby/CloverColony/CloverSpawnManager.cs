@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using Photon.Pun;
 
 public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
 {
@@ -71,6 +73,7 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
                     }
                     break;
             }
+            fourLeafCloverList[i].GetComponent<XRGrabInteractable>().enabled = false;
         }
 
         for (int i = 0; i < threeLeafCloverList.Count; i++)
@@ -89,6 +92,7 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
                 threeLeafCloverList[i].GetComponent<CloverInfo>().Area = 1;
                 SpawnClovers(threeLeafCloverList[i].transform, area2List[areaRoomNumber]);
             }
+            threeLeafCloverList[i].GetComponent<XRGrabInteractable>().enabled = false;
         }
     }
 
@@ -237,11 +241,11 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
         {
             for (int i = 0; i < fourLeafCloverList.Count; i++)
             {
-                fourLeafCloverList[i].GetComponentInChildren<Collider>().isTrigger = true;
+                fourLeafCloverList[i].GetComponent<XRGrabInteractable>().enabled = true;
             }
             for (int i = 0; i < threeLeafCloverList.Count; i++)
             {
-                threeLeafCloverList[i].GetComponentInChildren<Collider>().isTrigger = true;
+                threeLeafCloverList[i].GetComponent<XRGrabInteractable>().enabled = true;
             }
         }
     }
@@ -251,16 +255,16 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
         {
             for (int i = 0; i < fourLeafCloverList.Count; i++)
             {
-                fourLeafCloverList[i].GetComponent<Collider>().isTrigger = false;
+                fourLeafCloverList[i].GetComponent<XRGrabInteractable>().enabled = false;
             }
             for (int i = 0; i < threeLeafCloverList.Count; i++)
             {
-                threeLeafCloverList[i].GetComponent<Collider>().isTrigger = false;
+                threeLeafCloverList[i].GetComponent<XRGrabInteractable>().enabled = false;
             }
         }
         else if (other.gameObject.CompareTag("ThreeLeafClover") || other.gameObject.CompareTag("FourLeafClover"))
         {
-            other.gameObject.GetComponentInParent<Transform>().gameObject.SetActive(false);
+            other.gameObject.GetComponentInParent<CloverInfo>().IsStartFadedout = true;
         }
     }
 }
