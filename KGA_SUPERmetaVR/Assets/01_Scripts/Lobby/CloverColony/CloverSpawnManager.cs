@@ -260,7 +260,7 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
         }
         else if (other.gameObject.CompareTag("ThreeLeafClover") || other.gameObject.CompareTag("FourLeafClover"))
         {
-            other.gameObject.SetActive(false);
+            other.gameObject.GetComponentInParent<Transform>().gameObject.SetActive(false);
         }
     }
 }

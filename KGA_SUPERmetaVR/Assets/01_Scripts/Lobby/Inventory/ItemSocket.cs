@@ -11,26 +11,41 @@ public class ItemSocket : MonoBehaviour
             if (other.gameObject.GetComponent<Item>() != null)
             {
                 ItemManager.Instance.Inventory.AcquireItem(other.gameObject.GetComponent<Item>(), 50);
-                Destroy(other.gameObject);
+                if (other.gameObject.CompareTag("FourLeafClover"))
+                {
+                    CloverSetActiveFalse(other.gameObject);
+                }
+                else
+                {
+                    Destroy(other.gameObject);
+                }
             }
             else
             {
-                //Debug.Log("else µé¾î¿È");
-                //foreach (Transform parent in other.gameObject.transform.parent)
-                //{
-                //    Debug.Log("ºÎ¸ð µé¾î¿È");
-                //    Debug.Log($"ºÎ¸ðÀÌ¸§{parent.gameObject.name}");
-                    if (other.gameObject.transform.parent.gameObject.GetComponent<Item>() != null)
+
+                if (other.gameObject.transform.parent.gameObject.GetComponent<Item>() != null)
+                {
+                    Debug.Log("ºÎ¸ð°´Ã¼¿¡ µé¾î¿È");
+                    ItemManager.Instance.Inventory.AcquireItem(other.gameObject.transform.parent.gameObject.GetComponent<Item>(), 30);
+                    if (other.gameObject.CompareTag("FourLeafClover"))
                     {
-                        Debug.Log("ºÎ¸ð°´Ã¼¿¡ µé¾î¿È");
-                        ItemManager.Instance.Inventory.AcquireItem(other.gameObject.transform.parent.gameObject.GetComponent<Item>(), 30);
-                        Destroy(other.gameObject.transform.parent.gameObject);
-                        //break;
+                        CloverSetActiveFalse(other.gameObject.transform.parent.gameObject);
                     }
-                //}
+                    else
+                    {
+                        Destroy(other.gameObject.transform.parent.gameObject);
+                    }
+                }
+
             }
-            
+
         }
+    }
+
+    private void CloverSetActiveFalse(GameObject _clover)
+    {
+        _clover.SetActive(false);
+        CloverSpawnManager.Instance.CheckFourLeafCloverActiveSelf();
     }
 
     //private void OnCollisionEnter(Collision collision)

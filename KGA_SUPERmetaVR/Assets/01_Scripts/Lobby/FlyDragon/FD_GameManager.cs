@@ -84,7 +84,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
     {
         while (true)
         {
-            yield return new WaitForSecondsRealtime(10800f);
+            yield return new WaitForSecondsRealtime(7200f);
             photonView.RPC("Initialize", RpcTarget.AllViaServer);
         }
     }
