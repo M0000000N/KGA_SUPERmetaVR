@@ -87,7 +87,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Star"))
+        if (other.gameObject.CompareTag("Star"))
         {
             other.gameObject.SetActive(false);
         }
