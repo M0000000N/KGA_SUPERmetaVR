@@ -50,7 +50,8 @@ public class VoiceEffect : MonoBehaviourPun
     {
         if (GetSoundDetection())
         {
-            Speaker.gameObject.SetActive(true);
+            //Speaker.gameObject.SetActive(true);
+            Speaker.SetBool("VocieTalk", true);
             photonView.RPC(nameof(SetActive), RpcTarget.All, false);
         }
         else
