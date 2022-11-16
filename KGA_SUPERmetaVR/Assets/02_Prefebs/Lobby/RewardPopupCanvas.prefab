@@ -397,7 +397,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4040090213874249165}
+      - m_Target: {fileID: 4040090213874249165, guid: 6bb2e3e5a7e821d4a8014f73edb61a54, type: 3}
         m_TargetAssemblyTypeName: RewardPopup, Assembly-CSharp
         m_MethodName: OnPress
         m_Mode: 1
@@ -1132,7 +1132,6 @@ GameObject:
   - component: {fileID: 8583436200956357308}
   - component: {fileID: 8583436200956357309}
   - component: {fileID: 8583436200956357306}
-  - component: {fileID: 4040090213874249165}
   - component: {fileID: 6343826532056621345}
   m_Layer: 5
   m_Name: RewardPopupCanvas
@@ -1150,7 +1149,7 @@ RectTransform:
   m_GameObject: {fileID: 8583436200956357307}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 577}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.002, y: 0.002, z: 0.002}
   m_Children:
   - {fileID: 8583436200808255914}
   m_Father: {fileID: 0}
@@ -1204,7 +1203,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &8583436200956357309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1241,22 +1240,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RaycastTriggerInteraction: 1
---- !u!114 &4040090213874249165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8583436200956357307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f4acc823d6cb3145bb99becea482b1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemObjectParent: {fileID: 2887197899760267101}
-  gradeImage: {fileID: 8583436199288759584}
-  itemName: {fileID: 8583436199766043510}
-  button: {fileID: 8583436199597736692}
 --- !u!225 &6343826532056621345
 CanvasGroup:
   m_ObjectHideFlags: 0
