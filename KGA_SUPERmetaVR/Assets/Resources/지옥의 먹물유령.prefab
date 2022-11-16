@@ -1708,14 +1708,14 @@ MonoBehaviour:
     vrTarget: {fileID: 0}
     rigTarget: {fileID: 7269903700712129044}
     trackingPositionOffset: {x: 0, y: 0, z: 0}
-    trackingRotationOffset: {x: 0, y: 0, z: 0}
+    trackingRotationOffset: {x: 120, y: 0, z: 0}
   rightHand:
     vrTarget: {fileID: 0}
     rigTarget: {fileID: 367546329307044731}
     trackingPositionOffset: {x: 0, y: 0, z: 0}
-    trackingRotationOffset: {x: 0, y: 0, z: 0}
+    trackingRotationOffset: {x: 120, y: 0, z: 0}
   headConstraint: {fileID: 8225409138418526953}
-  headBodyOffset: {x: 0, y: 0, z: 0}
+  headBodyOffset: {x: 0, y: -1.8, z: 0}
 --- !u!114 &815091769448741266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1745,7 +1745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ac987526baf3b48bc0e57f8d01aaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedTreshold: 0
+  speedTreshold: 0.1
   smoothing: 1
 --- !u!114 &4841290074401643762
 MonoBehaviour:
@@ -1803,13 +1803,13 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsMoving
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: DirectionX
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: DirectionY
   m_SynchronizeLayers:
   - SynchronizeType: 1
@@ -1872,7 +1872,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8307759231613629667}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 5
