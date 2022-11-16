@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class FD_RewardMessage : MonoBehaviour
 {
+    [SerializeField] private GameObject popupUI;
+
     private CanvasGroup canvasGroup;
     private bool isOpen;
 
     private void Start()
     {
-        isOpen = gameObject.activeSelf;
-        canvasGroup = transform.GetComponent<CanvasGroup>();
+        isOpen = popupUI.gameObject.activeSelf;
+        canvasGroup = popupUI.transform.GetComponent<CanvasGroup>();
     }
 
     public void OpenUI()
@@ -21,7 +23,7 @@ public class FD_RewardMessage : MonoBehaviour
 
     IEnumerator OpenUICoroutine()
     {
-        gameObject.SetActive(true);
+        popupUI.gameObject.SetActive(true);
         isOpen = true;
 
         canvasGroup.alpha = 0;
@@ -46,7 +48,7 @@ public class FD_RewardMessage : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         RewardManager.Instance.GetItem();
-        gameObject.SetActive(false);
+        popupUI.gameObject.SetActive(false);
     }
 
     public void OnPress()
