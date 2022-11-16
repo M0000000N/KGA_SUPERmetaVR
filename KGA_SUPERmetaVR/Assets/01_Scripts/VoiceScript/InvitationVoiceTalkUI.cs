@@ -14,7 +14,7 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
     // 2.5미터 안에 들면 악수 뜨기 
     // 2.5미터 벗어나면 악수 없어지기 
     public GameObject GetHandShakeImage { get { return HandShakeImage.gameObject; } }
-    public GameObject GetDialog {  get { return GetDialog.gameObject;  } }
+    public GameObject GetDialog {  get { return DialogUI.gameObject;  } }
 
     [SerializeField] GameObject DialogUI;
     [SerializeField] GameObject InvitationUI;
@@ -75,7 +75,6 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
             if (talkUI != null)
             {
                 talkUI.GetHandShakeImage.SetActive(true);
-                talkUI.GetDialog.SetActive(true);
             }
             else
             {
@@ -94,9 +93,8 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
 
             if (talkUI != null)
             {
-                talkUI.GetHandShakeImage.SetActive(false);
                 talkUI.GetDialog.SetActive(false);
-
+                talkUI.GetHandShakeImage.SetActive(false);
             }
             else
             {
