@@ -18,13 +18,15 @@ public class VoiceEffect : MonoBehaviourPun
     [SerializeField] Animator Speaker;
     [SerializeField] GameObject Mute;
 
-    bool isSpeaking = false; 
+    bool isSpeaking = false;
+    bool recentBool;
 
     private void Awake()
     {
       //  hotonView = GetComponent<PhotonView>();
         Mute.SetActive(false);
         voiceView = GetComponentInParent<PhotonVoiceView>();
+        recentBool = true;
        // recorder= GetComponent<Recorder>();
     }
 
@@ -50,13 +52,14 @@ public class VoiceEffect : MonoBehaviourPun
     {
         if (GetSoundDetection())
         {
-            //Speaker.gameObject.SetActive(true);
-            Speaker.SetBool("VocieTalk", true);
+            if (recentBool) return;
+
             photonView.RPC(nameof(SetActive), RpcTarget.All, false);
         }
         else
         {
-            Speaker.SetBool("VocieTalk", false);
+            if (recentBool == false) return;
+
             photonView.RPC(nameof(SetActive), RpcTarget.All, true);
         }
     }
@@ -65,6 +68,7 @@ public class VoiceEffect : MonoBehaviourPun
     private void SetActive(bool _state)
     {
         Speaker.gameObject.SetActive(!_state);
+        Speaker.SetBool("VoiceTalk", _state);
         Mute.SetActive(_state);
     }
 }
