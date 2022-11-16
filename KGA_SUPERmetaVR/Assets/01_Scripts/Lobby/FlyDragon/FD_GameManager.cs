@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
 {
     [SerializeField] private Transform[] area;
     [SerializeField] private FD_Dragon[] star;
+    private PhotonView photonView;
 
     void Awake()
     {
-        Initialize();
+        photonView = PhotonView.Get(this);
+        photonView.RPC("Initialize",RpcTarget.AllViaServer);
         StartCoroutine(RespawnCoroutine());
     }
 
+    [PunRPC]
     public void Initialize()
     {
         for (int i = 0; i < star.Length; i++)
@@ -62,21 +66,21 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
         return true;
     }
 
-    public void DestroyObject(GameObject _target)
-    {
-        if (_target.CompareTag("Star"))
-        {
-            _target.SetActive(false);
-            FlyDragonDataBase.Instance.UpdatePlayData();
-        }
-    }
+    //public void DestroyObject(GameObject _target)
+    //{
+    //    if (_target.CompareTag("Star"))
+    //    {
+    //        _target.SetActive(false);
+    //        FlyDragonDataBase.Instance.UpdatePlayData();
+    //    }
+    //}
 
     IEnumerator RespawnCoroutine()
     {
         while (true)
         {
             yield return new WaitForSecondsRealtime(10800f);
-            Initialize();
+            photonView.RPC("Initialize", RpcTarget.AllViaServer);
         }
     }
 
