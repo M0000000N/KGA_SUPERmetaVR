@@ -107,7 +107,7 @@ public class ItemSelect : MonoBehaviour
         else if(grabTag.Equals("Star"))
         {
             isPlay = false;
-            if (FlyDragonDataBase.Instance.CheckCooltime(2))
+            if (FlyDragonDataBase.Instance.CheckCooltime(1))
             {
                 if(FlyDragonDataBase.Instance.UpdatePlayData())
                 {
@@ -198,7 +198,7 @@ public class ItemSelect : MonoBehaviour
         // TODO : 게임 시작 시 코루틴 체크 필요
         while (true)
         {
-            if (FlyDragonDataBase.Instance.CheckCooltime(2))
+            if (FlyDragonDataBase.Instance.CheckCooltime(1))
             {
                 GameManager.Instance.PlayerData.PaperSwanData.beRewarded = 0;
                 DataBase.Instance.sqlcmdall($"UPDATE {FlyDragonTableInfo.table_name} SET " +
@@ -207,7 +207,7 @@ public class ItemSelect : MonoBehaviour
                 RewardManager.Instance.OpenRewardMessage();
                 break;
             }
-            yield return new WaitForSecondsRealtime(600f);
+            yield return new WaitForSecondsRealtime(300f);
         }
     }
 }

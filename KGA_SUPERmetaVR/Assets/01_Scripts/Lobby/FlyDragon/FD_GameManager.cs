@@ -84,7 +84,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
     {
         while (true)
         {
-            yield return new WaitForSecondsRealtime(7200f);
+            yield return new WaitForSecondsRealtime(600f); // QA CODE : 7200
             photonView.RPC("Initialize", RpcTarget.AllViaServer);
         }
     }
