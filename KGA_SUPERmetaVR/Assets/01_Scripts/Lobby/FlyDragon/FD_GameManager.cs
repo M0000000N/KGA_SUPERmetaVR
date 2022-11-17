@@ -93,7 +93,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
     {
         if (other.gameObject.CompareTag("Star"))
         {
-            other.gameObject.SetActive(false);
+            other.gameObject.GetComponentInParent<FD_Dragon>().IsStartFadedout = true;
         }
     }
 }

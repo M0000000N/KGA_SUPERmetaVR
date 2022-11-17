@@ -18,6 +18,7 @@ public class FD_RewardMessage : MonoBehaviour
 
     public void OpenUI()
     {
+        StopCoroutine(OpenUICoroutine());
         StartCoroutine(OpenUICoroutine());
     }
 
@@ -27,12 +28,13 @@ public class FD_RewardMessage : MonoBehaviour
         isOpen = true;
 
         canvasGroup.alpha = 0;
-        while (canvasGroup.alpha < 1)
+        while (canvasGroup.alpha < 1f)
         {
             canvasGroup.alpha += 0.1f / 3;
             yield return new WaitForSeconds(0.1f);
         }
 
+        canvasGroup.alpha = 1;
         yield return new WaitForSeconds(15);
         OnPress();
     }
@@ -42,11 +44,13 @@ public class FD_RewardMessage : MonoBehaviour
         isOpen = false;
 
         canvasGroup.alpha = 1;
-        while (canvasGroup.alpha > 0)
+        while (canvasGroup.alpha > 0f)
         {
             canvasGroup.alpha -= 0.1f / 2;
             yield return new WaitForSeconds(0.1f);
         }
+
+        canvasGroup.alpha = 0;
         RewardManager.Instance.GetItem();
         popupUI.gameObject.SetActive(false);
     }
@@ -55,6 +59,7 @@ public class FD_RewardMessage : MonoBehaviour
     {
         if (isOpen)
         {
+            StopCoroutine(CloseUICoroutine());
             StartCoroutine(CloseUICoroutine());
         }
     }

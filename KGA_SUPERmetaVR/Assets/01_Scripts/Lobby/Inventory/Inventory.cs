@@ -56,6 +56,10 @@ public class Inventory : MonoBehaviour
 
     public void RefreshUI()
     {
+        if (ItemManager.Instance.Inventory.gameObject.activeSelf == false)
+        {
+            return;
+        }
         for (int i = 0; i < numberOfSlots; i++)
         {
             slots[i].Initialize();

@@ -118,7 +118,7 @@ public class FlyDragonDataBase : SingletonBehaviour<FlyDragonDataBase>
         DateTime updateTime = DateTime.Parse(_row[FlyDragonTableInfo.update_at].ToString());
         DateTime nowtime = DateTime.UtcNow; // TODO : 현재 UTC 기준으로 9시간 차이가 있습니다.
 
-        if ((nowtime - updateTime).Days > 0) // 날짜가 지났을 경우
+        if (nowtime.Day - updateTime.Day > 0) // 날짜가 지났을 경우
         {
             DataBase.Instance.sqlcmdall($"UPDATE {FlyDragonTableInfo.table_name} " +
                                         $"SET {FlyDragonTableInfo.today_count} = 0, " +
