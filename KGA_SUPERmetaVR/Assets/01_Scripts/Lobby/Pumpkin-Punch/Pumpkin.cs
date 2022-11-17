@@ -21,7 +21,7 @@ public class Pumpkin : MonoBehaviourPun
             photonView.RPC("PlaySound", RpcTarget.AllViaServer);
 
             int random = Random.Range(0, 100);
-            if(random == 21)
+            if(random < 10) // QA CODE : == 21
             {
                 RewardManager.Instance.GetItem();
             }

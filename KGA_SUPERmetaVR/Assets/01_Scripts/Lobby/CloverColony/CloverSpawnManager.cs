@@ -196,7 +196,7 @@ public class CloverSpawnManager : SingletonBehaviour<CloverSpawnManager>
 
     IEnumerator RelocationFourLeafCloverTransformCoroutine()
     {
-        yield return new WaitForSecondsRealtime(1200);
+        yield return new WaitForSecondsRealtime(120f); // QA CODE : 1200
         for (int i = 0; i < fourLeafCloverList.Count; i++)
         {
             if (fourLeafCloverList[i].activeSelf)
