@@ -27,6 +27,7 @@ public class PressedButton_RightHand : MonoBehaviour
 
         if(isActive.Equals(true) && B_Button.action.IsPressed())
         {
+            Debug.Log("버튼 들어오나");
             Inventory.SetActive(true);
             isActive = false;
         }
