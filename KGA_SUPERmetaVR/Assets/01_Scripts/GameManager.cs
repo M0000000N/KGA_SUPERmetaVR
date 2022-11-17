@@ -65,12 +65,8 @@ public class GameManager : SingletonBehaviour<GameManager>
         //}
 
         // [친구]
-        playerData.Friends.Friend.Add(24);
-        playerData.Friends.Friend.Add(25);
-        playerData.Friends.Friend.Add(26);
-        playerData.Friends.Friend.Add(27);
-        playerData.Friends.Friend.Add(30);
-        playerData.Friends.Friend.Add(31);
+        playerData.Friends.Friend.Add(55);
+        playerData.Friends.Friend.Add(56);
 
         // -------------------------------------------------------------------------------- 테스트 코드
     }
