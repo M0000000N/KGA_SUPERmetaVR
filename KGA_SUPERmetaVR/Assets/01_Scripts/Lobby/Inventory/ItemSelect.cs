@@ -20,9 +20,7 @@ public class ItemSelect : MonoBehaviour
     private int grabLayer = 0;
     private CloverInfo grabCloverInfo;
     private FD_Dragon grabStarInfo;
-
     private bool isPlay;
-    private int coolTimeValue = 0;
 
     void Start()
     {
@@ -109,7 +107,7 @@ public class ItemSelect : MonoBehaviour
         else if(grabTag.Equals("Star"))
         {
             isPlay = false;
-            if (FlyDragonDataBase.Instance.CheckCooltime(coolTimeValue))
+            if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
                 if(FlyDragonDataBase.Instance.UpdatePlayData())
                 {
@@ -200,7 +198,7 @@ public class ItemSelect : MonoBehaviour
         // TODO : 게임 시작 시 코루틴 체크 필요
         while (true)
         {
-            if (FlyDragonDataBase.Instance.CheckCooltime(coolTimeValue))
+            if (FlyDragonDataBase.Instance.CheckCooltime(2))
             {
                 GameManager.Instance.PlayerData.PaperSwanData.beRewarded = 0;
                 DataBase.Instance.sqlcmdall($"UPDATE {FlyDragonTableInfo.table_name} SET " +
