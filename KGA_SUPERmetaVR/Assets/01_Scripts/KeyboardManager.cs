@@ -13,6 +13,12 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
 
     [SerializeField] int type;
 
+    [SerializeField] GameObject[] englishKorean;
+
+    [SerializeField] GameObject[] shiftON;
+    [SerializeField] GameObject[] shiftOFF;
+    private bool isShift;
+
     private void Awake()
     {
         TMP_InputField[] inputFields = this.transform.parent.GetComponentsInChildren<TMP_InputField>();
@@ -20,6 +26,18 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
         {
             inputFields[i].onSelect.AddListener(delegate { OpenKeyboard(type); });
         }
+    }
+
+    public void Initialize()
+    {
+        isShift = false;
+        shiftOFF[0].SetActive(!isShift);
+        shiftOFF[1].SetActive(!isShift);
+        shiftON[0].SetActive(isShift);
+        shiftON[1].SetActive(isShift);
+
+        englishKorean[0].SetActive(false);
+        englishKorean[1].SetActive(true);
     }
 
     public void OpenKeyboard(int _type)
@@ -57,5 +75,29 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
     {
         if (inputField.text.Length == 0) return;
         inputField.text = inputField.text.Substring(0, inputField.text.Length - 1);
+    }
+
+    public void PressShiftButton()
+    {
+        isShift = !isShift;
+        shiftOFF[0].SetActive(!isShift);
+        shiftOFF[1].SetActive(!isShift);
+
+        shiftON[0].SetActive(isShift);
+        shiftON[1].SetActive(isShift);
+    }
+
+    public void ChangeLanguage()
+    {
+        if(englishKorean[0].activeSelf)
+        {
+            englishKorean[0].SetActive(false);
+            englishKorean[1].SetActive(true);
+        }
+        else
+        {
+            englishKorean[0].SetActive(true);
+            englishKorean[1].SetActive(false);
+        }
     }
 }
