@@ -120,6 +120,11 @@ public class ItemSelect : MonoBehaviour
                 grabObject.GetComponent<FD_Dragon>().IsStartFadedout = true;
             }
         }
+
+        if (grabTag.Equals("ThreeLeafClover") || grabTag.Equals("FourLeafClover"))
+        {
+            SoundManager.Instance.PlaySE("CC_Pick");
+        }
     }
 
     private void GrabOut()
