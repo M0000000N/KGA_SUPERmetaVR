@@ -12,8 +12,8 @@ public enum LOBBYPLAYERSTATE
 public class LobbyPlayerFSM : MonoBehaviourPun
 {
     public Renderer myRenderer;
-    public Material MyOpaqueMaterial { get { return opaqueMaterial; } }
-    public Material MyTransparentMaterial { get { return transparentMaterial; } }
+    public Material MyOpaqueMaterial { get { return opaqueMaterial; } set { opaqueMaterial = value; } }
+    public Material MyTransparentMaterial { get { return transparentMaterial; } set { transparentMaterial = value; } }
 
     #region 플레이어 상태들
     private LobbyPlayerSpawningState spawningState;
