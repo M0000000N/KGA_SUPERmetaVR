@@ -68,7 +68,7 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
 
     void Update()
     {
-        if (photonView.IsMine == false) return;
+      //  if (photonView.IsMine == false) return;
 
         if (!device.isValid)
         {
@@ -90,8 +90,8 @@ public class Peekaboo_XRPlayerMovement : MonoBehaviourPun
             var zAxis = primary2dValue.y;// * applySpeed * Time.deltaTime;
 
             Vector3 direction = new Vector3(xAxis, 0f, zAxis).normalized;
-            direction = myCameraTransform.TransformDirection(direction);
-            direction.y = 0f;
+            //direction = myCameraTransform.TransformDirection(direction);
+            //direction.y = 0f;
             transform.position += direction * applySpeed * Time.deltaTime;
 
             //Vector3 right = transform.TransformDirection(Vector3.right);
