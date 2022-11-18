@@ -8,30 +8,35 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class PressedButton_RightHand : MonoBehaviour
 {
-    [Header("Right Hand Button")]
 
-    [SerializeField] InputActionProperty B_Button;
-    [SerializeField] GameObject Inventory;
-
-    bool isActive; 
+    public bool TurnOn = true;
+    public InputActionReference InventoryReference;
+    public GameObject Inventory;
 
     private void Start()
     {
-        B_Button.action.Enable();
-        Inventory.SetActive(false);
+        InventoryReference.action.started += DoPressedThing;    
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (!isActive) return;
+        InventoryReference.asset.Enable();
+    }
 
-        if(isActive.Equals(true) && B_Button.action.IsPressed())
-        {
-            Debug.Log("버튼 들어오나");
-            Inventory.SetActive(true);
-            isActive = false;
-        }
+    private void OnDisable()
+    {
+        InventoryReference.asset.Disable();
+    }
 
+    private void OnDestroy()
+    {
+        InventoryReference.action.started -= DoPressedThing;
+    }
+
+    private void DoPressedThing(InputAction.CallbackContext context)
+    {
+        Inventory.SetActive(TurnOn);
+        TurnOn = !TurnOn;
     }
 
 }
