@@ -15,7 +15,7 @@ public class PressedButton_RightHand : MonoBehaviour
 
     private void Start()
     {
-        InventoryReference.action.started += DoPressedThing;    
+        InventoryReference.action.started += DoPressedThing;
     }
 
     private void OnEnable()

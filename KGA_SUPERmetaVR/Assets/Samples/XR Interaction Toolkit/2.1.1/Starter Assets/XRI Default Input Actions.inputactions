@@ -797,6 +797,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PKB_QuickMove",
+                    "type": "Button",
+                    "id": "7a5bf058-d6b9-4843-b5ca-3bcd6c448412",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -896,6 +905,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Inventory Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2d89fa00-3772-4e60-b14e-de777cb8ec5f",
+                    "path": "<XRController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "PKB_QuickMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
