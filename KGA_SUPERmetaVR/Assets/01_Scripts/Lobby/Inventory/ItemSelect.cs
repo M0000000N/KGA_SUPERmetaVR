@@ -27,7 +27,7 @@ public class ItemSelect : MonoBehaviour
         playerData = GameManager.Instance.PlayerData;
         leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
 
-        if(playerData.PaperSwanData.beRewarded > 0)
+        if (playerData.PaperSwanData.beRewarded > 0)
         {
             StopCoroutine(ResultMessage());
             StartCoroutine(ResultMessage());
@@ -55,7 +55,7 @@ public class ItemSelect : MonoBehaviour
                 string targetTag = _leftRayHit.transform.gameObject.tag;
                 int targetLayer = _leftRayHit.transform.gameObject.layer;
 
-                if (targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover") || targetTag.Equals("Star") )
+                if (targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover") || targetTag.Equals("Star"))
                 {
                     targetObject = _leftRayHit.transform.gameObject;
                 }
@@ -104,12 +104,12 @@ public class ItemSelect : MonoBehaviour
                 StartCoroutine(DestroyObject());
             }
         }
-        else if(grabTag.Equals("Star"))
+        else if (grabTag.Equals("Star"))
         {
             isPlay = false;
             if (FlyDragonDataBase.Instance.CheckCooltime(1))
             {
-                if(FlyDragonDataBase.Instance.UpdatePlayData())
+                if (FlyDragonDataBase.Instance.UpdatePlayData())
                 {
                     isPlay = true;
                 }
@@ -151,10 +151,9 @@ public class ItemSelect : MonoBehaviour
 
             if (grabStarInfo == null) return;
 
-            // grabStarInfo.ParticlePUN("ParticleOn");
-            grabStarInfo.ParticleOn();
+            grabStarInfo.IsParticlePlay = true;
 
-             if (isPlay)
+            if (isPlay)
             {
                 isPlay = false;
                 playerData.PaperSwanData.beRewarded = 1;
@@ -164,10 +163,11 @@ public class ItemSelect : MonoBehaviour
             else
             {
                 // 쿨타임이 지나지 않은 경우
-                grabStarInfo.DestroyStar();
+                grabStarInfo.IsStartFadedout = true;
             }
         }
     }
+
     private IEnumerator DestroyObject()
     {
         if (grabObject == null) yield break;
@@ -183,16 +183,19 @@ public class ItemSelect : MonoBehaviour
         }
         isDestroyCloverRun = false;
     }
+
     IEnumerator Activeinteractor()
     {
         yield return new WaitForSeconds(2f);
         leftRayInteractor.enableInteractions = true;
     }
+
     IEnumerator ChangeTag(GameObject _item)
     {
         yield return new WaitForSeconds(3f);
         _item.tag = "Item";
     }
+
     IEnumerator ResultMessage()
     {
         // TODO : 게임 시작 시 코루틴 체크 필요
