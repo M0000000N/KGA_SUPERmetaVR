@@ -4,11 +4,14 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using TMPro;
 
 public class CharacterInfomation : MonoBehaviourPunCallbacks
 {
     [SerializeField] private int uid;
     public int UID { get { return uid; } set { uid = value; } }
+
+    [SerializeField] private TextMeshProUGUI nickNameText;
 
     [SerializeField] private string nickName;
     public string NickName { get { return nickName; } set { nickName = value; } }
@@ -30,6 +33,23 @@ public class CharacterInfomation : MonoBehaviourPunCallbacks
         }
 
         friendButton.onClick.AddListener(() => { FriendManager.Instance.AddFriend(UID); } );
+    }
+
+    public void SetNickName()
+    {
+        nickNameText.text = nickName;
+
+        List<int> friendList = GameManager.Instance.PlayerData.Friends.Friend;
+        int friendCount = friendList.Count;
+        for (int i = 0; i < friendCount; i++)
+        {
+            if(friendList[i] == UID)
+            {
+                nickNameText.color = new Color(40/255f, 60/255f, 252/255f);
+                return;
+            }
+        }
+        nickNameText.color = new Color(0, 0, 0);
     }
 
     // 이거 해봐야함...

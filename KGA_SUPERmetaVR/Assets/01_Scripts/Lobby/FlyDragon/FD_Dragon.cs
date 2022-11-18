@@ -12,6 +12,7 @@ public class FD_Dragon : MonoBehaviourPun
     [SerializeField] private Material fadeMaterial;
     private float fadeoutTime = 2f;
     private bool isStartFadedout = false;
+    private bool isParticlePlay = false;
 
     public bool IsStartFadedout
     {
@@ -22,10 +23,29 @@ public class FD_Dragon : MonoBehaviourPun
         set
         {
             isStartFadedout = value;
-            if (isStartFadedout && gameObject.activeSelf) photonView.RPC("StartFadeOut", RpcTarget.AllViaServer);
-            // StartCoroutine(FadeoutRespawnClover());
+            if (isStartFadedout && gameObject.activeSelf)
+            {
+                photonView.RPC("StartFadeOut", RpcTarget.AllViaServer);
+            }
         }
     }
+
+    public bool IsParticlePlay
+    {
+        get
+        {
+            return isParticlePlay;
+        }
+        set
+        {
+            isParticlePlay = value;
+            if (isParticlePlay && gameObject.activeSelf)
+            {
+                photonView.RPC("ParticleOn", RpcTarget.AllViaServer);
+            }
+        }
+    }
+
     void Start()
     {
         particle = GetComponentsInChildren<ParticleSystem>();
@@ -40,11 +60,6 @@ public class FD_Dragon : MonoBehaviourPun
         }
     }
 
-    public void ParticlePUN(string _name)
-    {
-        photonView.RPC(_name, RpcTarget.AllViaServer);
-    }
-
     [PunRPC]
     public void ParticleOn()
     {
@@ -55,18 +70,13 @@ public class FD_Dragon : MonoBehaviourPun
         }
     }
 
-    public void DestroyStar()
-    {
-        gameObject.SetActive(false);
-    }
-
     [PunRPC]
     private void StartFadeOut()
     {
-        StartCoroutine(FadeoutStar());
+        StartCoroutine(FadeoutCoroutine());
     }
 
-    public IEnumerator FadeoutStar()
+    public IEnumerator FadeoutCoroutine()
     {
         gameObject.GetComponent<XRGrabInteractable>().enabled = false;
 

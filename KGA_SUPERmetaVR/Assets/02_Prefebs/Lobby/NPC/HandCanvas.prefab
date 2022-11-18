@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9914746496252916}
   - component: {fileID: 3267702103270532600}
   - component: {fileID: 6939250765638521320}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HandCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,6 +127,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7558416118599476565}
     m_Modifications:
+    - target: {fileID: 5583751448951853756, guid: fa69e38b4f5fa654aa0adfc0d09bae54, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583751448951853756, guid: fa69e38b4f5fa654aa0adfc0d09bae54, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583751448951853756, guid: fa69e38b4f5fa654aa0adfc0d09bae54, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583751448951853756, guid: fa69e38b4f5fa654aa0adfc0d09bae54, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPressHand
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583751448951853756, guid: fa69e38b4f5fa654aa0adfc0d09bae54, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: NPC_Communication, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583751448951853756, guid: fa69e38b4f5fa654aa0adfc0d09bae54, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5583751448951853757, guid: fa69e38b4f5fa654aa0adfc0d09bae54, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -214,6 +238,10 @@ PrefabInstance:
     - target: {fileID: 5583751448951853758, guid: fa69e38b4f5fa654aa0adfc0d09bae54, type: 3}
       propertyPath: m_Name
       value: HandShake
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583751448951853758, guid: fa69e38b4f5fa654aa0adfc0d09bae54, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa69e38b4f5fa654aa0adfc0d09bae54, type: 3}
