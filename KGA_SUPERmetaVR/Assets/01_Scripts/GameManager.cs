@@ -15,14 +15,6 @@ public class GameManager : SingletonBehaviour<GameManager>
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            UnityEngine.Debug.Log(GameManager.Instance.playerData.ItemSlotData);
-        }
-    }
-
     public void Initialize()
     {
         playerData = new PlayerData();

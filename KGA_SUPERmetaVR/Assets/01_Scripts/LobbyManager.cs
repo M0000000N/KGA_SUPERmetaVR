@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System;
 
 public class LobbyManager : SingletonBehaviour<LobbyManager>
 {
@@ -14,6 +15,11 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     private void Awake()
     {
         // 마스터 서버 연결시도
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause) // ConnectUsingSettings()에 연결이 끊겼을 때 호출되는 콜백함수다.
+    {
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -42,15 +48,10 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         }
     }
 
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby();
-    }
-
-    public override void OnDisconnected(DisconnectCause cause) // ConnectUsingSettings()에 연결이 끊겼을 때 호출되는 콜백함수다.
-    {
-        PhotonNetwork.ConnectUsingSettings();
-    }
+    //public override void OnConnectedToMaster()
+    //{
+    //    PhotonNetwork.JoinLobby();
+    //}
 
     public override void OnJoinedRoom()
     {
@@ -86,7 +87,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         }
     }
 
-    public void CreateRoom(string _password)
+    public void CreateRoom(int _maxPlayer, string _password = null)
     {
         if (PhotonNetwork.IsConnected)
         {
@@ -94,7 +95,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             {
                 IsOpen = true,
                 IsVisible = true,
-                MaxPlayers = 14,
+                MaxPlayers = Convert.ToByte(_maxPlayer),
                 BroadcastPropsChangeToAll = true
             };
 
@@ -125,7 +126,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     [PunRPC]
     public string SetRoomName()
     {
-        for (int i = 1; i <= 10000; i++)
+        for (int i = 1; i <= 25; i++)
         {
             if (i == 10000)
             {
