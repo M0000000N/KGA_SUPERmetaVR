@@ -28,8 +28,6 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
         {
             inputFields[i].onSelect.AddListener(delegate { OpenKeyboard(type); });
         }
-
-        // inputText = inputField.text;
     }
 
     public void Initialize()
@@ -49,6 +47,7 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
         CloseKeyboard();
 
         inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
+        Initialize();
 
         switch (_type)
         {
@@ -114,143 +113,244 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
 
     public string CreateKoreanText(string _input)
     {
+        string convertString = string.Empty;
         string output = string.Empty;
-
-
 
         for (int i = 0; i < _input.Length;)
         {
-            if (_input.Length - i >= 5)
+            if(_input.Length - i >= 3)
             {
-
-            }
-            else if (_input.Length - i >= 5)
-            {
-
-            }
-            else if (_input.Length - i >= 4)
-            {
-
-
-
-                int firstIndex = firstConsonant.IndexOf(_input[i]);
-                int middleIndex = middleVowel.IndexOf(_input[i + 1]);
-                int lastIndex = lastConsonant.IndexOf(_input[i + 2]);
-                int nextMiddleIndex = middleVowel.IndexOf(_input[i + 3]);
-
+                int firstConsonantIndex = lastConsonant.IndexOf(_input[i]);
+                int secondConsonantIndex = lastConsonant.IndexOf(_input[i + 1]);
+                int thirdConsonantIndex = lastConsonant.IndexOf(_input[i + 2]);
+                
+                int firstVowelIndex = middleVowel.IndexOf(_input[i]);
                 int secondVowelIndex = middleVowel.IndexOf(_input[i + 1]);
-                int thirdVowelIndex = middleVowel.IndexOf(_input[i + 2]);
-                int nextConsonantIndex = lastConsonant.IndexOf(_input[i + 3]);
 
-
-
-
-                if (firstIndex != -1 && secondVowelIndex != -1 && thirdVowelIndex != -1 && nextConsonantIndex != -1)
+                if(firstConsonantIndex != -1 && secondConsonantIndex != -1 && thirdConsonantIndex != -1)
                 {
-                    if (secondVowelIndex == middleVowel.IndexOf("¤Ç"))
+                    int index = CheckTwoConsonant(firstConsonantIndex, firstConsonantIndex, secondConsonantIndex);
+                    if(index == firstConsonantIndex)
                     {
-                        int a = middleVowel.IndexOf("¤¿");
-                        int ae = middleVowel.IndexOf("¤À");
-                        int e = middleVowel.IndexOf("¤Ó");
-
-                        if (thirdVowelIndex == a)
-                        {
-                            middleIndex = middleVowel.IndexOf("¤È");
-                        }
-                        else if (thirdVowelIndex == ae)
-                        {
-                            middleIndex = middleVowel.IndexOf("¤É");
-                        }
-                        else if (thirdVowelIndex == e)
-                        {
-                            middleIndex = middleVowel.IndexOf("¤Ê");
-                        }
+                        i += 1;
                     }
-
-                    int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + nextConsonantIndex);
-                    char text = Convert.ToChar(index);
-                    output += text.ToString();
-                    i += 4;
-                    continue;
-                }
-                else if (firstIndex != -1 && secondVowelIndex != -1 && thirdVowelIndex != -1 && nextConsonantIndex == -1)
-                {
-                    if (secondVowelIndex == middleVowel.IndexOf("¤Ç"))
+                    else
                     {
-                        int a = middleVowel.IndexOf("¤¿");
-                        int ae = middleVowel.IndexOf("¤À");
-                        int e = middleVowel.IndexOf("¤Ó");
-
-                        if (thirdVowelIndex == a)
-                        {
-                            middleIndex = middleVowel.IndexOf("¤È");
-                        }
-                        else if (thirdVowelIndex == ae)
-                        {
-                            middleIndex = middleVowel.IndexOf("¤É");
-                        }
-                        else if (thirdVowelIndex == e)
-                        {
-                            middleIndex = middleVowel.IndexOf("¤Ê");
-                        }
+                        firstConsonantIndex = index;
+                        i += 2;
                     }
-
-                    lastIndex = 0;
-                    int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + lastIndex);
-                    char text = Convert.ToChar(index);
-                    output += text.ToString();
-                    i += 3;
-                    continue;
-
+                    convertString += lastConsonant[firstConsonantIndex];
                 }
-                else if (firstIndex != -1 && middleIndex != -1 && lastIndex != -1 && nextMiddleIndex == -1)
+                else if (firstVowelIndex != -1 && secondVowelIndex != -1)
                 {
-                    int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + lastIndex);
-                    char text = Convert.ToChar(index);
-                    output += text.ToString();
-                    i += 3;
-                }
-                else if(firstIndex != -1 && middleIndex != -1 && lastIndex != -1 && nextMiddleIndex != -1)
-                {
-                    lastIndex = 0;
-                    int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + lastIndex);
-                    char text = Convert.ToChar(index);
-                    output += text.ToString();
-                    i += 2;
+                    int index = CheckTwoVowel(firstVowelIndex, firstVowelIndex, secondVowelIndex);
+
+                    if (index == firstVowelIndex)
+                    {
+                        i += 1;
+                    }
+                    else
+                    {
+                        firstVowelIndex = index;
+                        i += 2;
+                    }
+                    convertString += middleVowel[firstVowelIndex];
                 }
                 else
                 {
-                    int index = _input[i];
-                    char text = Convert.ToChar(index);
-                    output += text.ToString();
-                    i += 1;
-                }
-            }
-            else if (_input.Length - i >= 3)
-            {
-                int firstIndex = firstConsonant.IndexOf(_input[i]);
-                int middleIndex = middleVowel.IndexOf(_input[i + 1]);
-                int lastIndex = lastConsonant.IndexOf(_input[i + 2]);
-
-                if (firstIndex != -1 && middleIndex != -1 && lastIndex != -1)
-                {
-                    int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + lastIndex);
-                    char text = Convert.ToChar(index);
-                    output += text.ToString();
-                    i += 3;
-                }
-                else
-                {
-                    int index = _input[i];
-                    char text = Convert.ToChar(index);
-                    output += text.ToString();
-                    i += 1;
+                    if (firstConsonantIndex != -1)
+                    {
+                        i += 1;
+                        convertString += lastConsonant[firstConsonantIndex];
+                    }
+                    else if (firstVowelIndex != -1)
+                    {
+                        i += 1;
+                        convertString += middleVowel[firstVowelIndex];
+                    }
                 }
             }
             else if (_input.Length - i >= 2)
             {
-                int firstIndex = firstConsonant.IndexOf(_input[i]);
-                int middleIndex = middleVowel.IndexOf(_input[i + 1]);
+                int firstConsonantIndex = lastConsonant.IndexOf(_input[i]);
+                int secondConsonantIndex = lastConsonant.IndexOf(_input[i + 1]);
+
+                int firstVowelIndex = middleVowel.IndexOf(_input[i]);
+                int secondVowelIndex = middleVowel.IndexOf(_input[i + 1]);
+
+                if (firstConsonantIndex != -1 && secondConsonantIndex != -1)
+                {
+                    int index = CheckTwoConsonant(firstConsonantIndex, firstConsonantIndex, secondConsonantIndex);
+                    if (index == firstConsonantIndex)
+                    {
+                        i += 1;
+                    }
+                    else
+                    {
+                        firstConsonantIndex = index;
+                        i += 2;
+                    }
+                    convertString += lastConsonant[firstConsonantIndex];
+                }
+                else if (firstVowelIndex != -1 && secondVowelIndex != -1)
+                {
+                    int index = CheckTwoVowel(firstVowelIndex, firstVowelIndex, secondVowelIndex);
+
+                    if (index == firstVowelIndex)
+                    {
+                        i += 1;
+                    }
+                    else
+                    {
+                        firstVowelIndex = index;
+                        i += 2;
+                    }
+                    convertString += middleVowel[firstVowelIndex];
+                }
+                else
+                {
+                    if (firstConsonantIndex != -1)
+                    {
+                        i += 1;
+                        convertString += lastConsonant[firstConsonantIndex];
+                    }
+                    else if (firstVowelIndex != -1)
+                    {
+                        i += 1;
+                        convertString += middleVowel[firstVowelIndex];
+                    }
+                }
+            }
+            else if (_input.Length - i >= 1)
+            {
+                int firstConsonantIndex = lastConsonant.IndexOf(_input[i]);
+
+                int firstVowelIndex = middleVowel.IndexOf(_input[i]);
+
+                if (firstConsonantIndex != -1)
+                {
+                    i += 1;
+                    convertString += lastConsonant[firstConsonantIndex];
+                }
+                else if (firstVowelIndex != -1)
+                {
+                    i += 1;
+                    convertString += middleVowel[firstVowelIndex];
+                }
+            }
+        }
+
+        for (int i = 0; i < convertString.Length;)
+        {
+            //if (_input.Length - i >= 4)
+            //{
+            //    // ž¨ ¿Ï
+            //    int firstIndex = firstConsonant.IndexOf(_input[i]);
+            //    int middleIndex = middleVowel.IndexOf(_input[i + 1]);
+            //    int lastIndex = lastConsonant.IndexOf(_input[i + 2]);
+            //    int nextMiddleIndex = middleVowel.IndexOf(_input[i + 3]);
+
+            //    int secondConsonantIndex = lastConsonant.IndexOf(_input[i + 2]);
+            //    int thirdConsonantIndex = lastConsonant.IndexOf(_input[i + 3]);
+
+            //    int secondVowelIndex = middleVowel.IndexOf(_input[i + 1]);
+            //    int thirdVowelIndex = middleVowel.IndexOf(_input[i + 2]);
+            //    int nextConsonantIndex = lastConsonant.IndexOf(_input[i + 3]);
+
+            //    if (firstIndex != -1 && secondConsonantIndex != -1 && thirdConsonantIndex != -1)
+            //    {
+            //        lastIndex = CheckTwoConsonant(lastIndex, secondConsonantIndex, thirdConsonantIndex);
+
+            //        int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + lastIndex);
+            //        char text = Convert.ToChar(index);
+            //        output += text.ToString();
+            //        i += 4;
+            //        continue;
+            //    }
+            //    else if (firstIndex != -1 && secondVowelIndex != -1 && thirdVowelIndex != -1 && nextConsonantIndex != -1)
+            //    {
+            //        middleIndex = CheckTwoVowel(middleIndex, secondVowelIndex, thirdVowelIndex);
+
+            //        int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + nextConsonantIndex);
+            //        char text = Convert.ToChar(index);
+            //        output += text.ToString();
+            //        i += 4;
+            //        continue;
+            //    }
+            //    else if (firstIndex != -1 && secondVowelIndex != -1 && thirdVowelIndex != -1 && nextConsonantIndex == -1)
+            //    {
+            //        middleIndex = CheckTwoVowel(middleIndex, secondVowelIndex, thirdVowelIndex);
+            //        lastIndex = 0;
+
+            //        int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + lastIndex);
+            //        char text = Convert.ToChar(index);
+            //        output += text.ToString();
+            //        i += 3;
+            //        continue;
+
+            //    }
+            //    else if (firstIndex != -1 && middleIndex != -1 && lastIndex != -1 && nextMiddleIndex == -1)
+            //    {
+            //        int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + lastIndex);
+            //        char text = Convert.ToChar(index);
+            //        output += text.ToString();
+            //        i += 3;
+            //    }
+            //    else if(firstIndex != -1 && middleIndex != -1 && lastIndex != -1 && nextMiddleIndex != -1)
+            //    {
+            //        lastIndex = 0;
+            //        int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + lastIndex);
+            //        char text = Convert.ToChar(index);
+            //        output += text.ToString();
+            //        i += 2;
+            //    }
+            //    else
+            //    {
+            //        int index = _input[i];
+            //        char text = Convert.ToChar(index);
+            //        output += text.ToString();
+            //        i += 1;
+            //    }
+            //}
+            if (convertString.Length - i >= 3)
+            {
+                int firstIndex = firstConsonant.IndexOf(convertString[i]);
+                int middleIndex = middleVowel.IndexOf(convertString[i + 1]);
+                int lastIndex = lastConsonant.IndexOf(convertString[i + 2]);
+
+                int secondVowelIndex = middleVowel.IndexOf(convertString[i + 1]);
+                int thirdVowelIndex = middleVowel.IndexOf(convertString[i + 2]);
+
+                if (firstIndex != -1 && secondVowelIndex != -1 && thirdVowelIndex != -1)
+                {
+                    middleIndex = CheckTwoVowel(middleIndex, secondVowelIndex, thirdVowelIndex);
+                    lastIndex = 0;
+
+                    int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + lastIndex);
+                    char text = Convert.ToChar(index);
+                    output += text.ToString();
+                    i += 3;
+                    continue;
+                }
+                else if (firstIndex != -1 && middleIndex != -1 && lastIndex != -1)
+                {
+                    int index = (0xAC00 + (firstIndex * 588) + (middleIndex * 28) + lastIndex);
+                    char text = Convert.ToChar(index);
+                    output += text.ToString();
+                    i += 3;
+                }
+                else
+                {
+                    int index = convertString[i];
+                    char text = Convert.ToChar(index);
+                    output += text.ToString();
+                    i += 1;
+                }
+            }
+            else if (convertString.Length - i >= 2)
+            {
+                int firstIndex = firstConsonant.IndexOf(convertString[i]);
+                int middleIndex = middleVowel.IndexOf(convertString[i + 1]);
                 int lastIndex = 0;
 
                 if (firstIndex != -1 && middleIndex != -1 && lastIndex != -1)
@@ -262,16 +362,15 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
                 }
                 else
                 {
-                    int index = _input[i];
+                    int index = convertString[i];
                     char text = Convert.ToChar(index);
                     output += text.ToString();
                     i += 1;
                 }
-
             }
-            else if (_input.Length - i >= 1)
+            else if (convertString.Length - i >= 1)
             {
-                int index = _input[i];
+                int index = convertString[i];
                 char text = Convert.ToChar(index);
                 output += text.ToString();
                 i += 1;
@@ -279,5 +378,123 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
         }
 
         return output;
+    }
+
+    public int CheckTwoConsonant(int _consonant, int _second, int _thrid)
+    {
+        int outputValue = _consonant;
+
+        int ¤¡ = lastConsonant.IndexOf('¤¡');
+        int ¤± = lastConsonant.IndexOf('¤±');
+        int ¤² = lastConsonant.IndexOf('¤²');
+        int ¤µ = lastConsonant.IndexOf('¤µ');
+        int ¤¸ = lastConsonant.IndexOf('¤¸');
+        int ¤¼ = lastConsonant.IndexOf('¤¼');
+        int ¤½ = lastConsonant.IndexOf('¤½');
+        int ¤¾ = lastConsonant.IndexOf('¤¾');
+
+        if(_second == lastConsonant.IndexOf('¤¡'))
+        {
+            if (_thrid == ¤µ)
+            {
+                outputValue = lastConsonant.IndexOf('¤£');
+            }
+        }
+        else if (_second == lastConsonant.IndexOf('¤¤'))
+        {
+            if (_thrid == ¤¸)
+            {
+                outputValue = lastConsonant.IndexOf('¤¥');
+            }
+            else if (_thrid == ¤¾)
+            {
+                outputValue = lastConsonant.IndexOf('¤¦');
+            }
+        }
+        else if (_second == lastConsonant.IndexOf('¤©'))
+        {
+            if (_thrid == ¤¡)
+            {
+                outputValue = lastConsonant.IndexOf('¤ª');
+            }
+            else if (_thrid == ¤±)
+            {
+                outputValue = lastConsonant.IndexOf('¤«');
+            }
+            else if (_thrid == ¤²)
+            {
+                outputValue = lastConsonant.IndexOf('¤¬');
+            }
+            else if (_thrid == ¤µ)
+            {
+                outputValue = lastConsonant.IndexOf('¤­');
+            }
+            else if (_thrid == ¤¼)
+            {
+                outputValue = lastConsonant.IndexOf('¤®');
+            }
+            else if (_thrid == ¤¾)
+            {
+                outputValue = lastConsonant.IndexOf('¤°');
+            }
+        }
+        else if (_second == lastConsonant.IndexOf('¤²'))
+        {
+            if (_thrid == ¤µ)
+            {
+                outputValue = lastConsonant.IndexOf('¤´');
+            }
+        }
+        return outputValue;
+    }
+
+    public int CheckTwoVowel(int _middleVowel, int _second, int _thrid)
+    {
+        int outputValue = _middleVowel;
+
+        int ¤¿ = middleVowel.IndexOf('¤¿');
+        int ¤Ã = middleVowel.IndexOf('¤Ã');
+        int ¤À = middleVowel.IndexOf('¤À');
+        int ¤Ä = middleVowel.IndexOf('¤Ä');
+        int ¤Ó = middleVowel.IndexOf('¤Ó');
+
+        if (_second == middleVowel.IndexOf('¤Ç'))
+        {
+            if (_thrid == ¤¿)
+            {
+                outputValue = middleVowel.IndexOf('¤È');
+            }
+            else if (_thrid == ¤À)
+            {
+                outputValue = middleVowel.IndexOf('¤É');
+            }
+            else if (_thrid == ¤Ó)
+            {
+                outputValue = middleVowel.IndexOf('¤Ê');
+            }
+        }
+        else if (_second == middleVowel.IndexOf('¤Ì'))
+        {
+            if (_thrid == ¤Ã)
+            {
+                outputValue = middleVowel.IndexOf('¤Í');
+            }
+            else if (_thrid == ¤Ä)
+            {
+                outputValue = middleVowel.IndexOf('¤Î');
+            }
+            else if (_thrid == ¤Ó)
+            {
+                outputValue = middleVowel.IndexOf('¤Ï');
+            }
+        }
+        else if (_second == middleVowel.IndexOf('¤Ñ'))
+        {
+            if (_thrid == ¤Ó)
+            {
+                outputValue = middleVowel.IndexOf('¤Ò');
+            }
+        }
+        return outputValue;
     }
 }
