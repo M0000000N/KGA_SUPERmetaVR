@@ -30,7 +30,6 @@ public class NPC_Communication : MonoBehaviour
     {
         // id 설정해주기
         playerData = GameManager.Instance.PlayerData;
-        comunicationAnimationController = transform.GetComponent<Animator>();
 
         handshake.SetActive(false);
         communication.SetActive(false);
