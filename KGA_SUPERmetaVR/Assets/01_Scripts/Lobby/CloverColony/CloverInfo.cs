@@ -27,17 +27,16 @@ public class CloverInfo : MonoBehaviourPun
         {
             isStartFadedout = value;
             if (isStartFadedout && gameObject.activeSelf) photonView.RPC("StartFadeOut", RpcTarget.AllViaServer);
-            // StartCoroutine(FadeoutRespawnClover());
         }
     }
 
     [PunRPC]
     private void StartFadeOut()
     {
-        StartCoroutine(FadeoutRespawnClover());
+        StartCoroutine(FadeoutRespawnCoroutine());
     }
 
-    public IEnumerator FadeoutRespawnClover()
+    public IEnumerator FadeoutRespawnCoroutine()
     {
         gameObject.GetComponent<XRGrabInteractable>().enabled = false;
 
