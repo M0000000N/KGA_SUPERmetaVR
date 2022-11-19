@@ -8,6 +8,8 @@ using Photon.Voice.Unity;
 using Photon.Realtime;
 using TMPro;
 using Oculus.Interaction.PoseDetection.Debug;
+using UnityEngine.Animations;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class InvitationVoiceTalkUI : MonoBehaviourPun
 {
@@ -16,39 +18,46 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
     public GameObject GetHandShakeImage { get { return HandShakeImage.gameObject; } }
     public GameObject GetDialog {  get { return DialogUI.gameObject;  } }
 
+    [SerializeField] XRRayInteractor RightRayInteractor;
+    private RaycastHit RightRayHit;
+    GameObject targetObject;
+
     [SerializeField] GameObject DialogUI;
     [SerializeField] GameObject InvitationUI;
-    [SerializeField] GameObject ConfirmUI; 
+    [SerializeField] GameObject ConfirmUI;
+    [SerializeField] GameObject ConfirmTalkingCheckUI;
    // [SerializeField] GameObject SucessPopUI;
 
     [SerializeField] Button HandShakeImage;
     [SerializeField] Button Talking;
     [SerializeField] Button Yes;
     [SerializeField] Button No;
-    [SerializeField] Button Okay;
+    [SerializeField] Button Confirm_Okay;
+    [SerializeField] Button ConfirmTalkingCheckUI_Yes;
+    [SerializeField] Button ConfirmTalkingCheckUI_No;
     //  [SerializeField] Button Accept_SucessUI; 
 
     [SerializeField] TextMeshProUGUI text;
 
-    int actNumber; 
-    GameObject targetObject;
-    Player player;
+    int actNumber;
+    string Nickname; 
+    PhotonView otherplayer;
 
-    // 나한테만 보이게 상대방은 ㄴㄴ 
     private void Start()
-    {
+    {     
+
         // 내가 조작할 수 없게 
+        HandShakeImage.gameObject.SetActive(false);
         DialogUI.SetActive(false);
         InvitationUI.SetActive(false);
         ConfirmUI.SetActive(false);
-        //SucessPopUI.SetActive(false);
+        ConfirmTalkingCheckUI.SetActive(false);
 
-        HandShakeImage.gameObject.SetActive(false);
-
+        HandShakeImage.onClick.AddListener(DialogPopUI);
         Talking.onClick.AddListener(InvitationPopUI);
         Yes.onClick.AddListener(AcceptButton);
         No.onClick.AddListener(RefuseButton);
-        HandShakeImage.onClick.AddListener(DialogPopUI);
+        Confirm_Okay.onClick.AddListener(ConfirmTalkingOkay);
         // confirm okay 버튼 누르면 그 상대방에게 메세지 전송
     }
 
@@ -69,16 +78,24 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
         if (photonView.IsMine == false) return;
 
         if (other.gameObject.tag == "Player")
-        {
+        {           
             InvitationVoiceTalkUI talkUI = other.gameObject.GetComponent<InvitationVoiceTalkUI>();
 
+            // 1:1 대화방생성 변수 
+           //  actNumber = other.gameObject.GetComponent<PhotonView>().ViewID;
+           //  Nickname = other.gameObject.GetComponent<PhotonView>().Owner.NickName;
+            otherplayer = other.gameObject.GetPhotonView();
+            Debug.Log(otherplayer);
+            Debug.Log(otherplayer.ViewID);
+
             if (talkUI != null)
-            {
+            {               
                 talkUI.GetHandShakeImage.SetActive(true);
+                talkUI.transform.LookAt(this.transform.position);
             }
             else
             {
-                Debug.Log("야 Null값 받아라~");
+                return;
             }
         }
     }
@@ -108,18 +125,43 @@ public class InvitationVoiceTalkUI : MonoBehaviourPun
     {
         InvitationUI.SetActive(true);
     }
+
     [PunRPC]
     public void AcceptButton()
     {
         InvitationUI.SetActive(false);
-        ConfirmUI.SetActive(true);
-      //  SucessPopUI.SetActive(true);
+        ConfirmUI.SetActive(true); // 확인UI창 띄우기 - 상대방에게 초대장 보내야함 
+        //  SucessPopUI.SetActive(true);
     }
 
     [PunRPC]
     public void RefuseButton()
     {     
         InvitationUI.SetActive(false);
+    }
+
+    //내가 초대장 보냈으니 상대방도 받아야함 
+    [PunRPC]
+    public void ConfirmTalkingOkay()
+    {
+        // 상대방에게 정보를 얻어서
+        // 상대방에게 메세지를 넣는다 
+
+        //Player player;
+        // player = RightRayHit.transform.gameObject.GetP
+        //player = RightRayHit.collider.gameObject.GetComponentInParent<PhotonView>().Owner;
+        // Debug.Log("target : " + player.ActorNumber);
+
+        otherplayer.RPC("ConfirmTalkingCheck", RpcTarget.All, true);
+
+       //hotonView.RPC("ConfirmTalkingCheck", otherplayer);         
+
+    }
+
+    [PunRPC]
+    public void ConfirmTalkingCheck(bool value)
+    {
+        ConfirmTalkingCheckUI.SetActive(value);
     }
 }
 
