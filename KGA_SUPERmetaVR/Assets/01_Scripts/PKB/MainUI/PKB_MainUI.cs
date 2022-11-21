@@ -44,17 +44,7 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
         settingButton.onClick.AddListener(OnClickSettingButton);
         exitButton.onClick.AddListener(OnClickExitButton);
 
-        findRoomButton.interactable = false;
-        customizingButton.interactable = false;
-        randomJoinButton.interactable = false;
-        createRoomButton.interactable = false;
-        settingButton.interactable = false;
-        exitButton.interactable = false;
         RefreshUI();
-    }
-
-    public override void OnConnectedToMaster()
-    {
         exitButton.interactable = true;
         findRoomButton.interactable = true;
         customizingButton.interactable = true;
