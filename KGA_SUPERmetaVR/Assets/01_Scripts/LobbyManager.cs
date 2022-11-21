@@ -12,6 +12,10 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     RoomOptions roomOptions;
     bool[] isRoom = new bool[10000]; // 방 이름 관련
 
+    [SerializeField] int MMMMaxPlayer = 20;
+    [SerializeField] int PKBMaxPlayer = 14;
+    [SerializeField] int PKBMaxRoomCount = 9999;
+    private int currentSceneIndex = 0; //0 : login, 1: Ver.1_Lobby, 2 : PKB_Main, 3 : PKB_InGame, 4 : Tutorial
     private void Awake()
     {
         // 마스터 서버 연결시도
@@ -48,18 +52,78 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         }
     }
 
-    //public override void OnConnectedToMaster()
-    //{
-    //    PhotonNetwork.JoinLobby();
-    //}
+    public void JoinOrCreateRoom(string _password = null, bool _isMinimanimo = false)
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            // bool isInRoom = false; 추후 튕길 때 사용
+            string roomName;
+            int maxPlayer;
+            if (_isMinimanimo) // 미니마니모는 룸네임 00
+            {
+                roomName = "00";
+                maxPlayer = MMMMaxPlayer;
+            }
+            else
+            {
+                if (SetRoomName() == null) return;
+                roomName = SetRoomName();
+                maxPlayer = PKBMaxPlayer;
+            }
+
+            roomOptions = new RoomOptions()
+            {
+                IsOpen = true,
+                IsVisible = true,
+                MaxPlayers = Convert.ToByte(maxPlayer),
+                BroadcastPropsChangeToAll = true
+            };
+
+            roomOptions.CustomRoomProperties = new Hashtable()
+            {
+                { "RoomName", roomName },
+                { "Password", _password },
+                // { "IsInRoom",  isInRoom } 
+            };
+
+            roomOptions.CustomRoomPropertiesForLobby = new string[]
+            {
+                "RoomName",
+                "Password",
+                // "IsInRoom"
+            };
+            PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
+        }
+        else
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
+    }
 
     public override void OnJoinedRoom()
     {
-        PKB_MainUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
-        PKB_MainUIManager.Instance.PlayRoomUI.SetRoomInfo(roomOptions);
-        Debug.Log($"현재인원 / 최대인원 : {PhotonNetwork.CurrentRoom.PlayerCount} / {PhotonNetwork.CurrentRoom.MaxPlayers}");
+        if (PhotonNetwork.CurrentRoom.CustomProperties["RoomName"].ToString() == "00")
+        {
+            if (PhotonNetwork.NickName != string.Empty && PhotonNetwork.LocalPlayer.IsLocal)
+                PhotonNetwork.LoadLevel("Ver.1_Lobby");
+                currentSceneIndex = 1;
+        }
+        else
+        {
+            PKB_MainUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
+            PKB_MainUIManager.Instance.PlayRoomUI.SetRoomInfo(roomOptions);
+            Debug.Log($"현재인원 / 최대인원 : {PhotonNetwork.CurrentRoom.PlayerCount} / {PhotonNetwork.CurrentRoom.MaxPlayers}");
+        }
+        Debug.Log("현재 방 이름 : " + PhotonNetwork.CurrentRoom.CustomProperties["RoomName"].ToString());
     }
 
+    public override void OnLeftRoom()
+    {
+        if (currentSceneIndex == 1 || currentSceneIndex == 3)
+        {
+            PhotonNetwork.LoadLevel("PKB_Main");
+        }
+    }
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         switch (returnCode) // TODO : 나중에 데이터로 빼야함
@@ -87,51 +151,16 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         }
     }
 
-    public void CreateRoom(int _maxPlayer, string _password = null)
-    {
-        if (PhotonNetwork.IsConnected)
-        {
-            roomOptions = new RoomOptions()
-            {
-                IsOpen = true,
-                IsVisible = true,
-                MaxPlayers = Convert.ToByte(_maxPlayer),
-                BroadcastPropsChangeToAll = true
-            };
-
-            string roomName = SetRoomName();
-            // bool isInRoom = false;
-
-            roomOptions.CustomRoomProperties = new Hashtable()
-            {
-                { "RoomName", roomName },
-                { "Password", _password },
-                // { "IsInRoom",  isInRoom } 추후 튕길 때 사용
-            };
-
-            roomOptions.CustomRoomPropertiesForLobby = new string[]
-            {
-                "RoomName",
-                "Password",
-                // "IsInRoom"
-            };
-            PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
-        }
-        else
-        {
-            PhotonNetwork.ConnectUsingSettings();
-        }
-    }
-
     [PunRPC]
     public string SetRoomName()
     {
-        for (int i = 1; i <= 25; i++)
+        for (int i = 1; i <= PKBMaxRoomCount; i++)
         {
-            if (i == 10000)
+            if (i == PKBMaxRoomCount)
             {
                 // TODO : 데이터작업
-                PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 방을 생성할 수 없습니다. 잠시 후 다시 시도헤해주세요", "확인");
+                PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 방을 생성할 수 없습니다. 잠시 후 다시 시도해주세요", "확인");
+                return null;
             }
             if (isRoom[i]) // 있는 방
             {
@@ -139,8 +168,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             }
             else
             {
-                isRoom[i] = true;
-                return i.ToString();
+                return i.ToString(); //("{0:00}", i.ToString()), ("%02d", i)
             }
         }
         return "0";
