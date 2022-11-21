@@ -61,11 +61,11 @@ public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
         StopAllCoroutines();
         if(_isFadeIn)
         {
-            StartCoroutine("LoadingFadeInCoroutine");
+            StartCoroutine(LoadingFadeInCoroutine());
         }
         else
         {
-            StartCoroutine("LoadingFadeOutCoroutine");
+            StartCoroutine(LoadingFadeOutCoroutine());
         }
 
     }

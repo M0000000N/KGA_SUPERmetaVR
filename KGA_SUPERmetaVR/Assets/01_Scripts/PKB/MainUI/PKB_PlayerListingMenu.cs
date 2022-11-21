@@ -12,13 +12,13 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField] Transform content;
     [SerializeField] PKB_PlayerListing playerListing;
-    private List<PKB_PlayerListing> listings = new List<PKB_PlayerListing>();
 
+    [SerializeField] int MinPlayerCount = 0;
     [SerializeField] Button gameStartButton;
     private TextMeshProUGUI gameStartButtonText;
 
     private bool playerIsReady = false;
-    public int MinPlayerCount;
+    private List<PKB_PlayerListing> listings = new List<PKB_PlayerListing>();
 
     private void Awake()
     {
@@ -145,14 +145,12 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
-            PhotonNetwork.LoadLevel("Peekaboo_InGame");
+            PhotonNetwork.LoadLevel("PKB_InGame");
         }
         else
         {
             SetReadyUp(!playerIsReady);
         }
-
-
     }
 
     // 플레이어가 모두 준비완료가 되었는지 확인
