@@ -8,9 +8,17 @@ public class LobbyPlayerCulling : MonoBehaviourPun
 
     [SerializeField]
     private GameObject LobbyPlayerModeling;
+    private SkinnedMeshRenderer[] LobbyPlayerModelings;
 
     private void Awake()
     {
+        LobbyPlayerModelings = GetComponentsInChildren<SkinnedMeshRenderer>();
+        foreach (var children in LobbyPlayerModelings)
+        {
+            children.gameObject.SetActive(false);
+        }
+        LobbyPlayerModelings[0].gameObject.SetActive(true);
+        LobbyPlayerModeling = LobbyPlayerModelings[0].gameObject;
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) return;
     }
 

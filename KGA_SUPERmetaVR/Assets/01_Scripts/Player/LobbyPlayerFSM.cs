@@ -12,8 +12,16 @@ public enum LOBBYPLAYERSTATE
 public class LobbyPlayerFSM : MonoBehaviourPun
 {
     public Renderer myRenderer;
+<<<<<<< Updated upstream
     public Material MyOpaqueMaterial { get { return opaqueMaterial; } set { opaqueMaterial = value; } }
     public Material MyTransparentMaterial { get { return transparentMaterial; } set { transparentMaterial = value; } }
+=======
+
+
+    private SkinnedMeshRenderer[] LobbyPlayerModelings;
+    public Material MyOpaqueMaterial { get { return opaqueMaterial; } }
+    public Material MyTransparentMaterial { get { return transparentMaterial; } }
+>>>>>>> Stashed changes
 
     #region 플레이어 상태들
     private LobbyPlayerSpawningState spawningState;
@@ -28,9 +36,19 @@ public class LobbyPlayerFSM : MonoBehaviourPun
 
     private void Awake()
     {
+        LobbyPlayerModelings = GetComponentsInChildren<SkinnedMeshRenderer>();
+        foreach (var children in LobbyPlayerModelings)
+        {
+            children.gameObject.SetActive(false);
+        }
+        LobbyPlayerModelings[0].gameObject.SetActive(true);
+
+        myRenderer = LobbyPlayerModelings[0].gameObject.GetComponentInChildren<Renderer>();
+
+        
         states = new Dictionary<LOBBYPLAYERSTATE, LobbyPlayerState>();
 
-        myRenderer = GetComponentInChildren<Renderer>();
+        //myRenderer = GetComponentInChildren<Renderer>();
 
         spawningState = GetComponent<LobbyPlayerSpawningState>();
         idleState = GetComponent<LobbyPlayerIdleState>();
