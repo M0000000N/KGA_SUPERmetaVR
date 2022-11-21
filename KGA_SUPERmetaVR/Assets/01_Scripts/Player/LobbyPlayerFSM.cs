@@ -12,16 +12,11 @@ public enum LOBBYPLAYERSTATE
 public class LobbyPlayerFSM : MonoBehaviourPun
 {
     public Renderer myRenderer;
-<<<<<<< Updated upstream
     public Material MyOpaqueMaterial { get { return opaqueMaterial; } set { opaqueMaterial = value; } }
     public Material MyTransparentMaterial { get { return transparentMaterial; } set { transparentMaterial = value; } }
-=======
-
 
     private SkinnedMeshRenderer[] LobbyPlayerModelings;
-    public Material MyOpaqueMaterial { get { return opaqueMaterial; } }
-    public Material MyTransparentMaterial { get { return transparentMaterial; } }
->>>>>>> Stashed changes
+
 
     #region 플레이어 상태들
     private LobbyPlayerSpawningState spawningState;
