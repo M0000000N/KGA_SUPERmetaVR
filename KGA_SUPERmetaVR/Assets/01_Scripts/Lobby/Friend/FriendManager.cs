@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class FriendManager : SingletonBehaviour<FriendManager>
 {
     [SerializeField] private GameObject friendCanvas;
-    [SerializeField] private Transform viewportTransform;
+    [SerializeField] private Transform Content;
     // [SerializeField] private GameObject friendContent;
 
     private PlayerData playerData;
@@ -81,11 +81,11 @@ public class FriendManager : SingletonBehaviour<FriendManager>
 
     public void UpdateFriendData()
     {
-        int contentCount = viewportTransform.childCount;
+        int contentCount = Content.childCount;
 
         for (int i = 0; i < contentCount; i++)
         {
-            GameObject content = viewportTransform.GetChild(i).gameObject;
+            GameObject content = Content.GetChild(i).gameObject;
             if (content.activeSelf)
             {
                 content.SetActive(false);
@@ -98,7 +98,7 @@ public class FriendManager : SingletonBehaviour<FriendManager>
         {
             if (i > contentCount) break;
 
-            GameObject content = viewportTransform.GetChild(i).gameObject;
+            GameObject content = Content.GetChild(i).gameObject;
             FriendList friendList = content.GetComponent<FriendList>();
 
             if (dataTable.Rows.Count > 0)
