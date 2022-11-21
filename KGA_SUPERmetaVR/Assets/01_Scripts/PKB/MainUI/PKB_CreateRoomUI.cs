@@ -38,11 +38,11 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
         {
             // privateRoom
             grayText.SetActive(false);
-            passwordInput.interactable = true;
 
             if (passwordInput.text.Length == 0)
             {
                 createButton.interactable = false;
+                passwordInput.interactable = true;
             }
             else
             {
@@ -71,19 +71,23 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
                 passwordInput.text = "";
                 return;
             }
-            LobbyManager.Instance.CreateRoom(password);
+            LobbyManager.Instance.JoinOrCreateRoom(password);
         }
         else
         {
             // publicRoom
-            LobbyManager.Instance.CreateRoom(null);
+            LobbyManager.Instance.JoinOrCreateRoom();
         }
         gameObject.SetActive(false);
     }
 
     public void SetPassword()
     {
-        if (passwordInput.text.Length > 8)
+        if ( 0 <= passwordInput.text.Length || passwordInput.text.Length <= 6)
+        {
+            passwordInput.interactable = true;
+        }
+        else
         {
             passwordInput.interactable = false;
         }
@@ -94,7 +98,6 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
     {
         gameObject.SetActive(false);
     }
-
 }
 
 
