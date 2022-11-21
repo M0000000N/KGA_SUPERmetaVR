@@ -22,18 +22,14 @@ public class Stamina : MonoBehaviour
 
     [SerializeField]
     private int currentValue;
+    public int CurrentValue { get { return currentValue; } }
 
     [SerializeField]
     private float clickButtonB = 0.2f;
 
     [SerializeField]
     private float cancleButtonB = 6f;
-
-    [SerializeField]
-    private Peekaboo_XRPlayerMovement xrPlay; 
-
     private float staminaTime = 0f;
-
 
     List<Image> progressSteps;
 
