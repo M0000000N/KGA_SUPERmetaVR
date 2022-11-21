@@ -11,7 +11,8 @@ public class PlayerCustum : MonoBehaviour
     private GameObject playerCharacter;
     private SkinnedMeshRenderer playerSkinnedMeshRenderer;
     private MultiParentConstraint multiParentConstraint;
-    private TwoBoneIKConstraint twoBoneIKConstraint;
+    private TwoBoneIKConstraint leftTwoBoneIKConstraint;
+    private TwoBoneIKConstraint rightTwoBoneIKConstraint;
     private void Start()
     {
         
@@ -33,15 +34,12 @@ public class PlayerCustum : MonoBehaviour
         lobbyPlayerFSM.myRenderer = playerSkinnedMeshRenderer;
         lobbyPlayerFSM.MyOpaqueMaterial = playerSkinnedMeshRenderer.material;
         lobbyPlayerFSM.MyTransparentMaterial = playerSkinnedMeshRenderer.material;
-        //multiParentConstraint.data.constrainedObject = 
-
-
-
-
-
-
-
-
-
+        multiParentConstraint.data.constrainedObject = playerBonerednerer.transforms[19];
+        leftTwoBoneIKConstraint.data.root = playerBonerednerer.transforms[15];
+        leftTwoBoneIKConstraint.data.mid = playerBonerednerer.transforms[16];
+        leftTwoBoneIKConstraint.data.tip = playerBonerednerer.transforms[17];
+        rightTwoBoneIKConstraint.data.root = playerBonerednerer.transforms[22];
+        rightTwoBoneIKConstraint.data.mid = playerBonerednerer.transforms[23];
+        rightTwoBoneIKConstraint.data.tip = playerBonerednerer.transforms[24];
     }
 }
