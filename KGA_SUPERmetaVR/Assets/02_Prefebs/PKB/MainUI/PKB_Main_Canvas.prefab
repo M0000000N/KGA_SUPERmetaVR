@@ -370,10 +370,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7556430096105765124}
+  - component: {fileID: 7556430096105765141}
   - component: {fileID: 7556430096105765147}
   - component: {fileID: 7556430096105765146}
   - component: {fileID: 7556430096105765145}
-  - component: {fileID: 7556430096105765141}
   - component: {fileID: 3380580974219045183}
   m_Layer: 5
   m_Name: PKB_Main_Canvas
@@ -413,6 +413,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1200, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7556430096105765141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7556430096105765144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8ee10208538ff449700fe672cf24b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CreateRoomUI: {fileID: 5381543819168835604}
+  CustomizingUI: {fileID: 3428945410444674251}
+  ExitUI: {fileID: 7756657221045311307}
+  FindRoomUI: {fileID: 8954956492211740486}
+  MainUI: {fileID: 7239865429551312666}
+  NoticePopupUI: {fileID: 457642377141907214}
+  PlayRoomUI: {fileID: 8530504777689502913}
+  RankingUI: {fileID: 1973764787319461297}
+  SettingUI: {fileID: 1167220841858055495}
+  loading: {fileID: 1634993314990293457}
 --- !u!223 &7556430096105765147
 Canvas:
   m_ObjectHideFlags: 0
@@ -456,7 +478,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7556430096105765145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,28 +496,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7556430096105765141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7556430096105765144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8ee10208538ff449700fe672cf24b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CreateRoomUI: {fileID: 5381543819168835604}
-  CustomizingUI: {fileID: 3428945410444674251}
-  ExitUI: {fileID: 7756657221045311307}
-  FindRoomUI: {fileID: 8954956492211740486}
-  MainUI: {fileID: 7239865429551312666}
-  NoticePopupUI: {fileID: 457642377141907214}
-  PlayRoomUI: {fileID: 8530504777689502913}
-  RankingUI: {fileID: 1973764787319461297}
-  SettingUI: {fileID: 1167220841858055495}
-  loading: {fileID: 1634993314990293457}
 --- !u!114 &3380580974219045183
 MonoBehaviour:
   m_ObjectHideFlags: 0
