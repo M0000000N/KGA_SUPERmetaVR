@@ -13,55 +13,83 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
     [SerializeField] Button exitButton;
 
     [Header("비밀번호 입력")]
-    [SerializeField] GameObject passwordUI;
-    [SerializeField] Button checkButton;
-    [SerializeField] Button cancleButton;
-    [SerializeField] TMP_InputField passwordInput;
+    [SerializeField] GameObject pwUI;
+    [SerializeField] Button pwFindButton;
+    [SerializeField] Button pwExitButton;
+    [SerializeField] TMP_InputField pwInput;
 
     private void Awake()
     {
         findButton.onClick.AddListener(OnClickFindButton);
         exitButton.onClick.AddListener(OnClickExitButton);
-        checkButton.onClick.AddListener(OnClickCheckButton);
-        cancleButton.onClick.AddListener(OnClickCancleButton);
+        pwFindButton.onClick.AddListener(OnClickPwFindButton);
+        pwExitButton.onClick.AddListener(OnClickPwExitButton);
     }
 
     private void Start()
     {
-        SetPasswordInputUI(false);
+        Initionalize();
     }
 
     private void Update()
     {
-        if (passwordInput.text.Length > 0)
+        if (pwUI.activeSelf)
         {
             SetPassword();
         }
     }
 
-    public void SetPassword() // TODO : 번호 규칙, CreateRoomUI 코드중복 리펙토링
+    private void Initionalize()
     {
-        if (passwordInput.text.Length > 8)
-        {
-            passwordInput.interactable = false;
-        }
+        roomNameInput.text = "";
+        roomNameInput.interactable = false;
+        SetPasswordInputUI(false);
     }
 
-    public void OnClickExitButton()
+    private void SetPasswordInputUI(bool _isActive)
     {
-        gameObject.SetActive(false);
+        pwUI.SetActive(_isActive);
+        pwInput.text = "";
+        pwFindButton.interactable = false;
+    }
+
+    private void SetPassword()
+    {
+        if (pwInput.text.Length == 0)
+        {
+            pwFindButton.interactable = false;
+            pwInput.interactable = true;
+        }
+        else if (pwInput.text.Length <= 6)
+        {
+            pwFindButton.interactable = true;
+        }
+        else
+        {
+            // TODO : 나중에 데이터로 빼야함
+            PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "비밀번호는 최대 6자리\n숫자만 사용 가능합니다.", "확인");
+            pwInput.text = "";
+            return;
+        }
     }
 
     public void OnClickFindButton()
     {
+        if (roomNameInput.text.Equals("00")) // 로비찾기 금지
+        {
+            // TODO : 나중에 데이터로 빼야함
+            PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
+                "존재하지 않는 방 번호입니다.\n다시 한번 확인해주세요.", "확인");
+            return;
+        }
         if (LobbyManager.Instance.NowRooms.Count != 0)
         {
-            // 모든 방 탐색하면서 찾기
+            // 방이 존재할 시 모든 방 탐색하면서 찾기
             for (int i = 0; i < LobbyManager.Instance.NowRooms.Count; i++)
             {
-                if (roomNameInput.text.Contains(LobbyManager.Instance.NowRooms[i].CustomProperties["RoomName"].ToString()))
+                if (LobbyManager.Instance.NowRooms[i].CustomProperties["RoomName"].ToString().Contains(roomNameInput.text))
                 {
-                    if (null == LobbyManager.Instance.NowRooms[i].CustomProperties["Password"])
+                    if (LobbyManager.Instance.NowRooms[i].CustomProperties["Password"] == null)
                     {
                         // publicRoom
                         PhotonNetwork.JoinRoom(roomNameInput.text);
@@ -77,9 +105,9 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
             }
             // TODO : 나중에 데이터로 빼야함
             PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
-            "존재하지 않는 방 번호입니다.\n다시 한번 확인해주세요.", "확인");
+                "존재하지 않는 방 번호입니다.\n다시 한번 확인해주세요.", "확인");
         }
-        else // 없는 방
+        else // 방이 하나도 없을 때는 없음 (로비에 마스터클라이언트가 남아있다는 가정)
         {
             // TODO : 나중에 데이터로 빼야함
             PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
@@ -87,36 +115,34 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnClickCheckButton()
+    public void OnClickExitButton()
+    {
+        gameObject.SetActive(false);
+        Initionalize();
+    }
+
+    public void OnClickPwFindButton()
     {
         for (int i = 0; i < LobbyManager.Instance.NowRooms.Count; i++)
         {
-            if(null != LobbyManager.Instance.NowRooms[i].CustomProperties["Password"])
+            if (LobbyManager.Instance.NowRooms[i].CustomProperties["Password"] == null) continue;
+            if (LobbyManager.Instance.NowRooms[i].CustomProperties["Password"].ToString().Equals(pwInput.text))
             {
-                if (passwordInput.text.Equals(LobbyManager.Instance.NowRooms[i].CustomProperties["Password"].ToString()))
-                {
-                    PhotonNetwork.JoinRoom(roomNameInput.text);
-                }
-                else
-                {
-                    // TODO : 나중에 데이터로 빼야함
-                    PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
-                        "비밀번호가 일치하지 않습니다.\n다시 한번 확인해주세요.", "확인");
-                }
+                PhotonNetwork.JoinRoom(roomNameInput.text);
+                Initionalize();
+            }
+            else
+            {
+                // TODO : 나중에 데이터로 빼야함
+                PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림",
+                    "비밀번호가 일치하지 않습니다.\n다시 한번 확인해주세요.", "확인");
+                SetPasswordInputUI(true);
             }
         }
-        passwordInput.text = "";
-        SetPasswordInputUI(false);
     }
 
-    public void OnClickCancleButton()
+    public void OnClickPwExitButton()
     {
-        roomNameInput.text = "";
         SetPasswordInputUI(false);
-    }
-
-    private void SetPasswordInputUI(bool _isActive)
-    {
-        passwordUI.SetActive(_isActive);
     }
 }
