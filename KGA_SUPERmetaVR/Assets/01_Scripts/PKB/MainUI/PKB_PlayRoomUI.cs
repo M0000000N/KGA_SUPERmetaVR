@@ -34,7 +34,7 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
     public void SetRoomInfo(RoomOptions _roomOptions)
     {
         // 방 이름
-        roomNameText.text = "# " + PhotonNetwork.CurrentRoom.CustomProperties["RoomName"].ToString();
+        roomNameText.text = "# " + System.String.Format("{0:0000}", int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["RoomName"].ToString()));
 
         // 방 타입
         if (PhotonNetwork.CurrentRoom.CustomProperties["Password"] == null)

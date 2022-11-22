@@ -17,30 +17,28 @@ public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
     public PKB_PlayRoomUI PlayRoomUI;
     public PKB_RankingUI RankingUI;
     public PKB_SettingUI SettingUI;
-    public GameObject Loading { get { return loading; } set { loading = value; } }
+    public GameObject Loading { get { return loading; }set { loading = value; } }
     [SerializeField] GameObject loading;
-
+    
     private void Awake()
     {
-        CreateRoomUI = GetComponentInChildren<PKB_CreateRoomUI>();
-        CustomizingUI = GetComponentInChildren<PKB_CustomizingUI>();
-        ExitUI = GetComponentInChildren<PKB_ExitUI>();
-        FindRoomUI = GetComponentInChildren<PKB_FindRoomUI>();
-        MainUI = GetComponentInChildren<PKB_MainUI>();
-        NoticePopupUI = GetComponentInChildren<PKB_NoticePopupUI>();
-        PlayRoomUI = GetComponentInChildren<PKB_PlayRoomUI>();
-        RankingUI = GetComponentInChildren<PKB_RankingUI>();
-        SettingUI = GetComponentInChildren<PKB_SettingUI>();
+        CreateRoomUI     = GetComponentInChildren<PKB_CreateRoomUI>();
+        CustomizingUI    = GetComponentInChildren<PKB_CustomizingUI>();
+        ExitUI           = GetComponentInChildren<PKB_ExitUI>();
+        FindRoomUI       = GetComponentInChildren<PKB_FindRoomUI>();
+        MainUI           = GetComponentInChildren<PKB_MainUI>();
+        NoticePopupUI    = GetComponentInChildren<PKB_NoticePopupUI>();
+        PlayRoomUI       = GetComponentInChildren<PKB_PlayRoomUI>();
+        RankingUI        = GetComponentInChildren<PKB_RankingUI>();
+        SettingUI        = GetComponentInChildren<PKB_SettingUI>();
     }
-
     private void Start()
     {
         Initionalize();
     }
-
     public void Initionalize()
     {
-        CreateRoomUI.gameObject.SetActive(false);
+       CreateRoomUI.gameObject.SetActive(false);
         CustomizingUI.gameObject.SetActive(false);
         ExitUI.gameObject.SetActive(false);
         FindRoomUI.gameObject.SetActive(false);
@@ -60,21 +58,21 @@ public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
     // ·Îµù
     public void Fade(bool _isFadeIn)
     {
-        if (_isFadeIn)
+        StopAllCoroutines();
+        if(_isFadeIn)
         {
-            StopCoroutine(LoadingFadeInCoroutine());
-            StartCoroutine(LoadingFadeInCoroutine());
+            StartCoroutine("LoadingFadeInCoroutine");
         }
         else
         {
-            StopCoroutine(LoadingFadeOutCoroutine());
-            StartCoroutine(LoadingFadeOutCoroutine());
+            StartCoroutine("LoadingFadeOutCoroutine");
         }
+
     }
 
     IEnumerator LoadingFadeInCoroutine()
     {
-        Image image = Loading.GetComponent<Image>();
+        Image image = PKB_MainUIManager.Instance.Loading.GetComponent<Image>();
         float alpha = 1f;
         image.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -91,10 +89,10 @@ public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
 
     IEnumerator LoadingFadeOutCoroutine()
     {
-        Image image = Loading.GetComponent<Image>();
+        Image image = PKB_MainUIManager.Instance.Loading.GetComponent<Image>();
         image.gameObject.SetActive(true);
         float alpha = 0f;
-        image.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        image.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
         while (true)
         {
@@ -103,6 +101,8 @@ public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
             yield return new WaitForSeconds(0.05f);
             if (alpha >= 1) break;
         }
+        image.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
         yield break;
     }
 }
