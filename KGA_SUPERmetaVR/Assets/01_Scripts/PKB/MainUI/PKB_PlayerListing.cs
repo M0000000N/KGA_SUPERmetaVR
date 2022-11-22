@@ -36,6 +36,7 @@ public class PKB_PlayerListing : MonoBehaviourPunCallbacks
         }
     }
 
+
     public void ActiveReadyPanel(bool _isActive)
     {
         readyPanel.gameObject.SetActive(_isActive);
