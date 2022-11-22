@@ -142,7 +142,7 @@ public class DataBase : SingletonBehaviour<DataBase>
     }
 
     // 회원 가입
-    public void CreateUser(string _id, string _pw, string _nickName)
+    public void CreateUser(string _id, string _pw, string _name, string _birth)
     {
         if (CheckUse(UserTableInfo.user_id,_id))
         {
@@ -150,7 +150,7 @@ public class DataBase : SingletonBehaviour<DataBase>
             string securityPW = SHA512Hash(_pw + securityString);
 
             // 생성시 create_at, update_at 설정을 포함해준다.
-            InsertDB(UserTableInfo.table_name, $"{UserTableInfo.user_id}, {UserTableInfo.user_pw}, {UserTableInfo.nickname}, {UserTableInfo.create_at}, {UserTableInfo.update_at}", $"'{_id}','{securityPW}','{_nickName}', NOW(), NOW()");
+            InsertDB(UserTableInfo.table_name, $"{UserTableInfo.user_id}, {UserTableInfo.user_pw}, {UserTableInfo.name}, {UserTableInfo.birth}, {UserTableInfo.create_at}, {UserTableInfo.update_at}", $"'{_id}','{securityPW}','{_name}','{_birth}', NOW(), NOW()");
         }
     }
 
