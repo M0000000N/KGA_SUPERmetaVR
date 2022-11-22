@@ -12,13 +12,13 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField] Transform content;
     [SerializeField] PKB_PlayerListing playerListing;
+    private List<PKB_PlayerListing> listings = new List<PKB_PlayerListing>();
 
-    [SerializeField] int MinPlayerCount = 0;
     [SerializeField] Button gameStartButton;
     private TextMeshProUGUI gameStartButtonText;
 
+    [SerializeField] int MinPlayerCount = 0;
     private bool playerIsReady = false;
-    private List<PKB_PlayerListing> listings = new List<PKB_PlayerListing>();
 
     private void Awake()
     {
@@ -28,7 +28,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
     public override void OnEnable()
     {
-        base.OnEnable();
         GetCurrentRoomPlayers();
         SetReadyUp(false);
     }
@@ -116,7 +115,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LocalPlayer.CustomProperties.Add("IsReady", false);
         }
-
         Hashtable newCustomProperty = new Hashtable() { { "IsReady", _playerIsReady } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(newCustomProperty);
     }
@@ -146,6 +144,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
             PhotonNetwork.LoadLevel("PKB_InGame");
+            LobbyManager.Instance.CurrentSceneIndex = 3;
         }
         else
         {
@@ -169,6 +168,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
+            listings[index].ActiveReadyPanel(false); // TODO : 없애고 테스트 필요
             foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
             {
                 if (player.Value != PhotonNetwork.LocalPlayer)

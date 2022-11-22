@@ -21,82 +21,71 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
     {
         createButton.onClick.AddListener(OnClickCreateButton);
         exitButton.onClick.AddListener(OnClickExitButton);
-
+        Initionalize();
+    }
+    private void Initionalize()
+    {
         privateRoom.isOn = false;
         passwordInput.interactable = false;
         grayText.SetActive(true);
+        passwordInput.text = "";
     }
 
     private void Update()
     {
-        if (passwordInput.text.Length > 0)
-        {
-            SetPassword();
-        }
-
         if (privateRoom.isOn)
         {
             // privateRoom
             grayText.SetActive(false);
-
-            if (passwordInput.text.Length == 0)
-            {
-                createButton.interactable = false;
-                passwordInput.interactable = true;
-            }
-            else
-            {
-                createButton.interactable = true;
-            }
+            SetPassword();
         }
         else
         {
             // publicRoom
-            grayText.SetActive(true);
-            passwordInput.text = "";
-            passwordInput.interactable = false;
+            Initionalize();
             createButton.interactable = true;
         }
+    }
+
+    private void SetPassword()
+    {
+        if (passwordInput.text.Length == 0)
+        {
+            createButton.interactable = false;
+            passwordInput.interactable = true;
+        }
+        else if(passwordInput.text.Length <= 6)
+        {
+            createButton.interactable = true;
+        }
+        else
+        {
+            // TODO : 나중에 데이터로 빼야함
+            PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "비밀번호는 최대 6자리\n숫자만 사용 가능합니다.", "확인");
+            passwordInput.text = "";
+            return;
+        }
+        password = passwordInput.text;
     }
 
     public void OnClickCreateButton()
     {
         if (privateRoom.isOn)
         {
-            // privateRoom
-            if (false) //  TODO : 비밀번호 규칙에 어긋날 때(유니티 다이얼 키패드 있는지 봐야함)
-            {
-                // TODO : 나중에 데이터로 빼야함
-                PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "비밀번호는 1자리 최대 8자리\n숫자만 사용 가능합니다.", "확인");
-                passwordInput.text = "";
-                return;
-            }
             LobbyManager.Instance.JoinOrCreateRoom(password);
         }
         else
         {
-            // publicRoom
             LobbyManager.Instance.JoinOrCreateRoom();
         }
         gameObject.SetActive(false);
-    }
-
-    public void SetPassword()
-    {
-        if ( 0 <= passwordInput.text.Length || passwordInput.text.Length <= 6)
-        {
-            passwordInput.interactable = true;
-        }
-        else
-        {
-            passwordInput.interactable = false;
-        }
-        password = passwordInput.text;
+        Initionalize();
     }
 
     public void OnClickExitButton()
     {
         gameObject.SetActive(false);
+        Initionalize();
     }
 }
 

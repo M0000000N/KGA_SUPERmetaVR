@@ -39,19 +39,19 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
     {
         findRoomButton.onClick.AddListener(OnClickFindRoomButton);
         customizingButton.onClick.AddListener(OnClickCustomizingButton);
-        createRoomButton.onClick.AddListener(OnClickCreateRoomButton);
         randomJoinButton.onClick.AddListener(OnClickRandomJoinButton);
+        createRoomButton.onClick.AddListener(OnClickCreateRoomButton);
         settingButton.onClick.AddListener(OnClickSettingButton);
         exitButton.onClick.AddListener(OnClickExitButton);
 
-        RefreshUI();
-        exitButton.interactable = true;
         findRoomButton.interactable = true;
         customizingButton.interactable = true;
         randomJoinButton.interactable = true;
         createRoomButton.interactable = true;
         settingButton.interactable = true;
+        exitButton.interactable = true;
         PKB_MainUIManager.Instance.Fade(true);
+        RefreshUI();
     }
 
     public void OnClickFindRoomButton()
@@ -66,30 +66,22 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
 
     public void OnClickRandomJoinButton()
     {
+        if (!PhotonNetwork.IsConnected) return;
         findingRoomImage.SetActive(true);
 
-        if (PhotonNetwork.IsConnected)
+        for (int i = 0; i < LobbyManager.Instance.NowRooms.Count; i++)
         {
-
-            for (int i = 0; i < LobbyManager.Instance.NowRooms.Count; i++)
+            if (LobbyManager.Instance.NowRooms[i].CustomProperties["RoomName"].ToString().Contains("00")) continue;
+            if (LobbyManager.Instance.NowRooms[i].CustomProperties["Password"] == null)
             {
-                if (LobbyManager.Instance.NowRooms[i].CustomProperties["Password"] == null)
-                {
-                    string roomName = LobbyManager.Instance.NowRooms.ElementAt(i).CustomProperties.Values.ElementAt(0).ToString();
-                    if (PhotonNetwork.JoinRoom(roomName))
-                    {
-                        findingRoomImage.SetActive(false);
-                        return;
-                    }
-                }
+                string roomName = LobbyManager.Instance.NowRooms.ElementAt(i).CustomProperties.Values.ElementAt(0).ToString();
+                PhotonNetwork.JoinRoom(roomName);
+                findingRoomImage.SetActive(false);
+                return;
             }
-            PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 입장할 수 있는 방이 없습니다.", "확인");
-            findingRoomImage.SetActive(false);
         }
-        else
-        {
-            PhotonNetwork.ConnectUsingSettings();
-        }
+        PKB_MainUIManager.Instance.NoticePopupUI.SetNoticePopup("알림", "현재 입장할 수 있는 방이 없습니다.", "확인");
+        findingRoomImage.SetActive(false);
     }
 
     public void OnClickCreateRoomButton()

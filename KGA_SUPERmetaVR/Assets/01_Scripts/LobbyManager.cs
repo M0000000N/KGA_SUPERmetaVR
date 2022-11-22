@@ -15,6 +15,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     [SerializeField] int MMMMaxPlayer = 20;
     [SerializeField] int PKBMaxPlayer = 14;
     [SerializeField] int PKBMaxRoomCount = 9999;
+    public int CurrentSceneIndex { get { return currentSceneIndex; } set { currentSceneIndex = value; } }
     private int currentSceneIndex = 0; //0 : login, 1: Ver.1_Lobby, 2 : PKB_Main, 3 : PKB_InGame, 4 : Tutorial
     private void Awake()
     {
@@ -105,8 +106,10 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         if (PhotonNetwork.CurrentRoom.CustomProperties["RoomName"].ToString() == "00")
         {
             if (PhotonNetwork.NickName != string.Empty && PhotonNetwork.LocalPlayer.IsLocal)
+            {
                 PhotonNetwork.LoadLevel("Ver.1_Lobby");
                 currentSceneIndex = 1;
+            }
         }
         else
         {
@@ -122,6 +125,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         if (currentSceneIndex == 1 || currentSceneIndex == 3)
         {
             PhotonNetwork.LoadLevel("PKB_Main");
+            currentSceneIndex = 2;
         }
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
