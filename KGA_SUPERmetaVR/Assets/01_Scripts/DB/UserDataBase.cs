@@ -17,6 +17,8 @@ public static class UserTableInfo
     public static readonly string nickname = "nickname";
     public static readonly string name = "name";
     public static readonly string birth = "birth";
+    public static readonly string hint = "hint";
+    public static readonly string hint_answer = "hint_answer";
 
     public static readonly string coin = "coin";
     public static readonly string customize = "customize";
@@ -61,9 +63,9 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
     }
     // 테스트 코드
 
-    public void Create(string _id, string _pw, string _name, string _birth)
+    public void Create(string _id, string _pw, string _name, string _birth, string _hint, string _hintAnswer)
     {
-        DataBase.Instance.CreateUser(_id, _pw, _name, _birth);
+        DataBase.Instance.CreateUser(_id, _pw, _name, _birth, _hint, _hintAnswer);
 
         // --------------------------------------------------------------------------------------------- 테스트 코드
         // 만들 때 PlayerData에 값이 없기 때문에 CreateID를 통해 데이터를 넣어주고 있다.
@@ -205,4 +207,57 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
         }
     }
     // 테스트 코드
+
+    public string FindUserID(string _name, string _birth)
+    {
+        string output = string.Empty;
+
+        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*" ,UserTableInfo.name, _name);
+        if (dataTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                if(row[UserTableInfo.birth].ToString() == _birth)
+                {
+                    output = row[UserTableInfo.id].ToString();
+                }
+                else
+                {
+                    // 생일이 일치하지 않음
+                }
+            }
+        }
+        else if (dataTable.Rows.Count <= 0)
+        {
+            // 데이터가 없음
+        }
+        return output;        
+    }
+
+    public bool FindUserPW(string _id, string _hint, string _hintAnswer)
+    {
+        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*", UserTableInfo.user_id, _id);
+        if (dataTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                string hint = row[UserTableInfo.hint].ToString();
+                string hintAnswer = row[UserTableInfo.hint_answer].ToString();
+
+                if (hint == _hint && hintAnswer  == _hintAnswer)
+                {
+                    return true;
+                }
+                else
+                {
+                    // 힌트가 일치하지 않음
+                }
+            }
+        }
+        else if (dataTable.Rows.Count <= 0)
+        {
+            // 데이터가 없음
+        }
+        return false;
+    }
 }

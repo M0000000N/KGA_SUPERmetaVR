@@ -22,6 +22,7 @@ public class DataBase : SingletonBehaviour<DataBase>
     [SerializeField] string sqlDatabasePW;
 
     string securityString = "뒷간"; // 솔팅을 위한 암호
+    public string SecurityString { get { return securityString; } }
 
     void sqlConnect()
     {
@@ -130,19 +131,21 @@ public class DataBase : SingletonBehaviour<DataBase>
                 }
                 else
                 {
+                    LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.IncorrectPWPopupCanvas);
                     UnityEngine.Debug.Log("비밀번호가 일치하지 않습니다. 확인 후 다시 입력해주세요.");
                 }
             }
         }
         else
         {
+            LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.IncorrectIDPopupCanvas);
             UnityEngine.Debug.Log("사용자 정보가 없습니다");
         }
         return false;
     }
 
     // 회원 가입
-    public void CreateUser(string _id, string _pw, string _name, string _birth)
+    public void CreateUser(string _id, string _pw, string _name, string _birth, string _hint, string _hintAnswer)
     {
         if (CheckUse(UserTableInfo.user_id,_id))
         {
@@ -150,7 +153,7 @@ public class DataBase : SingletonBehaviour<DataBase>
             string securityPW = SHA512Hash(_pw + securityString);
 
             // 생성시 create_at, update_at 설정을 포함해준다.
-            InsertDB(UserTableInfo.table_name, $"{UserTableInfo.user_id}, {UserTableInfo.user_pw}, {UserTableInfo.name}, {UserTableInfo.birth}, {UserTableInfo.create_at}, {UserTableInfo.update_at}", $"'{_id}','{securityPW}','{_name}','{_birth}', NOW(), NOW()");
+            InsertDB(UserTableInfo.table_name, $"{UserTableInfo.user_id}, {UserTableInfo.user_pw}, {UserTableInfo.name}, {UserTableInfo.birth}, {UserTableInfo.hint}, {UserTableInfo.hint_answer}, {UserTableInfo.create_at}, {UserTableInfo.update_at}", $"'{_id}','{securityPW}','{_name}','{_birth}','{_hint}','{_hintAnswer}', NOW(), NOW()");
         }
     }
 

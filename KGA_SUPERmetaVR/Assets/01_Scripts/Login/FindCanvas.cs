@@ -42,16 +42,49 @@ public class FindCanvas : MonoBehaviour
 
     public void FindID()
     {
-        // ID 찾기 기능 추가
+        if (
+            inputName.text == string.Empty ||
+            inputBirthYear.text == string.Empty ||
+            inputBirthMonth.text == string.Empty ||
+            inputBirthDay.text == string.Empty
+            )
+        {
+            LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.CheckInfomationPopupCanvas);
+            return;
+        }
+
+        string birth = inputBirthYear.text + inputBirthMonth.text + inputBirthDay.text;
+        string findID = UserDataBase.Instance.FindUserID(inputName.text, birth);
+        if(findID != string.Empty)
+        {
+            // ID 팝업
+            LoginManager.Instance.SetPopupButtonUICanvas(LoginManager.Instance.FindIDPopupCanvas);
+            LoginManager.Instance.FindIDPopupCanvas.GetComponent<FindIDPopupCanvas>().SetInfomation(findID);
+        }
+        else
+        {
+            // 일치하지 않습니다.
+            LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.CheckInfomationPopupCanvas);
+        }
     }
 
     public void FindPW()
     {
-        // PW 찾기 기능 추가
+        if(UserDataBase.Instance.FindUserPW(inputID.text, inputHint.text, inputHintAnswer.text))
+        {
+            // 비밀번호 변경 팝업 출력
+            LoginManager.Instance.SetUICanvas(LoginManager.Instance.ChangePWCanvas);
+        }
+        else
+        {
+            // 일치하지 않습니다.
+            LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.CheckInfomationPopupCanvas);
+        }
     }
 
     public void Cancel()
     {
-        //UI 교체
+        // 로그인 UI 교체
+        LoginManager.Instance.SetUICanvas(LoginManager.Instance.JoinCanvas);
     }
 }

@@ -7,6 +7,8 @@ using Photon.Pun;
 
 public class JoinCanvas : MonoBehaviour
 {
+    LoginManager loginManager;
+
     [SerializeField] private TMP_InputField inputID;
     [SerializeField] private TMP_InputField inputPW;
 
@@ -35,17 +37,19 @@ public class JoinCanvas : MonoBehaviour
         }
         else
         {
-            // UI 교체
+            // 오류팝업 : DataBase.instance.Login 에서 조건을 판단하여 팝업을 출력
         }
     }
 
     public void OnPressSignUpButton()
     {
-        // UI 교체
+        // 회원가입 UI 교체
+        LoginManager.Instance.SetUICanvas(LoginManager.Instance.CreateCanvas);
     }
 
     public void OnPressForgetPasswordButton()
     {
-        // UI 교체
+        // 정보찾기 UI 교체
+        LoginManager.Instance.SetUICanvas(LoginManager.Instance.FindCanvas);
     }
 }
