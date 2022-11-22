@@ -15,8 +15,13 @@ public static class UserTableInfo
     public static readonly string user_pw = "user_pw";
 
     public static readonly string nickname = "nickname";
-    public static readonly string customize = "customize";
+    public static readonly string name = "name";
+    public static readonly string birth = "birth";
+    public static readonly string hint = "hint";
+    public static readonly string hint_answer = "hint_answer";
+
     public static readonly string coin = "coin";
+    public static readonly string customize = "customize";
     public static readonly string item = "item";
     public static readonly string friend = "friend";
     public static readonly string is_connect = "is_connect";
@@ -32,17 +37,17 @@ public static class UserTableInfo
 
 public class UserDataBase : SingletonBehaviour<UserDataBase>
 {
-    [Header("로그인")]
-    public TMP_InputField LoginID;
-    public TMP_InputField LoginPW;
-    public GameObject LoginUI;
+    //[Header("로그인")]
+    //public TMP_InputField LoginID;
+    //public TMP_InputField LoginPW;
+    //public GameObject LoginUI;
 
-    [Header("회원가입")]
-    public TMP_InputField CreateID;
-    public TMP_InputField CreatePW;
-    public TMP_InputField CreatePWCheck;
-    public TMP_InputField CreateNickName;
-    public GameObject CreateUI;
+    //[Header("회원가입")]
+    //public TMP_InputField CreateID;
+    //public TMP_InputField CreatePW;
+    //public TMP_InputField CreatePWCheck;
+    //public TMP_InputField CreateNickName;
+    //public GameObject CreateUI;
 
     private PlayerData playerData;
     private string playerItemList;
@@ -58,48 +63,41 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
     }
     // 테스트 코드
 
-    public void Create()
+    public void Create(string _id, string _pw, string _name, string _birth, string _hint, string _hintAnswer)
     {
-        if (CreatePW.text != CreatePWCheck.text)
-        {
-            UnityEngine.Debug.Log("비밀번호가 일치하지 않습니다.");
-            return;
-        }
-        else if(DataBase.Instance.CheckUse(UserTableInfo.nickname,CreateNickName.text))
-        {
-            DataBase.Instance.CreateUser(CreateID.text, CreatePW.text, CreateNickName.text);
+        DataBase.Instance.CreateUser(_id, _pw, _name, _birth, _hint, _hintAnswer);
 
-            // --------------------------------------------------------------------------------------------- 테스트 코드
-            // 만들 때 PlayerData에 값이 없기 때문에 CreateID를 통해 데이터를 넣어주고 있다.
+        // --------------------------------------------------------------------------------------------- 테스트 코드
+        // 만들 때 PlayerData에 값이 없기 때문에 CreateID를 통해 데이터를 넣어주고 있다.
 
-            // [아이템]
-            // DB 생성
-            FeeFawFumDataBase.Instance.CreateFeefawfumData(CreateID.text);
-            FlyDragonDataBase.Instance.CreateFlyDragonData(CreateID.text);
-            CloverColonyDataBase.Instance.CreateCloverColonyData(CreateID.text);
-            PeekabooDataBase.Instance.CreatePeekabooData(CreateID.text);
+        // [아이템]
+        // DB 생성
+        FeeFawFumDataBase.Instance.CreateFeefawfumData(_id);
+        FlyDragonDataBase.Instance.CreateFlyDragonData(_id);
+        CloverColonyDataBase.Instance.CreateCloverColonyData(_id);
+        PeekabooDataBase.Instance.CreatePeekabooData(_id);
 
-            // TestCode 저장
-            playerItemList = JsonUtility.ToJson(playerData.ItemSlotData);
-            DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.item, playerItemList, UserTableInfo.user_id, CreateID.text);
+        // TestCode 저장
+        playerItemList = JsonUtility.ToJson(playerData.ItemSlotData);
+        DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.item, playerItemList, UserTableInfo.user_id, _id);
 
-            // [친구]
-            friendList = JsonUtility.ToJson(playerData.Friends);
-            DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.friend, friendList, UserTableInfo.user_id, CreateID.text);
+        // [친구]
+        friendList = JsonUtility.ToJson(playerData.Friends);
+        DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.friend, friendList, UserTableInfo.user_id, _id);
 
-            // --------------------------------------------------------------------------------------------- 테스트 코드
+        // --------------------------------------------------------------------------------------------- 테스트 코드
 
-            GetDataBase(CreateNickName.text);
-            JoinPage();
-        }
+        GetDataBase(_id);
+        // JoinPage();
+        
     }
 
-    public void Join()
+    public bool Join(string _id, string _pw)
     {
-        if (DataBase.Instance.Login(LoginID.text, LoginPW.text))
+        if (DataBase.Instance.Login(_id, _pw))
         {
             UnityEngine.Debug.Log("로그인에 성공했습니다.");
-            GetDataBase(LoginID.text);
+            GetDataBase(_id);
 
             // 테스트 코드
             peekabooLogin.SaveCharacterList();
@@ -111,9 +109,15 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
             CloverColonyDataBase.Instance.LoadCloverColonyData();
 
             DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.is_connect, "1", UserTableInfo.user_id, playerData.ID);
+            
 
-            LobbyManager.Instance.JoinOrCreateRoom(null, true);
+            return true;
         }
+        else
+        {
+            return false;
+        }
+        
     }
 
     public void OnApplicationQuit()
@@ -121,17 +125,17 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
         DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.is_connect, "0", UserTableInfo.user_id, playerData.ID);
     }
 
-    public void CreatePage()
-    {
-        LoginUI.SetActive(false);
-        CreateUI.SetActive(true);
-    }
+    //public void CreatePage()
+    //{
+    //    LoginUI.SetActive(false);
+    //    CreateUI.SetActive(true);
+    //}
 
-    public void JoinPage()
-    {
-        LoginUI.SetActive(true);
-        CreateUI.SetActive(false);
-    }
+    //public void JoinPage()
+    //{
+    //    LoginUI.SetActive(true);
+    //    CreateUI.SetActive(false);
+    //}
 
     public void SaveItemData() // Local -> DB
     {
@@ -204,5 +208,56 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
     }
     // 테스트 코드
 
+    public string FindUserID(string _name, string _birth)
+    {
+        string output = string.Empty;
 
+        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*" ,UserTableInfo.name, _name);
+        if (dataTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                if(row[UserTableInfo.birth].ToString() == _birth)
+                {
+                    output = row[UserTableInfo.id].ToString();
+                }
+                else
+                {
+                    // 생일이 일치하지 않음
+                }
+            }
+        }
+        else if (dataTable.Rows.Count <= 0)
+        {
+            // 데이터가 없음
+        }
+        return output;        
+    }
+
+    public bool FindUserPW(string _id, string _hint, string _hintAnswer)
+    {
+        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*", UserTableInfo.user_id, _id);
+        if (dataTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                string hint = row[UserTableInfo.hint].ToString();
+                string hintAnswer = row[UserTableInfo.hint_answer].ToString();
+
+                if (hint == _hint && hintAnswer  == _hintAnswer)
+                {
+                    return true;
+                }
+                else
+                {
+                    // 힌트가 일치하지 않음
+                }
+            }
+        }
+        else if (dataTable.Rows.Count <= 0)
+        {
+            // 데이터가 없음
+        }
+        return false;
+    }
 }
