@@ -30,10 +30,10 @@ public class VoiceManager : MonoBehaviourPun
         }
     }
 
-    void ShowVoiceChatMessage(string valueText)
+    void ShowVoiceChatMessage(string Nickname)
     {
-        string contentText = valueText + "채널로 입장하시겠습니까??";
-        singleChatMessageBox.SetBtn(() => { chatControll.ChangedAudioGroup(valueText); }, () => { }, contentText);
+        string contentText = Nickname + "채널로 입장하시겠습니까??";
+      //  singleChatMessageBox.SetBtn(() => { chatControll.ChangedAudioGroup(Nickname); }, () => { }, contentText);
 
     }
 }
