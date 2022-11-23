@@ -20,21 +20,20 @@ public class BasicMessageBox : MonoBehaviourPun
     Button cancelButton;
     Text text;
 
-    public void Start()
-    {
-        TalkingOkayUI.SetActive(false);
-        TalkingNoUI.SetActive(false);
-    }
+    //{
+    //    TalkingOkayUI.SetActive(false);
+    //    TalkingNoUI.SetActive(false);
+    //}
 
-    public void Approve()
-    {
-        photonView.RPC(nameof(voiceUI.Temp), RpcTarget.All, true);
-    }
+    //public void Approve()
+    //{
+    //    photonView.RPC(nameof(voiceUI.Temp), RpcTarget.All, true);
+    //}
 
-    public void Reject()
-    {
-        photonView.RPC(nameof(voiceUI.Temp), RpcTarget.All, false);
-    }
+    //public void Reject()
+    //{
+    //    photonView.RPC(nameof(voiceUI.Temp), RpcTarget.All, false);
+    //}
 
 
 }
