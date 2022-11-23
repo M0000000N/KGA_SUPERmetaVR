@@ -10,16 +10,19 @@ public class PlayerData_voice : MonoBehaviour
     public string userID;
     //[HideInInspector]
     public int actNumber;
+    //[HideInInspector]
+    public string Nickname; 
 
     private void Start()
     {
         Player player = PhotonNetwork.PlayerList[PhotonNetwork.PlayerList.Length - 1];
-        SetPlayerData(player.UserId, player.ActorNumber);
+        SetPlayerData(player.UserId, player.ActorNumber, player.NickName);
     }
 
-    public void SetPlayerData(string _userID, int _actNumber)
+    public void SetPlayerData(string _userID, int _actNumber, string _Nickname)
     {
         userID = _userID;
         actNumber = _actNumber;
+        Nickname = _Nickname;
     }
 }

@@ -3,39 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime; 
 
-public class BasicMessageBox : MonoBehaviour
+public class BasicMessageBox : MonoBehaviourPun 
 {
+    
+    [SerializeField] InvitationVoiceTalkUI voiceUI;
+
+    [Header("BasicBoxMessage")]
+    [SerializeField] GameObject TalkingOkayUI;
+    [SerializeField] GameObject TalkingNoUI;
+    [SerializeField] GameObject MyVoicePanel;
+
     Button okButton;
     Button cancelButton;
     Text text;
-    public void SetBtn(UnityAction okAction, UnityAction cancelAction, string contentText)
-    {
-        if (okButton == null)
-        {
-            okButton = transform.Find("okButton").GetComponent<Button>();
-            cancelButton = transform.Find("cancelButton").GetComponent<Button>();
-            text = transform.Find("contentText").GetComponent<Text>();
-        }
 
-        text.text = "";
-        okButton.onClick.RemoveAllListeners();
-        cancelButton.onClick.RemoveAllListeners();
+    //{
+    //    TalkingOkayUI.SetActive(false);
+    //    TalkingNoUI.SetActive(false);
+    //}
 
-        text.text = contentText;
+    //public void Approve()
+    //{
+    //    photonView.RPC(nameof(voiceUI.Temp), RpcTarget.All, true);
+    //}
 
-        okButton.onClick.AddListener(() =>
-        {
-            okAction.Invoke();
-            gameObject.SetActive(false);
+    //public void Reject()
+    //{
+    //    photonView.RPC(nameof(voiceUI.Temp), RpcTarget.All, false);
+    //}
 
-        });
-        cancelButton.onClick.AddListener(() =>
-        {
-            cancelAction.Invoke();
-            gameObject.SetActive(false);
-        });
 
-        gameObject.SetActive(true);
-    }
 }
