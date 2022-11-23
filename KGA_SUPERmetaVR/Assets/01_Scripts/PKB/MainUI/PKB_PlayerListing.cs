@@ -10,6 +10,7 @@ public class PKB_PlayerListing : MonoBehaviourPunCallbacks
 {
     [SerializeField] TextMeshProUGUI playerNameText;
     [SerializeField] GameObject readyPanel;
+    // public Button KickButton;
 
     public Player Player { get; private set; }
 
@@ -34,6 +35,7 @@ public class PKB_PlayerListing : MonoBehaviourPunCallbacks
             }
         }
     }
+
 
     public void ActiveReadyPanel(bool _isActive)
     {

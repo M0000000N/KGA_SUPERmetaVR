@@ -17,7 +17,7 @@ public class PKB_ExitUI : MonoBehaviour
     public void OnClickYesButton()
     {
         gameObject.SetActive(false);
-        LobbyManager.Instance.JoinOrCreateRoom(null, true);
+        PhotonNetwork.LoadLevel("DKBB");
     }
 
     public void OnClickNoButton()
