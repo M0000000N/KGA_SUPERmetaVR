@@ -10,24 +10,29 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
     TMP_InputField inputField;
     string inputText;
 
-    [SerializeField] GameObject qwerty;
-    [SerializeField] GameObject numpad;
+    [SerializeField] private Transform login;
 
-    [SerializeField] int type;
+    [SerializeField] private GameObject qwerty;
+    [SerializeField] private GameObject numpad;
 
-    [SerializeField] GameObject[] englishKorean;
+    [SerializeField] private int type;
 
-    [SerializeField] GameObject[] shiftON;
-    [SerializeField] GameObject[] shiftOFF;
+    [SerializeField] private GameObject[] englishKorean;
+
+    [SerializeField] private GameObject[] shiftON;
+    [SerializeField] private GameObject[] shiftOFF;
     private bool isShift;
+
+    [SerializeField] private TMP_InputField[] inputFields;
 
     private void Awake()
     {
-        TMP_InputField[] inputFields = this.transform.parent.GetComponentsInChildren<TMP_InputField>();
+        inputFields = login.GetComponentsInChildren<TMP_InputField>();
         for (int i = 0; i < inputFields.Length; i++)
         {
             inputFields[i].onSelect.AddListener(delegate { OpenKeyboard(type); });
         }
+        CloseKeyboard();
     }
 
     public void Initialize()
@@ -170,6 +175,11 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
                         i += 1;
                         convertString += middleVowel[firstVowelIndex];
                     }
+                    else
+                    {
+                        convertString += _input[i];
+                        i += 1;
+                    }
                 }
             }
             else if (_input.Length - i >= 2)
@@ -221,6 +231,11 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
                         i += 1;
                         convertString += middleVowel[firstVowelIndex];
                     }
+                    else
+                    {
+                        convertString += _input[i];
+                        i += 1;
+                    }
                 }
             }
             else if (_input.Length - i >= 1)
@@ -238,6 +253,11 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
                 {
                     i += 1;
                     convertString += middleVowel[firstVowelIndex];
+                }
+                else
+                {
+                    convertString += _input[i];
+                    i += 1;
                 }
             }
         }

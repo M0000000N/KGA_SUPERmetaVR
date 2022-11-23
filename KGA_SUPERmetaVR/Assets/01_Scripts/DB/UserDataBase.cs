@@ -219,7 +219,7 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
             {
                 if(row[UserTableInfo.birth].ToString() == _birth)
                 {
-                    output = row[UserTableInfo.id].ToString();
+                    output = row[UserTableInfo.user_id].ToString();
                 }
                 else
                 {

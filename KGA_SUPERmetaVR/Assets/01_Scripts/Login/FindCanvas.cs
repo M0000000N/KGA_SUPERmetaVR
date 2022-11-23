@@ -73,6 +73,7 @@ public class FindCanvas : MonoBehaviour
         if(UserDataBase.Instance.FindUserPW(inputID.text, inputHint.text, inputHintAnswer.text))
         {
             // 비밀번호 변경 팝업 출력
+            LoginManager.Instance.ChangePWCanvas.GetComponent<ChangePWCanvas>().User_ID = inputID.text;
             LoginManager.Instance.SetUICanvas(LoginManager.Instance.ChangePWCanvas);
         }
         else
