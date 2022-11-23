@@ -31,19 +31,6 @@ public class FeeFawFumDataBase : SingletonBehaviour<FeeFawFumDataBase>
         playerData = GameManager.Instance.PlayerData;
     }
 
-    // 테스트 코드
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            if(CheckCooltime(3))
-            {
-                UpdatePlayData();
-            }
-        }
-    }
-    // 테스트 코드
-
     public void CreateFeefawfumData(string _id) // 데이터가 없으면 생성
     {
         DataBase.Instance.InsertDB(FeeFawFumTableInfo.table_name, 
