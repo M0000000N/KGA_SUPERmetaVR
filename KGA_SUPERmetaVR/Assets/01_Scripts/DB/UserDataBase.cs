@@ -15,6 +15,7 @@ public static class UserTableInfo
     public static readonly string user_pw = "user_pw";
 
     public static readonly string nickname = "nickname";
+    public static readonly string customize = "customize";
     public static readonly string coin = "coin";
     public static readonly string item = "item";
     public static readonly string friend = "friend";
@@ -110,7 +111,8 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
             CloverColonyDataBase.Instance.LoadCloverColonyData();
 
             DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.is_connect, "1", UserTableInfo.user_id, playerData.ID);
-            PhotonNetwork.LoadLevel("TestMakeRoom");
+
+            LobbyManager.Instance.JoinOrCreateRoom(null, true);
         }
     }
 

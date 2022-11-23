@@ -106,6 +106,8 @@ public class ItemSelect : MonoBehaviour
         }
         else if (grabTag.Equals("Star"))
         {
+            //TODO : 사운드 목요일에 넣자
+            // SoundManager.Instance.PlaySE("star_hend");
             isPlay = false;
             if (FlyDragonDataBase.Instance.CheckCooltime(1))
             {
@@ -123,7 +125,8 @@ public class ItemSelect : MonoBehaviour
 
         if (grabTag.Equals("ThreeLeafClover") || grabTag.Equals("FourLeafClover"))
         {
-            SoundManager.Instance.PlaySE("CC_Pick");
+            //TODO : 사운드 목요일에 넣자
+            // SoundManager.Instance.PlaySE("CC_Pick");
         }
     }
 
@@ -155,7 +158,8 @@ public class ItemSelect : MonoBehaviour
             grabStarInfo = grabObject.GetComponent<FD_Dragon>();
 
             if (grabStarInfo == null) return;
-
+            //TODO : 사운드 목요일에 넣자
+            // SoundManager.Instance.PlaySE("Star_sky");
             grabStarInfo.IsParticlePlay = true;
 
             if (isPlay)

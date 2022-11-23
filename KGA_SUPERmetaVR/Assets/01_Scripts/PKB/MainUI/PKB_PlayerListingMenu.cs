@@ -17,8 +17,8 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     [SerializeField] Button gameStartButton;
     private TextMeshProUGUI gameStartButtonText;
 
+    [SerializeField] int MinPlayerCount = 0;
     private bool playerIsReady = false;
-    public int MinPlayerCount;
 
     private void Awake()
     {
@@ -28,7 +28,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
     public override void OnEnable()
     {
-        base.OnEnable();
         GetCurrentRoomPlayers();
         SetReadyUp(false);
     }
@@ -116,7 +115,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LocalPlayer.CustomProperties.Add("IsReady", false);
         }
-
         Hashtable newCustomProperty = new Hashtable() { { "IsReady", _playerIsReady } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(newCustomProperty);
     }
@@ -145,14 +143,13 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
-            PhotonNetwork.LoadLevel("Peekaboo_InGame");
+            PhotonNetwork.LoadLevel("PKB_InGame");
+            LobbyManager.Instance.CurrentSceneIndex = 3;
         }
         else
         {
             SetReadyUp(!playerIsReady);
         }
-
-
     }
 
     // 플레이어가 모두 준비완료가 되었는지 확인
@@ -171,6 +168,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
+            listings[index].ActiveReadyPanel(false); // TODO : 없애고 테스트 필요
             foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
             {
                 if (player.Value != PhotonNetwork.LocalPlayer)
