@@ -13,12 +13,10 @@ public class VoiceEffect : MonoBehaviourPun
 {
     PhotonVoiceView voiceView;
     // PhotonView photonView; 
-    // Recorder recorder;
+   // Recorder recorder;
 
-    // À½¼Ò°Å 
-    [SerializeField] GameObject TalkBell;
-    [SerializeField] GameObject MuteBell; 
-   // [SerializeField] GameObject Mute;
+    [SerializeField] Animator Speaker;
+    [SerializeField] GameObject Mute;
 
     bool isSpeaking = false;
     bool recentBool;
@@ -26,12 +24,10 @@ public class VoiceEffect : MonoBehaviourPun
     private void Awake()
     {
       //  hotonView = GetComponent<PhotonView>();
-        TalkBell.SetActive(false);
-        MuteBell.SetActive(false);
+        Mute.SetActive(false);
         voiceView = GetComponentInParent<PhotonVoiceView>();
-       
         recentBool = true;
-       // Speaker.SetBool("VoiceTalk", true);
+        Speaker.SetBool("VoiceTalk", true);
        // recorder= GetComponent<Recorder>();
     }
 
@@ -72,8 +68,9 @@ public class VoiceEffect : MonoBehaviourPun
     [PunRPC]
     private void SetActive(bool _state)
     {
-        TalkBell.SetActive(_state);
-        MuteBell.SetActive(!_state);
+        Speaker.gameObject.SetActive(_state);
+        Speaker.SetBool("VoiceTalk", _state);
+        Mute.SetActive(!_state);
         recentBool = _state;
     }
 }
