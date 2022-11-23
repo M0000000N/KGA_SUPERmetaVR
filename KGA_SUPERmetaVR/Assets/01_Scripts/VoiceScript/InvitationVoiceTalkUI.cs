@@ -1,21 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-using Oculus.Interaction.PoseDetection.Debug;
-using UnityEngine.XR.Interaction.Toolkit;
-using System.Linq.Expressions;
+using UnityEngine;
+using UnityEngine.UI;
 
-public class InvitationVoiceTalkUI : SingletonBehaviour<InvitationVoiceTalkUI>
+public class InvitationVoiceTalkUI : MonoBehaviourPunCallbacks, IPunObservable
 {
     public GameObject GetHandShakeImage => InteractionTalking.gameObject;
-    public GameObject GetDialog {  get { return DialogUI.gameObject;  } }
+    public GameObject GetDialog {  get { return SpeechBubble.gameObject;  } }
+    public GameObject GetVoiceTalkingCanvas {  get { return VoiceTalkingCanvas.gameObject; } }
 
     [Header("상호작용 범위 감지")]
-    [SerializeField] GameObject DialogUI;
+    [SerializeField] GameObject SpeechBubble;
     [SerializeField] Button InteractionTalking;
     [SerializeField] Button TalkingTogether;
 
@@ -24,12 +20,17 @@ public class InvitationVoiceTalkUI : SingletonBehaviour<InvitationVoiceTalkUI>
    // [SerializeField] private Transform viewTransform;
     [SerializeField] private Button ConfirmButton;
     [SerializeField] private Button RejectButton;
-    [SerializeField] private Button OkayButton; 
+    [SerializeField] private Button OkayButton;
+    [SerializeField] private GameObject VoiceChatPanel; 
 
     //보이스 패널에서 체크
    // [SerializeField] private TextMeshProUGUI titleText;
     //일반 글 띄우기 
     [SerializeField] private TextMeshProUGUI contentText;
+    [SerializeField] private TextMeshProUGUI Nickname;
+    [SerializeField] private TextMeshProUGUI TalkingTogetherNickname;
+    string OwnerNickname;
+    string OtherNickname; 
 
     Player otherPlayer;
     private PlayerData playerData;
@@ -49,15 +50,23 @@ public class InvitationVoiceTalkUI : SingletonBehaviour<InvitationVoiceTalkUI>
 
     private void Start()
     {
+        if (photonView.IsMine) return; 
+        Nickname.text = playerData.Nickname;
+
+        InvitationVoiceTalkUI talkUI = GetComponent<InvitationVoiceTalkUI>();
+
         //Part1.
         InteractionTalking.gameObject.SetActive(false);
-        DialogUI.SetActive(false);
-        InteractionTalking.onClick.AddListener(DialogPopUI);
-        TalkingTogether.onClick.AddListener(VoiceCanvasPopUI);
+        SpeechBubble.SetActive(false);
+
 
         //Part2. - 요청자 
         VoiceTalkingCanvas.SetActive(false);
         OkayButton.gameObject.SetActive(false);
+        VoiceChatPanel.SetActive(false);
+
+        InteractionTalking.onClick.AddListener(DialogPopUI);
+        TalkingTogether.onClick.AddListener(VoiceCanvasPopUI);
         ConfirmButton.onClick.AddListener(AskTalkingConfirm);
         RejectButton.onClick.AddListener(RejectCanvasPopUI);
         OkayButton.onClick.AddListener(TalkingCheckUI);
@@ -73,8 +82,9 @@ public class InvitationVoiceTalkUI : SingletonBehaviour<InvitationVoiceTalkUI>
             InvitationVoiceTalkUI talkUI = other.gameObject.GetComponent<InvitationVoiceTalkUI>();
 
             //player 정보 
-            otherPlayer = other.gameObject.GetPhotonView().Owner; // 부딪친 상대방 포톤뷰 정보
-
+            //otherPlayer = other.gameObject.GetPhotonView().Owner; // 부딪친 상대방 포톤뷰 정보
+            //OtherNickname = other.gameObject.GetComponent<PlayerData>().Nickname;
+           
             if (talkUI != null)
             {               
                 talkUI.GetHandShakeImage.SetActive(true);
@@ -95,27 +105,22 @@ public class InvitationVoiceTalkUI : SingletonBehaviour<InvitationVoiceTalkUI>
         {
             InvitationVoiceTalkUI talkUI = other.gameObject.GetComponent<InvitationVoiceTalkUI>();
 
-            if (talkUI != null)
-            {
-                talkUI.GetDialog.SetActive(false);
-                talkUI.GetHandShakeImage.SetActive(false);
-            }
-            else
-            {
-                Debug.Log("야 Null값 받아라~");
-            }
+            Debug.Assert(talkUI != null);
+
+            talkUI.GetDialog.SetActive(false);
+            talkUI.GetHandShakeImage.SetActive(false);
         }
     }
 
     public void DialogPopUI()
     {
-        DialogUI.SetActive(true);
+        SpeechBubble.SetActive(true);
     }
 
     public void VoiceCanvasPopUI()
     {
         VoiceTalkingCanvas.SetActive(true);
-        contentText.text = otherPlayer.NickName + "님에게 대화를 요청하시겠습니까?";
+        contentText.text = playerData.Nickname + "Request?";
     }
 
     public void RejectCanvasPopUI()
@@ -129,17 +134,15 @@ public class InvitationVoiceTalkUI : SingletonBehaviour<InvitationVoiceTalkUI>
         RejectButton.gameObject.SetActive(false);
         OkayButton.gameObject.SetActive(true);
 
-        contentText.text = otherPlayer.NickName + "님에게 대화를 요청하였습니다";
+        contentText.text = playerData.Nickname + "Request Finish!";
     }
-
 
     // OK버튼 누름과 동시에 수락/거절이 감 
     // 초대장 확인 
     public void TalkingCheckUI()
     {
-        photonView.RPC("ConfirmTalkingCheck", otherPlayer, true);
-        contentText.text = "요청 중";
-        // 확인버튼 누르면 캔버스 꺼져야 하는데... 음...
+        photonView.RPC("ConfirmTalkingCheck", RpcTarget.Others, true);
+       // contentText.text = "요청 중";
     }
 
     [PunRPC]
@@ -147,19 +150,39 @@ public class InvitationVoiceTalkUI : SingletonBehaviour<InvitationVoiceTalkUI>
     {
         VoiceTalkingCanvas.SetActive(_value);
         OkayButton.gameObject.SetActive(!_value);
-        contentText.text = otherPlayer.NickName + "님이 1:1 대화를 요청하였습니다. 수락하시겠습니까?";
+        contentText.text = playerData.Nickname + "1:1 Approve Or Reject?";
     }
 
     // 수락 or 거절 
     [PunRPC]
     public void AprroveReject(bool isYes)
     {
-        ConfirmButton.gameObject.SetActive(!isYes);
-        RejectButton.gameObject.SetActive(!isYes);
-        OkayButton.gameObject.SetActive(isYes);
-        recentBool = isYes; 
+        if (photonView.IsMine)
+        {
+            ConfirmButton.gameObject.SetActive(!isYes);
+            RejectButton.gameObject.SetActive(!isYes);
+            OkayButton.gameObject.SetActive(isYes);
+
+        }
+
+        // MVC
+
+        // Model : 데이터 관리
+        // View : 보여지는 거
+        // Controller : 
+
     }
 
+
+    
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+
+        }
+    }
 
 }
 
