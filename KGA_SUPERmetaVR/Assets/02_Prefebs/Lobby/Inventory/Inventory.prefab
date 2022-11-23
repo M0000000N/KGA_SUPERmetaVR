@@ -165,7 +165,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &255613529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,7 +611,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4.15
+  m_fontSize: 4.1
   m_fontSizeBase: 3.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2969,7 +2969,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &2768115600367222176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5211,6 +5211,7 @@ GameObject:
   - component: {fileID: 5888171807523960077}
   - component: {fileID: 5067929572081044701}
   - component: {fileID: 2864179981291220067}
+  - component: {fileID: 3657209804042411838}
   m_Layer: 5
   m_Name: EquipUi
   m_TagString: Untagged
@@ -5259,6 +5260,28 @@ MonoBehaviour:
   itemEquipButton: {fileID: 8487231758749740187}
   itemEquipCancelButton: {fileID: 6940341652858045191}
   equipDiscriptionText: {fileID: 4789462357877841931}
+--- !u!114 &3657209804042411838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5412711545202271546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &5552641418607657345
 GameObject:
   m_ObjectHideFlags: 0
@@ -7263,6 +7286,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e106e20be257ef439444a244616e549, type: 3}
+--- !u!224 &2274710996179553254 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 474036916315921044, guid: 6e106e20be257ef439444a244616e549, type: 3}
+  m_PrefabInstance: {fileID: 1802983054350455154}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7138393370529710454 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8797167769456398340, guid: 6e106e20be257ef439444a244616e549, type: 3}
@@ -7307,11 +7335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &2274710996179553254 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 474036916315921044, guid: 6e106e20be257ef439444a244616e549, type: 3}
-  m_PrefabInstance: {fileID: 1802983054350455154}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2768115598583918140
 PrefabInstance:
   m_ObjectHideFlags: 0

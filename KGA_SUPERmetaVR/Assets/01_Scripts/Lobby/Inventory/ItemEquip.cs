@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
 
 public class ItemEquip : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class ItemEquip : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI equipDiscriptionText;
 
+    private PhotonView photonView;
+
     public void EquipItemButton(int _slotNumber)
     {
         Debug.Log($" ½½·Ô³Ñ¹ö~~~~~@~!@#!@#$#${_slotNumber}");
@@ -22,9 +25,14 @@ public class ItemEquip : MonoBehaviour
         itemEquipButton.onClick.AddListener(() => { EquipItem(_slotNumber); });
         itemEquipCancelButton.onClick.AddListener(() => { CloseEquipUseUI(); });
     }
+    
+
 
     private void EquipItem(int _slotNumber)
     {
+        int IDnumber = GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].ID;
+        PlayerCustum playerCustum = GameManager.Instance.Player.GetComponent<PlayerCustum>();
+        playerCustum.ChangeCustum(IDnumber);
         itemEquipButton.onClick.RemoveAllListeners();
         gameObject.SetActive(false);
         ItemManager.Instance.CloseItemInfoUI();

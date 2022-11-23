@@ -16,6 +16,6 @@ public class testLobby : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("PKB_InGame");
+        PhotonNetwork.LoadLevel("Ver.1_Lobby");
     }
 }

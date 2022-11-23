@@ -77,7 +77,7 @@ public class LobbySpawner : MonoBehaviourPun
     private void SpawnCharacter(Transform spawnPosition, string _prefabName, string _effectName)
     {
         // 확장성을 위해 프리팹에 스폰 파티클을 넣지 않고, 따로 소환하기로 함
-        PhotonNetwork.Instantiate(_prefabName, spawnPosition.position, Quaternion.identity);
+        GameManager.Instance.Player = PhotonNetwork.Instantiate(_prefabName, spawnPosition.position, Quaternion.identity);
         PhotonNetwork.Instantiate(_effectName, spawnPosition.position, Quaternion.identity);
     }
 

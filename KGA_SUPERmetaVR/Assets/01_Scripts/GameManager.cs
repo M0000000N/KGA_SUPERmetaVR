@@ -9,6 +9,9 @@ public class GameManager : SingletonBehaviour<GameManager>
     PlayerData playerData;
     public PlayerData PlayerData { get { return playerData; } set { playerData = value; } }
 
+    private GameObject player;
+    public GameObject Player { get { return player; } set { player = value; } }
+
     void Awake()
     {
         Initialize();
