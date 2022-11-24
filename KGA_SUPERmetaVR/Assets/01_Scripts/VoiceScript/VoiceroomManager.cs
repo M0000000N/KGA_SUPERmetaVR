@@ -8,7 +8,7 @@ using Photon.Voice.PUN;
 using Photon.Voice.Unity;
 using Oculus.Platform;
 
-public class VoiceroomManager : SingletonBehaviour<VoiceroomManager>
+public class VoiceroomManager : OnlyOneSceneSingleton<VoiceroomManager>
 {
     // PhotonVoiceNetwork photonVoiceNetwork;
 

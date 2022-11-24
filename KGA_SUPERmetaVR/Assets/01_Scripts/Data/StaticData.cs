@@ -168,5 +168,24 @@ public class StaticData : SingletonBehaviour<StaticData>
 
     // ================================================ LOBBY ================================================
 
+    // ================================================ LOGIN ================================================
+
+    [SerializeField] private BadNickname BadNickname;
+    public static BadNicknameData[] BadNicknameData { get { return Instance.BadNickname.dataArray; } }
+
+    public static bool CheckBadNickname(string _nickname)
+    {
+        for (int i = 0; i < BadNicknameData.Length; i++)
+        {
+            if (_nickname.Contains(BadNicknameData[i].Nickname))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // ================================================ LOGIN ================================================
+
 
 }

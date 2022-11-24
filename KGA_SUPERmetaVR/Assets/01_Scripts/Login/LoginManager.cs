@@ -62,6 +62,7 @@ public class LoginManager : OnlyOneSceneSingleton<LoginManager>
         isStartButtonUICoroutine = false;
         InitializePopupUI();
         SetUICanvas(JoinCanvas);
+        SoundManager.Instance.PlayBGM("LoginBGM");
     }
 
     public void SetUICanvas(GameObject _canvas)

@@ -5,10 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 
-public class JoinCanvas : MonoBehaviour
+public class JoinCanvas : MonoBehaviourPunCallbacks
 {
-    LoginManager loginManager;
-
     [SerializeField] private TMP_InputField inputID;
     [SerializeField] private TMP_InputField inputPW;
 
@@ -21,7 +19,21 @@ public class JoinCanvas : MonoBehaviour
         login.onClick.AddListener(OnPressLoginButton);
         signUp.onClick.AddListener(OnPressSignUpButton);
         forgetPassword.onClick.AddListener(OnPressForgetPasswordButton);
+#if «ÿ¡‡
+        login.interactable = false;
+        signUp.interactable = false;
+#endif
+        forgetPassword.interactable = false;
     }
+
+#if «ÿ¡‡
+    public override void OnConnectedToMaster()
+    {
+        login.interactable = true;
+        signUp.interactable = true;
+        forgetPassword.interactable = true;
+    }
+#endif
 
     private void OnEnable()
     {
@@ -33,6 +45,10 @@ public class JoinCanvas : MonoBehaviour
     {
         if(UserDataBase.Instance.Join(inputID.text, inputPW.text))
         {
+#if «ÿ¡‡
+            LobbyManager.Instance.JoinOrCreateRoom(null, true);
+            LobbyManager.Instance.CurrentSceneIndex = 3;
+#endif
             PhotonNetwork.LoadLevel("TestMakeRoom");
         }
         else

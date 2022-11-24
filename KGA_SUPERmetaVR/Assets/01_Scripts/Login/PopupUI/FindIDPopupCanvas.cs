@@ -7,7 +7,7 @@ using TMPro;
 public class FindIDPopupCanvas : MonoBehaviour
 {
     [SerializeField] private Button okButton;
-    private TextMeshProUGUI infomation;
+    [SerializeField] private TextMeshProUGUI infomation;
     private bool isStartCoroutine;
 
     private void Awake()

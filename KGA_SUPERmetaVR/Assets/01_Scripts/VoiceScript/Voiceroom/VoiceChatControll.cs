@@ -11,23 +11,16 @@ public class VoiceChatControll : MonoBehaviour
     [SerializeField]
     Recorder recorder;
     [SerializeField]
-    PhotonView view;
-
-    [SerializeField]
     Text text;
     [SerializeField]
     Text channelText;
+
+    PhotonView view;
 
     //보이스 크기조정
     public void SetSoundVolme(float sound)
     {
         AudioListener.volume = sound;
-    }
-
-    //보이스 전송 유무
-    public void SetTransmitSound(bool isOn)
-    {
-        recorder.TransmitEnabled = isOn;
     }
 
     //음성감지유무
@@ -51,6 +44,7 @@ public class VoiceChatControll : MonoBehaviour
         }
         else
             PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = _InterestGroup;
+
         channelText.text = recorder.InterestGroup.ToString() + "번 채널 접속";
     }
 

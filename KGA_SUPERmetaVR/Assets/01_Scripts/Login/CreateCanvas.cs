@@ -94,6 +94,11 @@ public class CreateCanvas : MonoBehaviour
             // 빈 공간이 있습니다.
             LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.CheckInfomationPopupCanvas);
         }
+        else if(StaticData.CheckBadNickname(inputID.text) == false || StaticData.CheckBadNickname(inputName.text) == false)
+        {
+            // BadNickname
+            LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.CheckInfomationPopupCanvas);
+        }
         else
         {
             // 비밀번호 확인
@@ -123,6 +128,14 @@ public class CreateCanvas : MonoBehaviour
             {
                 // 사용중인 ID입니다.
                 LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.DuplicateIDPopupCanvas);
+                return;
+            }
+
+            // 힌트
+            if (inputHint.text.Length > 30 || inputHintAnswer.text.Length > 30)
+            {
+                // 힌트 / 힌트 정답 길이 ( ~ 30 )
+                LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.CheckInfomationPopupCanvas);
                 return;
             }
 
