@@ -70,6 +70,7 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
 
     public void CloseKeyboard()
     {
+        inputText = string.Empty;
         qwerty.SetActive(false);
         numpad.SetActive(false);
     }
