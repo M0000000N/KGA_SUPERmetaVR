@@ -2139,12 +2139,9 @@ GameObject:
   - component: {fileID: 6940638696629108718}
   - component: {fileID: 4124698728525205949}
   - component: {fileID: 8335045492485520893}
-  - component: {fileID: 7302738863375601277}
   - component: {fileID: 4137994129509014438}
-  - component: {fileID: 6090613559500696897}
   - component: {fileID: 4734052821246019577}
   - component: {fileID: 3946317320683046069}
-  - component: {fileID: 1551864999320286591}
   - component: {fileID: 2740089009640219251}
   m_Layer: 0
   m_Name: "\uC9C0\uC625\uC758 \uBA39\uBB3C\uC720\uB839"
@@ -2374,25 +2371,6 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
---- !u!114 &7302738863375601277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5780012445685815295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 126494ae2a10a34499272ed97a6c9f5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logLevel: 1
-  ignoreGlobalLogLevel: 0
-  recorderInUse: {fileID: 0}
-  speakerInUse: {fileID: 0}
-  AutoCreateRecorderIfNotFound: 0
-  UsePrimaryRecorder: 1
-  SetupDebugSpeaker: 0
 --- !u!114 &4137994129509014438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2406,27 +2384,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LobbyPlayerModeling: {fileID: 3010595352157167303}
---- !u!114 &6090613559500696897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5780012445685815295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb37282a44764ee49b97632a5cef85b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DialogUI: {fileID: 6557203012061231026}
-  InvitationUI: {fileID: 3102803719696280836}
-  ConfirmUI: {fileID: 4818157304331019060}
-  HandShakeImage: {fileID: 8168220106722361831}
-  Talking: {fileID: 3838569210207250617}
-  Yes: {fileID: 2929702408109393992}
-  No: {fileID: 9124874773472365651}
-  Okay: {fileID: 4947272312659137895}
-  text: {fileID: 352190397030556511}
 --- !u!135 &4734052821246019577
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2456,22 +2413,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1551864999320286591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5780012445685815295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1954d26295a37b47b8ee0ea7fdbde1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uid: 0
-  nickNameText: {fileID: 6726518385205313773}
-  nickName: 
-  friendButton: {fileID: 837674772749276978}
 --- !u!114 &2740089009640219251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3075,8 +3016,8 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -4494,33 +4435,6 @@ PrefabInstance:
     - {fileID: 4485160778824615951, guid: 87171b6851457bd4e95c92bef75e4f99, type: 3}
     - {fileID: 8880440026201857254, guid: 87171b6851457bd4e95c92bef75e4f99, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 87171b6851457bd4e95c92bef75e4f99, type: 3}
---- !u!1 &6557203012061231026 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3495928436832713243, guid: 87171b6851457bd4e95c92bef75e4f99, type: 3}
-  m_PrefabInstance: {fileID: 7672960593709387177}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &837674772749276978 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7051460286701148827, guid: 87171b6851457bd4e95c92bef75e4f99, type: 3}
-  m_PrefabInstance: {fileID: 7672960593709387177}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3838569210207250617 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6863067305530221840, guid: 87171b6851457bd4e95c92bef75e4f99, type: 3}
-  m_PrefabInstance: {fileID: 7672960593709387177}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8168220106722361831 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1954718271085055054, guid: 87171b6851457bd4e95c92bef75e4f99, type: 3}
@@ -4595,6 +4509,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6557203012061231026 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3495928436832713243, guid: 87171b6851457bd4e95c92bef75e4f99, type: 3}
+  m_PrefabInstance: {fileID: 7672960593709387177}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &837674772749276978 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7051460286701148827, guid: 87171b6851457bd4e95c92bef75e4f99, type: 3}
+  m_PrefabInstance: {fileID: 7672960593709387177}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3838569210207250617 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6863067305530221840, guid: 87171b6851457bd4e95c92bef75e4f99, type: 3}
+  m_PrefabInstance: {fileID: 7672960593709387177}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4818157304331019060 stripped

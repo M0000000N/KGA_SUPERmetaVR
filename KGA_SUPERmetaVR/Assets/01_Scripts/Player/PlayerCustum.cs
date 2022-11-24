@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCustum : MonoBehaviour
+public class PlayerCustum : MonoBehaviourPunCallbacks
 {
     private GameObject[] playerCustumList;
-    private PhotonView photonView;
+    //private PhotonView photonView;
 
     private void Start()
     {
@@ -17,7 +17,7 @@ public class PlayerCustum : MonoBehaviour
             playerCustumList[count] = child.gameObject;
             count++;
         }
-        ItemManager.Instance.PlayerCustumList = playerCustumList;
+        //ItemManager.Instance.PlayerCustumList = playerCustumList;
     }
 
     public void ChangeCustum (int _IDnumber)
@@ -26,19 +26,18 @@ public class PlayerCustum : MonoBehaviour
     }
 
     [PunRPC]
-    private void RPCChangeCustum(int _IDnumber)
+    public void RPCChangeCustum(int _IDnumber)
     {
-        for (int i = 0; i < ItemManager.Instance.PlayerCustumList.Length; i++)
+        for (int i = 0; i < playerCustumList.Length; i++)
         {
-
-            ItemManager.Instance.PlayerCustumList[i].SetActive(false);
+            playerCustumList[i].SetActive(false);
         }
-        for (int i = 0; i < ItemManager.Instance.PlayerCustumList.Length; i++)
+        for (int i = 0; i < playerCustumList.Length; i++)
         {
-            Item item = ItemManager.Instance.PlayerCustumList[i].GetComponent<Item>();
+            Item item = playerCustumList[i].GetComponent<Item>();
             if (item.ItemID == _IDnumber)
             {
-                ItemManager.Instance.PlayerCustumList[i].SetActive(true);
+                playerCustumList[i].SetActive(true);
                 break;
             }
         }

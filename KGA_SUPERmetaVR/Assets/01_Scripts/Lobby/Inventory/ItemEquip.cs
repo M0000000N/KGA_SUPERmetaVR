@@ -31,7 +31,7 @@ public class ItemEquip : MonoBehaviour
     private void EquipItem(int _slotNumber)
     {
         int IDnumber = GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].ID;
-        PlayerCustum playerCustum = GameManager.Instance.Player.GetComponent<PlayerCustum>();
+        PlayerCustum playerCustum = GameManager.Instance.Player.GetComponentInChildren<PlayerCustum>();
         playerCustum.ChangeCustum(IDnumber);
         itemEquipButton.onClick.RemoveAllListeners();
         gameObject.SetActive(false);
