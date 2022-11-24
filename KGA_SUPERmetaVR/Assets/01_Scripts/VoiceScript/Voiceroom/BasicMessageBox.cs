@@ -8,32 +8,40 @@ using Photon.Realtime;
 
 public class BasicMessageBox : MonoBehaviourPun 
 {
-    
-    [SerializeField] InvitationVoiceTalkUI voiceUI;
 
-    [Header("BasicBoxMessage")]
-    [SerializeField] GameObject TalkingOkayUI;
-    [SerializeField] GameObject TalkingNoUI;
-    [SerializeField] GameObject MyVoicePanel;
+    Button Check_ConfirmBtn;
+    Button Check_RejectBtn;
+    Text Check_ContentText;
 
-    Button okButton;
-    Button cancelButton;
-    Text text;
+    public void SetBtn(UnityAction okAction, UnityAction cancelAction, string contentText)
+    {
+        if (Check_ConfirmBtn == null)
+        {
+            Check_ConfirmBtn = transform.Find("Check_ConfirmBtn").GetComponent<Button>();
+            Check_RejectBtn = transform.Find("Check_RejectBtn").GetComponent<Button>();
+            Check_ContentText = transform.Find("Check_ContentText").GetComponent<Text>();
+        }
 
-    //{
-    //    TalkingOkayUI.SetActive(false);
-    //    TalkingNoUI.SetActive(false);
-    //}
+        Check_ContentText.text = "";
+        Check_ConfirmBtn.onClick.RemoveAllListeners();
+        Check_RejectBtn.onClick.RemoveAllListeners();
 
-    //public void Approve()
-    //{
-    //    photonView.RPC(nameof(voiceUI.Temp), RpcTarget.All, true);
-    //}
+        Check_ContentText.text = contentText;
 
-    //public void Reject()
-    //{
-    //    photonView.RPC(nameof(voiceUI.Temp), RpcTarget.All, false);
-    //}
+        Check_ConfirmBtn.onClick.AddListener(() =>
+        {
+            okAction.Invoke();
+            gameObject.SetActive(false);
 
+        });
+
+        Check_RejectBtn.onClick.AddListener(() =>
+        {
+            cancelAction.Invoke();
+            gameObject.SetActive(false);
+        });
+
+        gameObject.SetActive(true);
+    }
 
 }
