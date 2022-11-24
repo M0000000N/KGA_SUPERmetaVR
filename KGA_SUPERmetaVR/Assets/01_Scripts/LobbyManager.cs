@@ -16,8 +16,8 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     [SerializeField] int PKBMaxPlayer = 14;
     [SerializeField] int PKBMaxRoomCount = 9999;
     public int CurrentSceneIndex { get { return currentSceneIndex; } set { currentSceneIndex = value; } }
-    private int currentSceneIndex = 0; //0 : login, 1: Ver.1_Lobby, 2 : PKB_Main, 3 : PKB_InGame, 4 : Tutorial
-    private void Awake()
+   [SerializeField] private int currentSceneIndex = 0; //0-login, 1-Ver.1_Lobby, 2-PKB_Main, 3-PKB_InGame, 4-Tutorial
+    private void Start()
     {
         // 마스터 서버 연결시도
         PhotonNetwork.ConnectUsingSettings();
@@ -26,6 +26,13 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     public override void OnDisconnected(DisconnectCause cause) // ConnectUsingSettings()에 연결이 끊겼을 때 호출되는 콜백함수다.
     {
         PhotonNetwork.ConnectUsingSettings();
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().Login.interactable = true;
+        LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().SignUp.interactable = true;
+        LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().ForgetPassword.interactable = true;
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
