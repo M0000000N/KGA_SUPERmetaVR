@@ -10,30 +10,22 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_InputField inputID;
     [SerializeField] private TMP_InputField inputPW;
 
+    public Button Login { get { return login; } set { login = value; } }
     [SerializeField] private Button login;
+    public Button SignUp { get { return signUp; } set { signUp = value; } }
     [SerializeField] private Button signUp;
+    public Button ForgetPassword { get { return forgetPassword; } set { forgetPassword = value; } }
     [SerializeField] private Button forgetPassword;
 
-    private void Start()
+    private void Awake()
     {
         login.onClick.AddListener(OnPressLoginButton);
         signUp.onClick.AddListener(OnPressSignUpButton);
         forgetPassword.onClick.AddListener(OnPressForgetPasswordButton);
-#if «ÿ¡‡
         login.interactable = false;
         signUp.interactable = false;
-#endif
         forgetPassword.interactable = false;
     }
-
-#if «ÿ¡‡
-    public override void OnConnectedToMaster()
-    {
-        login.interactable = true;
-        signUp.interactable = true;
-        forgetPassword.interactable = true;
-    }
-#endif
 
     private void OnEnable()
     {
@@ -45,11 +37,8 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
     {
         if(UserDataBase.Instance.Join(inputID.text, inputPW.text))
         {
-#if «ÿ¡‡
             LobbyManager.Instance.JoinOrCreateRoom(null, true);
             LobbyManager.Instance.CurrentSceneIndex = 3;
-#endif
-            PhotonNetwork.LoadLevel("TestMakeRoom");
         }
         else
         {
