@@ -26,6 +26,11 @@ public class FriendManager : SingletonBehaviour<FriendManager>
         photonView = PhotonView.Get(this);
     }
 
+    private void Start()
+    {
+        CloseUI();
+    }
+
     public void OpenUI()
     {
         UpdateFriendData();
