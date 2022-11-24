@@ -30,9 +30,12 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
 
     public override void OnConnectedToMaster()
     {
-        LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().Login.interactable = true;
-        LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().SignUp.interactable = true;
-        LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().ForgetPassword.interactable = true;
+        if(currentSceneIndex == 0)
+        {
+            LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().Login.interactable = true;
+            LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().SignUp.interactable = true;
+            LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().ForgetPassword.interactable = true;
+        }
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
