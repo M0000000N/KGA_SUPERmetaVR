@@ -33,17 +33,20 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (privateRoom.isOn)
+        if(gameObject.activeSelf)
         {
-            // privateRoom
-            grayText.SetActive(false);
-            SetPassword();
-        }
-        else
-        {
-            // publicRoom
-            Initionalize();
-            createButton.interactable = true;
+            if (privateRoom.isOn)
+            {
+                // privateRoom
+                grayText.SetActive(false);
+                SetPassword();
+            }
+            else
+            {
+                // publicRoom
+                Initionalize();
+                createButton.interactable = true;
+            }
         }
     }
 
