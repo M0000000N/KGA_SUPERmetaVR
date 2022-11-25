@@ -38,10 +38,18 @@ public class FindCanvas : MonoBehaviour
         inputID.text = string.Empty;
         inputHint.text = string.Empty;
         inputHintAnswer.text = string.Empty;
+        SoundManager.Instance.PlaySE("popup_open.wav");
+    }
+
+    private void OnDisable()
+    {
+        SoundManager.Instance.PlaySE("popup_close.wav");
     }
 
     public void FindID()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
+
         if (
             inputName.text == string.Empty ||
             inputBirthYear.text == string.Empty ||
@@ -70,7 +78,9 @@ public class FindCanvas : MonoBehaviour
 
     public void FindPW()
     {
-        if(UserDataBase.Instance.FindUserPW(inputID.text, inputHint.text, inputHintAnswer.text))
+        SoundManager.Instance.PlaySE("popup_click.wav");
+
+        if (UserDataBase.Instance.FindUserPW(inputID.text, inputHint.text, inputHintAnswer.text))
         {
             // 비밀번호 변경 팝업 출력
             LoginManager.Instance.ChangePWCanvas.GetComponent<ChangePWCanvas>().User_ID = inputID.text;
@@ -85,6 +95,8 @@ public class FindCanvas : MonoBehaviour
 
     public void Cancel()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
+
         // 로그인 UI 교체
         LoginManager.Instance.SetUICanvas(LoginManager.Instance.JoinCanvas);
     }

@@ -35,10 +35,18 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
     {
         inputID.text = string.Empty;
         inputPW.text = string.Empty;
+        SoundManager.Instance.PlaySE("popup_open.wav");
+    }
+
+    private void OnDisable()
+    {
+        SoundManager.Instance.PlaySE("popup_close.wav");
     }
 
     public void OnPressLoginButton()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
+
         if (UserDataBase.Instance.Join(inputID.text, inputPW.text))
         {
 #if 튜토리얼
@@ -84,12 +92,16 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
 
     public void OnPressSignUpButton()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
+
         // 회원가입 UI 교체
         LoginManager.Instance.SetUICanvas(LoginManager.Instance.CreateCanvas);
     }
 
     public void OnPressForgetPasswordButton()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
+
         // 정보찾기 UI 교체
         LoginManager.Instance.SetUICanvas(LoginManager.Instance.FindCanvas);
     }

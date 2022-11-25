@@ -68,8 +68,9 @@ public class SoundManager : SingletonBehaviour<SoundManager>
         {
             if (_soundName == seSoundList[i].SoundName)
             {
-                for (int x = 0; x < seSoundList.Length; x++)
+                for (int x = 0; x < sePlayer.Length; x++)
                 {
+                    if (sePlayer[x] == null) return;
                     if (sePlayer[x].isPlaying == false)
                     {
                         sePlayer[x].clip = seSoundList[i].Clip;

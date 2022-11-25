@@ -65,7 +65,7 @@ public class LoginManager : OnlyOneSceneSingleton<LoginManager>
         isStartButtonUICoroutine = false;
         InitializePopupUI();
         SetUICanvas(JoinCanvas);
-        SoundManager.Instance.PlayBGM("LoginBGM");
+        SoundManager.Instance.PlayBGM("Login_bgm.mp3");
     }
 
     public void SetUICanvas(GameObject _canvas)
@@ -78,6 +78,7 @@ public class LoginManager : OnlyOneSceneSingleton<LoginManager>
     {
         if(isStartCoroutine == false)
         {
+            SoundManager.Instance.PlaySE("popup_error.ogg");
             isStartCoroutine = true;
             StopCoroutine(SetPopupUICanvasCoroutine(_canvas));
             StartCoroutine(SetPopupUICanvasCoroutine(_canvas));
