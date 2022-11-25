@@ -36,6 +36,9 @@ public class LoginManager : OnlyOneSceneSingleton<LoginManager>
     [SerializeField] private GameObject[] canvasList;
     [SerializeField] private GameObject[] popupCanvasList;
 
+    [SerializeField] private Material newSkybox;
+    public Material NewSkybox { get { return newSkybox; } set { newSkybox = value; } }
+
     private bool isStartCoroutine;
     private bool isStartButtonUICoroutine;
 

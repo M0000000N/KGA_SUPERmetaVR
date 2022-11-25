@@ -1,5 +1,6 @@
 #define 로비진입
 //#define 피카부진입
+//#define 튜토리얼
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ using TMPro;
 using Photon.Pun;
 public class JoinCanvas : MonoBehaviourPunCallbacks
 {
+    [SerializeField] private GameObject playerObject;
+
     [SerializeField] private TMP_InputField inputID;
     [SerializeField] private TMP_InputField inputPW;
 
@@ -38,14 +41,27 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
     {
         if (UserDataBase.Instance.Join(inputID.text, inputPW.text))
         {
+#if 튜토리얼
+            if(UserDataBase.Instance.CheckUserNickName(inputID.text))
+            {
+                LobbyManager.Instance.JoinOrCreateRoom(null, true);
+            }
+            else
+            {
+                RenderSettings.skybox = LoginManager.Instance.NewSkybox;
+                playerObject.transform.position = new Vector3(0, -1000f, 1.3f);
+            }
+#endif
+
 #if 피카부진입
-            PhotonNetwork.LoadLevel("PKB_Main");
-            PhotonNetwork.JoinLobby();
+                PhotonNetwork.LoadLevel("PKB_Main");
+                PhotonNetwork.JoinLobby();
             
 #endif
 #if 로비진입
             LobbyManager.Instance.JoinOrCreateRoom(null, true);
-#endif        
+#endif
+
         }
         else
         {
