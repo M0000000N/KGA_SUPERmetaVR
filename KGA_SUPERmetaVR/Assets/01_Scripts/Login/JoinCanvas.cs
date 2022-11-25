@@ -37,6 +37,8 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
     {
         if(UserDataBase.Instance.Join(inputID.text, inputPW.text))
         {
+            StopCoroutine(ButtonActive());
+            StartCoroutine(ButtonActive());
             LobbyManager.Instance.JoinOrCreateRoom(null, true);
             LobbyManager.Instance.CurrentSceneIndex = 3;
         }
@@ -44,6 +46,19 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
         {
             // 오류팝업 : DataBase.instance.Login 에서 조건을 판단하여 팝업을 출력
         }
+    }
+
+    IEnumerator ButtonActive()
+    {
+        login.interactable = false;
+        signUp.interactable = false;
+        forgetPassword.interactable = false;
+
+        yield return new WaitForSecondsRealtime(5f);
+
+        login.interactable = true;
+        signUp.interactable = true;
+        forgetPassword.interactable = true;
     }
 
     public void OnPressSignUpButton()
