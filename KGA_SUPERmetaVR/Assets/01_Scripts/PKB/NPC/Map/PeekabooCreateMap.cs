@@ -72,7 +72,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
     private GameObject dummyPlayer;
     private void Awake()
     {
-        mapLength = 20f;
+        mapLength = 30f;
         mapData = new Dictionary<int, MAPDATA>();
         playerPositionList = new List<Vector3>();
         if (PhotonNetwork.IsMasterClient)
