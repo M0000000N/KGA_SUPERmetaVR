@@ -6,46 +6,35 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Voice.PUN;
 using Photon.Voice.Unity;
+using UnityEngine.Assertions.Must;
 
 
 //PC 말하기 아이콘 
 public class VoiceEffect : MonoBehaviourPun
 {
     PhotonVoiceView voiceView;
-    // PhotonView photonView; 
-    // Recorder recorder;
+    VoiceroomManager voiceManager;
 
     // 음소거 
     [SerializeField] GameObject TalkBell;
     [SerializeField] GameObject MuteBell; 
-   // [SerializeField] GameObject Mute;
 
     bool isSpeaking = false;
     bool recentBool;
 
     private void Awake()
     {
-      //  hotonView = GetComponent<PhotonView>();
         TalkBell.SetActive(false);
         MuteBell.SetActive(false);
         voiceView = GetComponentInParent<PhotonVoiceView>();
        
         recentBool = true;
-       // Speaker.SetBool("VoiceTalk", true);
-       // recorder= GetComponent<Recorder>();
     }
 
-    //보이스 채팅 유무
     public bool GetSoundDetection()
     {
         return voiceView.IsRecording;     
     }
-
-    // 보이스 전송 유무 - 뮤트 관련 
-    //public void SetTransmitSound(bool isOn)
-    //{
-    //    recorder.TransmitEnabled = isOn;
-    //}
 
     private void Update()
     {

@@ -62,5 +62,5 @@ public class VoiceChatControll : MonoBehaviour
     //    }
     //    PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = _InterestGroup;
     //    channelText.text = recorder.InterestGroup.ToString() + "번 채널 접속";
-    }
-}
+ }
+

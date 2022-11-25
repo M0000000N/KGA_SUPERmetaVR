@@ -18,8 +18,7 @@ using OVRSimpleJSON;
 // 마이크 조절 - 내 것만 해보고 안 되면 빼기 
 public class SoundControl : MonoBehaviourPun
 {
-    [SerializeField]
-    public Slider MicVoulmSlider;
+
     [SerializeField]
     Recorder recorder;
 
@@ -46,18 +45,9 @@ public class SoundControl : MonoBehaviourPun
             soundSetting.onClick.AddListener(clickSoundSetting);
             closeButton.onClick.AddListener(CloseSoundSetting);
 
-            MicVoulmSlider.onValueChanged.AddListener(micSlider);
-
             micActivate.onValueChanged.AddListener(SetTransmitSound);
             TurnOffMute(); // 마이크가 켜져있는 기본 상태 
     }
-
-    //private void Update()
-    //{
-    //    if (!photonView.IsMine) return;
-
-    //    micSlider();
-    //}
 
     // 설정창 켜짐
     private void clickSoundSetting()
@@ -82,13 +72,6 @@ public class SoundControl : MonoBehaviourPun
     {
         recorder.VoiceDetection = isOn;
     }
-    
-    public void micSlider(float micVolum)
-    {
-        MicAmplifier.BoostValue = MicVoulmSlider.value;
-        micVolum = MicVoulmSlider.value;
-        PlayerPrefs.SetFloat("micVolum", micVolum);
-    }
 
     // 마이크 음소거
     private void SetTransmitSound(bool isOn)
@@ -106,7 +89,6 @@ public class SoundControl : MonoBehaviourPun
     public void TurnonMute()
     {
         // 마이크 꺼짐 
-       // PeekabooSoundManager.Instance.recorder.TransmitEnabled = true; 
         recorder.TransmitEnabled = false;
         Debug.Log("마이크꺼짐");
     }
@@ -115,7 +97,6 @@ public class SoundControl : MonoBehaviourPun
     {
         // 마이크 켜짐
         recorder.TransmitEnabled = true;
-      //  PeekabooSoundManager.Instance.recorder.TransmitEnabled = false;
         Debug.Log("마이크켜짐");
     }
 

@@ -5,15 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// 현재상황 : 
-// 닉네임 : 자신의 닉네임은 뜨나 상대방 닉네임이 뜨지 않음
-// 타인의 정보를 저장하여 가져오는 법 
-
 public class InvitationVoiceTalkUI : MonoBehaviourPunCallbacks
 {
     public GameObject GetHandShakeImage => InteractionTalking.gameObject;
     public GameObject GetDialog {  get { return SpeechBubble.gameObject;  } }
     public GameObject GetVoiceTalkingCanvas {  get { return VoiceTalkingCanvas.gameObject; } }
+
+    // 나의 정보, 상대방 정보
+    public Player GetotherPlayerPhotonview { get { return otherPlayer; } }
 
     [Header("상호작용 범위 감지")]
     [SerializeField] GameObject SpeechBubble;
@@ -24,11 +23,13 @@ public class InvitationVoiceTalkUI : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject VoiceTalkingCanvas;
     [SerializeField] private Button ConfirmButton;
     [SerializeField] private Button RejectButton;
-    [SerializeField] private Button OkayButton;
+    [SerializeField] Button OkayButton;
+    [SerializeField] private GameObject VoiceTalkingCheck; 
 
+    [SerializeField] private TextMeshProUGUI TalkingNickName; 
     [SerializeField] private TextMeshProUGUI contentText;
+    [SerializeField] private TextMeshProUGUI Check_ContentText;
 
-    string OwnerNickname;
     string OtherNickname;
 
     Player player; 
@@ -47,19 +48,18 @@ public class InvitationVoiceTalkUI : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
-            OwnerNickname = photonView.Owner.NickName;
             player = photonView.Owner;         
+           // OwnerNickname = photonView.Owner.NickName;
+           // myActorNum = photonView.Owner.ActorNumber;
         }
         else
         {
+            otherPlayer = photonView.Owner;
             OtherNickname = photonView.Owner.NickName;
-            otherPlayer = photonView.Owner; 
+          //  otherActorNum = photonView.Owner.ActorNumber;
             if (OtherNickname.Equals(null))
                 return;
         }
-
-        // InvitationVoiceTalkUI talkUI = GetComponent<InvitationVoiceTalkUI>();
-
         //Part1.
         InteractionTalking.gameObject.SetActive(false);
         SpeechBubble.SetActive(false);
@@ -67,12 +67,14 @@ public class InvitationVoiceTalkUI : MonoBehaviourPunCallbacks
         //Part2. - 요청자 
         VoiceTalkingCanvas.SetActive(false);
         OkayButton.gameObject.SetActive(false);
+        VoiceTalkingCheck.SetActive(false);
 
         InteractionTalking.onClick.AddListener(DialogPopUI);
         TalkingTogether.onClick.AddListener(VoiceCanvasPopUI);
         ConfirmButton.onClick.AddListener(AskTalkingConfirm);
         RejectButton.onClick.AddListener(RejectCanvasPopUI);
-        
+        OkayButton.onClick.AddListener(TalkingRequest);
+
     }
 
     private void Update() 
@@ -119,12 +121,13 @@ public class InvitationVoiceTalkUI : MonoBehaviourPunCallbacks
     public void DialogPopUI()
     {
         SpeechBubble.SetActive(true);
+        TalkingNickName.text = OtherNickname;
     }
 
     public void VoiceCanvasPopUI()
     {
         VoiceTalkingCanvas.SetActive(true);
-        contentText.text = OtherNickname + "Request?";
+        contentText.text = OtherNickname + "님에게 대화를 요청하시겠습니까";
     }
 
     public void RejectCanvasPopUI()
@@ -137,8 +140,20 @@ public class InvitationVoiceTalkUI : MonoBehaviourPunCallbacks
             ConfirmButton.gameObject.SetActive(false);
             RejectButton.gameObject.SetActive(false);
             OkayButton.gameObject.SetActive(true); 
-            contentText.text = OtherNickname + "Request Finish!";
+            contentText.text = OtherNickname + "님에게 1:1 대화를 요청하였습니다";
             //요청 
+    }
+
+    public void TalkingRequest()
+    {
+        photonView.RPC("ConfirmTalkingCheck", RpcTarget.Others, true);
+    }
+
+    [PunRPC]
+    public void confrimTalkingCheck(bool _value)
+    {
+        VoiceTalkingCheck.SetActive(_value);
+        Check_ContentText.text = otherPlayer.NickName + "채널로 입장하시겠습니까??";
     }
 
 }

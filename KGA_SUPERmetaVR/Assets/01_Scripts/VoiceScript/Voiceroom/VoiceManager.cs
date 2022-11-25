@@ -25,28 +25,28 @@ public class VoiceManager : MonoBehaviourPun, IPunObservable
         
     }
 
-    public void RPCTypeProcess(string type, int value)
-    {
-        switch (type)
-        {
-            case "Chat":
-                ShowVoiceChatMessage(value);
-                break;
-        }
-    }
+    //public void RPCTypeProcess(string type, int value)
+    //{
+    //    switch (type)
+    //    {
+    //        case "Chat":
+    //            ShowVoiceChatMessage(value);
+    //            break;
+    //    }
+    //}
 
-    void ShowVoiceChatMessage(int Value)
-    {
-        string contentText = Nickname + "채널로 입장하시겠습니까??";
-        singleChatMessageBox.SetBtn(() => { GetInvitation.ChangedAudioGroup(Value); }, () => { }, contentText);
+    //void ShowVoiceChatMessage(int Value)
+    //{
+    //    string contentText = Nickname + "채널로 입장하시겠습니까??";
+    //    singleChatMessageBox.SetBtn(() => { GetInvitation.ChangedAudioGroup(Value); }, () => { }, contentText);
 
-    }
+    //}
 
-    [PunRPC]
-    public void _ReceiveMessage(string type, int value)
-    {
-        RPCTypeProcess(type, value);
-    }
+    //[PunRPC]
+    //public void _ReceiveMessage(string type, int value)
+    //{
+    //    RPCTypeProcess(type, value);
+    //}
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
