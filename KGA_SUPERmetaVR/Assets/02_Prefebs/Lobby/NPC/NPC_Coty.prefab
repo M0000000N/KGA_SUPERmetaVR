@@ -352,10 +352,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3393224426045981914}
-  - component: {fileID: 9106575319483271106}
   - component: {fileID: 8530852016307469974}
   - component: {fileID: 5891919869801307517}
   - component: {fileID: 1897880239134325451}
+  - component: {fileID: 2772688644803242123}
   m_Layer: 0
   m_Name: NPC_Coty
   m_TagString: Untagged
@@ -380,29 +380,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -5.403519, y: 12.444227, z: 0.43077946}
---- !u!114 &9106575319483271106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1602529439199285008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4782308681c9c847a060e541aad1a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcID: 20300
-  startSheetID: 24000
-  number: 0
-  handshake: {fileID: 8395449180758478632}
-  communication: {fileID: 4307267179449880681}
-  dialogueText: {fileID: 3662546706561359284}
-  button:
-  - {fileID: 839801611194888813}
-  - {fileID: 697018883395339332}
-  characterAnimator: {fileID: 1120685767819680853}
-  comunicationAnimationController: {fileID: 2568125741755160508}
 --- !u!136 &8530852016307469974
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -498,6 +475,29 @@ MonoBehaviour:
   - {fileID: 6224466214243438788}
   - {fileID: 1156068988535627467}
   - {fileID: 8699262472001979772}
+--- !u!114 &2772688644803242123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602529439199285008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f689d3cd30ca0f249985d22a9d703580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcID: 20300
+  startSheetID: 24000
+  number: 0
+  handshake: {fileID: 8395449180758478632}
+  communication: {fileID: 4307267179449880681}
+  dialogueText: {fileID: 3662546706561359284}
+  button:
+  - {fileID: 839801611194888813}
+  - {fileID: 697018883395339332}
+  characterAnimator: {fileID: 1120685767819680853}
+  comunicationAnimationController: {fileID: 2568125741755160508}
 --- !u!1 &1811160316652358724
 GameObject:
   m_ObjectHideFlags: 0
@@ -2975,7 +2975,7 @@ PrefabInstance:
     - target: {fileID: 267701697051033035, guid: c4b3198a0c52e904584a490fc679a6ef, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 9106575319483271106}
+      objectReference: {fileID: 0}
     - target: {fileID: 7558416118599476565, guid: c4b3198a0c52e904584a490fc679a6ef, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3198,7 +3198,7 @@ PrefabInstance:
     - target: {fileID: 3622596789999403404, guid: 9258cef24e7a6b9488cd8555c714883f, type: 3}
       propertyPath: communicationManager
       value: 
-      objectReference: {fileID: 9106575319483271106}
+      objectReference: {fileID: 0}
     - target: {fileID: 5812327696682077189, guid: 9258cef24e7a6b9488cd8555c714883f, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
