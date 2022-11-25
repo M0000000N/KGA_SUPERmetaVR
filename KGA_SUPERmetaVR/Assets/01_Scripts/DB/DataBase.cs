@@ -26,7 +26,7 @@ public class DataBase : SingletonBehaviour<DataBase>
 
     void sqlConnect()
     {
-        string sqlDataBase = "Server=" + sqlDatabaseIP + ";Database=" + sqlDatabaseName + ";UserId=" + sqlDatabaseID + ";Password=" + sqlDatabasePW + "";
+        string sqlDataBase = "Server=" + sqlDatabaseIP + ";Database=" + sqlDatabaseName + ";UserId=" + sqlDatabaseID + ";Password=" + sqlDatabasePW + ";CharSet=utf8;";
 
         try
         {

@@ -53,6 +53,19 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
         }
     }
 
+    IEnumerator ButtonActive()
+    {
+        login.interactable = false;
+        signUp.interactable = false;
+        forgetPassword.interactable = false;
+
+        yield return new WaitForSecondsRealtime(5f);
+
+        login.interactable = true;
+        signUp.interactable = true;
+        forgetPassword.interactable = true;
+    }
+
     public void OnPressSignUpButton()
     {
         // 회원가입 UI 교체
