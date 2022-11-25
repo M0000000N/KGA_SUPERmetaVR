@@ -19,22 +19,21 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     [SerializeField] int MinPlayerCount = 0;
     private bool playerIsReady = false;
 
-    private void Awake()
-    {
-        // gameStartButton.onClick.AddListener(OnClickStartButton);
-    }
-
     public override void OnEnable()
     {
         GetCurrentRoomPlayers();
         SetReadyUp(false);
-    }
-
-    private void Start()
-    {
         if (PhotonNetwork.IsMasterClient)
         {
-            SetStartButton(0, false);
+            // 플레이어 최소 인원 달성했는지
+            if (PhotonNetwork.PlayerList.Length > MinPlayerCount)
+            {
+                SetStartButton(1, true);
+            }
+            else
+            {
+                SetStartButton(0, false);
+            }
         }
         else
         {
@@ -66,6 +65,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        // Debug.Log($"{newPlayer.NickName}가 {PhotonNetwork.CurrentRoom.Name}에 들어옴. 총원 : {PhotonNetwork.CurrentRoom.PlayerCount}");
         AddPlayerListing(newPlayer);
     }
 

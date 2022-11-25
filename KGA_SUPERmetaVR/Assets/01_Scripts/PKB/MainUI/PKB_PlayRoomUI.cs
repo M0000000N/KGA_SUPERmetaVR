@@ -24,8 +24,8 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        exitRoomButton.onClick.AddListener(OnClickExitButton);
         exitRoomUI.gameObject.SetActive(false);
+        exitRoomButton.onClick.AddListener(OnClickExitRoomButton);
         yesExitRoomButton.onClick.AddListener(OnClickYesExitRoomButton);
         noExitRoomButton.onClick.AddListener(OnClickNoExitRoomButton);
         playerListingMenu.gameObject.SetActive(false);
@@ -48,16 +48,20 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
         playerListingMenu.gameObject.SetActive(true);
     }
 
-    public void OnClickExitButton()
+    public void OnClickExitRoomButton()
     {
         exitRoomUI.gameObject.SetActive(true);
+        Debug.Log($"{LobbyManager.Instance.IsRoom}");
     }
 
     public void OnClickYesExitRoomButton()
     {
-        PhotonNetwork.LeaveRoom();
         exitRoomUI.gameObject.SetActive(false);
         gameObject.SetActive(false);
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
     }
 
     public void OnClickNoExitRoomButton()
