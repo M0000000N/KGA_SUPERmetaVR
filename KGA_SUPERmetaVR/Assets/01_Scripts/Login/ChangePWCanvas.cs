@@ -23,11 +23,19 @@ public class ChangePWCanvas : MonoBehaviour
     {
         inputPW.text = string.Empty;
         inputCheckPW.text = string.Empty;
+        SoundManager.Instance.PlaySE("popup_open.wav");
+    }
+
+    private void OnDisable()
+    {
+        SoundManager.Instance.PlaySE("popup_close.wav");
     }
 
     public void ChangePW()
     {
-        if(inputPW.text == string.Empty || inputCheckPW.text == string.Empty)
+        SoundManager.Instance.PlaySE("popup_click.wav");
+
+        if (inputPW.text == string.Empty || inputCheckPW.text == string.Empty)
         {
             // 입력해주세요
             LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.CheckInfomationPopupCanvas);

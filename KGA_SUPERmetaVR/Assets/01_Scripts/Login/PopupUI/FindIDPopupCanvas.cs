@@ -25,6 +25,7 @@ public class FindIDPopupCanvas : MonoBehaviour
     {
         if(isStartCoroutine == false)
         {
+            SoundManager.Instance.PlaySE("popup_click.wav");
             isStartCoroutine = true;
             StopCoroutine(SetPopupUICanvasCoroutine());
             StartCoroutine(SetPopupUICanvasCoroutine());

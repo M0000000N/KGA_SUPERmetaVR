@@ -47,12 +47,20 @@ public class CreateCanvas : MonoBehaviour
         inputBirthDay.text = string.Empty;
 
         isCheckID = false;
+        SoundManager.Instance.PlaySE("popup_open.wav");
+    }
+
+    private void OnDisable()
+    {
+        SoundManager.Instance.PlaySE("popup_close.wav");
     }
 
     public void CheckID()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
+
         // TODO : 2자 미만 || 12자 초과할 경우
-        if(inputID.text.Length < 2 || inputID.text.Length > 12)
+        if (inputID.text.Length < 2 || inputID.text.Length > 12)
         {
             // ID 입력 길이 ( 2 ~ 12 )
             LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.CheckInfomationPopupCanvas);
@@ -74,6 +82,8 @@ public class CreateCanvas : MonoBehaviour
 
     public void Create()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
+
         if (isCheckID == false)
         {
             // 중복 확인을 해주세요
@@ -147,6 +157,8 @@ public class CreateCanvas : MonoBehaviour
 
     public void Cancel()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
+
         // 로그인 UI 교체
         LoginManager.Instance.SetUICanvas(LoginManager.Instance.JoinCanvas);
     }
