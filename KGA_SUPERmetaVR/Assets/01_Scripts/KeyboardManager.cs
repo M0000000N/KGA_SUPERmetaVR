@@ -28,9 +28,18 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
     private void Awake()
     {
         inputFields = login.GetComponentsInChildren<TMP_InputField>();
+
         for (int i = 0; i < inputFields.Length; i++)
         {
-            inputFields[i].onSelect.AddListener(delegate { OpenKeyboard(type); });
+            int keyType = 0;
+
+            if (inputFields[i].gameObject.name.Contains("Birth") || type == 1)
+            {
+                keyType = 1;
+            }
+
+            inputFields[i].onSelect.RemoveAllListeners();
+            inputFields[i].onSelect.AddListener( delegate { OpenKeyboard(keyType); } );
         }
         CloseKeyboard();
     }
@@ -53,7 +62,7 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
 
         inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
         Initialize();
-
+        
         switch (_type)
         {
             case 0: // qwerty + numpad
@@ -61,6 +70,7 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
                 numpad.SetActive(true);
                 break;
             case 1: // only numpad
+                qwerty.SetActive(false);
                 numpad.SetActive(true);
                 break;
             default:
