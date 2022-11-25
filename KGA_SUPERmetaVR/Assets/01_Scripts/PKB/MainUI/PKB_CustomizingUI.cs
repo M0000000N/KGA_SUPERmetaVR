@@ -113,19 +113,16 @@ public class PKB_CustomizingUI : MonoBehaviour
         {
             if (GameManager.Instance.PlayerData.PeekabooData.SelectCharacter == _countNumber)
             {
-                character[_countNumber].GetComponent<PKB_CustomizingCharacter>().Button.interactable = false;
-                character[_countNumber].GetComponent<PKB_CustomizingCharacter>().ButtonText.text = "적용중";
+                character[_countNumber].GetComponent<PKB_CustomizingCharacter>().SetStartButton(1, false);
             }
             else
             {
-                character[_countNumber].GetComponent<PKB_CustomizingCharacter>().Button.interactable = true;
-                character[_countNumber].GetComponent<PKB_CustomizingCharacter>().ButtonText.text = "변경";
+                character[_countNumber].GetComponent<PKB_CustomizingCharacter>().SetStartButton(2, true);
             }
         }
         else
         {
-            character[_countNumber].GetComponent<PKB_CustomizingCharacter>().Button.interactable = false;
-            character[_countNumber].GetComponent<PKB_CustomizingCharacter>().ButtonText.text = "미보유";
+            character[_countNumber].GetComponent<PKB_CustomizingCharacter>().SetStartButton(0, true);
         }
     }
 }

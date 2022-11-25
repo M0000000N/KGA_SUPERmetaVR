@@ -32,7 +32,11 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
     [SerializeField]
     private Button quitGameButton;
     public Inventory Inventory { get { return inventory; } }
-    
+
+    private GameObject[] playerCustumList;
+    public GameObject[] PlayerCustumList { get { return playerCustumList; } set { playerCustumList = value; } }
+
+
 
     private void Start()
     {
@@ -99,5 +103,5 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
         itemInfoUI.SetActive(false);
     }
 
-
+    
 }

@@ -16,8 +16,8 @@ public class PKB_ExitUI : MonoBehaviour
     }
     public void OnClickYesButton()
     {
-        gameObject.SetActive(false);
         LobbyManager.Instance.JoinOrCreateRoom(null, true);
+        gameObject.SetActive(false);
     }
 
     public void OnClickNoButton()

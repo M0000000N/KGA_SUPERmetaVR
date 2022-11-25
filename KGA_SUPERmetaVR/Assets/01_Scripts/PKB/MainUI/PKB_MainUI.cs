@@ -11,7 +11,6 @@ using System.Linq;
 public class PKB_MainUI : MonoBehaviourPunCallbacks
 {
     [Header("DB에서 가져올 것")]
-    [SerializeField] TextMeshProUGUI coin;
     [SerializeField] TextMeshProUGUI nickname;
 
     [Header("버튼")]
@@ -30,7 +29,6 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        coin.text = GameManager.Instance.PlayerData.Coin.ToString();
         nickname.text = GameManager.Instance.PlayerData.Nickname.ToString();
         findingRoomImage.SetActive(false);
     }
