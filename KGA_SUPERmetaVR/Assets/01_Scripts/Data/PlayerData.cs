@@ -18,6 +18,12 @@ public class PlayerData
     private int coin;
     public int Coin { get { return coin; } set { coin = value; } }
 
+    private int defaultcustomize;
+    public int DefaultCustomize { get { return defaultcustomize; } set { defaultcustomize = value; } }
+
+    private int customize;
+    public int Customize { get { return customize; } set { customize = value; } }
+
     private int clearTutorial;
     public int ClearTutorial { get { return clearTutorial; } set { clearTutorial = value; } }
 
