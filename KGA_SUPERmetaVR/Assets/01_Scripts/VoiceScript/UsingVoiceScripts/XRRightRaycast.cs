@@ -4,13 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class XRRaycast : MonoBehaviour
+public class XRRightRaycast : OnlyOneSceneSingleton<XRRightRaycast>
 {
-
-    [SerializeField] XRRayInteractor leftRayInteractor;
     [SerializeField] XRRayInteractor RightRayInteractor;
-
-    private RaycastHit leftRayHit;
     private RaycastHit RightRayHit;
 
     GameObject targetObject;
@@ -27,11 +23,6 @@ public class XRRaycast : MonoBehaviour
             targetObject = RightRayHit.transform.gameObject;
             Debug.Log("target : " + targetObject.name);
         }
-        else if (leftRayInteractor.TryGetCurrent3DRaycastHit(out leftRayHit))
-        {
-            targetObject = leftRayHit.transform.gameObject;
-            Debug.Log("target : " + targetObject.name);
-        }
         else
         {
             targetObject = null;
@@ -44,3 +35,4 @@ public class XRRaycast : MonoBehaviour
     }
 
 }
+

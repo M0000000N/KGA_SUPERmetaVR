@@ -41,25 +41,25 @@ public class GetInvitationTalkUI : MonoBehaviourPun
         otherPlayer = invitation.GetotherPlayerPhotonview;
         // otherNickname = invitation.GetotherPlayerPhotonview.NickName;
         VoiceTalkingCheck.SetActive(false);
-        OkayButton.onClick.AddListener(TalkingRequest);
+       // OkayButton.onClick.AddListener(TalkingRequest);
     }
 
-    public void TalkingRequest()
-    {
-        photonView.RPC("ConfirmTalkingCheck", otherPlayer, photonView.OwnerActorNr, true);
-    }
+    //public void TalkingRequest()
+    //{
+    //    photonView.RPC("ConfirmTalkingCheck", otherPlayer, photonView.OwnerActorNr, true);
+    //}
 
-    [PunRPC]
-    public void confrimTalkingCheck(Player player, int _actorNum, bool _value)
-    {
-        if(photonView.Owner.NickName != otherNickname)
-        {
-            VoiceTalkingCheck.SetActive(_value);
-            //  contentText.text = otherNickname + "1:1 Approve Or Reject?";
-            string contentText = otherPlayer.NickName + "채널로 입장하시겠습니까??";
-            messageBox.SetBtn(() => { ChangeAudioGroup(value); }, () => { }, contentText);
-        }
-    }
+    //[PunRPC]
+    //public void confrimTalkingCheck(Player player, int _actorNum, bool _value)
+    //{
+    //    if(photonView.Owner.NickName != otherNickname)
+    //    {
+    //        VoiceTalkingCheck.SetActive(_value);
+    //        //  contentText.text = otherNickname + "1:1 Approve Or Reject?";
+    //        string contentText = otherPlayer.NickName + "채널로 입장하시겠습니까??";
+    //        messageBox.SetBtn(() => { ChangeAudioGroup(value); }, () => { }, contentText);
+    //    }
+    //}
 
     //public void ShowMessageBox()
     //{
@@ -74,21 +74,22 @@ public class GetInvitationTalkUI : MonoBehaviourPun
     //}
 
     //Approve 확인버튼 눌렀을 때 보이스 채널 변경 
-    public void ChangeAudioGroup(int value)
-    {
-        byte _InterestGroup = 0;
-        if (value != 0)
-        {
-            _InterestGroup = (byte)PhotonNetwork.LocalPlayer.ActorNumber;
-            Debug.Log($"InterestGrup : {_InterestGroup}"); 
-            //if (_InterestGroup != (byte)(PhotonNetwork.CurrentRoom.PlayerCount))
-            //{
-            //    ++_InterestGroup;
-            //}
-        }
-        else
-            PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = _InterestGroup;
-    }
+    //public void ChangeAudioGroup(int value)
+    //{
+    //    byte _InterestGroup = 0;
+    //    if (value != 0)
+    //    {
+    //        _InterestGroup = (byte)PhotonNetwork.LocalPlayer.ActorNumber;
+    //        Debug.Log($"InterestGrup : {_InterestGroup}"); 
+    //        //if (_InterestGroup != (byte)(PhotonNetwork.CurrentRoom.PlayerCount))
+    //        //{
+    //        //    ++_InterestGroup;
+    //        //}
+    //    }
+    //    else
+    //        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = _InterestGroup;
+    //    PhotonVoiceNetwork.Instance.Client.
+    //}
 
     ////수락 버튼 선택 시 보이스채널 변경 및 상대클라이언트에게 전달 
     //public void ChangedAudioGroup(int value)
