@@ -11,6 +11,7 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
     string inputText;
 
     [SerializeField] private Transform login;
+    [SerializeField] private Transform newLogin;
 
     [SerializeField] private GameObject qwerty;
     [SerializeField] private GameObject numpad;
@@ -24,10 +25,12 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
     private bool isShift;
 
     [SerializeField] private TMP_InputField[] inputFields;
+    [SerializeField] private TMP_InputField[] inputFieldsNewLogin;
 
     private void Awake()
     {
         inputFields = login.GetComponentsInChildren<TMP_InputField>();
+        inputFieldsNewLogin = newLogin.GetComponentsInChildren<TMP_InputField>();
 
         for (int i = 0; i < inputFields.Length; i++)
         {
@@ -41,6 +44,20 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
             inputFields[i].onSelect.RemoveAllListeners();
             inputFields[i].onSelect.AddListener( delegate { OpenKeyboard(keyType); } );
         }
+
+        for (int i = 0; i < inputFieldsNewLogin.Length; i++)
+        {
+            int keyType = 0;
+
+            if (inputFieldsNewLogin[i].gameObject.name.Contains("Birth") || type == 1)
+            {
+                keyType = 1;
+            }
+
+            inputFieldsNewLogin[i].onSelect.RemoveAllListeners();
+            inputFieldsNewLogin[i].onSelect.AddListener(delegate { OpenKeyboard(keyType); });
+        }
+
         CloseKeyboard();
     }
 
