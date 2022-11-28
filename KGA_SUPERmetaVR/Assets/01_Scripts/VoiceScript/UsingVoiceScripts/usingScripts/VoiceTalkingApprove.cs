@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class VoiceTalkingApprove : SingletonBehaviour<VoiceTalkingApprove>
+public class VoiceTalkingApprove : OnlyOneSceneSingleton<VoiceTalkingApprove>
 {
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Button btnOkay;

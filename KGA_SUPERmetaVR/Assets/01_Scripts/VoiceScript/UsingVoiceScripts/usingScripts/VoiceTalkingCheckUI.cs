@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
 
-public class VoiceTalkingCheckUI : SingletonBehaviour<VoiceInvtationUI>
+public class VoiceTalkingCheckUI : OnlyOneSceneSingleton<VoiceInvitationUI>
 {
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Button btnYes;

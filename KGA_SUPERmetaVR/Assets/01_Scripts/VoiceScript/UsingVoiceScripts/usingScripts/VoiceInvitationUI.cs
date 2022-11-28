@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class VoiceInvtationUI : SingletonBehaviour<VoiceInvtationUI>
+public class VoiceInvitationUI : OnlyOneSceneSingleton<VoiceInvitationUI>
 {
     [SerializeField] TextMeshProUGUI text; 
     [SerializeField] Button btnYes;
