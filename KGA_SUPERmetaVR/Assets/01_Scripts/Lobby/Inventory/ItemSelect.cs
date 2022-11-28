@@ -7,17 +7,22 @@ using UnityEngine.InputSystem;
 public class ItemSelect : MonoBehaviour
 {
     PlayerData playerData;
+    [Header("컨트롤러")]
+    [SerializeField] private InputActionProperty isGrap; // 왼손만 해당
+    [SerializeField] GameObject[] hand; // index : 0-left, 1-right
+    private XRRayInteractor[] rayInteractor;
+    private XRInteractorLineVisual[] XRInteractorLineVisual;
 
-    [SerializeField] GameObject leftHand;
-    private XRRayInteractor leftRayInteractor;
-    private GameObject targetObject;
-    private GameObject grabObject;
+    [Header("상호작용대상")]
+    private GameObject targetObject; // 호버로 들어온 것
+    private GameObject grabObject; // 잡았을 때 들어온 것
     [SerializeField] GameObject itemSocket;
-    [SerializeField] private InputActionProperty isGrap;
-    private bool isDestroyCloverRun = false;
+
     private bool isGrabRun = false;
     private string grabTag = string.Empty;
     private int grabLayer = 0;
+
+    private bool isDestroyCloverRun = false;
     private CloverInfo grabCloverInfo;
     private FD_Dragon grabStarInfo;
     private bool isPlay;
@@ -25,12 +30,30 @@ public class ItemSelect : MonoBehaviour
     void Start()
     {
         playerData = GameManager.Instance.PlayerData;
-        leftRayInteractor = leftHand.GetComponent<XRRayInteractor>();
 
         if (playerData.PaperSwanData.beRewarded > 0)
         {
             StopCoroutine(ResultMessage());
             StartCoroutine(ResultMessage());
+        }
+
+        for (int i = 0; i < hand.Length; i++)
+        {
+            rayInteractor[i] = hand[i].GetComponent<XRRayInteractor>();
+            XRInteractorLineVisual[i] = hand[i].GetComponent<XRInteractorLineVisual>();
+        }
+    }
+
+    public void SetRightRay(float _maxRaycastDistance, bool _useWorldSpace)
+    {
+        for (int i = 0; i < hand.Length; i++)
+        {
+            rayInteractor[i].maxRaycastDistance = _maxRaycastDistance;
+            XRInteractorLineVisual[i].validColorGradient = new Gradient
+            {
+                colorKeys = new[] { new GradientColorKey(Color.HSVToRGB(196, 62, 100), 0f), new GradientColorKey(Color.HSVToRGB(196, 62, 100), 1f) },
+                alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
+            };
         }
     }
 
@@ -45,10 +68,11 @@ public class ItemSelect : MonoBehaviour
             GrabOut();
         }
     }
+
     public void HoverGet3DRayCastHit()
     {
         //raycastall vs raycast
-        if (leftRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit _leftRayHit))
+        if (rayInteractor[0].TryGetCurrent3DRaycastHit(out RaycastHit _leftRayHit))
         {
             if (isGrabRun == false)
             {
@@ -81,13 +105,13 @@ public class ItemSelect : MonoBehaviour
         grabTag = string.Empty;
         grabLayer = -1;
 
-        if (targetObject != null)
-        {
-            grabObject = targetObject;
-            grabTag = grabObject.tag;
-            grabLayer = grabObject.layer;
-            Debug.Log("타겟잇음");
-        }
+        if (targetObject == null) return;
+
+        grabObject = targetObject;
+        grabTag = grabObject.tag;
+        grabLayer = grabObject.layer;
+        Debug.Log("타겟잇음");
+
         if (grabLayer.Equals(LayerMask.NameToLayer("Item")) || grabLayer.Equals(LayerMask.NameToLayer("GrabItem")))
         {
             itemSocket.SetActive(true);
@@ -106,8 +130,7 @@ public class ItemSelect : MonoBehaviour
         }
         else if (grabTag.Equals("Star"))
         {
-            //TODO : 사운드 목요일에 넣자
-            // SoundManager.Instance.PlaySE("star_hend");
+            SoundManager.Instance.PlaySE("star_hend.mp3");
             isPlay = false;
             if (FlyDragonDataBase.Instance.CheckCooltime(1))
             {
@@ -125,8 +148,7 @@ public class ItemSelect : MonoBehaviour
 
         if (grabTag.Equals("ThreeLeafClover") || grabTag.Equals("FourLeafClover"))
         {
-            //TODO : 사운드 목요일에 넣자
-            // SoundManager.Instance.PlaySE("CC_Pick");
+            SoundManager.Instance.PlaySE("CC_Pick.mp3");
         }
     }
 
@@ -144,7 +166,7 @@ public class ItemSelect : MonoBehaviour
 
             if (grabCloverInfo.IsStartFadedout == false)
             {
-                leftRayInteractor.enableInteractions = false;
+                rayInteractor[0].enableInteractions = false;
                 StartCoroutine(Activeinteractor());
                 StopCoroutine(DestroyObject());
                 grabCloverInfo.IsStartFadedout = true;
@@ -196,7 +218,7 @@ public class ItemSelect : MonoBehaviour
     IEnumerator Activeinteractor()
     {
         yield return new WaitForSeconds(2f);
-        leftRayInteractor.enableInteractions = true;
+        rayInteractor[0].enableInteractions = true;
     }
 
     IEnumerator ChangeTag(GameObject _item)
