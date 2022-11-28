@@ -7,6 +7,7 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     public int flow; // 0 : 레디 전, 1: 퍼즐1(한손 잡기), 2 : 퍼즐2(양손잡기), 3 : 퍼즐3(gui에 손 맞추기)
 
     public int Score;
+    public int FailCount;
     public int DoneCount;
     [SerializeField] Animator[] fffAnimationController;
     [SerializeField] FFF_ButtonList FFF_ButtonList;
@@ -34,16 +35,20 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     {
         if (FFF_GameManager.Instance.flow == 2)
         {
-            if (DoneCount >= 15)
+            if (Score >= 15)
             {
-                if (Score >= 15)
-                {
-                    SetBoolFFFNPCAnimation("DanceStart", false);
-                    SetTriggerFFFNPCAnimation("MissionClear");
-                    Initioalize();
-                    SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
-                }
-                //if() 실패했을 때
+                SetBoolFFFNPCAnimation("DanceStart", false);
+                SetTriggerFFFNPCAnimation("MissionClear");
+                Initioalize();
+                SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
+            }
+
+            if (FailCount >= 3)
+            {
+                SetBoolFFFNPCAnimation("DanceStart", false);
+                SetTriggerFFFNPCAnimation("MissionFailed");
+                Initioalize();
+                SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
             }
         }
     }

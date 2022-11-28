@@ -24,6 +24,7 @@ public class FFF_Button : MonoBehaviour
     public void OnClickButton()
     {
         StopCoroutine(SetTimer());
+        FFF_GameManager.Instance.FailCount = 0;
         FFF_GameManager.Instance.Score++;
         FFF_GameManager.Instance.DoneCount++;
         button.interactable = false;
@@ -39,6 +40,7 @@ public class FFF_Button : MonoBehaviour
         SetImage(2);
         new WaitForSeconds(1f);
         SetImage(3);
+        FFF_GameManager.Instance.FailCount++;
         FFF_GameManager.Instance.DoneCount++;
     }
 
