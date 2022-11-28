@@ -8,13 +8,12 @@ public class FFF_NPC : MonoBehaviour
 {
     [SerializeField] TextMeshPro[] npcName;
     [SerializeField] Button exclamationButton;
-    private Animator fffAnimationController;
+    [SerializeField] ItemSelect itemSelect;
 
     private void Start()
     {
         exclamationButton.onClick.AddListener(OnClickExclamationButton);
         exclamationButton.gameObject.SetActive(false);
-        fffAnimationController = GetComponentInChildren<Animator>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -58,16 +57,8 @@ public class FFF_NPC : MonoBehaviour
         exclamationButton.gameObject.SetActive(false);
         FFF_GameManager.Instance.flow = 1;
         // TODO : NPC 대화 나와야함.  25002의 4번까지 출력 후 2초 뒤 StartDanceMode(); 실행
-        StartDanceMode();
+        FFF_GameManager.Instance.StartDanceMode();
     }
 
-    public void StartDanceMode()
-    {
-        FFF_GameManager.Instance.flow = 2;
-        fffAnimationController.SetBool("DanceStart", true);
-    }
-    private void Update()
-    {
-       //  if(fffAnimationController.GetCurrentAnimatorStateInfo.IsName())
-    }
+    
 }
