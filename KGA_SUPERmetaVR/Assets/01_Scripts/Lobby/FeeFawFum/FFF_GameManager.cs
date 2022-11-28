@@ -31,25 +31,31 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
         SoundManager.Instance.PlayBGM("fee_faw_fum_bgm.mp3");
         SetBoolFFFNPCAnimation("DanceStart", true);
         FFF_ButtonList.SetNextButtonList(0, true);
-        //itemSelect.SetRightRay(0.2f, );
+        itemSelect.SetRightRay(true);
     }
+
+    private void FinishDanceMode()
+    {
+        SetBoolFFFNPCAnimation("DanceStart", false);
+        Initioalize();
+        SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
+        itemSelect.SetRightRay(false);
+
+    }
+
     private void Update()
     {
         if (FFF_GameManager.Instance.flow == 2)
         {
             if (Score >= 15)
             {
-                SetBoolFFFNPCAnimation("DanceStart", false);
+                FinishDanceMode();
                 SetTriggerFFFNPCAnimation("MissionClear");
-                Initioalize();
-                SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
             }
             if (FailCount >= 3)
             {
+                FinishDanceMode();
                 SetBoolFFFNPCAnimation("DanceStart", false);
-                SetTriggerFFFNPCAnimation("MissionFailed");
-                Initioalize();
-                SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
             }
         }
     }

@@ -12,6 +12,7 @@ public class ItemSelect : MonoBehaviour
     [SerializeField] GameObject[] hand; // index : 0-left, 1-right
     private XRRayInteractor[] rayInteractor;
     private XRInteractorLineVisual[] XRInteractorLineVisual;
+    private ContinuousMoveProviderBase[] ContinuousMoveProviderBase;
 
     [Header("상호작용대상")]
     private GameObject targetObject; // 호버로 들어온 것
@@ -41,19 +42,29 @@ public class ItemSelect : MonoBehaviour
         {
             rayInteractor[i] = hand[i].GetComponent<XRRayInteractor>();
             XRInteractorLineVisual[i] = hand[i].GetComponent<XRInteractorLineVisual>();
+            ContinuousMoveProviderBase[i] = hand[i].GetComponent<ContinuousMoveProviderBase>();
         }
     }
 
     public void SetRightRay(bool _isHide)
     {
-        if(_isHide)
+        Color blueColor = Color.HSVToRGB(196, 62, 100);
+        Color whiteColor = Color.HSVToRGB(0, 0, 97);
+        if (_isHide)
         {
+            //ContinuousMoveProviderBase
             for (int i = 0; i < hand.Length; i++)
             {
+                ContinuousMoveProviderBase[i].moveSpeed = 0;
                 rayInteractor[i].maxRaycastDistance = 0.2f;
                 XRInteractorLineVisual[i].validColorGradient = new Gradient
                 {
-                    colorKeys = new[] { new GradientColorKey(Color.HSVToRGB(196, 62, 100), 0f), new GradientColorKey(Color.HSVToRGB(196, 62, 100), 1f) },
+                    colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
+                    alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
+                };
+                XRInteractorLineVisual[i].invalidColorGradient = new Gradient
+                {
+                    colorKeys = new[] { new GradientColorKey(whiteColor, 0f), new GradientColorKey(whiteColor, 1f) },
                     alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
                 };
             }
@@ -62,11 +73,17 @@ public class ItemSelect : MonoBehaviour
         {
             for (int i = 0; i < hand.Length; i++)
             {
+                ContinuousMoveProviderBase[i].moveSpeed = 2;
                 rayInteractor[i].maxRaycastDistance = 0.2f;
                 XRInteractorLineVisual[i].validColorGradient = new Gradient
                 {
-                    colorKeys = new[] { new GradientColorKey(Color.HSVToRGB(196, 62, 100), 0f), new GradientColorKey(Color.HSVToRGB(196, 62, 100), 1f) },
+                    colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
                     alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
+                };
+                XRInteractorLineVisual[i].invalidColorGradient = new Gradient
+                {
+                    colorKeys = new[] { new GradientColorKey(whiteColor, 0f), new GradientColorKey(whiteColor, 1f) },
+                    alphaKeys = new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 1f) },
                 };
             }
         }
