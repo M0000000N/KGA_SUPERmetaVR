@@ -6,6 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class XRRaycast : MonoBehaviour
 {
+
     [SerializeField] XRRayInteractor leftRayInteractor;
     [SerializeField] XRRayInteractor RightRayInteractor;
 

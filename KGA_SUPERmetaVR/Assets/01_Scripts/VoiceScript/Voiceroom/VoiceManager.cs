@@ -1,39 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Voice.Unity;
 using Photon.Pun;
-using UnityEngine.UI;
-using ExitGames.Client.Photon;
-using Photon.Realtime;
 
-public class VoiceManager : MonoBehaviourPun
+public class VoiceManager : MonoBehaviourPun, IPunObservable
 {
     [SerializeField]
-    VoiceChatControll chatControll;
+    GetInvitationTalkUI GetInvitation; 
 
     [SerializeField]
     BasicMessageBox singleChatMessageBox;
 
+    string Value;
+    string Nickname; 
+
     private void Start()
     {
-        chatControll.SetVoiceDetected(true);
-    }
+        Value = photonView.Owner.ActorNumber.ToString(); 
 
-    public void RPCTypeProcess(string type, string value)
-    {
-        switch (type)
+        if(photonView.IsMine.Equals(false))
         {
-            case "Chat":
-                ShowVoiceChatMessage(value);
-                break;
+            Nickname = photonView.Owner.NickName; 
         }
+        
     }
 
-    void ShowVoiceChatMessage(string Nickname)
-    {
-        string contentText = Nickname + "채널로 입장하시겠습니까??";
-      //  singleChatMessageBox.SetBtn(() => { chatControll.ChangedAudioGroup(Nickname); }, () => { }, contentText);
+    //public void RPCTypeProcess(string type, int value)
+    //{
+    //    switch (type)
+    //    {
+    //        case "Chat":
+    //            ShowVoiceChatMessage(value);
+    //            break;
+    //    }
+    //}
 
+    //void ShowVoiceChatMessage(int Value)
+    //{
+    //    string contentText = Nickname + "채널로 입장하시겠습니까??";
+    //    singleChatMessageBox.SetBtn(() => { GetInvitation.ChangedAudioGroup(Value); }, () => { }, contentText);
+
+    //}
+
+    //[PunRPC]
+    //public void _ReceiveMessage(string type, int value)
+    //{
+    //    RPCTypeProcess(type, value);
+    //}
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // throw new System.NotImplementedException();
     }
 }
