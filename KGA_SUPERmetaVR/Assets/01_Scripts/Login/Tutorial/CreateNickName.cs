@@ -51,7 +51,8 @@ public class CreateNickName : MonoBehaviour
         {
             // 사용할 수 있는 닉네임
             GameManager.Instance.PlayerData.Nickname = inputNickName.text;
-            DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.nickname, inputNickName.text, UserTableInfo.id, LoginManager.Instance.UserID);
+            DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.nickname, inputNickName.text, UserTableInfo.user_id, LoginManager.Instance.UserID);
+            LoginManager.Instance.SetUICanvas(LoginManager.Instance.SelectCharacter);
             gameObject.SetActive(false);
         }
         else

@@ -13,8 +13,8 @@ public class SelectCharacter : MonoBehaviour
 
     private void Start()
     {
-        Select1Button.onClick.AddListener(()=> { Select(1); });
-        Select2Button.onClick.AddListener(()=> { Select(2); });
+        Select1Button.onClick.AddListener(Select1);
+        Select2Button.onClick.AddListener(Select2);
     }
 
     private void OnEnable()
@@ -27,9 +27,17 @@ public class SelectCharacter : MonoBehaviour
         SoundManager.Instance.PlaySE("popup_close.wav");
     }
 
-    public void Select(int _selectNumber)
+    public void Select1()
     {
-        remindSelectPopup.SelectCharacter(_selectNumber);
+        LoginManager.Instance.SetPopupButtonUICanvas(LoginManager.Instance.RemindSelectPopup);
+        remindSelectPopup.SelectCharacter(1);
+        gameObject.SetActive(false);
+    }
+
+    public void Select2()
+    {
+        LoginManager.Instance.SetPopupButtonUICanvas(LoginManager.Instance.RemindSelectPopup);
+        remindSelectPopup.SelectCharacter(2);
         gameObject.SetActive(false);
     }
 }

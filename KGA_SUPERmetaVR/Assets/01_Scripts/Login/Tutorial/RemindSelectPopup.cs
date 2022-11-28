@@ -44,7 +44,6 @@ public class RemindSelectPopup : MonoBehaviour
                 }
                 break;
         }
-        gameObject.SetActive(true);
     }
 
     public void OnPressOkButton()
@@ -90,7 +89,10 @@ public class RemindSelectPopup : MonoBehaviour
                     GameManager.Instance.PlayerData.DefaultCustomize = selectType;
                     GameManager.Instance.PlayerData.Customize = selectType;
                     DataBase.Instance.sqlcmdall($"UPDATE {UserTableInfo.table_name} SET {UserTableInfo.default_customize} = {selectType}," +
-                        $"{UserTableInfo.customize} = {selectType} WHERE {UserTableInfo.id} = '{LoginManager.Instance.UserID}'");
+                        $"{UserTableInfo.customize} = {selectType} WHERE {UserTableInfo.user_id} = '{LoginManager.Instance.UserID}'");
+                    LoginManager.Instance.NPC_CommunicationManager.ComunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
+                    LoginManager.Instance.NPC_CommunicationManager.SheetID = 21001;
+                    LoginManager.Instance.NPC_CommunicationManager.Number = 1;
                 }
                 break;
 

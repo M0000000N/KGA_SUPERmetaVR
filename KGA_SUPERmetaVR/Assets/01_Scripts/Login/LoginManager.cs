@@ -13,6 +13,9 @@ public class LoginManager : OnlyOneSceneSingleton<LoginManager>
     [SerializeField] private Material newSkybox;
     public Material NewSkybox { get { return newSkybox; } set { newSkybox = value; } }
 
+    [SerializeField] private NPC_CommunicationManager npc_CommunicationManager;
+    public NPC_CommunicationManager NPC_CommunicationManager { get { return npc_CommunicationManager; } set { npc_CommunicationManager = value; } }
+
     [Header("·Î±×ÀÎ")]
     [SerializeField] private GameObject joinCanvas;
     public GameObject JoinCanvas { get { return joinCanvas; } set { joinCanvas = value; } }
@@ -54,6 +57,8 @@ public class LoginManager : OnlyOneSceneSingleton<LoginManager>
 
     [SerializeField] private GameObject[] canvasList;
     [SerializeField] private GameObject[] popupCanvasList;
+
+
 
     private bool isStartCoroutine;
     private bool isStartButtonUICoroutine;
