@@ -7,6 +7,13 @@ using Photon.Pun;
 
 public class LoginManager : OnlyOneSceneSingleton<LoginManager>
 {
+    private string userID;
+    public string UserID { get { return userID; } set { userID = value; } }
+
+    [SerializeField] private Material newSkybox;
+    public Material NewSkybox { get { return newSkybox; } set { newSkybox = value; } }
+
+    [Header("로그인")]
     [SerializeField] private GameObject joinCanvas;
     public GameObject JoinCanvas { get { return joinCanvas; } set { joinCanvas = value; } }
     [SerializeField] private GameObject createCanvas;
@@ -33,11 +40,20 @@ public class LoginManager : OnlyOneSceneSingleton<LoginManager>
     [SerializeField] private GameObject theIDCanBeUsedPopupCanvas;
     public GameObject TheIDCanBeUsedPopupCanvas { get { return theIDCanBeUsedPopupCanvas; } set { theIDCanBeUsedPopupCanvas = value; } }
 
+    [Header("튜토리얼")]
+    [SerializeField] private GameObject createNickName;
+    public GameObject CreateNickName { get { return createNickName; } set { createNickName = value; } }
+    [SerializeField] private GameObject nopCreateNickNamePopup;
+    public GameObject NopCreateNickNamePopup { get { return nopCreateNickNamePopup; } set { nopCreateNickNamePopup = value; } }
+    [SerializeField] private GameObject selectCharacter;
+    public GameObject SelectCharacter { get { return selectCharacter; } set { selectCharacter = value; } }
+    [SerializeField] private GameObject remindSelectPopup;
+    public GameObject RemindSelectPopup { get { return remindSelectPopup; } set { remindSelectPopup = value; } }
+
+    [Header("팝업 리스트")]
+
     [SerializeField] private GameObject[] canvasList;
     [SerializeField] private GameObject[] popupCanvasList;
-
-    [SerializeField] private Material newSkybox;
-    public Material NewSkybox { get { return newSkybox; } set { newSkybox = value; } }
 
     private bool isStartCoroutine;
     private bool isStartButtonUICoroutine;

@@ -57,6 +57,7 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
             else
             {
                 RenderSettings.skybox = LoginManager.Instance.NewSkybox;
+                LoginManager.Instance.UserID = inputID.text;
                 playerObject.transform.position = new Vector3(0, -1000f, 1.3f);
             }
 #endif

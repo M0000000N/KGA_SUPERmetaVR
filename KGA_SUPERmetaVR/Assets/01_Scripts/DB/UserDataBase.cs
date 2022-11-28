@@ -177,6 +177,24 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
         }
     }
 
+    public void SaveCustomize()
+    {
+        DataBase.Instance.sqlcmdall($"UPDATE {UserTableInfo.table_name} SET {UserTableInfo.customize} = {playerData.Customize} WHERE {UserTableInfo.id} = '{playerData.ID}'");
+    }
+
+    public void LoadCustomize()
+    {
+        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*", UserTableInfo.user_id, playerData.ID);
+        if (dataTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                int customize = int.Parse(row[UserTableInfo.customize].ToString());
+                playerData.Customize = customize;
+            }
+        }
+    }
+
     public void UpdateConnect(int _isConnect)
     {
         DataBase.Instance.UpdateDB(UserTableInfo.table_name, UserTableInfo.is_connect, _isConnect.ToString(), UserTableInfo.user_id, playerData.ID); ;
@@ -276,7 +294,7 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
                 string nickName = row[UserTableInfo.nickname].ToString();
                 int defaultCustomize = int.Parse(row[UserTableInfo.default_customize].ToString());
 
-                if (nickName == string.Empty && defaultCustomize > 0)
+                if (nickName != string.Empty && defaultCustomize > 0)
                 {
                     return true;
                 }
