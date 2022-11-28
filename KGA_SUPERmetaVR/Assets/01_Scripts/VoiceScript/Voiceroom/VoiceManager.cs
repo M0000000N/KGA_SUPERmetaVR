@@ -5,8 +5,6 @@ using Photon.Pun;
 
 public class VoiceManager : MonoBehaviourPun, IPunObservable
 {
-    [SerializeField]
-    GetInvitationTalkUI GetInvitation; 
 
     [SerializeField]
     BasicMessageBox singleChatMessageBox;
