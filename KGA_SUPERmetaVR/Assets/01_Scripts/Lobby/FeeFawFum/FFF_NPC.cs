@@ -8,7 +8,6 @@ public class FFF_NPC : MonoBehaviour
 {
     [SerializeField] TextMeshPro[] npcName;
     [SerializeField] Button exclamationButton;
-    [SerializeField] ItemSelect itemSelect;
 
     private void Start()
     {

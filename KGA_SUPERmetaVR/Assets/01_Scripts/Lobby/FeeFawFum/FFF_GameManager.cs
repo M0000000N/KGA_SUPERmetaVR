@@ -11,6 +11,7 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     public int DoneCount;
     [SerializeField] Animator[] fffAnimationController;
     [SerializeField] FFF_ButtonList FFF_ButtonList;
+    [SerializeField] ItemSelect itemSelect;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
         SoundManager.Instance.PlayBGM("fee_faw_fum_bgm.mp3");
         SetBoolFFFNPCAnimation("DanceStart", true);
         FFF_ButtonList.SetNextButtonList(0, true);
+        //itemSelect.SetRightRay(0.2f, );
     }
     private void Update()
     {
@@ -42,7 +44,6 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
                 Initioalize();
                 SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
             }
-
             if (FailCount >= 3)
             {
                 SetBoolFFFNPCAnimation("DanceStart", false);

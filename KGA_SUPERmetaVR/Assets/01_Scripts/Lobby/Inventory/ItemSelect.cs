@@ -44,16 +44,31 @@ public class ItemSelect : MonoBehaviour
         }
     }
 
-    public void SetRightRay(float _maxRaycastDistance, bool _useWorldSpace)
+    public void SetRightRay(bool _isHide)
     {
-        for (int i = 0; i < hand.Length; i++)
+        if(_isHide)
         {
-            rayInteractor[i].maxRaycastDistance = _maxRaycastDistance;
-            XRInteractorLineVisual[i].validColorGradient = new Gradient
+            for (int i = 0; i < hand.Length; i++)
             {
-                colorKeys = new[] { new GradientColorKey(Color.HSVToRGB(196, 62, 100), 0f), new GradientColorKey(Color.HSVToRGB(196, 62, 100), 1f) },
-                alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
-            };
+                rayInteractor[i].maxRaycastDistance = 0.2f;
+                XRInteractorLineVisual[i].validColorGradient = new Gradient
+                {
+                    colorKeys = new[] { new GradientColorKey(Color.HSVToRGB(196, 62, 100), 0f), new GradientColorKey(Color.HSVToRGB(196, 62, 100), 1f) },
+                    alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
+                };
+            }
+        }
+        else
+        {
+            for (int i = 0; i < hand.Length; i++)
+            {
+                rayInteractor[i].maxRaycastDistance = 0.2f;
+                XRInteractorLineVisual[i].validColorGradient = new Gradient
+                {
+                    colorKeys = new[] { new GradientColorKey(Color.HSVToRGB(196, 62, 100), 0f), new GradientColorKey(Color.HSVToRGB(196, 62, 100), 1f) },
+                    alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
+                };
+            }
         }
     }
 
