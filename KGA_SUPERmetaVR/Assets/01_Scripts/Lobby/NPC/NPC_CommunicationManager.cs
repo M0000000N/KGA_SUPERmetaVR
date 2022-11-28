@@ -14,6 +14,8 @@ public class NPC_CommunicationManager : MonoBehaviourPun
     public int SheetID { get { return sheetID; } set { sheetID = value; } }
 
     [SerializeField] private int number;
+    public int Number { get { return number; } set { number = value; } }
+
 
     [SerializeField] private GameObject handshake;
     [SerializeField] private GameObject communication;
@@ -27,12 +29,17 @@ public class NPC_CommunicationManager : MonoBehaviourPun
     PlayerData playerData;
 
     [SerializeField] private Animator comunicationAnimationController;
+    public Animator ComunicationAnimationController { get { return comunicationAnimationController; } set { comunicationAnimationController = value; } }
+
     private bool isComunicationAnimationEnd;
 
     private void Start()
     {
         // id 설정해주기
         playerData = GameManager.Instance.PlayerData;
+
+        Button button = handshake.GetComponentInChildren<Button>();
+        button.onClick.AddListener(OnPressHand);
 
         handshake.SetActive(false);
         communication.SetActive(false);
@@ -183,8 +190,22 @@ public class NPC_CommunicationManager : MonoBehaviourPun
         {
             PhotonNetwork.LeaveRoom();
         }
-        
-        communication.SetActive(false);
+
+        if (npcID == 20001)
+        {
+            if(sheetID == 21000 && number == 4)
+            {
+                LoginManager.Instance.SetUICanvas(LoginManager.Instance.CreateNickName);
+            }
+            else if(sheetID == 21001 && number == 5)
+            {
+                LobbyManager.Instance.JoinOrCreateRoom(null, true);
+            }
+        }
+        else
+        {
+            communication.SetActive(false);
+        }
     }
 
     public void NextNumber(NPCDialogueData _npcDialogueData)
