@@ -14,33 +14,30 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     [SerializeField] PKB_PlayerListing playerListing;
     private List<PKB_PlayerListing> listings = new List<PKB_PlayerListing>();
 
-    [SerializeField] Button gameStartButton;
-    private TextMeshProUGUI gameStartButtonText;
+    [SerializeField] Button[] StartButton;
 
     [SerializeField] int MinPlayerCount = 0;
     private bool playerIsReady = false;
-
-    private void Awake()
-    {
-        gameStartButton.onClick.AddListener(OnClickStartButton);
-        gameStartButtonText = gameStartButton.GetComponentInChildren<TextMeshProUGUI>();
-    }
 
     public override void OnEnable()
     {
         GetCurrentRoomPlayers();
         SetReadyUp(false);
-    }
-
-    private void Start()
-    {
         if (PhotonNetwork.IsMasterClient)
         {
-            SetStartButton("대기중", false);
+            // 플레이어 최소 인원 달성했는지
+            if (PhotonNetwork.PlayerList.Length > MinPlayerCount)
+            {
+                SetStartButton(1, true);
+            }
+            else
+            {
+                SetStartButton(0, false);
+            }
         }
         else
         {
-            SetStartButton("준비", true);
+            SetStartButton(2, true);
         }
     }
 
@@ -68,6 +65,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        // Debug.Log($"{newPlayer.NickName}가 {PhotonNetwork.CurrentRoom.Name}에 들어옴. 총원 : {PhotonNetwork.CurrentRoom.PlayerCount}");
         AddPlayerListing(newPlayer);
     }
 
@@ -179,7 +177,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
                     {
                         if (_isReady == false)
                         {
-                            SetStartButton("대기중", false);
+                            SetStartButton(0, false);
                             return;
                         }
                     }
@@ -189,11 +187,11 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             // 플레이어 최소 인원 달성했는지
             if (PhotonNetwork.PlayerList.Length > MinPlayerCount)
             {
-                SetStartButton("게임시작", true);
+                SetStartButton(1, true);
             }
             else
             {
-                SetStartButton("대기중", false);
+                SetStartButton(0, false);
             }
         }
         else
@@ -208,11 +206,11 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
                     {
                         if (_isReady)
                         {
-                            SetStartButton("준비완료", true);
+                            SetStartButton(3, true);
                         }
                         else
                         {
-                            SetStartButton("준비", true);
+                            SetStartButton(2, true);
                         }
                         playerIsReady = _isReady;
                     }
@@ -222,9 +220,22 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    private void SetStartButton(string _text, bool _isInteractable)
+    /// <summary>
+    /// _index : 0-대기중, 1-게임시작, 2-준비, 3-준비완료
+    /// </summary>
+    /// <param name="_index"></param>
+    /// <param name="_isInteractable"></param>
+    private void SetStartButton(int _index, bool _isInteractable)
     {
-        gameStartButtonText.text = _text;
-        gameStartButton.interactable = _isInteractable;
+        for (int i = 0; i < StartButton.Length; i++)
+        {
+            if (i == _index)
+            {
+                StartButton[i].gameObject.SetActive(true);
+                StartButton[i].interactable = _isInteractable;
+                continue;
+            }
+            StartButton[i].gameObject.SetActive(false);
+        }
     }
 }

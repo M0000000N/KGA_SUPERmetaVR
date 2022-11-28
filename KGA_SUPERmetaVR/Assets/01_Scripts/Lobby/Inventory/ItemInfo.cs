@@ -19,6 +19,8 @@ public class ItemInfo : MonoBehaviour
     [SerializeField]
     private Button equipButton;
     [SerializeField]
+    private Button disconnectEquipButton;
+    [SerializeField]
     private Button useButton;
     public Button UseButton { get { return useButton; } }
     [SerializeField]

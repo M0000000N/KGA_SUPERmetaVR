@@ -22,6 +22,7 @@ public static class UserTableInfo
 
     public static readonly string coin = "coin";
     public static readonly string customize = "customize";
+    public static readonly string default_customize = "default_customize";
     public static readonly string item = "item";
     public static readonly string friend = "friend";
     public static readonly string is_connect = "is_connect";
@@ -195,6 +196,10 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
                 // 닉네임
                 playerData.Nickname = row[UserTableInfo.nickname].ToString();
                 PhotonNetwork.NickName = playerData.Nickname;
+                // 기본커스터마이즈
+                playerData.DefaultCustomize = int.Parse(row[UserTableInfo.default_customize].ToString());
+                // 커스터마이즈
+                playerData.Customize = int.Parse(row[UserTableInfo.customize].ToString());
                 // 코인 (사라짐)
                 playerData.Coin =  int.Parse(row[UserTableInfo.coin].ToString());
                 // 아이템
@@ -219,7 +224,7 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
             {
                 if(row[UserTableInfo.birth].ToString() == _birth)
                 {
-                    output = row[UserTableInfo.id].ToString();
+                    output = row[UserTableInfo.user_id].ToString();
                 }
                 else
                 {
@@ -257,6 +262,25 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
         else if (dataTable.Rows.Count <= 0)
         {
             // 데이터가 없음
+        }
+        return false;
+    }
+
+    public bool CheckUserNickName(string _id)
+    {
+        DataTable dataTable = DataBase.Instance.FindDB(UserTableInfo.table_name, "*", UserTableInfo.user_id, _id);
+        if (dataTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                string nickName = row[UserTableInfo.nickname].ToString();
+                int defaultCustomize = int.Parse(row[UserTableInfo.default_customize].ToString());
+
+                if (nickName == string.Empty && defaultCustomize > 0)
+                {
+                    return true;
+                }
+            }
         }
         return false;
     }

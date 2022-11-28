@@ -30,7 +30,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
 
 
 
-    void Start()
+    void Awake()
     {
         AudioSource[] bgmAudioPlayer = transform.GetChild(0).GetComponents<AudioSource>();
         bgmPlayer = bgmAudioPlayer[0]; // BGM은 어차피 하나
@@ -52,7 +52,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     {
         for (int i = 0; i < bgmSoundList.Length; i++)
         {
-            if (_soundName == bgmSoundList[i].SoundName)
+            if (bgmSoundList[i].SoundName.Equals(_soundName))
             {
                 if (bgmPlayer.clip == bgmSoundList[i].Clip) return;
                 bgmPlayer.clip = bgmSoundList[i].Clip;
@@ -68,8 +68,9 @@ public class SoundManager : SingletonBehaviour<SoundManager>
         {
             if (_soundName == seSoundList[i].SoundName)
             {
-                for (int x = 0; x < seSoundList.Length; x++)
+                for (int x = 0; x < sePlayer.Length; x++)
                 {
+                    if (sePlayer[x] == null) return;
                     if (sePlayer[x].isPlaying == false)
                     {
                         sePlayer[x].clip = seSoundList[i].Clip;

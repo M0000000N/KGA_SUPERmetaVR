@@ -7,7 +7,7 @@ using TMPro;
 public class FindIDPopupCanvas : MonoBehaviour
 {
     [SerializeField] private Button okButton;
-    private TextMeshProUGUI infomation;
+    [SerializeField] private TextMeshProUGUI infomation;
     private bool isStartCoroutine;
 
     private void Awake()
@@ -25,6 +25,7 @@ public class FindIDPopupCanvas : MonoBehaviour
     {
         if(isStartCoroutine == false)
         {
+            SoundManager.Instance.PlaySE("popup_click.wav");
             isStartCoroutine = true;
             StopCoroutine(SetPopupUICanvasCoroutine());
             StartCoroutine(SetPopupUICanvasCoroutine());

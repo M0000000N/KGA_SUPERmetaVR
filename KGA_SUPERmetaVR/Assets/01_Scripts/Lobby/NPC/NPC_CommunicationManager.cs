@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
 
-public class NPC_CommunicationManager : MonoBehaviour
+public class NPC_CommunicationManager : MonoBehaviourPun
 {
     [SerializeField] private int npcID;
     [SerializeField] private int startSheetID;
@@ -118,6 +119,16 @@ public class NPC_CommunicationManager : MonoBehaviour
         button[0].onClick.RemoveAllListeners();
         button[1].onClick.RemoveAllListeners();
 
+        // TODO : 시스템화하면 좋겠지만 시간상 하드코딩을 진행
+        if (npcID == 20300 && sheetID == 24000)
+        {
+            startSheetID = 24001;
+        }
+        else if (npcID == 20600 && sheetID == 27003)
+        {
+            startSheetID = 27005;
+        }
+
         // 버튼1
         if (npcDialogueData.SELECT1.Equals(string.Empty))
         {
@@ -132,11 +143,7 @@ public class NPC_CommunicationManager : MonoBehaviour
             {
                 text = "확인";
 
-                // TODO : 시스템화하면 좋겠지만 시간상 하드코딩을 진행
-                if(npcID == 20300 && sheetID == 24000)
-                {
-                    startSheetID = 24001;
-                }
+
 
                 button[0].onClick.AddListener(() => { EndCommunication(npcDialogueData); });
             }
@@ -171,6 +178,12 @@ public class NPC_CommunicationManager : MonoBehaviour
         isComunicationAnimationEnd = false;
 
         GetItem(_npcDialogueData);
+        
+        if(npcID == 20600 && sheetID == 27004)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+        
         communication.SetActive(false);
     }
 
