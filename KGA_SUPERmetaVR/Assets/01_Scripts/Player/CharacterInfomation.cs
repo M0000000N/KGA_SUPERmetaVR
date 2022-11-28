@@ -31,8 +31,21 @@ public class CharacterInfomation : MonoBehaviourPunCallbacks
 
             photonView.RPC("setInfo", RpcTarget.All, id, name);
         }
+        else
+        {
+            photonView.RPC("RequestMasterClient", RpcTarget.MasterClient);
+        }
 
         friendButton.onClick.AddListener(() => { FriendManager.Instance.AddFriend(UID); } );
+    }
+
+    [PunRPC]
+    public void RequestMasterClient()
+    {
+        if(UID > 0)
+        {
+            photonView.RPC("setInfo", RpcTarget.Others, UID, NickName);
+        }
     }
 
     public void SetNickName()
@@ -52,25 +65,20 @@ public class CharacterInfomation : MonoBehaviourPunCallbacks
         nickNameText.color = new Color(0, 0, 0);
     }
 
-    // 이거 해봐야함...
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        UnityEngine.Debug.Log("OnPlayerEnteredRoom은 : " + newPlayer);
-
-        if (photonView.IsMine)
-        {
-            UnityEngine.Debug.Log("OnPlayerEnteredRoom은 : " + newPlayer);
-            int id = GameManager.Instance.PlayerData.UID;
-            string name = GameManager.Instance.PlayerData.Nickname;
-
-            photonView.RPC("setInfo", newPlayer, id, name);
-        }
-    }
+    //// 이거 해봐야함...
+    //public override void OnPlayerEnteredRoom(Player newPlayer)
+    //{
+    //    if(PhotonNetwork.IsMasterClient)
+    //    {
+    //        photonView.RPC("setInfo", newPlayer, this.UID, this.NickName);
+    //    }
+    //}
 
     [PunRPC]
     public void setInfo(int _id, string _name)
     {
         UID = _id;
         NickName = _name;
+        SetNickName();
     }
 }

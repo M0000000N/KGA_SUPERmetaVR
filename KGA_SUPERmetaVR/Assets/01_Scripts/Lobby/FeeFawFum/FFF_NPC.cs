@@ -6,17 +6,15 @@ using UnityEngine.UI;
 
 public class FFF_NPC : MonoBehaviour
 {
-    [SerializeField] TextMeshPro npcName;
+    [SerializeField] TextMeshPro[] npcName;
     [SerializeField] Button exclamationButton;
-    [SerializeField] Button startButton;
+    private Animator fffAnimationController;
 
     private void Start()
     {
         exclamationButton.onClick.AddListener(OnClickExclamationButton);
-        startButton.onClick.AddListener(OnClickStartButton);
-
         exclamationButton.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(false);
+        fffAnimationController = GetComponentInChildren<Animator>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,13 +37,18 @@ public class FFF_NPC : MonoBehaviour
     {
         if (_isActive)
         {
-            // TODO : 세마리 다 이렇게 바뀌어야함
-            npcName.color = new Color32(135, 247, 242, 255);
+            for (int i = 0; i < npcName.Length; i++)
+            {
+                npcName[i].color = new Color32(135, 247, 242, 255);
+            }
             exclamationButton.gameObject.SetActive(true);
         }
         else
         {
-            npcName.color = new Color32(192, 0, 0, 255);
+            for (int i = 0; i < npcName.Length; i++)
+            {
+                npcName[i].color = new Color32(192, 0, 0, 255);
+            }
             exclamationButton.gameObject.SetActive(false);
         }
     }
@@ -53,13 +56,18 @@ public class FFF_NPC : MonoBehaviour
     public void OnClickExclamationButton()
     {
         exclamationButton.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(true);
-        // TODO : 나머지 두마리 모여모여
+        FFF_GameManager.Instance.flow = 1;
+        // TODO : NPC 대화 나와야함.  25002의 4번까지 출력 후 2초 뒤 StartDanceMode(); 실행
+        StartDanceMode();
     }
 
-    public void OnClickStartButton()
+    public void StartDanceMode()
     {
-        startButton.gameObject.SetActive(false);
-        FFF_GameManager.Instance.flow = 1;
+        FFF_GameManager.Instance.flow = 2;
+        fffAnimationController.SetBool("DanceStart", true);
+    }
+    private void Update()
+    {
+       //  if(fffAnimationController.GetCurrentAnimatorStateInfo.IsName())
     }
 }
