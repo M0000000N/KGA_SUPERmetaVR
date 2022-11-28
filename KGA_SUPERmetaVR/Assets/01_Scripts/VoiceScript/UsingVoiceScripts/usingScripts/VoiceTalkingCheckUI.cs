@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
-
+using WebSocketSharp;
 
 public class VoiceTalkingCheckUI : OnlyOneSceneSingleton<VoiceInvitationUI>
 {
@@ -18,4 +18,5 @@ public class VoiceTalkingCheckUI : OnlyOneSceneSingleton<VoiceInvitationUI>
         if (onYes != null) btnYes.onClick.AddListener(onYes);
         if (onNo != null) btnNo.onClick.AddListener(onNo);
     }
+
 }

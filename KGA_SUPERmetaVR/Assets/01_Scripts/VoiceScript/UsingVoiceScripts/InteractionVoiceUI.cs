@@ -75,7 +75,6 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         VoiceConfrimOkayBtn.Instance.gameObject.SetActive(false);
         VoiceTalkingCheckUI.Instance.gameObject.SetActive(false);
         VoiceTalkingApprove.Instance.gameObject.SetActive(false);
-
     }
 
     private void Update() 
@@ -131,7 +130,7 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     public void VoiceCanvasPopUI()
     {
         VoiceInvitationUI.Instance.gameObject.SetActive(true);
-        VoiceInvitationUI.Instance.Set(OtherNickname + "1:1 대화를 하시겠습니까?", OnClickYes, OnClickNo);
+        VoiceInvitationUI.Instance.Set(OtherNickname + "님과 1:1 대화를 하시겠습니까?", OnClickYes, OnClickNo);
     }
 
     void OnClickYes()
@@ -145,32 +144,27 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         VoiceInvitationUI.Instance.gameObject.SetActive(false);
     }
 
+    // =============== 구현확인작업 : 1:1 대화 확인 팝업 메세지는 뜸 
+    // =============== *구현해야 할 작업 : 
+    // 상대방에게 수락/거절 메세지 보내기 - 수락/거절 누르면 나에게 수락/거절했다는 팝업창 뜨기 - 수락할 시 둘다 보이스패널 띄우기(같은관심그룹)
+
+    // 상대방에게 1:1 대화신청 보냈다는 팝업창 활성화 함수 
     public void ConfirmVoicePop()
     {
         VoiceConfrimOkayBtn.Instance.gameObject.SetActive(true);
-        VoiceInvitationUI.Instance.Set(OtherNickname + "1:1 대화 확인", OnClickOkay);
+        VoiceInvitationUI.Instance.Set(OtherNickname + "1:1 대화 확인", SendRequest);
     }
 
-    //sendRequest == onOkayclick
-    public void OnClickOkay()
-    {
-       // VoiceInvitationUI.Instance.gameObject.SetActive(true);
-       // VoiceInvitationUI.Instance.Set(OtherNickname + "대화 신청 완료", SendRequest);
-    }
-
+    // Onclick = sendRequset
+    // 버튼을 눌러 내가 상대방에게 대화신청을 했음을 알려줌과 동시에 상대방에게 수락/거절 팝업창 보내기 
     [PunRPC]
     void SendRequest()
     {
         photonView.RPC("confrimTalkingCheck", otherPlayer, clickedUserView, true);
-        //상대방에게 대화신청완료가 된 걸 알려줘야 함 
-        // 여기서 부터 제가 놓친 게 있을까요 센세 
     }
 
-    //public void TalkingRequest()
-    //{
-    //    photonView.RPC("ConfirmTalkingCheck", RpcTarget.Others, true);
-    //}
-
+    // 1:1 대화를 할 것인지 묻는 팝업창 - onYes : Approve / onNo : Reject
+    // Approve & Reject 버튼을 클릭하면 수락 / 거절 팝업창이 떠야함 
     [PunRPC]
     public void confrimTalkingCheck(PhotonView view, bool _value)
     {
@@ -179,17 +173,25 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         VoiceTalkingCheckUI.Instance.gameObject.SetActive(_value);
         VoiceTalkingCheckUI.Instance.Set(OtherNickname + "1:1 대화를 하시겠습니까?", Approve, Reject);
     }
+    //RPC 타켓 선정하여 뿌리기 
+    public void TalkingRequest()
+    {
+        photonView.RPC("ConfirmTalkingCheck", RpcTarget.Others, true);
+    }
 
+    // 수락할 시 수락팝압창 띄우는 함수 
     public void Approve()
     {
         photonView.RPC("voiceApprove", RpcTarget.Others, clickedUserView, true);
     }
 
+    // 거절할 시 거절팝압창 띄우는 함수 
     public void Reject()
     {
         photonView.RPC("voiceReject", RpcTarget.Others, clickedUserView, true);
     }
 
+    // 수락할시 수락/거절팝업창 비활성화 - myvoicePanel 띄우기 
     [PunRPC]
     public void voiceApprove(bool _Value)
     {
@@ -197,11 +199,12 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         myVoicepanel.SetActive(_Value);
     }
 
-    //[PunRPC]
-    //public void voiceReject()
-    //{
-    //    VoiceTalkingApprove.Instance.gameObject.SetActive(false);
-    //}
+    // 거절할시 수락/거절팝업창 비활성화 
+    [PunRPC]
+    public void voiceReject()
+    {
+        VoiceTalkingApprove.Instance.gameObject.SetActive(false);
+    }
 
     //[PunRPC]
     //public void AcceptTalking(byte numberGruop)
