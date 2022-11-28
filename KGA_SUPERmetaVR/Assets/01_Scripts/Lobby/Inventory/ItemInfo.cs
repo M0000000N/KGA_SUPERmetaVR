@@ -44,18 +44,37 @@ public class ItemInfo : MonoBehaviour
     public void ActiveButton(int _slotNumber)
     {
         string itemType = StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].ID).Type;
-        
+        PlayerData playerData = GameManager.Instance.PlayerData;
         if (itemType.Equals("EQUIPMENT"))
         {
-            equipButton.onClick.AddListener(() => { itemEquip.EquipItemButton(_slotNumber); });
             useButton.interactable = false;
+            if (playerData.ItemSlotData.ItemData[_slotNumber].Equip == (int)ITEMSTATE.EQUIP)
+            {
+                destoryButton.interactable = false;
+                equipButton.gameObject.SetActive(false);
+                disconnectEquipButton.gameObject.SetActive(true);
+                disconnectEquipButton.onClick.AddListener(() => { UnEquipItem(_slotNumber); });
+            }
+            else
+            {
+                if (ItemManager.Instance.IsEquipItem)
+                {
+                    equipButton.interactable = false;
+                }
+                disconnectEquipButton.interactable = false;
+                destoryButton.onClick.AddListener(() => { itemDelete.DeleteItem(_slotNumber); });
+                equipButton.onClick.AddListener(() => { itemEquip.EquipItemButton(_slotNumber); });
+            }
         }
         else if (itemType.Equals("USED"))
         {
             useButton.onClick.AddListener(() => { itemUse.UseItemButton(_slotNumber); });
+            destoryButton.onClick.AddListener(() => { itemDelete.DeleteItem(_slotNumber); });
             equipButton.interactable = false;
         }
-        destoryButton.onClick.AddListener(() => { itemDelete.DeleteItem(_slotNumber); });
+
+      
+       
     }
 
     public void ItemPrefab(int _slotNumber)
@@ -84,6 +103,8 @@ public class ItemInfo : MonoBehaviour
     {
         useButton.interactable = true;
         equipButton.interactable = true;
+        equipButton.gameObject.SetActive(true);
+        disconnectEquipButton.gameObject.SetActive(false);
         for (int childCount = 0; childCount < itemPrefabImage.transform.childCount; childCount++)
         {
             Destroy(itemPrefabImage.transform.GetChild(childCount).gameObject);
@@ -98,5 +119,17 @@ public class ItemInfo : MonoBehaviour
         equipButton.onClick.RemoveAllListeners();
         useButton.onClick.RemoveAllListeners();
         destoryButton.onClick.RemoveAllListeners();
+    }
+
+    public void UnEquipItem(int _slotNumber)
+    {
+        PlayerCustum playerCustum = GameManager.Instance.Player.GetComponentInChildren<PlayerCustum>();
+        GameManager.Instance.PlayerData.Customize = GameManager.Instance.PlayerData.DefaultCustomize;
+        // 바뀐 커스터마이징 서버에 올리는 코드
+        ItemManager.Instance.IsEquipItem = false;
+        GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].Equip = (int)ITEMSTATE.UNEQUIP;
+        playerCustum.ChangeCustum(GameManager.Instance.PlayerData.DefaultCustomize);
+        disconnectEquipButton.onClick.RemoveAllListeners();
+        ItemManager.Instance.CloseItemInfoUI();
     }
 }

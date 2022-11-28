@@ -10,7 +10,7 @@ public class PlayerCustum : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        playerCustumList = new GameObject[2];
+        playerCustumList = new GameObject[19];
         int count = 0;
         foreach(Transform child in transform)
         {

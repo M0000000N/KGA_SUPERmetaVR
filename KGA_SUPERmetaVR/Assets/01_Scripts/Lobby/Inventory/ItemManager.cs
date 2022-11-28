@@ -5,7 +5,13 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class ItemManager : OnlyOneSceneSingleton<ItemManager>
+public enum ITEMSTATE
+{
+    UNEQUIP,
+    EQUIP,
+}
+
+public class ItemManager : SingletonBehaviour<ItemManager>
 {
     [SerializeField]
     private GameObject menuUI;
@@ -36,10 +42,27 @@ public class ItemManager : OnlyOneSceneSingleton<ItemManager>
     private GameObject[] playerCustumList;
     public GameObject[] PlayerCustumList { get { return playerCustumList; } set { playerCustumList = value; } }
 
+    private int equipItemSlotNumber;
+    public int EquipItemSlotNumber { get { return equipItemSlotNumber; } set { equipItemSlotNumber = value; } }
+
+    private bool isEquipItem;
+    public bool IsEquipItem { get { return isEquipItem; } set { isEquipItem = value; } }
+
+
 
 
     private void Start()
     {
+        PlayerCustum playerCustum = GameManager.Instance.Player.GetComponentInChildren<PlayerCustum>();
+        playerCustum.ChangeCustum(GameManager.Instance.PlayerData.Customize);
+        if (GameManager.Instance.PlayerData.Customize == GameManager.Instance.PlayerData.DefaultCustomize)
+        {
+            isEquipItem = false;
+        }
+        else
+        {
+            IsEquipItem = true;
+        }
         UserDataBase.Instance.LoadItemData();
         openInventoryButton.onClick.AddListener(() => { OpenInvetoryUI(); });
         closeInventoryButton.onClick.AddListener(() => { CloseInventoryUI(); });

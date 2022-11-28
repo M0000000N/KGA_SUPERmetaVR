@@ -34,6 +34,7 @@ public class GameManager : SingletonBehaviour<GameManager>
             playerData.ItemSlotData.ItemData[i] = new ItemData();
             PlayerData.ItemSlotData.ItemData[i].ID = 0;
             PlayerData.ItemSlotData.ItemData[i].Count = 0;
+            PlayerData.ItemSlotData.ItemData[i].Equip = 0;
         }
 
         playerData.Friends = new FriendData();

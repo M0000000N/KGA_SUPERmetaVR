@@ -57,6 +57,7 @@ public class ItemData
 {
     public int ID;
     public int Count;
+    public int Equip;
 }
 
 [System.Serializable]
