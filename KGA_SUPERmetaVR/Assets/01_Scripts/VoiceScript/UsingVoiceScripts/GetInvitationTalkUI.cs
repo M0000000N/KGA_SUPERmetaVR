@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public class GetInvitationTalkUI : MonoBehaviourPun
 {
    // VoiceroomManager voiceroomManager;
-    [SerializeField] InvitationVoiceTalkUI invitation;
+    [SerializeField] InteractionVoiceUI invitation;
     [SerializeField] BasicMessageBox messageBox;
     [SerializeField] Button OkayButton;
 
