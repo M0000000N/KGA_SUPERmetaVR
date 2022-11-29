@@ -34,25 +34,9 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
         tryCount = 0;
     }
 
-    private void Update()
-    {
-        if (flow == 2)
-        {
-            if (clearCount >= 15)
-            {
-                FinishDance();
-                SetTriggerFFFNPCAnimation("MissionClear");
-            }
-            if (failCount >= 3)
-            {
-                FinishDance();
-                SetBoolFFFNPCAnimation("DanceStart", false);
-            }
-        }
-    }
-
     public void PlusClearCount(bool _isClear)
     {
+        tryCount++;
         if (_isClear)
         {
             clearCount++;
@@ -61,23 +45,40 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
         {
             failCount++;
         }
-        tryCount++;
-        if (tryCount > 0 && tryCount % 2 == 0)
+
+        if (tryCount % 2 == 0)
         {
             SetButton(round, false);
             round++;
-            SetButton(round, false);
+            SetButton(round, true);
+        }
+        if (clearCount >= 15)
+        {
+            FinishDance();
+            SetTriggerFFFNPCAnimation("MissionClear");
+        }
+        if (failCount >= 3)
+        {
+            FinishDance();
+            SetTriggerFFFNPCAnimation("MissionFailed");
         }
     }
+
     private void SetButton(int _round, bool _isActive)
     {
-        if(_round >=15)
+        if (_round > 15)
         {
-        button[_round].gameObject.SetActive(_isActive);
-
+            return;
         }
-        button[_round].gameObject.SetActive(_isActive);
-        button[_round + 1].gameObject.SetActive(_isActive);
+        else if (_round == 15)
+        {
+            button[_round].gameObject.SetActive(_isActive);
+        }
+        else
+        {
+            button[_round].gameObject.SetActive(_isActive);
+            button[_round + 1].gameObject.SetActive(_isActive);
+        }
     }
 
     public void StartDance()
@@ -97,6 +98,7 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
         itemSelect.HideRightRay(false);
 
     }
+
     private void SetBoolFFFNPCAnimation(string _name, bool _value)
     {
         for (int i = 0; i < fffAnimationController.Length; i++)

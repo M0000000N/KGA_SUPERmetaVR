@@ -14,7 +14,7 @@ public class ItemSelect : MonoBehaviour
     [SerializeField] GameObject[] hand; // index : 0-left, 1-right
     private XRRayInteractor[] rayInteractor;
     private XRInteractorLineVisual[] XRInteractorLineVisual;
-    private ContinuousMoveProviderBase[] ContinuousMoveProviderBase;
+    private ContinuousMoveProviderBase ContinuousMoveProviderBase;
 
     [Header("상호작용대상")]
     private GameObject targetObject; // 호버로 들어온 것
@@ -31,6 +31,15 @@ public class ItemSelect : MonoBehaviour
     private FD_Dragon grabStarInfo;
     private bool isPlay;
 
+    private void Awake()
+    {
+        ContinuousMoveProviderBase = GetComponent<ContinuousMoveProviderBase>();
+        for (int i = 0; i < hand.Length; i++)
+        {
+            rayInteractor[i] = hand[i].GetComponent<XRRayInteractor>();
+            XRInteractorLineVisual[i] = hand[i].GetComponent<XRInteractorLineVisual>();
+        }
+    }
     void Start()
     {
 #if 로비용
@@ -43,12 +52,6 @@ public class ItemSelect : MonoBehaviour
         }
 #endif
 
-        for (int i = 0; i < hand.Length; i++)
-        {
-            rayInteractor[i] = hand[i].GetComponent<XRRayInteractor>();
-            XRInteractorLineVisual[i] = hand[i].GetComponent<XRInteractorLineVisual>();
-            ContinuousMoveProviderBase[i] = hand[i].GetComponent<ContinuousMoveProviderBase>();
-        }
     }
 
     public void HideRightRay(bool _isHide)
@@ -60,7 +63,7 @@ public class ItemSelect : MonoBehaviour
             isFFFGameStart = true;
             for (int i = 0; i < hand.Length; i++)
             {
-                ContinuousMoveProviderBase[i].moveSpeed = 0; // 움직임 제한
+                ContinuousMoveProviderBase.moveSpeed = 0; // 움직임 제한
                 rayInteractor[i].maxRaycastDistance = 0.2f; // 레이길이 제한
                 XRInteractorLineVisual[i].validColorGradient = new Gradient // 레이 투명하게
                 {
@@ -79,7 +82,7 @@ public class ItemSelect : MonoBehaviour
             isFFFGameStart = false;
             for (int i = 0; i < hand.Length; i++)
             {
-                ContinuousMoveProviderBase[i].moveSpeed = 2;
+                ContinuousMoveProviderBase.moveSpeed = 2;
                 rayInteractor[i].maxRaycastDistance = 3f;
                 XRInteractorLineVisual[i].validColorGradient = new Gradient
                 {

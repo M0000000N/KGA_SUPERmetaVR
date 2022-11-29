@@ -11,8 +11,9 @@ public class FFF_Button : MonoBehaviour
     private int index = 0;
     private void Awake()
     {
-        mybutton = GetComponent<Button>();
+        gameObject.SetActive(false);
         timer.gameObject.SetActive(false);
+        mybutton = GetComponent<Button>();
     }
 
     private void OnEnable()
@@ -40,7 +41,7 @@ public class FFF_Button : MonoBehaviour
     private IEnumerator SetTimer()
     {
         isStartCouroutine = true;
-        while (index <= 4)
+        while (index < 4)
         {
             SetImage(index);
             index++;
