@@ -35,8 +35,6 @@ public class CharacterInfomation : MonoBehaviourPunCallbacks
         {
             photonView.RPC("RequestMasterClient", RpcTarget.MasterClient);
         }
-
-        friendButton.onClick.AddListener(() => { FriendManager.Instance.AddFriend(UID); } );
     }
 
     [PunRPC]
@@ -63,6 +61,9 @@ public class CharacterInfomation : MonoBehaviourPunCallbacks
             }
         }
         nickNameText.color = new Color(0, 0, 0);
+
+        friendButton.onClick.RemoveAllListeners();
+        friendButton.onClick.AddListener(() => { FriendManager.Instance.AddFriend(UID); });
     }
 
     //// 이거 해봐야함...

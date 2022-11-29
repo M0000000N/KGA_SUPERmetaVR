@@ -54,6 +54,7 @@ public class FriendManager : SingletonBehaviour<FriendManager>
         if (index < 0)
         {
             playerData.Friends.Friend.Add(_uid);
+            UserDataBase.Instance.SaveFriend();
         }
         else
         {
@@ -70,6 +71,7 @@ public class FriendManager : SingletonBehaviour<FriendManager>
             playerData.Friends.Friend.RemoveAt(index);
         }
         UpdateFriendData();
+        UserDataBase.Instance.SaveFriend();
     }
 
     public int FindFriend(int _id)

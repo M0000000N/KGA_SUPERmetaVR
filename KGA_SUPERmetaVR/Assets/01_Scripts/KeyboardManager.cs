@@ -55,7 +55,7 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
             }
 
             inputFieldsNewLogin[i].onSelect.RemoveAllListeners();
-            inputFieldsNewLogin[i].onSelect.AddListener(delegate { OpenKeyboard(keyType); });
+            inputFieldsNewLogin[i].onSelect.AddListener(delegate { OpenNickNameKeyboard(keyType); });
         }
 
         CloseKeyboard();
@@ -80,6 +80,30 @@ public class KeyboardManager : SingletonBehaviour<KeyboardManager>
         inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
         Initialize();
         
+        switch (_type)
+        {
+            case 0: // qwerty + numpad
+                qwerty.SetActive(true);
+                numpad.SetActive(true);
+                break;
+            case 1: // only numpad
+                qwerty.SetActive(false);
+                numpad.SetActive(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void OpenNickNameKeyboard(int _type)
+    {
+        this.transform.position = new Vector3(0, -1000, 13);
+
+        CloseKeyboard();
+
+        inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
+        Initialize();
+
         switch (_type)
         {
             case 0: // qwerty + numpad
