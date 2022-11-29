@@ -50,9 +50,11 @@ public class ItemInfo : MonoBehaviour
             useButton.interactable = false;
             if (playerData.ItemSlotData.ItemData[_slotNumber].Equip == (int)ITEMSTATE.EQUIP)
             {
+                Debug.Log("ÀåÂø");
                 destoryButton.interactable = false;
                 equipButton.gameObject.SetActive(false);
                 disconnectEquipButton.gameObject.SetActive(true);
+                disconnectEquipButton.interactable = true;
                 disconnectEquipButton.onClick.AddListener(() => { UnEquipItem(_slotNumber); });
             }
             else
@@ -61,6 +63,7 @@ public class ItemInfo : MonoBehaviour
                 {
                     equipButton.interactable = false;
                 }
+                Debug.Log("ºñÀåÂø");
                 disconnectEquipButton.interactable = false;
                 destoryButton.onClick.AddListener(() => { itemDelete.DeleteItem(_slotNumber); });
                 equipButton.onClick.AddListener(() => { itemEquip.EquipItemButton(_slotNumber); });
@@ -81,7 +84,8 @@ public class ItemInfo : MonoBehaviour
     {
         GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].ID).Prefabname);
         itemPrefab = Instantiate(prefab, itemPrefabImage.transform);
-        itemPrefab.transform.localPosition = Vector3.zero;
+        //itemPrefab.transform.localPosition = Vector3.zero;
+        itemPrefab.transform.localPosition = new Vector3(0f, 0f, -3.5f);
     }
 
     public void ItemName(int _slotNumber)
@@ -103,6 +107,7 @@ public class ItemInfo : MonoBehaviour
     {
         useButton.interactable = true;
         equipButton.interactable = true;
+        destoryButton.interactable = true;
         equipButton.gameObject.SetActive(true);
         disconnectEquipButton.gameObject.SetActive(false);
         for (int childCount = 0; childCount < itemPrefabImage.transform.childCount; childCount++)
