@@ -63,7 +63,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
         {
             IsEquipItem = true;
         }
-        UserDataBase.Instance.LoadItemData();
+        //UserDataBase.Instance.LoadItemData();
         openInventoryButton.onClick.AddListener(() => { OpenInvetoryUI(); });
         closeInventoryButton.onClick.AddListener(() => { CloseInventoryUI(); });
         openExitButton.onClick.AddListener(() => { OpenExitUI(); });

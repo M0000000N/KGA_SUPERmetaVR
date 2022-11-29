@@ -11,6 +11,11 @@ public class LobbyPlayer : MonoBehaviour
         myFSM = GetComponent<LobbyPlayerFSM>();
     }
 
+    private void Start()
+    {
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x , gameObject.transform.position.y -1.2f, gameObject.transform.position.z);
+    }
+
     private void Update()
     {
         myFSM.UpdateFSM();
