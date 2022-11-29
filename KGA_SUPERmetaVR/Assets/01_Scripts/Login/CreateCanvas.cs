@@ -131,6 +131,7 @@ public class CreateCanvas : MonoBehaviour
             {
                 // 생년월일 입력 길이 ( 총 8 글자 )
                 LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.DuplicateIDPopupCanvas);
+                return;
             }
 
             // 중복 ID 확인
