@@ -1,3 +1,4 @@
+using ExitGames.Demos.DemoPunVoice;
 using Photon.Voice.PUN;
 using TMPro;
 using UnityEngine;
@@ -7,9 +8,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class VoiceInvitationUI : OnlyOneSceneSingleton<VoiceInvitationUI>
 {
-    public GameObject GetVoiceInvitatinoUI { get { return VoiceInvitatinoUI.gameObject; } }
-
-    [SerializeField] GameObject VoiceInvitatinoUI; 
+  
+    [SerializeField] GameObject VoiceInvitatinoUI;
+    [SerializeField] GameObject VoiceTalkingUI;
     [SerializeField] TextMeshProUGUI text; 
     [SerializeField] Button btnYes;
     [SerializeField] Button btnNo;
@@ -20,7 +21,26 @@ public class VoiceInvitationUI : OnlyOneSceneSingleton<VoiceInvitationUI>
         btnNo.onClick.RemoveAllListeners(); 
 
         this.text.text = txt;
-        if(onYes != null) btnYes.onClick.AddListener(onYes);
+        if (onYes != null) btnYes.onClick.AddListener(onYes);
         if (onNo != null) btnNo.onClick.AddListener(onNo);
+    }
+    public void OpenPopup()
+    {
+        VoiceInvitatinoUI.gameObject.SetActive(true);
+    }
+
+    public void ClosePopup()
+    {
+        VoiceInvitatinoUI.gameObject.SetActive(false);
+    }
+
+    public void TalkingOpenPopUp()
+    {
+        VoiceTalkingUI.gameObject.SetActive(true);
+    }
+
+    public void TalkingClosePopUp()
+    {
+        VoiceTalkingUI.gameObject.SetActive(false);
     }
 }
