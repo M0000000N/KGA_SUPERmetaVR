@@ -33,14 +33,15 @@ public class Inventory : MonoBehaviour
     {
         Debug.Log($"인벤토리 길이 {playerData.ItemSlotData.ItemData.Length}");
         ///테스트용
-        for (int i = 0; i < 15; i++)
+        int randomKey = 2;
+        for (int i = 0; i < 17; i++)
         {
-            int randomKey = UnityEngine.Random.Range(2, 18);
             
 
             playerData.ItemSlotData.ItemData[i].ID = StaticData.GetItemSheet(15000 + randomKey).ID;
             playerData.ItemSlotData.ItemData[i].Count = 1;
             playerData.ItemSlotData.ItemData[i].Equip = 0;
+            randomKey += 1;
         }
 
         playerData.ItemSlotData.ItemData[17].ID = 12000;
