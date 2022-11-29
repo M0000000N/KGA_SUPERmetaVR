@@ -58,6 +58,7 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
                 RenderSettings.skybox = LoginManager.Instance.NewSkybox;
                 LoginManager.Instance.UserID = inputID.text;
                 playerObject.transform.position = new Vector3(0, -1000f, 1.3f);
+                SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
             }
 #endif
 

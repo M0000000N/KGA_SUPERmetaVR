@@ -38,8 +38,8 @@ public class NPC_CommunicationManager : MonoBehaviourPun
         // id 설정해주기
         playerData = GameManager.Instance.PlayerData;
 
-        Button button = handshake.GetComponentInChildren<Button>();
-        button.onClick.AddListener(OnPressHand);
+        Button handbutton = handshake.GetComponentInChildren<Button>();
+        handbutton.onClick.AddListener(OnPressHand);
 
         handshake.SetActive(false);
         communication.SetActive(false);
