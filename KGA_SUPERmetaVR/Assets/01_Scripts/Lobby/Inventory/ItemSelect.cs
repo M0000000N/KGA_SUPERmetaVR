@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class ItemSelect : MonoBehaviour
 {
@@ -23,6 +25,7 @@ public class ItemSelect : MonoBehaviour
     private string grabTag = string.Empty;
     private int grabLayer = 0;
 
+    private bool isFFFGameStart = false;
     private bool isDestroyCloverRun = false;
     private CloverInfo grabCloverInfo;
     private FD_Dragon grabStarInfo;
@@ -30,6 +33,7 @@ public class ItemSelect : MonoBehaviour
 
     void Start()
     {
+#if 로비용
         playerData = GameManager.Instance.PlayerData;
 
         if (playerData.PaperSwanData.beRewarded > 0)
@@ -37,6 +41,7 @@ public class ItemSelect : MonoBehaviour
             StopCoroutine(ResultMessage());
             StartCoroutine(ResultMessage());
         }
+#endif
 
         for (int i = 0; i < hand.Length; i++)
         {
@@ -46,18 +51,18 @@ public class ItemSelect : MonoBehaviour
         }
     }
 
-    public void SetRightRay(bool _isHide)
+    public void HideRightRay(bool _isHide)
     {
         Color blueColor = Color.HSVToRGB(196, 62, 100);
         Color whiteColor = Color.HSVToRGB(0, 0, 97);
-        if (_isHide)
+        if (_isHide) // 피포팜 게임모드
         {
-            //ContinuousMoveProviderBase
+            isFFFGameStart = true;
             for (int i = 0; i < hand.Length; i++)
             {
-                ContinuousMoveProviderBase[i].moveSpeed = 0;
-                rayInteractor[i].maxRaycastDistance = 0.2f;
-                XRInteractorLineVisual[i].validColorGradient = new Gradient
+                ContinuousMoveProviderBase[i].moveSpeed = 0; // 움직임 제한
+                rayInteractor[i].maxRaycastDistance = 0.2f; // 레이길이 제한
+                XRInteractorLineVisual[i].validColorGradient = new Gradient // 레이 투명하게
                 {
                     colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
                     alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
@@ -71,10 +76,11 @@ public class ItemSelect : MonoBehaviour
         }
         else
         {
+            isFFFGameStart = false;
             for (int i = 0; i < hand.Length; i++)
             {
                 ContinuousMoveProviderBase[i].moveSpeed = 2;
-                rayInteractor[i].maxRaycastDistance = 0.2f;
+                rayInteractor[i].maxRaycastDistance = 3f;
                 XRInteractorLineVisual[i].validColorGradient = new Gradient
                 {
                     colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
@@ -103,34 +109,58 @@ public class ItemSelect : MonoBehaviour
 
     public void HoverGet3DRayCastHit()
     {
-        //raycastall vs raycast
-        if (rayInteractor[0].TryGetCurrent3DRaycastHit(out RaycastHit _leftRayHit))
+        if(isFFFGameStart)
         {
-            if (isGrabRun == false)
+            RaycastResult leftRayResult;
+            if (rayInteractor[0].TryGetCurrentUIRaycastResult(out leftRayResult))
             {
-                string targetTag = _leftRayHit.transform.gameObject.tag;
-                int targetLayer = _leftRayHit.transform.gameObject.layer;
-
-                if (targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover") || targetTag.Equals("Star"))
+                Button leftButton = leftRayResult.gameObject.GetComponent<Button>();
+                if (leftButton.interactable == true)
                 {
-                    targetObject = _leftRayHit.transform.gameObject;
+                    leftButton.onClick.Invoke();
                 }
-                else if (targetLayer.Equals(LayerMask.NameToLayer("Item")))
+            }
+            RaycastResult rightRayResult;
+            if (rayInteractor[1].TryGetCurrentUIRaycastResult(out rightRayResult))
+            {
+                Button rightButton = rightRayResult.gameObject.GetComponent<Button>();
+                if (rightButton.interactable == true)
                 {
-                    Debug.Log("호버레이어드렁옴");
-                    targetObject = _leftRayHit.transform.gameObject;
-                }
-                else
-                {
-                    targetObject = null;
+                    rightButton.onClick.Invoke();
                 }
             }
         }
         else
         {
-            targetObject = null;
+            if (rayInteractor[0].TryGetCurrent3DRaycastHit(out RaycastHit _leftRayHit))
+            {
+                if (isGrabRun == false)
+                {
+                    string targetTag = _leftRayHit.transform.gameObject.tag;
+                    int targetLayer = _leftRayHit.transform.gameObject.layer;
+
+                    if (targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover") || targetTag.Equals("Star"))
+                    {
+                        targetObject = _leftRayHit.transform.gameObject;
+                    }
+                    else if (targetLayer.Equals(LayerMask.NameToLayer("Item")))
+                    {
+                        Debug.Log("호버레이어드렁옴");
+                        targetObject = _leftRayHit.transform.gameObject;
+                    }
+                    else
+                    {
+                        targetObject = null;
+                    }
+                }
+            }
+            else
+            {
+                targetObject = null;
+            }
         }
     }
+
     private void Grab()
     {
         isGrabRun = true;

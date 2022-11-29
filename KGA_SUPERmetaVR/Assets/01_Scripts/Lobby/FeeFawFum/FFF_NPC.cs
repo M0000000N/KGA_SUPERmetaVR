@@ -57,7 +57,5 @@ public class FFF_NPC : MonoBehaviour
         FFF_GameManager.Instance.Flow = 1;
         // TODO : NPC 대화 나와야함.  25002의 4번까지 출력 후 2초 뒤 StartDanceMode(); 실행
         FFF_GameManager.Instance.StartDance();
-    }
-
-    
+    }    
 }

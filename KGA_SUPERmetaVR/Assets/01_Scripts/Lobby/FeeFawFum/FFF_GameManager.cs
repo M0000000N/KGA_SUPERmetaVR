@@ -1,3 +1,4 @@
+#define 로비용
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,12 +12,12 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     [SerializeField] Sprite[] imagePool;
     public int Flow { get { return flow; } set { flow = value; } }
     private int flow; // 0 : 레디 전, 1: 퍼즐1(한손 잡기), 2 : 퍼즐2(양손잡기), 3 : 퍼즐3(gui에 손 맞추기)
-    public int Score { get { return score; } set { score = value; } }
-    private int score;
+    public int ClearCount { get { return clearCount; } set { clearCount = value; } }
+    private int clearCount;
     public int FailCount { get { return failCount; } set { failCount = value; } }
     private int failCount;
-    public int DoneCount { get { return doneCount; } set { doneCount = value; } }
-    private int doneCount;
+    public int TryCount { get { return tryCount; } set { tryCount = value; } }
+    private int tryCount;
 
     private int round;
 
@@ -28,23 +29,16 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     public void Initioalize()
     {
         flow = 0;
-        Score = 0;
+        ClearCount = 0;
         round = 0;
-        doneCount = 0;
+        tryCount = 0;
     }
 
     private void Update()
     {
         if (flow == 2)
         {
-            if (doneCount > 0 && doneCount % 2 == 0)
-            {
-                SetButton(round, false);
-                round++;
-                SetButton(round, true);
-            }
-
-            if (score >= 15)
+            if (clearCount >= 15)
             {
                 FinishDance();
                 SetTriggerFFFNPCAnimation("MissionClear");
@@ -57,8 +51,31 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
         }
     }
 
+    public void PlusClearCount(bool _isClear)
+    {
+        if (_isClear)
+        {
+            clearCount++;
+        }
+        else
+        {
+            failCount++;
+        }
+        tryCount++;
+        if (tryCount > 0 && tryCount % 2 == 0)
+        {
+            SetButton(round, false);
+            round++;
+            SetButton(round, false);
+        }
+    }
     private void SetButton(int _round, bool _isActive)
     {
+        if(_round >=15)
+        {
+        button[_round].gameObject.SetActive(_isActive);
+
+        }
         button[_round].gameObject.SetActive(_isActive);
         button[_round + 1].gameObject.SetActive(_isActive);
     }
@@ -66,7 +83,7 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     public void StartDance()
     {
         flow = 2;
-        SoundManager.Instance.PlayBGM("fee_faw_fum_bgm.mp3");
+        // SoundManager.Instance.PlayBGM("fee_faw_fum_bgm.mp3");
         SetBoolFFFNPCAnimation("DanceStart", true);
         SetButton(0, true);
         itemSelect.HideRightRay(true);
@@ -76,7 +93,7 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     {
         SetBoolFFFNPCAnimation("DanceStart", false);
         Initioalize();
-        SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
+        // SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
         itemSelect.HideRightRay(false);
 
     }
