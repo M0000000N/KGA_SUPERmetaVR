@@ -52,6 +52,8 @@ public class NPC_CommunicationManager : MonoBehaviourPun
         number = 1;
         SheetID = startSheetID;
         isComunicationAnimationEnd = true;
+        button[0].interactable = true;
+        button[1].interactable = true;
     }
 
     // Collider
@@ -105,6 +107,9 @@ public class NPC_CommunicationManager : MonoBehaviourPun
     // ¥Î»≠
     public void SetDialogue()
     {
+        button[0].interactable = true;
+        button[1].interactable = true;
+
         comunicationAnimationController.SetBool(Animator.StringToHash("NextDialogue"), false);
         isComunicationAnimationEnd = true;
         NPCDialogueData npcDialogueData = StaticData.GetNPCDialogueData(SheetID, number);
@@ -184,6 +189,9 @@ public class NPC_CommunicationManager : MonoBehaviourPun
         if (isComunicationAnimationEnd == false) return;
         isComunicationAnimationEnd = false;
 
+        button[0].interactable = false;
+        button[1].interactable = false;
+
         GetItem(_npcDialogueData);
         
         if(npcID == 20600 && sheetID == 27004)
@@ -220,6 +228,8 @@ public class NPC_CommunicationManager : MonoBehaviourPun
 
         number++;
         GetItem(_npcDialogueData);
+        button[0].interactable = false;
+        button[1].interactable = false;
         comunicationAnimationController.SetBool((int)Animator.StringToHash("NextDialogue"), true);
     }
 
@@ -227,6 +237,10 @@ public class NPC_CommunicationManager : MonoBehaviourPun
     {
         int checkID = 0;
         int checkCount = 0;
+
+        button[0].interactable = false;
+        button[1].interactable = false;
+
         switch (_type)
         {
             case 1:
