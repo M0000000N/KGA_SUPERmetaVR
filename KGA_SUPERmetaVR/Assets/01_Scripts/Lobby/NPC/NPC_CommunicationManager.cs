@@ -202,6 +202,11 @@ public class NPC_CommunicationManager : MonoBehaviourPun
                 LobbyManager.Instance.JoinOrCreateRoom(null, true);
             }
         }
+        else if (npcID == 20401 && sheetID == 25002 && number == 4)
+        {
+            FFF_GameManager.Instance.StartDance();
+            communication.SetActive(false);
+        }
         else
         {
             communication.SetActive(false);
