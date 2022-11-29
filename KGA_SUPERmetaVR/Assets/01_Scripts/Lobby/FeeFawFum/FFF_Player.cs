@@ -35,7 +35,7 @@ public class FFF_Player : MonoBehaviour
 
     void Update()
     {
-        switch (FFF_GameManager.Instance.flow)
+        switch (FFF_GameManager.Instance.Flow)
         {
             case 0:
                 SetRay(20, true);

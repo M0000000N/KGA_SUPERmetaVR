@@ -5,45 +5,57 @@ using UnityEngine.UI;
 
 public class FFF_Button : MonoBehaviour
 {
-    private Button button;
-    private Image timer;
-    private bool done;
-    FFF_ButtonList FFF_ButtonListMenu;
-
-    private void Start()
+    private Button mybutton;
+    [SerializeField] Image timer;
+    private bool isStartCouroutine = false;
+    private void Awake()
     {
-        button = GetComponent<Button>();
-        timer = GetComponentInChildren<Image>();
+        mybutton = GetComponent<Button>();
+        timer.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        StartCoroutine(SetTimer());
+        if (isStartCouroutine == false)
+        {
+            StartCoroutine(SetTimer());
+        }
+    }
+    private void OnDisable()
+    {
+        StopCoroutine(SetTimer());
+        isStartCouroutine = false;
     }
 
     public void OnClickButton()
     {
         StopCoroutine(SetTimer());
-        FFF_GameManager.Instance.Score++;
-        FFF_GameManager.Instance.DoneCount++;
-        button.interactable = false;
+        isStartCouroutine = false;
+        FFF_GameManager.Instance.PlusClearCount(true);
+        mybutton.interactable = false;
+        timer.gameObject.SetActive(false);
     }
 
     private IEnumerator SetTimer()
     {
-        yield return new WaitForSeconds(1f);
-        SetImage(0);
-        new WaitForSeconds(1f);
-        SetImage(1);
-        new WaitForSeconds(1f);
-        SetImage(2);
-        new WaitForSeconds(1f);
-        SetImage(3);
-        FFF_GameManager.Instance.DoneCount++;
+        int index = 0;
+        timer.gameObject.SetActive(true);
+
+        isStartCouroutine = true;
+        while (index < 4)
+        {
+            SetImage(index);
+            index++;
+            yield return new WaitForSecondsRealtime(1f);
+        }
+        index = 0;
+        isStartCouroutine = false;
+        FFF_GameManager.Instance.PlusClearCount(false);
     }
 
     private void SetImage(int _index)
     {
-        timer.sprite = FFF_ButtonListMenu.ImagePool[_index];
+        timer.sprite = FFF_GameManager.Instance.ImagePool[_index];
     }
 }

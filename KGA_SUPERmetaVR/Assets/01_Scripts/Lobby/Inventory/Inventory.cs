@@ -33,17 +33,22 @@ public class Inventory : MonoBehaviour
     {
         Debug.Log($"인벤토리 길이 {playerData.ItemSlotData.ItemData.Length}");
         ///테스트용
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    int randomKey = UnityEngine.Random.Range(1, 5);
-        //    int randomValue = UnityEngine.Random.Range(1, maxNnumberOfItems);
+        int randomKey = 2;
+        for (int i = 0; i < 17; i++)
+        {
+            
 
-        //    playerData.ItemSlotData.ItemData[i].ID = StaticData.GetItemSheet(60000 + randomKey).ID;
-        //    playerData.ItemSlotData.ItemData[i].Count = randomValue;
-        //}
-         
+            playerData.ItemSlotData.ItemData[i].ID = StaticData.GetItemSheet(15000 + randomKey).ID;
+            playerData.ItemSlotData.ItemData[i].Count = 1;
+            playerData.ItemSlotData.ItemData[i].Equip = 0;
+            randomKey += 1;
+        }
+
+        playerData.ItemSlotData.ItemData[17].ID = 12000;
+        playerData.ItemSlotData.ItemData[17].Count = 50;
+        playerData.ItemSlotData.ItemData[17].Equip = 0;
         ///
-        
+
         slots = SlotGrid.GetComponentsInChildren<ItemSlot>();
         Initialize();
     }
@@ -77,7 +82,7 @@ public class Inventory : MonoBehaviour
                     GameObject prefab = Resources.Load<GameObject>("InventoryItem/Inventory" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[i].ID).Prefabname);
                     if (prefab == null) continue;
                     slots[i - pageSlotNumber].ItemPrefab = Instantiate(prefab, slots[i - pageSlotNumber].transform);
-                    slots[i - pageSlotNumber].ItemPrefab.transform.localPosition = Vector3.zero;
+                    //slots[i - pageSlotNumber].ItemPrefab.transform.localPosition = Vector3.zero;
                     slots[i - pageSlotNumber].SetItemCount(StaticData.GetItemSheet(playerData.ItemSlotData.ItemData[i].ID).Type, playerData.ItemSlotData.ItemData[i].Count);
                     slots[i - pageSlotNumber].InfoButton.onClick.AddListener(() => { ItemManager.Instance.OpenItemInfo(slotID); });
                 }

@@ -1,3 +1,4 @@
+// #define 피포팜씬테스트
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,6 @@ public class FFF_NPC : MonoBehaviour
 {
     [SerializeField] TextMeshPro[] npcName;
     [SerializeField] Button exclamationButton;
-    [SerializeField] ItemSelect itemSelect;
 
     private void Start()
     {
@@ -18,7 +18,7 @@ public class FFF_NPC : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (FFF_GameManager.Instance.flow == 0 && other.tag == "Player")
+        if (FFF_GameManager.Instance.Flow == 0 && other.tag == "Player")
         {
             detectPlayer(true);
         }
@@ -26,7 +26,7 @@ public class FFF_NPC : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (FFF_GameManager.Instance.flow == 0 && other.tag == "Player")
+        if (FFF_GameManager.Instance.Flow == 0 && other.tag == "Player")
         {
             detectPlayer(false);
         }
@@ -41,6 +41,9 @@ public class FFF_NPC : MonoBehaviour
                 npcName[i].color = new Color32(135, 247, 242, 255);
             }
             exclamationButton.gameObject.SetActive(true);
+#if 피포팜씬테스트
+            exclamationButton.onClick.Invoke();
+#endif
         }
         else
         {
@@ -55,10 +58,10 @@ public class FFF_NPC : MonoBehaviour
     public void OnClickExclamationButton()
     {
         exclamationButton.gameObject.SetActive(false);
-        FFF_GameManager.Instance.flow = 1;
+        FFF_GameManager.Instance.Flow = 1;
         // TODO : NPC 대화 나와야함.  25002의 4번까지 출력 후 2초 뒤 StartDanceMode(); 실행
-        FFF_GameManager.Instance.StartDanceMode();
-    }
-
-    
+#if 피포팜씬테스트
+        FFF_GameManager.Instance.StartDance();
+#endif
+    }    
 }
