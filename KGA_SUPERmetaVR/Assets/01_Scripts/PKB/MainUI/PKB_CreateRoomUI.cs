@@ -73,6 +73,7 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickCreateButton()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
         if (privateRoom.isOn)
         {
             LobbyManager.Instance.JoinOrCreateRoom(password);
@@ -87,6 +88,7 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickExitButton()
     {
+        SoundManager.Instance.PlaySE("popup_close.wav");
         gameObject.SetActive(false);
         Initionalize();
     }
