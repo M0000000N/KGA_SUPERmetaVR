@@ -16,6 +16,17 @@ public class ItemEquip : MonoBehaviour
 
     private PhotonView photonView;
 
+    private void OnEnable()
+    {
+        SoundManager.Instance.PlaySE("popup_open.wav");
+    }
+
+    private void OnDisable()
+    {
+        SoundManager.Instance.PlaySE("popup_close.wav");
+    }
+
+
     public void EquipItemButton(int _slotNumber)
     {
         Debug.Log($" ½½·Ô³Ñ¹ö~~~~~@~!@#!@#$#${_slotNumber}");

@@ -40,7 +40,15 @@ public class ItemInfo : MonoBehaviour
     {
         closeButton.onClick.AddListener(() => { ItemManager.Instance.CloseItemInfoUI(); });
     }
+    private void OnEnable()
+    {
+        SoundManager.Instance.PlaySE("popup_open.wav");
+    }
 
+    private void OnDisable()
+    {
+        SoundManager.Instance.PlaySE("popup_close.wav");
+    }
     public void ActiveButton(int _slotNumber)
     {
         string itemType = StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].ID).Type;
