@@ -1,3 +1,4 @@
+// #define 피포팜씬테스트
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,6 +41,9 @@ public class FFF_NPC : MonoBehaviour
                 npcName[i].color = new Color32(135, 247, 242, 255);
             }
             exclamationButton.gameObject.SetActive(true);
+#if 피포팜씬테스트
+            exclamationButton.onClick.Invoke();
+#endif
         }
         else
         {
@@ -56,5 +60,8 @@ public class FFF_NPC : MonoBehaviour
         exclamationButton.gameObject.SetActive(false);
         FFF_GameManager.Instance.Flow = 1;
         // TODO : NPC 대화 나와야함.  25002의 4번까지 출력 후 2초 뒤 StartDanceMode(); 실행
+#if 피포팜씬테스트
+        FFF_GameManager.Instance.StartDance();
+#endif
     }    
 }
