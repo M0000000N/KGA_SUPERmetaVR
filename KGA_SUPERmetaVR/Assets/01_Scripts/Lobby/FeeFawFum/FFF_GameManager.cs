@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
 {
-    public int flow; // 0 : 레디 전, 1: 퍼즐1(한손 잡기), 2 : 퍼즐2(양손잡기), 3 : 퍼즐3(gui에 손 맞추기)
-
-    public int Score;
-    public int FailCount;
-    public int DoneCount;
-    [SerializeField] Animator[] fffAnimationController;
-    [SerializeField] FFF_ButtonList FFF_ButtonList;
     [SerializeField] ItemSelect itemSelect;
+    [SerializeField] Animator[] fffAnimationController;
+    [SerializeField] FFF_Button[] button;
+    public Sprite[] ImagePool { get { return imagePool; } set { imagePool = value; } }
+    [SerializeField] Sprite[] imagePool;
+    public int Flow { get { return flow; } set { flow = value; } }
+    private int flow; // 0 : 레디 전, 1: 퍼즐1(한손 잡기), 2 : 퍼즐2(양손잡기), 3 : 퍼즐3(gui에 손 맞추기)
+    public int Score { get { return score; } set { score = value; } }
+    private int score;
+    public int FailCount { get { return failCount; } set { failCount = value; } }
+    private int failCount;
+    public int DoneCount { get { return doneCount; } set { doneCount = value; } }
+    private int doneCount;
+
+    private int round;
 
     private void Start()
     {
@@ -22,44 +29,57 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     {
         flow = 0;
         Score = 0;
-        DoneCount = 0;
-    }
-
-    public void StartDanceMode()
-    {
-        FFF_GameManager.Instance.flow = 2;
-        SoundManager.Instance.PlayBGM("fee_faw_fum_bgm.mp3");
-        SetBoolFFFNPCAnimation("DanceStart", true);
-        FFF_ButtonList.SetNextButtonList(0, true);
-        itemSelect.SetRightRay(true);
-    }
-
-    private void FinishDanceMode()
-    {
-        SetBoolFFFNPCAnimation("DanceStart", false);
-        Initioalize();
-        SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
-        itemSelect.SetRightRay(false);
-
+        round = 0;
+        doneCount = 0;
     }
 
     private void Update()
     {
-        if (FFF_GameManager.Instance.flow == 2)
+        if (flow == 2)
         {
-            if (Score >= 15)
+            if (doneCount > 0 && doneCount % 2 == 0)
             {
-                FinishDanceMode();
+                SetButton(round, false);
+                round++;
+                SetButton(round, true);
+            }
+
+            if (score >= 15)
+            {
+                FinishDance();
                 SetTriggerFFFNPCAnimation("MissionClear");
             }
-            if (FailCount >= 3)
+            if (failCount >= 3)
             {
-                FinishDanceMode();
+                FinishDance();
                 SetBoolFFFNPCAnimation("DanceStart", false);
             }
         }
     }
 
+    private void SetButton(int _round, bool _isActive)
+    {
+        button[_round].gameObject.SetActive(_isActive);
+        button[_round + 1].gameObject.SetActive(_isActive);
+    }
+
+    public void StartDance()
+    {
+        flow = 2;
+        SoundManager.Instance.PlayBGM("fee_faw_fum_bgm.mp3");
+        SetBoolFFFNPCAnimation("DanceStart", true);
+        SetButton(0, true);
+        itemSelect.HideRightRay(true);
+    }
+
+    private void FinishDance()
+    {
+        SetBoolFFFNPCAnimation("DanceStart", false);
+        Initioalize();
+        SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
+        itemSelect.HideRightRay(false);
+
+    }
     private void SetBoolFFFNPCAnimation(string _name, bool _value)
     {
         for (int i = 0; i < fffAnimationController.Length; i++)

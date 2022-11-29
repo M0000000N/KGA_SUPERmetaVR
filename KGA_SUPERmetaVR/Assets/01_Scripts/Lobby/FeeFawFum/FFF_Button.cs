@@ -7,13 +7,12 @@ public class FFF_Button : MonoBehaviour
 {
     private Button button;
     private Image timer;
-    private bool done;
-    FFF_ButtonList FFF_ButtonListMenu;
 
     private void Start()
     {
         button = GetComponent<Button>();
         timer = GetComponentInChildren<Image>();
+        timer.gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -24,7 +23,6 @@ public class FFF_Button : MonoBehaviour
     public void OnClickButton()
     {
         StopCoroutine(SetTimer());
-        FFF_GameManager.Instance.FailCount = 0;
         FFF_GameManager.Instance.Score++;
         FFF_GameManager.Instance.DoneCount++;
         button.interactable = false;
@@ -46,6 +44,6 @@ public class FFF_Button : MonoBehaviour
 
     private void SetImage(int _index)
     {
-        timer.sprite = FFF_ButtonListMenu.ImagePool[_index];
+        timer.sprite = FFF_GameManager.Instance.ImagePool[_index];
     }
 }
