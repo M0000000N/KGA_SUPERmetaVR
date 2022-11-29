@@ -49,12 +49,13 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
         if (tryCount % 2 == 0)
         {
             SetButton(round, false);
-            round++;
+            round += 2;
             SetButton(round, true);
         }
         if (clearCount >= 15)
         {
             FinishDance();
+            RewardManager.Instance.GetItem();
             SetTriggerFFFNPCAnimation("MissionClear");
         }
         if (failCount >= 3)
@@ -66,13 +67,9 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
 
     private void SetButton(int _round, bool _isActive)
     {
-        if (_round > 15)
+        if (_round >= 30 )
         {
             return;
-        }
-        else if (_round == 15)
-        {
-            button[_round].gameObject.SetActive(_isActive);
         }
         else
         {
@@ -84,7 +81,9 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     public void StartDance()
     {
         flow = 2;
-        // SoundManager.Instance.PlayBGM("fee_faw_fum_bgm.mp3");
+#if 로비용
+        SoundManager.Instance.PlayBGM("fee_faw_fum_bgm.mp3");
+#endif
         SetBoolFFFNPCAnimation("DanceStart", true);
         SetButton(0, true);
         itemSelect.HideRightRay(true);
@@ -93,10 +92,12 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     private void FinishDance()
     {
         SetBoolFFFNPCAnimation("DanceStart", false);
+        SetButton(round, false);
         Initioalize();
-        // SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
+#if 로비용
+        SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
+#endif
         itemSelect.HideRightRay(false);
-
     }
 
     private void SetBoolFFFNPCAnimation(string _name, bool _value)

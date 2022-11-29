@@ -1,3 +1,4 @@
+#define 로비용
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,16 +31,7 @@ public class ItemSelect : MonoBehaviour
     private CloverInfo grabCloverInfo;
     private FD_Dragon grabStarInfo;
     private bool isPlay;
-
-    private void Awake()
-    {
-        ContinuousMoveProviderBase = GetComponent<ContinuousMoveProviderBase>();
-        for (int i = 0; i < hand.Length; i++)
-        {
-            rayInteractor[i] = hand[i].GetComponent<XRRayInteractor>();
-            XRInteractorLineVisual[i] = hand[i].GetComponent<XRInteractorLineVisual>();
-        }
-    }
+    
     void Start()
     {
 #if 로비용
@@ -51,7 +43,15 @@ public class ItemSelect : MonoBehaviour
             StartCoroutine(ResultMessage());
         }
 #endif
+        ContinuousMoveProviderBase = GetComponent<ContinuousMoveProviderBase>();
+        rayInteractor = new XRRayInteractor[hand.Length];
+        XRInteractorLineVisual = new XRInteractorLineVisual[hand.Length];
 
+        for (int i = 0; i < hand.Length; i++)
+        {
+            rayInteractor[i] = hand[i].GetComponent<XRRayInteractor>();
+            XRInteractorLineVisual[i] = hand[i].GetComponent<XRInteractorLineVisual>();
+        }
     }
 
     public void HideRightRay(bool _isHide)
