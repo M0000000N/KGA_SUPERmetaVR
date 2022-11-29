@@ -8,6 +8,9 @@ using WebSocketSharp;
 
 public class VoiceTalkingCheckUI : OnlyOneSceneSingleton<VoiceInvitationUI>
 {
+    public GameObject GetVoiceTalkingUI { get { return VoiceTalkingUI.gameObject; } }
+
+    [SerializeField] GameObject VoiceTalkingUI; 
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Button btnYes;
     [SerializeField] Button btnNo;
@@ -15,6 +18,9 @@ public class VoiceTalkingCheckUI : OnlyOneSceneSingleton<VoiceInvitationUI>
     public void Set(string txt, UnityAction onYes = null, UnityAction onNo = null)
     {
         this.text.text = txt;
+        btnYes.onClick.RemoveAllListeners();
+        btnNo.onClick.RemoveAllListeners();
+
         if (onYes != null) btnYes.onClick.AddListener(onYes);
         if (onNo != null) btnNo.onClick.AddListener(onNo);
     }

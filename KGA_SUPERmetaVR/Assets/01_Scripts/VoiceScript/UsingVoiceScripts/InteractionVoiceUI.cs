@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
+using WebSocketSharp;
 using static DebugUIBuilder;
 
 public class InteractionVoiceUI : MonoBehaviourPunCallbacks
@@ -15,31 +16,27 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     public GameObject GetDialog {  get { return SpeechBubble.gameObject;  } }
     public GameObject GetTalkingButton { get { return GetTalkingButton.gameObject; } }
 
-    // 나의 정보, 상대방 정보
-    public Player GetotherPlayerPhotonview { get { return otherPlayer; } }
-
     [Header("상호작용 범위 감지")]
     [SerializeField] GameObject SpeechBubble;
     [SerializeField] Button InteractionTalking;
     [SerializeField] Button TalkingTogether;
+    [SerializeField] Button Exit; // 대화종료 버튼 
 
     [Header("보이스챗 상호작용 시작")]
     [SerializeField] private GameObject myVoicepanel;
 
     [SerializeField] private TextMeshProUGUI TalkingNickName; 
     [SerializeField] PhotonView photonView;  
-    private PhotonView otherPhotonview; 
 
-    string OtherNickname;
-
-    Player player; 
     Player otherPlayer;
-    
-    private PhotonVoiceNetwork voiceNetwork;
+    PhotonVoiceNetwork voiceNetwork;
+    PhotonView clickedUserView = null;
+    VoiceClient voiceClient;
 
-    VoiceClient voiceClient; 
-    int myViewID; 
-    int voiceChannel;
+    int actorNumber; // == int channel 
+    int ViewID;
+    string OtherNickname;
+    byte interestGroup;
 
     private void Awake()
     {
@@ -51,7 +48,7 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
-            player = photonView.Owner;         
+            //player = photonView.Owner;         
            // OwnerNickname = photonView.Owner.NickName;
            // myActorNum = photonView.Owner.ActorNumber;
         }
@@ -60,21 +57,29 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
             otherPlayer = photonView.Owner;
             OtherNickname = photonView.Owner.NickName;
           //  otherActorNum = photonView.Owner.ActorNumber;
-            if (OtherNickname.Equals(null))
-                return;
         }
+
+        // 포톤뷰 자기자신 것 
+        int ViewID = photonView.ViewID;
+
         //Part1.
         InteractionTalking.gameObject.SetActive(false);
         SpeechBubble.SetActive(false);
         myVoicepanel.SetActive(false);
     
-        InteractionTalking.onClick.AddListener(() => { DialogPopUI(photonView); });
+        InteractionTalking.onClick.AddListener(() => { DialogPopUI(ViewID, OtherNickname); });
         TalkingTogether.onClick.AddListener(VoiceCanvasPopUI); // 1:1 대화 버튼 누름 
+        Exit.onClick.AddListener(ExitvoiceChannel);
 
-        VoiceInvitationUI.Instance.gameObject.SetActive(false);
-        VoiceConfrimOkayBtn.Instance.gameObject.SetActive(false);
-        VoiceTalkingCheckUI.Instance.gameObject.SetActive(false);
-        VoiceTalkingApprove.Instance.gameObject.SetActive(false);
+        // UI 비활성화 
+        VoiceInvitationUI.Instance.GetVoiceInvitatinoUI.SetActive(false);
+        VoiceTalkingCheckUI.Instance.GetVoiceInvitatinoUI.SetActive(false);
+        VoiceConfrimOkayBtn.Instance.GetVoiceComfirm.SetActive(false); 
+        VoiceTalkingApprove.Instance.GetVoiceApprove.SetActive(false);
+
+        // 관심그룹을 액터넘버로 지정 
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = interestGroup;
+        interestGroup = (byte)photonView.Owner.ActorNumber;
     }
 
     private void Update() 
@@ -118,92 +123,97 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         }
     }
 
-    private PhotonView clickedUserView = null;
-
-    public void DialogPopUI(PhotonView view)
+    public void DialogPopUI(int _ViewID, string _targetnickname)
     {
-        clickedUserView = view; // 다른 사람 포톤뷰 
+        ViewID = _ViewID; // 다른 사람 포톤뷰ID 
+        OtherNickname = _targetnickname;
         SpeechBubble.SetActive(true);
-        TalkingNickName.text = OtherNickname;
+        TalkingNickName.text = _targetnickname;
     }
 
     public void VoiceCanvasPopUI()
     {
-        VoiceInvitationUI.Instance.gameObject.SetActive(true);
+        VoiceInvitationUI.Instance.GetVoiceInvitatinoUI.SetActive(true);
         VoiceInvitationUI.Instance.Set(OtherNickname + "님과 1:1 대화를 하시겠습니까?", OnClickYes, OnClickNo);
     }
 
     void OnClickYes()
     {
-        VoiceInvitationUI.Instance.gameObject.SetActive(false);
+        VoiceInvitationUI.Instance.GetVoiceInvitatinoUI.SetActive(false);
         ConfirmVoicePop();
     }
 
     void OnClickNo()
     {
-        VoiceInvitationUI.Instance.gameObject.SetActive(false);
+        VoiceInvitationUI.Instance.GetVoiceInvitatinoUI.SetActive(false);
     }
 
-    // =============== 구현확인작업 : 1:1 대화 확인 팝업 메세지는 뜸 
-    // =============== *구현해야 할 작업 : 
-    // 상대방에게 수락/거절 메세지 보내기 - 수락/거절 누르면 나에게 수락/거절했다는 팝업창 뜨기 - 수락할 시 둘다 보이스패널 띄우기(같은관심그룹)
-
-    // 상대방에게 1:1 대화신청 보냈다는 팝업창 활성화 함수 
     public void ConfirmVoicePop()
     {
-        VoiceConfrimOkayBtn.Instance.gameObject.SetActive(true);
-        VoiceInvitationUI.Instance.Set(OtherNickname + "1:1 대화 확인", SendRequest);
+        VoiceConfrimOkayBtn.Instance.GetVoiceComfirm.SetActive(true);
+        VoiceInvitationUI.Instance.Set(OtherNickname + "님께 1:1 대화 신청확인", SendRequest);
     }
 
     // Onclick = sendRequset
     // 버튼을 눌러 내가 상대방에게 대화신청을 했음을 알려줌과 동시에 상대방에게 수락/거절 팝업창 보내기 
-    [PunRPC]
     void SendRequest()
     {
-        photonView.RPC("confrimTalkingCheck", otherPlayer, clickedUserView, true);
+        photonView.RPC("confrimTalkingCheck", otherPlayer, ViewID, true);
     }
-
     // 1:1 대화를 할 것인지 묻는 팝업창 - onYes : Approve / onNo : Reject
     // Approve & Reject 버튼을 클릭하면 수락 / 거절 팝업창이 떠야함 
     [PunRPC]
-    public void confrimTalkingCheck(PhotonView view, bool _value)
+    public void confrimTalkingCheck(int _viewID, bool _value)
     {
-        clickedUserView = view;
+        ViewID = _viewID;
 
-        VoiceTalkingCheckUI.Instance.gameObject.SetActive(_value);
-        VoiceTalkingCheckUI.Instance.Set(OtherNickname + "1:1 대화를 하시겠습니까?", Approve, Reject);
-    }
-    //RPC 타켓 선정하여 뿌리기 
-    public void TalkingRequest()
-    {
-        photonView.RPC("ConfirmTalkingCheck", RpcTarget.Others, true);
+        if (ViewID == _viewID)
+        {
+            VoiceTalkingCheckUI.Instance.GetVoiceInvitatinoUI.SetActive(_value);
+            VoiceTalkingCheckUI.Instance.Set(OtherNickname + "1:1 대화를 하시겠습니까?", Approve, Reject);
+        }
     }
 
     // 수락할 시 수락팝압창 띄우는 함수 
     public void Approve()
     {
-        photonView.RPC("voiceApprove", RpcTarget.Others, clickedUserView, true);
+        photonView.RPC(nameof(voiceApprove), PhotonNetwork.PlayerList[actorNumber-1], ViewID, interestGroup,true); 
+       // photonView.RPC("voiceApprove", RpcTarget.All, ViewID, interestGroup, true);
+        VoiceTalkingApprove.Instance.Set(OtherNickname + "님께서 대화를 수락");
     }
 
     // 거절할 시 거절팝압창 띄우는 함수 
     public void Reject()
     {
-        photonView.RPC("voiceReject", RpcTarget.Others, clickedUserView, true);
+        photonView.RPC("voiceReject", RpcTarget.All, ViewID, true);
+        VoiceTalkingApprove.Instance.Set(OtherNickname + "님께서 대화를 거절");
     }
 
-    // 수락할시 수락/거절팝업창 비활성화 - myvoicePanel 띄우기 
+    // 수락할시 수락/거절팝업창 비활성화 - myvoicePanel 띄우기
     [PunRPC]
-    public void voiceApprove(bool _Value)
+    public void voiceApprove(int _ViewID, int _ActorNumber, byte _interestGroup, bool _Value)
     {
+        // 정보전달 
+        actorNumber = _ActorNumber; 
+        interestGroup = _interestGroup;
+        _interestGroup = (byte)(_ActorNumber + actorNumber); 
+        ViewID = _ViewID; 
+
         VoiceTalkingApprove.Instance.gameObject.SetActive(!_Value);
         myVoicepanel.SetActive(_Value);
     }
 
     // 거절할시 수락/거절팝업창 비활성화 
     [PunRPC]
-    public void voiceReject()
+    public void voiceReject(int _ViewID, bool _Value)
     {
-        VoiceTalkingApprove.Instance.gameObject.SetActive(false);
+        ViewID= _ViewID;
+        VoiceTalkingApprove.Instance.gameObject.SetActive(_Value);
+    }
+
+    public void ExitvoiceChannel()
+    {
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = 0;
     }
 
     //[PunRPC]
