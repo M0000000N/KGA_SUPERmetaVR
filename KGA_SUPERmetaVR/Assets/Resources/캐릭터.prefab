@@ -322,14 +322,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb37282a44764ee49b97632a5cef85b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DialogUI: {fileID: 0}
+  SpeechBubble: {fileID: 0}
   InteractionTalking: {fileID: 0}
   TalkingTogether: {fileID: 0}
-  VoiceTalkingCanvas: {fileID: 0}
-  ConfirmButton: {fileID: 0}
-  RejectButton: {fileID: 0}
-  OkayButton: {fileID: 0}
-  contentText: {fileID: 0}
+  myVoicepanel: {fileID: 0}
+  TalkingNickName: {fileID: 0}
+  photonView: {fileID: 0}
 --- !u!114 &1380696457654367536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,6 +417,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1859363796049245645}
     m_Modifications:
+    - target: {fileID: 464110372593998866, guid: 105502e21593a4547aeffba59ecfbf97, type: 3}
+      propertyPath: itemID
+      value: 15005
+      objectReference: {fileID: 0}
     - target: {fileID: 8566319236373461108, guid: 105502e21593a4547aeffba59ecfbf97, type: 3}
       propertyPath: m_Name
       value: "\uD3ED\uBC1C \uC9C1\uC804"
@@ -1197,6 +1199,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9073246957380092473, guid: 14897628c24b85742ab252c2ba6150db, type: 3}
+      propertyPath: itemID
+      value: 15002
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14897628c24b85742ab252c2ba6150db, type: 3}
 --- !u!4 &7965166740830745425 stripped
@@ -1262,6 +1268,10 @@ PrefabInstance:
     - target: {fileID: 3005130928994136784, guid: a7382c4a4dfadd444b9cb1744403faba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445853671038096878, guid: a7382c4a4dfadd444b9cb1744403faba, type: 3}
+      propertyPath: itemID
+      value: 15016
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7382c4a4dfadd444b9cb1744403faba, type: 3}
@@ -1482,6 +1492,10 @@ PrefabInstance:
     - target: {fileID: 3865066442920283060, guid: c00ef5cc08ab17e4f866b5443a93dbf5, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4455177229976715729, guid: c00ef5cc08ab17e4f866b5443a93dbf5, type: 3}
+      propertyPath: itemID
+      value: 15012
       objectReference: {fileID: 0}
     - target: {fileID: 4533059801017192718, guid: c00ef5cc08ab17e4f866b5443a93dbf5, type: 3}
       propertyPath: m_RootOrder
