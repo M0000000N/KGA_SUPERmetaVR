@@ -31,7 +31,7 @@ public class ItemSelect : MonoBehaviour
     private CloverInfo grabCloverInfo;
     private FD_Dragon grabStarInfo;
     private bool isPlay;
-    
+
     void Start()
     {
 #if 로비용
@@ -64,7 +64,7 @@ public class ItemSelect : MonoBehaviour
             for (int i = 0; i < hand.Length; i++)
             {
                 ContinuousMoveProviderBase.moveSpeed = 0; // 움직임 제한
-                rayInteractor[i].maxRaycastDistance = 0.2f; // 레이길이 제한
+                rayInteractor[i].maxRaycastDistance = 0.3f; // 레이길이 제한
                 XRInteractorLineVisual[i].validColorGradient = new Gradient // 레이 투명하게
                 {
                     colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
@@ -108,59 +108,59 @@ public class ItemSelect : MonoBehaviour
         {
             GrabOut();
         }
+        if (isFFFGameStart)
+        {
+            GetUIRayCastHit();
+        }
     }
-
+    public void GetUIRayCastHit()
+    {
+        RaycastResult leftRayResult;
+        if (rayInteractor[0].TryGetCurrentUIRaycastResult(out leftRayResult))
+        {
+            Button leftButton = leftRayResult.gameObject.GetComponent<Button>();
+            if (leftButton.interactable == true)
+            {
+                leftButton.onClick.Invoke();
+            }
+        }
+        RaycastResult rightRayResult;
+        if (rayInteractor[1].TryGetCurrentUIRaycastResult(out rightRayResult))
+        {
+            Button rightButton = rightRayResult.gameObject.GetComponent<Button>();
+            if (rightButton.interactable == true)
+            {
+                rightButton.onClick.Invoke();
+            }
+        }
+    }
     public void HoverGet3DRayCastHit()
     {
-        if(isFFFGameStart)
+        if (rayInteractor[0].TryGetCurrent3DRaycastHit(out RaycastHit _leftRayHit))
         {
-            RaycastResult leftRayResult;
-            if (rayInteractor[0].TryGetCurrentUIRaycastResult(out leftRayResult))
+            if (isGrabRun == false)
             {
-                Button leftButton = leftRayResult.gameObject.GetComponent<Button>();
-                if (leftButton.interactable == true)
+                string targetTag = _leftRayHit.transform.gameObject.tag;
+                int targetLayer = _leftRayHit.transform.gameObject.layer;
+
+                if (targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover") || targetTag.Equals("Star"))
                 {
-                    leftButton.onClick.Invoke();
+                    targetObject = _leftRayHit.transform.gameObject;
                 }
-            }
-            RaycastResult rightRayResult;
-            if (rayInteractor[1].TryGetCurrentUIRaycastResult(out rightRayResult))
-            {
-                Button rightButton = rightRayResult.gameObject.GetComponent<Button>();
-                if (rightButton.interactable == true)
+                else if (targetLayer.Equals(LayerMask.NameToLayer("Item")))
                 {
-                    rightButton.onClick.Invoke();
+                    Debug.Log("호버레이어드렁옴");
+                    targetObject = _leftRayHit.transform.gameObject;
+                }
+                else
+                {
+                    targetObject = null;
                 }
             }
         }
         else
         {
-            if (rayInteractor[0].TryGetCurrent3DRaycastHit(out RaycastHit _leftRayHit))
-            {
-                if (isGrabRun == false)
-                {
-                    string targetTag = _leftRayHit.transform.gameObject.tag;
-                    int targetLayer = _leftRayHit.transform.gameObject.layer;
-
-                    if (targetTag.Equals("ThreeLeafClover") || targetTag.Equals("FourLeafClover") || targetTag.Equals("Star"))
-                    {
-                        targetObject = _leftRayHit.transform.gameObject;
-                    }
-                    else if (targetLayer.Equals(LayerMask.NameToLayer("Item")))
-                    {
-                        Debug.Log("호버레이어드렁옴");
-                        targetObject = _leftRayHit.transform.gameObject;
-                    }
-                    else
-                    {
-                        targetObject = null;
-                    }
-                }
-            }
-            else
-            {
-                targetObject = null;
-            }
+            targetObject = null;
         }
     }
 

@@ -69,7 +69,10 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     {
         if (_round >= 30 )
         {
-            return;
+            // return;
+            round = 0;
+            button[_round].gameObject.SetActive(_isActive);
+            button[_round + 1].gameObject.SetActive(_isActive);
         }
         else
         {
