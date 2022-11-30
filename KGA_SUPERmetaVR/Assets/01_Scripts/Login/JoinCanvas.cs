@@ -1,5 +1,6 @@
 #define 로비진입
 //#define 피카부진입
+//#define 피포팜진입
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,7 +50,7 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
         if (UserDataBase.Instance.Join(inputID.text, inputPW.text))
         {
 #if 로비진입
-            if(UserDataBase.Instance.CheckUserNickName(inputID.text))
+            if (UserDataBase.Instance.CheckUserNickName(inputID.text))
             {
                 LobbyManager.Instance.JoinOrCreateRoom(null, true);
             }
@@ -65,6 +66,10 @@ public class JoinCanvas : MonoBehaviourPunCallbacks
 #if 피카부진입
                 PhotonNetwork.LoadLevel("PKB_Main");
                 PhotonNetwork.JoinLobby();
+#endif
+#if 피포팜진입
+            PhotonNetwork.LoadLevel("FeeFawFum");
+            PhotonNetwork.JoinLobby();
 #endif
         }
         else

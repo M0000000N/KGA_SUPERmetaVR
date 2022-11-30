@@ -39,15 +39,15 @@ public class GameManager : SingletonBehaviour<GameManager>
         playerData.Friends = new FriendData();
         playerData.Friends.Friend = new List<int>();
 
-        // -------------------------------------------------------------------------------- 테스트 코드
+        // [피카부 캐릭터 테스트 코드]
         PlayerData.PeekabooData.CharacterList.Character = new int[5];
         PlayerData.PeekabooData.CharacterList.Character[0] = 1;
-
-        // [피카부 캐릭터 테스트 코드]
         PlayerData.PeekabooData.CharacterList.Character[1] = 1;
         PlayerData.PeekabooData.CharacterList.Character[2] = 1;
         PlayerData.PeekabooData.CharacterList.Character[3] = 1;
         PlayerData.PeekabooData.CharacterList.Character[4] = 1;
+        
+        // -------------------------------------------------------------------------------- 테스트 코드
 
         // [아이템 테스트 코드]
         //for (int i = 0; i < 6; i++)
@@ -60,8 +60,8 @@ public class GameManager : SingletonBehaviour<GameManager>
         //}
 
         // [친구]
-        playerData.Friends.Friend.Add(55);
-        playerData.Friends.Friend.Add(56);
+        //playerData.Friends.Friend.Add(55);
+        //playerData.Friends.Friend.Add(56);
 
         // -------------------------------------------------------------------------------- 테스트 코드
     }

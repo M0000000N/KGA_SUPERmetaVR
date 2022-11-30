@@ -7,78 +7,77 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
-using static DebugUIBuilder;
+
 
 public class InteractionVoiceUI : MonoBehaviourPunCallbacks
 {
     public GameObject GetHandShakeImage => InteractionTalking.gameObject;
-    public GameObject GetDialog {  get { return SpeechBubble.gameObject;  } }
+    public GameObject GetDialog { get { return SpeechBubble.gameObject; } }
     public GameObject GetTalkingButton { get { return GetTalkingButton.gameObject; } }
-
-    // 나의 정보, 상대방 정보
-    public Player GetotherPlayerPhotonview { get { return otherPlayer; } }
 
     [Header("상호작용 범위 감지")]
     [SerializeField] GameObject SpeechBubble;
     [SerializeField] Button InteractionTalking;
     [SerializeField] Button TalkingTogether;
+    [SerializeField] Button Exit; // 대화종료 버튼 
 
     [Header("보이스챗 상호작용 시작")]
     [SerializeField] private GameObject myVoicepanel;
 
-    [SerializeField] private TextMeshProUGUI TalkingNickName; 
-    [SerializeField] PhotonView photonView;  
-    private PhotonView otherPhotonview; 
+    [SerializeField] private TextMeshProUGUI TalkingNickName;
+    [SerializeField] private TextMeshProUGUI VoicePanel;
+    [SerializeField] private TextMeshProUGUI otherVoicePanel;
+    [SerializeField] PhotonView photonView;
 
-    string OtherNickname;
-
-    Player player; 
     Player otherPlayer;
-    
-    private PhotonVoiceNetwork voiceNetwork;
+    VoiceClient voiceClient;
 
-    VoiceClient voiceClient; 
-    int myViewID; 
-    int voiceChannel;
-
-    private void Awake()
-    {
-        photonView = GetComponent<PhotonView>();
-        voiceNetwork = GetComponent<PhotonVoiceNetwork>();
-    }
+    int actorNumber; // == int channel 
+    int ViewID;
+    string OtherNickname;
+    byte interestGroup;
 
     private void Start()
     {
         if (photonView.IsMine)
         {
-            player = photonView.Owner;         
-           // OwnerNickname = photonView.Owner.NickName;
-           // myActorNum = photonView.Owner.ActorNumber;
+            VoicePanel.text = photonView.Owner.NickName;
+            //player = photonView.Owner;         
+            // OwnerNickname = photonView.Owner.NickName;
+            // myActorNum = photonView.Owner.ActorNumber;
         }
         else
         {
             otherPlayer = photonView.Owner;
             OtherNickname = photonView.Owner.NickName;
-          //  otherActorNum = photonView.Owner.ActorNumber;
-            if (OtherNickname.Equals(null))
-                return;
+            //  otherVoicePanel.text = OtherNickname;
+            //  otherActorNum = photonView.Owner.ActorNumber;
         }
+
+        // 포톤뷰 자기자신 것 
+        int ViewID = photonView.ViewID;
+
         //Part1.
         InteractionTalking.gameObject.SetActive(false);
         SpeechBubble.SetActive(false);
         myVoicepanel.SetActive(false);
-    
-        InteractionTalking.onClick.AddListener(() => { DialogPopUI(photonView); });
+
+        InteractionTalking.onClick.AddListener(() => { DialogPopUI(ViewID, OtherNickname); });
         TalkingTogether.onClick.AddListener(VoiceCanvasPopUI); // 1:1 대화 버튼 누름 
+        Exit.onClick.AddListener(ExitvoiceChannel);
 
-        VoiceInvitationUI.Instance.gameObject.SetActive(false);
-        VoiceConfrimOkayBtn.Instance.gameObject.SetActive(false);
-        VoiceTalkingCheckUI.Instance.gameObject.SetActive(false);
-        VoiceTalkingApprove.Instance.gameObject.SetActive(false);
+        // UI 비활성화 
+        VoiceInvitationUI.Instance.ClosePopup();
+        VoiceConfrimOkayBtn.Instance.ClosePopup();
+        VoiceInvitationUI.Instance.TalkingClosePopUp();
+        VoiceTalkingApprove.Instance.ClosePopup();
 
+        // 관심그룹을 액터넘버로 지정 
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = interestGroup;
+        interestGroup = 1;
     }
 
-    private void Update() 
+    private void Update()
     {
         InteractionTalking.transform.forward = Camera.main.transform.forward;
     }
@@ -94,7 +93,7 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
             otherPlayer = other.gameObject.GetPhotonView().Owner; // 부딪친 상대방 포톤뷰 정보
 
             if (talkUI != null)
-            {               
+            {
                 talkUI.GetHandShakeImage.SetActive(true);
             }
             else
@@ -109,7 +108,7 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
 
         if (other.gameObject.tag == "Player")
         {
-        if (photonView.IsMine == false) return;
+            if (photonView.IsMine == false) return;
             InteractionVoiceUI talkUI = other.gameObject.GetComponent<InteractionVoiceUI>();
 
             Debug.Assert(talkUI != null);
@@ -119,96 +118,107 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         }
     }
 
-    private PhotonView clickedUserView = null;
-
-    public void DialogPopUI(PhotonView view)
+    [PunRPC]
+    public void DialogPopUI(int _ViewID, string _targetnickname)
     {
-        clickedUserView = view; // 다른 사람 포톤뷰 
+        ViewID = _ViewID; // 다른 사람 포톤뷰ID 
+        OtherNickname = _targetnickname;
         SpeechBubble.SetActive(true);
-        TalkingNickName.text = OtherNickname;
+        TalkingNickName.text = _targetnickname;
     }
 
     public void VoiceCanvasPopUI()
     {
-        VoiceInvitationUI.Instance.gameObject.SetActive(true);
-        VoiceInvitationUI.Instance.Set(OtherNickname + "1:1 대화를 하시겠습니까?", OnClickYes, OnClickNo);
+        // 닉네임 데이터 잘 못 들어감 
+        VoiceInvitationUI.Instance.OpenPopup();
+        VoiceInvitationUI.Instance.Set(OtherNickname + "님과 1:1 대화를 하시겠습니까?", OnClickYes, OnClickNo);
     }
 
-    void OnClickYes()
+    public void OnClickYes()
     {
-        VoiceInvitationUI.Instance.gameObject.SetActive(false);
+        VoiceInvitationUI.Instance.ClosePopup();
         ConfirmVoicePop();
     }
 
-    void OnClickNo()
+    public void OnClickNo()
     {
-        VoiceInvitationUI.Instance.gameObject.SetActive(false);
+        VoiceInvitationUI.Instance.ClosePopup();
     }
 
     public void ConfirmVoicePop()
     {
-        VoiceConfrimOkayBtn.Instance.gameObject.SetActive(true);
-        VoiceInvitationUI.Instance.Set(OtherNickname + "1:1 대화 확인", OnClickOkay);
+        VoiceConfrimOkayBtn.Instance.OpenPopup();
+        VoiceConfrimOkayBtn.Instance.Set(OtherNickname + "님께 1:1 대화 신청확인", SendRequest);
     }
+    //==========여기까지는 닉네임 잘 뜸 
 
-    //sendRequest == onOkayclick
-    public void OnClickOkay()
+    public void SendRequest()
     {
-       // VoiceInvitationUI.Instance.gameObject.SetActive(true);
-       // VoiceInvitationUI.Instance.Set(OtherNickname + "대화 신청 완료", SendRequest);
+        photonView.RPC("confrimTalkingCheck", otherPlayer, ViewID, OtherNickname);
     }
 
     [PunRPC]
-    void SendRequest()
+    public void confrimTalkingCheck(int _viewID, string _targetNickname)
     {
-        photonView.RPC("confrimTalkingCheck", otherPlayer, clickedUserView, true);
-        //상대방에게 대화신청완료가 된 걸 알려줘야 함 
-        // 여기서 부터 제가 놓친 게 있을까요 센세 
-    }
-
-    //public void TalkingRequest()
-    //{
-    //    photonView.RPC("ConfirmTalkingCheck", RpcTarget.Others, true);
-    //}
-
-    [PunRPC]
-    public void confrimTalkingCheck(PhotonView view, bool _value)
-    {
-        clickedUserView = view;
-
-        VoiceTalkingCheckUI.Instance.gameObject.SetActive(_value);
-        VoiceTalkingCheckUI.Instance.Set(OtherNickname + "1:1 대화를 하시겠습니까?", Approve, Reject);
+        // 여기서 요청자 닉네임이 떠야함
+        OtherNickname = photonView.Owner.NickName;
+        if (photonView.IsMine)
+        {
+            OtherNickname = _targetNickname;
+            VoiceInvitationUI.Instance.TalkingOpenPopUp();
+            VoiceInvitationUI.Instance.Set(OtherNickname + "님과 1:1 대화를 하시겠습니까?", Approve, Reject);
+        }
     }
 
     public void Approve()
     {
-        photonView.RPC("voiceApprove", RpcTarget.Others, clickedUserView, true);
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = interestGroup;
+        interestGroup = 1;
+        myVoicepanel.SetActive(true);
+        photonView.RPC(nameof(voiceApprove), otherPlayer, actorNumber, interestGroup, true);
     }
 
     public void Reject()
     {
-        photonView.RPC("voiceReject", RpcTarget.Others, clickedUserView, true);
+        photonView.RPC("voiceReject", otherPlayer);
+        VoiceTalkingApprove.Instance.Set(OtherNickname + "님께서 대화를 거절");
     }
 
+    // 대화 참여중인 닉네임 띄우기 
+    // 대화 신청한 사람도 패널이 떠야하는데 왜 안 뜨냔 말이지 
+
     [PunRPC]
-    public void voiceApprove(bool _Value)
+    public void voiceApprove(int _ActorNumber, byte _interestGroup, bool _Value)
     {
-        VoiceTalkingApprove.Instance.gameObject.SetActive(!_Value);
+        if (!photonView.IsMine)
+        {
+            PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = interestGroup;
+            interestGroup = 1;
+            actorNumber = _ActorNumber;
+            interestGroup = _interestGroup;
+
+            VoiceTalkingApprove.Instance.OpenPopup();
+            VoiceTalkingApprove.Instance.Set(OtherNickname + "님께서 대화를 수락");
+        }
         myVoicepanel.SetActive(_Value);
     }
 
-    //[PunRPC]
-    //public void voiceReject()
-    //{
-    //    VoiceTalkingApprove.Instance.gameObject.SetActive(false);
-    //}
+    [PunRPC]
+    public void voiceReject()
+    {
+        if (!photonView.IsMine)
+        {
+            VoiceTalkingApprove.Instance.OpenPopup();
+            VoiceTalkingApprove.Instance.Set(OtherNickname + "님께서 대화를 거절");
+        }
+    }
 
-    //[PunRPC]
-    //public void AcceptTalking(byte numberGruop)
-    //{
-    //    PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = numberGruop;
+    public void ExitvoiceChannel()
+    {
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = 0;
+    }
 
-    //}
+
 
     //public void OnStateChangeVoiceClient(ClientState fromState, ClientState state)
     //{
@@ -227,6 +237,3 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     //}
 
 }
-
-
-

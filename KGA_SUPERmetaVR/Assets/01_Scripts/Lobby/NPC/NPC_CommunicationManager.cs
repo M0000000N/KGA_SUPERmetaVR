@@ -79,22 +79,6 @@ public class NPC_CommunicationManager : MonoBehaviourPun
         }
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            OnPressHand();
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            button[0].onClick.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            button[1].onClick.Invoke();
-        }
-    }
-
     // Ω√¿€
     public void OnPressHand()
     {

@@ -8,12 +8,11 @@ public class FFF_Button : MonoBehaviour
     private Button mybutton;
     [SerializeField] Image timer;
     private bool isStartCouroutine = false;
-    private int index = 0;
     private void Awake()
     {
-        gameObject.SetActive(false);
-        timer.gameObject.SetActive(false);
         mybutton = GetComponent<Button>();
+        timer.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -35,11 +34,14 @@ public class FFF_Button : MonoBehaviour
         isStartCouroutine = false;
         FFF_GameManager.Instance.PlusClearCount(true);
         mybutton.interactable = false;
-        timer.sprite = null;
+        timer.gameObject.SetActive(false);
     }
 
     private IEnumerator SetTimer()
     {
+        int index = 0;
+        timer.gameObject.SetActive(true);
+
         isStartCouroutine = true;
         while (index < 4)
         {
@@ -48,6 +50,7 @@ public class FFF_Button : MonoBehaviour
             yield return new WaitForSecondsRealtime(1f);
         }
         index = 0;
+        isStartCouroutine = false;
         FFF_GameManager.Instance.PlusClearCount(false);
     }
 
