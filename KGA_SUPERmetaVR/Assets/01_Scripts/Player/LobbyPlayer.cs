@@ -13,7 +13,7 @@ public class LobbyPlayer : MonoBehaviour
 
     private void Start()
     {
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x , gameObject.transform.position.y -1.2f, gameObject.transform.position.z);
+        // gameObject.transform.position = new Vector3(gameObject.transform.position.x , gameObject.transform.position.y -1.2f, gameObject.transform.position.z);
     }
 
     private void Update()
