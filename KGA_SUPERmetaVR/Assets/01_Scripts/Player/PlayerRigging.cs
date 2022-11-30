@@ -56,7 +56,7 @@ public class PlayerRigging : MonoBehaviourPun
             return;
         }
 
-        headBodyOffset = transform.position - headConstraint.position;
+        // headBodyOffset = transform.position - headConstraint.position;
     }
 
     private void FixedUpdate()
