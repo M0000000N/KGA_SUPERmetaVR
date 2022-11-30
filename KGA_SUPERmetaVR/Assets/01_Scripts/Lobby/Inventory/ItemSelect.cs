@@ -1,4 +1,3 @@
-#define 로비용
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,7 +33,6 @@ public class ItemSelect : MonoBehaviour
 
     void Start()
     {
-#if 로비용
         playerData = GameManager.Instance.PlayerData;
 
         if (playerData.PaperSwanData.beRewarded > 0)
@@ -42,7 +40,6 @@ public class ItemSelect : MonoBehaviour
             StopCoroutine(ResultMessage());
             StartCoroutine(ResultMessage());
         }
-#endif
         ContinuousMoveProviderBase = GetComponent<ContinuousMoveProviderBase>();
         rayInteractor = new XRRayInteractor[hand.Length];
         XRInteractorLineVisual = new XRInteractorLineVisual[hand.Length];
@@ -51,50 +48,6 @@ public class ItemSelect : MonoBehaviour
         {
             rayInteractor[i] = hand[i].GetComponent<XRRayInteractor>();
             XRInteractorLineVisual[i] = hand[i].GetComponent<XRInteractorLineVisual>();
-        }
-    }
-
-    public void HideRightRay(bool _isHide)
-    {
-        Color blueColor = Color.HSVToRGB(196, 62, 100);
-        Color whiteColor = Color.HSVToRGB(0, 0, 97);
-        if (_isHide) // 피포팜 게임모드
-        {
-            isFFFGameStart = true;
-            for (int i = 0; i < hand.Length; i++)
-            {
-                ContinuousMoveProviderBase.moveSpeed = 0; // 움직임 제한
-                rayInteractor[i].maxRaycastDistance = 0.3f; // 레이길이 제한
-                XRInteractorLineVisual[i].validColorGradient = new Gradient // 레이 투명하게
-                {
-                    colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
-                    alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
-                };
-                XRInteractorLineVisual[i].invalidColorGradient = new Gradient
-                {
-                    colorKeys = new[] { new GradientColorKey(whiteColor, 0f), new GradientColorKey(whiteColor, 1f) },
-                    alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
-                };
-            }
-        }
-        else
-        {
-            isFFFGameStart = false;
-            for (int i = 0; i < hand.Length; i++)
-            {
-                ContinuousMoveProviderBase.moveSpeed = 2;
-                rayInteractor[i].maxRaycastDistance = 3f;
-                XRInteractorLineVisual[i].validColorGradient = new Gradient
-                {
-                    colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
-                    alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
-                };
-                XRInteractorLineVisual[i].invalidColorGradient = new Gradient
-                {
-                    colorKeys = new[] { new GradientColorKey(whiteColor, 0f), new GradientColorKey(whiteColor, 1f) },
-                    alphaKeys = new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 1f) },
-                };
-            }
         }
     }
 
@@ -114,12 +67,13 @@ public class ItemSelect : MonoBehaviour
         }
     }
 
-    public void GetUIRayCastHit()
+    public void GetUIRayCastHit() // 피포팜전용
     {
         RaycastResult leftRayResult;
         if (rayInteractor[0].TryGetCurrentUIRaycastResult(out leftRayResult))
         {
             Button leftButton = leftRayResult.gameObject.GetComponent<Button>();
+            if (leftButton == null) return;
             if (leftButton.interactable == true)
             {
                 leftButton.onClick.Invoke();
@@ -129,6 +83,7 @@ public class ItemSelect : MonoBehaviour
         if (rayInteractor[1].TryGetCurrentUIRaycastResult(out rightRayResult))
         {
             Button rightButton = rightRayResult.gameObject.GetComponent<Button>();
+            if (rightButton == null) return;
             if (rightButton.interactable == true)
             {
                 rightButton.onClick.Invoke();
@@ -260,7 +215,6 @@ public class ItemSelect : MonoBehaviour
             }
             else
             {
-                // 쿨타임이 지나지 않은 경우
                 grabStarInfo.IsStartFadedout = true;
             }
         }
@@ -280,6 +234,44 @@ public class ItemSelect : MonoBehaviour
             grabObject = null;
         }
         isDestroyCloverRun = false;
+    }
+
+    public void HideRightRay(bool _isHide)
+    {
+        Color blueColor = Color.HSVToRGB(196, 62, 100);
+        Color whiteColor = Color.HSVToRGB(0, 0, 97);
+        if (_isHide) // 피포팜 게임모드
+        {
+            isFFFGameStart = true;
+            ContinuousMoveProviderBase.moveSpeed = 0; // 움직임 제한
+            rayInteractor[1].maxRaycastDistance = 0.3f; // 레이길이 제한
+            XRInteractorLineVisual[1].validColorGradient = new Gradient // 레이 투명하게
+            {
+                colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
+                alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
+            };
+            XRInteractorLineVisual[1].invalidColorGradient = new Gradient
+            {
+                colorKeys = new[] { new GradientColorKey(whiteColor, 0f), new GradientColorKey(whiteColor, 1f) },
+                alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
+            };
+        }
+        else
+        {
+            isFFFGameStart = false;
+            ContinuousMoveProviderBase.moveSpeed = 2;
+            rayInteractor[1].maxRaycastDistance = 3f;
+            XRInteractorLineVisual[1].validColorGradient = new Gradient
+            {
+                colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
+                alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
+            };
+            XRInteractorLineVisual[1].invalidColorGradient = new Gradient
+            {
+                colorKeys = new[] { new GradientColorKey(whiteColor, 0f), new GradientColorKey(whiteColor, 1f) },
+                alphaKeys = new[] { new GradientAlphaKey(1f, 0.5f), new GradientAlphaKey(0f, 0.6f) },
+            };
+        }
     }
 
     IEnumerator Activeinteractor()
