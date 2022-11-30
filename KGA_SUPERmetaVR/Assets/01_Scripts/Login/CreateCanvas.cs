@@ -130,7 +130,7 @@ public class CreateCanvas : MonoBehaviour
             if (birth.Length != 8)
             {
                 // 생년월일 입력 길이 ( 총 8 글자 )
-                LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.DuplicateIDPopupCanvas);
+                LoginManager.Instance.SetPopupUICanvas(LoginManager.Instance.CheckInfomationPopupCanvas);
                 return;
             }
 
