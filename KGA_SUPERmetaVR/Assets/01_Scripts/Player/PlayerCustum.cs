@@ -8,8 +8,9 @@ public class PlayerCustum : MonoBehaviourPunCallbacks
     private GameObject[] playerCustumList;
     //private PhotonView photonView;
 
-    private void Start()
+    private void Awake()
     {
+        Debug.Log("플레이어커스텀");
         playerCustumList = new GameObject[19];
         int count = 0;
         foreach(Transform child in transform)
@@ -18,6 +19,19 @@ public class PlayerCustum : MonoBehaviourPunCallbacks
             count++;
         }
         //ItemManager.Instance.PlayerCustumList = playerCustumList;
+    }
+
+    private void Start()
+    {
+        PlayerCustum playerCustum = GameManager.Instance.Player.GetComponentInChildren<PlayerCustum>();
+        if (GameManager.Instance.PlayerData.Customize == GameManager.Instance.PlayerData.DefaultCustomize)
+        {
+            playerCustum.ChangeCustum(GameManager.Instance.PlayerData.DefaultCustomize);
+        }
+        else
+        {
+            playerCustum.ChangeCustum(GameManager.Instance.PlayerData.Customize);
+        }
     }
 
     public void ChangeCustum (int _IDnumber)
