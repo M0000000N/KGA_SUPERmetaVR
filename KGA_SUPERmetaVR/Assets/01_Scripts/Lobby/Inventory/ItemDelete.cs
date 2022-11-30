@@ -16,7 +16,18 @@ public class ItemDelete : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI destroyDiscriptionText;
 
-   public void DeleteItem(int _slotNumber)
+    private void OnEnable()
+    {
+        SoundManager.Instance.PlaySE("popup_open.wav");
+    }
+
+    private void OnDisable()
+    {
+        SoundManager.Instance.PlaySE("popup_close.wav");
+    }
+
+
+    public void DeleteItem(int _slotNumber)
     {
         gameObject.SetActive(true);
         destroyDiscriptionText.text = "'" + StaticData.GetItemSheet(GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].ID).Name + "'을(를) 파괴 하시겠습니까?\n 한 번 파괴된 아이템은 복구 할 수 없습니다.";
