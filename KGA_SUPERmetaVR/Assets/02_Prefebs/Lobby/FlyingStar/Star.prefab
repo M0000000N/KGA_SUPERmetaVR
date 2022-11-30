@@ -82,9 +82,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultMaterial: {fileID: 2100000, guid: 0cc09147dbf0d456a9c6846c8dcad0d3, type: 2}
   fadeMaterial: {fileID: 2100000, guid: 02aab2ca95ce72f4a881cb7a8732c009, type: 2}
-  grabparticle:
+  grabParticle:
+  - {fileID: 8141797987383458268}
   - {fileID: 8107096808999941206}
-  flyparticle:
+  flyParticle:
   - {fileID: 4270240609050554330}
   - {fileID: 4269848693328160104}
   - {fileID: 4270420211235191990}
@@ -574,11 +575,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2285063249958985192, guid: a68b6e4de81b7b9489e68ab0396472ab, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290475489892307042, guid: a68b6e4de81b7b9489e68ab0396472ab, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a68b6e4de81b7b9489e68ab0396472ab, type: 3}
 --- !u!4 &8227168596426189204 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2096666748991651882, guid: a68b6e4de81b7b9489e68ab0396472ab, type: 3}
+  m_PrefabInstance: {fileID: 8013062018690853310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8141797987383458268 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2290475489892307042, guid: a68b6e4de81b7b9489e68ab0396472ab, type: 3}
   m_PrefabInstance: {fileID: 8013062018690853310}
   m_PrefabAsset: {fileID: 0}
 --- !u!198 &8107096808999941206 stripped

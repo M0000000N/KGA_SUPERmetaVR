@@ -43,6 +43,7 @@ public class FD_Dragon : MonoBehaviourPun
             isFlyParticlePlay = value;
             if (isFlyParticlePlay && gameObject.activeSelf)
             {
+                SoundManager.Instance.PlaySE("Star_sky");
                 photonView.RPC("GrabParticleOn", RpcTarget.AllViaServer);
             }
         }
@@ -59,6 +60,7 @@ public class FD_Dragon : MonoBehaviourPun
             isGrabParticlePlay = value;
             if (isGrabParticlePlay && gameObject.activeSelf)
             {
+                SoundManager.Instance.PlaySE("star_hend.mp3");
                 photonView.RPC("FlyParticleOn", RpcTarget.AllViaServer);
             }
         }
