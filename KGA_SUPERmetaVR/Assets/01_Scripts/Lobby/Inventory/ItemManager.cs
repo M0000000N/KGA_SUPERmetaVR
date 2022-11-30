@@ -108,7 +108,6 @@ public class ItemManager : SingletonBehaviour<ItemManager>
 
     public void OpenItemInfo(int _slotNumber)
     {
-        SoundManager.Instance.PlaySE("popup_click.wav");
         itemInfo.ItemPrefab(_slotNumber);
         itemInfo.ItemName(_slotNumber);
         itemInfo.ItemCount(_slotNumber);

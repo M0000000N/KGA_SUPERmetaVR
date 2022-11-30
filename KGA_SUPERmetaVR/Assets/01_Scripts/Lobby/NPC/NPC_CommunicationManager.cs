@@ -172,7 +172,6 @@ public class NPC_CommunicationManager : MonoBehaviourPun
     {
         if (isComunicationAnimationEnd == false) return;
         isComunicationAnimationEnd = false;
-        SoundManager.Instance.PlaySE("popup_click.wav");
 
         button[0].interactable = false;
         button[1].interactable = false;
@@ -210,7 +209,6 @@ public class NPC_CommunicationManager : MonoBehaviourPun
     {
         if (isComunicationAnimationEnd == false) return;
         isComunicationAnimationEnd = false;
-        SoundManager.Instance.PlaySE("popup_click.wav");
 
         number++;
         GetItem(_npcDialogueData);
@@ -226,7 +224,6 @@ public class NPC_CommunicationManager : MonoBehaviourPun
 
         button[0].interactable = false;
         button[1].interactable = false;
-        SoundManager.Instance.PlaySE("popup_click.wav");
 
         switch (_type)
         {

@@ -8,7 +8,6 @@ using UnityEngine.InputSystem.XInput;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
-
 public class PressedButton_LeftHand : MonoBehaviour
 {
     public bool TurnOn = true;

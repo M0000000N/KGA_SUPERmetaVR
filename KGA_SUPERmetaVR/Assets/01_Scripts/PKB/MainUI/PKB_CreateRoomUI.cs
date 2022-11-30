@@ -33,7 +33,7 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (gameObject.activeSelf)
+        if(gameObject.activeSelf)
         {
             if (privateRoom.isOn)
             {
@@ -57,7 +57,7 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
             createButton.interactable = false;
             passwordInput.interactable = true;
         }
-        else if (passwordInput.text.Length <= 6)
+        else if(passwordInput.text.Length <= 6)
         {
             createButton.interactable = true;
         }
@@ -93,3 +93,5 @@ public class PKB_CreateRoomUI : MonoBehaviourPunCallbacks
         Initionalize();
     }
 }
+
+

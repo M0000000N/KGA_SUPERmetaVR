@@ -6,10 +6,10 @@ using Photon.Pun;
 public class LobbySpawner : MonoBehaviourPun
 {
     [SerializeField] private GameObject LobbyCamera;
-
     #region 나중에 수정 할 부분
     [SerializeField] private string myCharacterName; // 플레이어 외형 아이템 관련 연동 시 수정해야 할 부분
     [SerializeField] private string mySpawnEffect; // 스폰 파티클 관련 데이터 연동 시 수정해야 할 부분
+    [SerializeField] private string playerCase; // 플레이어 스폰 위치 관련 값, 나중에 플레이어 데이터와 연동시켜야 함 (0 : 튜토리얼, 1 : 광장, 2 : 피카부)
     [SerializeField] private string pumpkin;
     [SerializeField] private string clover;
     [SerializeField] private string flyingStar;
@@ -31,7 +31,7 @@ public class LobbySpawner : MonoBehaviourPun
 
     private void Awake()
     {
-        Transform lobbyCameraPosition = SpawnCamera(LobbyManager.Instance.CurrentSceneIndex);
+        Transform lobbyCameraPosition = SpawnCamera(playerCase);
         SpawnCharacter(lobbyCameraPosition, myCharacterName, mySpawnEffect);
 
         if (PhotonNetwork.IsMasterClient)
@@ -42,26 +42,28 @@ public class LobbySpawner : MonoBehaviourPun
         }
     }
     
-    public Transform SpawnCamera(SCENESTATE _case)
+    public Transform SpawnCamera(string _case)
     {
         Vector3 bottomLeft = transform.position;
         Vector3 topRight = transform.position;
 
         switch (_case)
         {
-            case SCENESTATE.LOGIN:
+            case "0":
+                bottomLeft = tutorialBottomLeft.position;
+                topRight = tutorialTopRight.position;
+                break;
+
+            case "1":
                 bottomLeft = plazaBottomLeft.position;
                 topRight = plazaTopRight.position;
                 break;
 
-            case SCENESTATE.PEEKABOOLOBBY:
-            case SCENESTATE.PLAYPEEKABOO:
+            case "2":
                 bottomLeft = peekabooBottomLeft.position;
                 topRight = peekabooTopRight.position;
                 break;
         }
-
-        LobbyManager.Instance.CurrentSceneIndex = SCENESTATE.PLAYMINIMANIMO;
 
         float positionX = Random.Range(bottomLeft.x, topRight.x);
         float positionY = Random.Range(bottomLeft.y, topRight.y);

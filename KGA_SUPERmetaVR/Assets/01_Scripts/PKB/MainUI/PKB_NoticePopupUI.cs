@@ -13,7 +13,6 @@ public class PKB_NoticePopupUI : MonoBehaviour
 
     public void OpenNotificationPopupUI(int _id)
     {
-        SoundManager.Instance.PlaySE("popup_open.wav");
         titleName.text = StaticData.GetNotificationData(_id).Title;
         description.text = StaticData.GetNotificationData(_id).Description;
         yesButtonText.text = StaticData.GetNotificationData(_id).Buttontext;
@@ -22,7 +21,6 @@ public class PKB_NoticePopupUI : MonoBehaviour
 
     public void SetNoticePopup(string _titleName, string _description, string _yesButtonText)
     {
-        SoundManager.Instance.PlaySE("popup_open.wav");
         titleName.text = _titleName;
         description.text = _description;
         yesButtonText.text = _yesButtonText;
@@ -31,7 +29,6 @@ public class PKB_NoticePopupUI : MonoBehaviour
 
     public void CloseUI()
     {
-        SoundManager.Instance.PlaySE("popup_close.wav");
         gameObject.SetActive(false);
     }
 }

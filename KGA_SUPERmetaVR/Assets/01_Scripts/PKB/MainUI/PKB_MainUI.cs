@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
+using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Linq;
 
 public class PKB_MainUI : MonoBehaviourPunCallbacks
@@ -52,19 +54,16 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
 
     public void OnClickFindRoomButton()
     {
-        SoundManager.Instance.PlaySE("popup_open.wav");
         PKB_MainUIManager.Instance.FindRoomUI.gameObject.SetActive(true);
     }
 
     public void OnClickCustomizingButton()
     {
-        SoundManager.Instance.PlaySE("popup_open.wav");
         PKB_MainUIManager.Instance.CustomizingUI.gameObject.SetActive(true);
     }
 
     public void OnClickRandomJoinButton()
     {
-        SoundManager.Instance.PlaySE("popup_open.wav");
         if (!PhotonNetwork.IsConnected) return;
         findingRoomImage.SetActive(true);
 
@@ -85,25 +84,21 @@ public class PKB_MainUI : MonoBehaviourPunCallbacks
 
     public void OnClickCreateRoomButton()
     {
-        SoundManager.Instance.PlaySE("popup_open.wav");
         PKB_MainUIManager.Instance.CreateRoomUI.gameObject.SetActive(true);
     }
 
     public void OnClickSettingButton()
     {
-        SoundManager.Instance.PlaySE("popup_open.wav");
         PKB_MainUIManager.Instance.SettingUI.gameObject.SetActive(true);
     }
 
     public void OnClickExitButton()
     {
-        SoundManager.Instance.PlaySE("popup_open.wav");
         PKB_MainUIManager.Instance.ExitUI.gameObject.SetActive(true);
     }
 
     public void ChangeCustomCharacter()
     {
-        SoundManager.Instance.PlaySE("popup_open.wav");
         for (int i = 0; i < customCharacter.Length; i++)
         {
             customCharacter[i].SetActive(false);

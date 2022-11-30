@@ -75,7 +75,6 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickFindButton()
     {
-        SoundManager.Instance.PlaySE("popup_click.wav");
         if (roomNameInput.text.Equals("00")) // 로비찾기 금지
         {
             // TODO : 나중에 데이터로 빼야함
@@ -118,14 +117,12 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickExitButton()
     {
-        SoundManager.Instance.PlaySE("popup_close.wav");
         gameObject.SetActive(false);
         Initionalize();
     }
 
     public void OnClickPwFindButton()
     {
-        SoundManager.Instance.PlaySE("popup_click.wav");
         for (int i = 0; i < LobbyManager.Instance.NowRooms.Count; i++)
         {
             if (LobbyManager.Instance.NowRooms[i].CustomProperties["Password"] == null) continue;
@@ -146,7 +143,6 @@ public class PKB_FindRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickPwExitButton()
     {
-        SoundManager.Instance.PlaySE("popup_close.wav");
         SetPasswordInputUI(false);
     }
 }

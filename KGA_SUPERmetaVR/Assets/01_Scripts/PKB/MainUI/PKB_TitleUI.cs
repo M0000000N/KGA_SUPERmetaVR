@@ -16,14 +16,12 @@ public class PKB_TitleUI : MonoBehaviour
 
     public void OnClickGameStartButton()
     {
-        SoundManager.Instance.PlaySE("popup_click.wav");
         PKB_MainUIManager.Instance.MainUI.gameObject.SetActive(true);
         gameObject.SetActive(false);
     }
 
     public void OnClickGameExitButton()
     {
-        SoundManager.Instance.PlaySE("popup_click.wav");
         LobbyManager.Instance.JoinOrCreateRoom(null, true);
         gameObject.SetActive(false);
     }

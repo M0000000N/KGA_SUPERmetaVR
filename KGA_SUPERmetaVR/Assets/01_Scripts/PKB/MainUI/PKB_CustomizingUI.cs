@@ -15,7 +15,7 @@ public class PKB_CustomizingUI : MonoBehaviour
 
     [SerializeField] private GameObject characterBase;
     [SerializeField] private GameObject[] character;
-
+    
     private int characterCount;
 
     private void Awake()
@@ -52,18 +52,12 @@ public class PKB_CustomizingUI : MonoBehaviour
 
     public void OnClickCheckButton()
     {
-        SoundManager.Instance.PlaySE("popup_close.wav");
         gameObject.SetActive(false);
     }
 
     public void OnClickLeftButton()
     {
-        if (pageNumber <= 0)
-        {
-            SoundManager.Instance.PlaySE("Click_NO.wav");
-            return;
-        }
-        SoundManager.Instance.PlaySE("popup_click.wav");
+        if (pageNumber <= 0) return;
 
         leftButton.interactable = false;
         rightButton.interactable = true;
@@ -74,12 +68,7 @@ public class PKB_CustomizingUI : MonoBehaviour
 
     public void OnClickRightButton()
     {
-        if (characterCount <= characterCountInPage * (pageNumber + 1))
-        {
-            SoundManager.Instance.PlaySE("Click_NO.wav");
-            return;
-        }
-        SoundManager.Instance.PlaySE("popup_click.wav");
+        if (characterCount <= characterCountInPage * (pageNumber + 1)) return;
 
         leftButton.interactable = true;
         rightButton.interactable = false;

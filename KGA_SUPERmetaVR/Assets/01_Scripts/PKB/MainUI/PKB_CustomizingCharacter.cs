@@ -14,6 +14,9 @@ public class PKB_CustomizingCharacter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI characterName;
     public TextMeshProUGUI CharacterName { get { return characterName; } set { characterName = value; } }
 
+    [SerializeField] private TextMeshProUGUI characterState;
+    public TextMeshProUGUI CharacterState { get { return characterName; } set { characterName = value; } }
+
     [SerializeField] private Button button;
     public Button Button { get { return button; } set { button = value; } }
 

@@ -6,14 +6,6 @@ using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System;
 
-public enum SCENESTATE
-{
-    LOGIN,
-    PLAYMINIMANIMO,
-    PEEKABOOLOBBY,
-    PLAYPEEKABOO,
-}
-
 public class LobbyManager : SingletonBehaviour<LobbyManager>
 {
     public List<RoomInfo> NowRooms = new List<RoomInfo>(); // 생성된 방
@@ -24,8 +16,8 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     [SerializeField] int MMMMaxPlayer = 20;
     [SerializeField] int PKBMaxPlayer = 14;
     [SerializeField] int PKBMaxRoomCount = 9999;
-    public SCENESTATE CurrentSceneIndex { get { return currentSceneIndex; } set { currentSceneIndex = value; } }
-    [SerializeField] private SCENESTATE currentSceneIndex = SCENESTATE.LOGIN; //0-login, 1-Ver.1_Lobby, 2-PKB_Main, 3-PKB_InGame, 4-Tutorial
+    public int CurrentSceneIndex { get { return currentSceneIndex; } set { currentSceneIndex = value; } }
+    [SerializeField] private int currentSceneIndex = 0; //0-login, 1-Ver.1_Lobby, 2-PKB_Main, 3-PKB_InGame, 4-Tutorial
 
     private void Awake() // 플레이어가 멋대로 방을 나가는 버그 방지용
     {
@@ -47,7 +39,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.JoinLobby();
-        if (currentSceneIndex == SCENESTATE.LOGIN)
+        if (currentSceneIndex == 0)
         {
             LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().Login.interactable = true;
             LoginManager.Instance.JoinCanvas.GetComponent<JoinCanvas>().SignUp.interactable = true;
@@ -141,6 +133,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             if (PhotonNetwork.NickName != string.Empty && PhotonNetwork.LocalPlayer.IsLocal)
             {
                 PhotonNetwork.LoadLevel("Ver.1_Lobby");
+                currentSceneIndex = 1;
             }
         }
         else
@@ -159,11 +152,11 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             PhotonNetwork.ConnectUsingSettings();
             return;
         }
-        if (currentSceneIndex == SCENESTATE.PLAYMINIMANIMO || currentSceneIndex == SCENESTATE.PLAYPEEKABOO)
+        if (currentSceneIndex == 1 || currentSceneIndex == 3)
         {
             PhotonNetwork.LoadLevel("PKB_Main");
             PhotonNetwork.JoinLobby();
-            currentSceneIndex = SCENESTATE.PEEKABOOLOBBY;
+            currentSceneIndex = 2;
         }
     }
 

@@ -13,17 +13,6 @@ public class ItemUse : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI UseDiscriptionText;
 
-    private void OnEnable()
-    {
-        SoundManager.Instance.PlaySE("popup_open.wav");
-    }
-
-    private void OnDisable()
-    {
-        SoundManager.Instance.PlaySE("popup_close.wav");
-    }
-
-
     public void UseItemButton(int _slotNumber)
     {
         gameObject.SetActive(true);
