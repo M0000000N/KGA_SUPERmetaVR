@@ -113,6 +113,7 @@ public class ItemSelect : MonoBehaviour
             GetUIRayCastHit();
         }
     }
+
     public void GetUIRayCastHit()
     {
         RaycastResult leftRayResult;
@@ -134,6 +135,7 @@ public class ItemSelect : MonoBehaviour
             }
         }
     }
+
     public void HoverGet3DRayCastHit()
     {
         if (rayInteractor[0].TryGetCurrent3DRaycastHit(out RaycastHit _leftRayHit))
@@ -245,8 +247,7 @@ public class ItemSelect : MonoBehaviour
             grabStarInfo = grabObject.GetComponent<FD_Dragon>();
 
             if (grabStarInfo == null) return;
-            //TODO : 사운드 목요일에 넣자
-            // SoundManager.Instance.PlaySE("Star_sky");
+            SoundManager.Instance.PlaySE("Star_sky");
             grabStarInfo.IsParticlePlay = true;
 
             if (isPlay)

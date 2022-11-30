@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
 
 public class PKB_ExitUI : MonoBehaviour
 {
@@ -14,14 +13,17 @@ public class PKB_ExitUI : MonoBehaviour
         yesButton.onClick.AddListener(OnClickYesButton);
         noButton.onClick.AddListener(OnClickNoButton);
     }
+
     public void OnClickYesButton()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
         LobbyManager.Instance.JoinOrCreateRoom(null, true);
         gameObject.SetActive(false);
     }
 
     public void OnClickNoButton()
     {
+        SoundManager.Instance.PlaySE("popup_close.wav");
         gameObject.SetActive(false);
     }
 }

@@ -1,4 +1,3 @@
-#define 로비용
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -82,9 +81,7 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     public void StartDance()
     {
         flow = 2;
-#if 로비용
         SoundManager.Instance.PlayBGM("fee_faw_fum_bgm.mp3");
-#endif
         SetBoolFFFNPCAnimation("DanceStart", true);
         SetButton(0, true);
         itemSelect.HideRightRay(true);
@@ -95,9 +92,7 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
         SetBoolFFFNPCAnimation("DanceStart", false);
         SetButton(round, false);
         Initioalize();
-#if 로비용
         SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
-#endif
         itemSelect.HideRightRay(false);
     }
 
