@@ -140,6 +140,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         {
             if (PhotonNetwork.NickName != string.Empty && PhotonNetwork.LocalPlayer.IsLocal)
             {
+                SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
                 PhotonNetwork.LoadLevel("Ver.1_Lobby");
             }
         }
