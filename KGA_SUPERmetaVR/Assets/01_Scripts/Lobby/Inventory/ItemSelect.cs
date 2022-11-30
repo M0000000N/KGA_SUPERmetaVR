@@ -198,6 +198,7 @@ public class ItemSelect : MonoBehaviour
         else if (grabTag.Equals("Star"))
         {
             SoundManager.Instance.PlaySE("star_hend.mp3");
+            grabStarInfo.IsGrabParticlePlay = true;
             isPlay = false;
             if (FlyDragonDataBase.Instance.CheckCooltime(1))
             {
@@ -248,7 +249,7 @@ public class ItemSelect : MonoBehaviour
 
             if (grabStarInfo == null) return;
             SoundManager.Instance.PlaySE("Star_sky");
-            grabStarInfo.IsParticlePlay = true;
+            grabStarInfo.IsFlyParticlePlay = true;
 
             if (isPlay)
             {
