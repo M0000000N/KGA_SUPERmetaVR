@@ -57,7 +57,7 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
             RewardManager.Instance.GetItem();
             SetTriggerFFFNPCAnimation("MissionClear");
         }
-        if (failCount >= 3)
+        if (failCount >= 6)
         {
             FinishDance();
             SetTriggerFFFNPCAnimation("MissionFailed");
@@ -68,7 +68,9 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
     {
         if (_round >= 30 )
         {
-            FinishDance();
+            round = 0;
+            button[round].gameObject.SetActive(_isActive);
+            button[round + 1].gameObject.SetActive(_isActive);
             return;
         }
         else
