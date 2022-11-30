@@ -841,6 +841,7 @@ GameObject:
   - component: {fileID: 6681073398606287480}
   - component: {fileID: 4765133916750479126}
   - component: {fileID: 7279572849791749621}
+  - component: {fileID: 3920507748200294040}
   m_Layer: 5
   m_Name: Lobby_PlayerCanvas
   m_TagString: Player
@@ -857,7 +858,7 @@ RectTransform:
   m_GameObject: {fileID: 7279572849791749618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7434508114714268493}
   - {fileID: 8997898991857765394}
@@ -975,6 +976,20 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &3920507748200294040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7279572849791749618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbe790bea83e814e8620f0b3c25a69a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TalkBell: {fileID: 649717317062795260}
+  MuteBell: {fileID: 3047210850115633868}
 --- !u!1 &8278701410462227077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,7 +1271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3241883881896066901, guid: ad55d88f8bf25ca4f80e173835c49cdf, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0.46000004
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3241883881896066901, guid: ad55d88f8bf25ca4f80e173835c49cdf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1292,7 +1307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3241883881896066901, guid: ad55d88f8bf25ca4f80e173835c49cdf, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3241883881896066901, guid: ad55d88f8bf25ca4f80e173835c49cdf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1309,14 +1324,6 @@ PrefabInstance:
     - target: {fileID: 4105064553327984611, guid: ad55d88f8bf25ca4f80e173835c49cdf, type: 3}
       propertyPath: m_Name
       value: VoicechatPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 6644095395040351133, guid: ad55d88f8bf25ca4f80e173835c49cdf, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9014024830865083672, guid: ad55d88f8bf25ca4f80e173835c49cdf, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad55d88f8bf25ca4f80e173835c49cdf, type: 3}

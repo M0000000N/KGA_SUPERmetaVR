@@ -3,8 +3,6 @@ using Photon.Pun;
 using Photon.Realtime;
 using Photon.Voice;
 using Photon.Voice.PUN;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,24 +35,23 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     int actorNumber; // == int channel 
     int ViewID;
     string OtherNickname;
-   // byte interestGroup;
-
-    List<int> channelList = new List<int>();
-    int minXhannel = 1;
-    int maxChannel = 255;
-    int interestGroup;
+    byte interestGroup;
 
     private void Start()
     {
         if (photonView.IsMine)
         {
             VoicePanel.text = photonView.Owner.NickName;
+            //player = photonView.Owner;         
+            // OwnerNickname = photonView.Owner.NickName;
+            // myActorNum = photonView.Owner.ActorNumber;
         }
         else
         {
             otherPlayer = photonView.Owner;
             OtherNickname = photonView.Owner.NickName;
             //  otherVoicePanel.text = OtherNickname;
+            //  otherActorNum = photonView.Owner.ActorNumber;
         }
 
         // 포톤뷰 자기자신 것 
@@ -75,33 +72,10 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         VoiceInvitationUI.Instance.TalkingClosePopUp();
         VoiceTalkingApprove.Instance.ClosePopup();
 
-        // 보이스채널 지정  
-        // interestGroup = 1;
-        CreatVoiceRooomChannel(1, 255);
-        interestGroup = CreatVoiceRooomChannel(1, 255);
-        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
+        // 관심그룹을 액터넘버로 지정 
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = interestGroup;
+        interestGroup = 1;
     }
-
-    public int CreatVoiceRooomChannel(int _min, int _max)
-    {
-        interestGroup = Random.Range(_min, _max);
-
-        for(int i = 0; i < _max;)
-        {
-            if(channelList.Contains(interestGroup))
-            {
-                interestGroup = Random.Range(_min, _max);
-            }
-            else
-            {
-                channelList.Add(interestGroup);
-                ++i;
-                break;
-            }
-        }
-            return interestGroup; 
-    }
-
 
     private void Update()
     {
@@ -156,7 +130,6 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     public void VoiceCanvasPopUI()
     {
         // 닉네임 데이터 잘 못 들어감 
-        Debug.Log("박수쳐");
         VoiceInvitationUI.Instance.OpenPopup();
         VoiceInvitationUI.Instance.Set(OtherNickname + "님과 1:1 대화를 하시겠습니까?", OnClickYes, OnClickNo);
     }
@@ -199,9 +172,8 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
 
     public void Approve()
     {
-        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
-        // interestGroup = 1;
-        //interestGroup; 
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = interestGroup;
+        interestGroup = 1;
         myVoicepanel.SetActive(true);
         photonView.RPC(nameof(voiceApprove), otherPlayer, actorNumber, interestGroup, true);
     }
@@ -220,8 +192,8 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     {
         if (!photonView.IsMine)
         {
-            PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
-            //interestGroup = 1;
+            PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = interestGroup;
+            interestGroup = 1;
             actorNumber = _ActorNumber;
             interestGroup = _interestGroup;
 
@@ -245,6 +217,8 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     {
         PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = 0;
     }
+
+
 
     //public void OnStateChangeVoiceClient(ClientState fromState, ClientState state)
     //{
