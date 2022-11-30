@@ -1,8 +1,8 @@
-using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Voice;
 using Photon.Voice.PUN;
+using Photon.Voice;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,23 +35,24 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     int actorNumber; // == int channel 
     int ViewID;
     string OtherNickname;
-    byte interestGroup;
+    // byte interestGroup;
+
+    List<int> channelList = new List<int>();
+    int minXhannel = 1;
+    int maxChannel = 255;
+    int interestGroup;
 
     private void Start()
     {
         if (photonView.IsMine)
         {
             VoicePanel.text = photonView.Owner.NickName;
-            //player = photonView.Owner;         
-            // OwnerNickname = photonView.Owner.NickName;
-            // myActorNum = photonView.Owner.ActorNumber;
         }
         else
         {
             otherPlayer = photonView.Owner;
             OtherNickname = photonView.Owner.NickName;
             //  otherVoicePanel.text = OtherNickname;
-            //  otherActorNum = photonView.Owner.ActorNumber;
         }
 
         // 포톤뷰 자기자신 것 
@@ -72,10 +73,32 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         VoiceInvitationUI.Instance.TalkingClosePopUp();
         VoiceTalkingApprove.Instance.ClosePopup();
 
-        // 관심그룹을 액터넘버로 지정 
-        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = interestGroup;
-        interestGroup = 1;
+        // 보이스채널 지정  
+        // interestGroup = 1;
+        CreatVoiceRooomChannel(1, 255);
+        interestGroup = CreatVoiceRooomChannel(1, 255);
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
     }
+
+    public int CreatVoiceRooomChannel(int _min, int _max)
+    {
+       interestGroup = Random.Range(_min, _max);
+        for (int i = 0; i < _max;)
+        {
+            if (channelList.Contains(interestGroup))
+            {
+                interestGroup = Random.Range(_min, _max);
+            }
+            else
+            {
+                channelList.Add(interestGroup);
+                ++i;
+                break;
+            }
+        }
+        return interestGroup;
+    }
+
 
     private void Update()
     {
@@ -129,9 +152,8 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
 
     public void VoiceCanvasPopUI()
     {
-        // 닉네임 데이터 잘 못 들어감 
         VoiceInvitationUI.Instance.OpenPopup();
-        VoiceInvitationUI.Instance.Set(OtherNickname + "님과 1:1 대화를 하시겠습니까?", OnClickYes, OnClickNo);
+        VoiceInvitationUI.Instance.Set(OtherNickname + "님에게 1:1 대화를 요청하시겠습니까?", OnClickYes, OnClickNo);
     }
 
     public void OnClickYes()
@@ -148,7 +170,7 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     public void ConfirmVoicePop()
     {
         VoiceConfrimOkayBtn.Instance.OpenPopup();
-        VoiceConfrimOkayBtn.Instance.Set(OtherNickname + "님께 1:1 대화 신청확인", SendRequest);
+        VoiceConfrimOkayBtn.Instance.Set(OtherNickname + "님에게 1:1 대화를 요청하였습니다", SendRequest);
     }
     //==========여기까지는 닉네임 잘 뜸 
 
@@ -161,19 +183,20 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     public void confrimTalkingCheck(int _viewID, string _targetNickname)
     {
         // 여기서 요청자 닉네임이 떠야함
-        OtherNickname = photonView.Owner.NickName;
+        // OtherNickname = photonView.Owner.NickName;
         if (photonView.IsMine)
         {
             OtherNickname = _targetNickname;
             VoiceInvitationUI.Instance.TalkingOpenPopUp();
-            VoiceInvitationUI.Instance.Set(OtherNickname + "님과 1:1 대화를 하시겠습니까?", Approve, Reject);
+            VoiceInvitationUI.Instance.Set(OtherNickname + "님이 1:1 대화를 요청하였습니다\n 수락하시겠습니까?", Approve, Reject);
         }
     }
 
     public void Approve()
     {
-        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = interestGroup;
-        interestGroup = 1;
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
+        // interestGroup = 1;
+        //interestGroup; 
         myVoicepanel.SetActive(true);
         photonView.RPC(nameof(voiceApprove), otherPlayer, actorNumber, interestGroup, true);
     }
@@ -181,7 +204,7 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     public void Reject()
     {
         photonView.RPC("voiceReject", otherPlayer);
-        VoiceTalkingApprove.Instance.Set(OtherNickname + "님께서 대화를 거절");
+        VoiceTalkingApprove.Instance.Set(OtherNickname + "님이 1:1 대화를 수락하였습니다");
     }
 
     // 대화 참여중인 닉네임 띄우기 
@@ -192,13 +215,13 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     {
         if (!photonView.IsMine)
         {
-            PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = interestGroup;
-            interestGroup = 1;
+            PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
+            //interestGroup = 1;
             actorNumber = _ActorNumber;
             interestGroup = _interestGroup;
 
             VoiceTalkingApprove.Instance.OpenPopup();
-            VoiceTalkingApprove.Instance.Set(OtherNickname + "님께서 대화를 수락");
+            VoiceTalkingApprove.Instance.Set(OtherNickname + "님이 1:1 대화 요청을 거부하였습니다");
         }
         myVoicepanel.SetActive(_Value);
     }
@@ -217,8 +240,6 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     {
         PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = 0;
     }
-
-
 
     //public void OnStateChangeVoiceClient(ClientState fromState, ClientState state)
     //{
