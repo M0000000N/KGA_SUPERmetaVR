@@ -54,8 +54,8 @@ public class FFF_GameManager : OnlyOneSceneSingleton<FFF_GameManager>
         if (clearCount >= 15)
         {
             FinishDance();
-            RewardManager.Instance.GetItem();
             SetTriggerFFFNPCAnimation("MissionClear");
+            RewardManager.Instance.GetItem();
         }
         if (failCount >= 6)
         {

@@ -192,6 +192,7 @@ public class NPC_CommunicationManager : MonoBehaviourPun
             }
             else if(sheetID == 21001 && number == 5)
             {
+                UserDataBase.Instance.GetDataBase(GameManager.Instance.PlayerData.ID);
                 LobbyManager.Instance.JoinOrCreateRoom(null, true);
             }
         }
