@@ -142,7 +142,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
             PhotonNetwork.LoadLevel("PKB_InGame");
-            LobbyManager.Instance.CurrentSceneIndex = 3;
+            LobbyManager.Instance.CurrentSceneIndex = SCENESTATE.PLAYPEEKABOO;
         }
         else
         {
