@@ -64,6 +64,7 @@ public class CharacterInfomation : MonoBehaviourPunCallbacks
 
         friendButton.onClick.RemoveAllListeners();
         friendButton.onClick.AddListener(() => { FriendManager.Instance.AddFriend(UID); });
+        friendButton.onClick.AddListener(() => { FriendManager.Instance.CheckRequest(UID, NickName); });
     }
 
     //// 이거 해봐야함...
