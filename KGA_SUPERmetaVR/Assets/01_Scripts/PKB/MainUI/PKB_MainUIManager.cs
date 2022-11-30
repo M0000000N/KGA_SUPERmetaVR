@@ -42,6 +42,7 @@ public class PKB_MainUIManager : OnlyOneSceneSingleton<PKB_MainUIManager>
 
     public void Initionalize()
     {
+        SoundManager.Instance.PlayBGM("PKBOO_Main_bgm.mp3");
         TitleUI.gameObject.SetActive(true);
         MainUI.gameObject.SetActive(false);
         CreateRoomUI.gameObject.SetActive(false);
