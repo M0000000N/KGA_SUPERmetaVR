@@ -25,6 +25,17 @@ public class ItemCountDelete : MonoBehaviour
     private ItemDelete itemDelete;
     private int itemDeleteCount;
 
+    private void OnEnable()
+    {
+        SoundManager.Instance.PlaySE("popup_open.wav");
+    }
+
+    private void OnDisable()
+    {
+        SoundManager.Instance.PlaySE("popup_close.wav");
+    }
+
+
     private void Update()
     {
         if(itemDeleteCount > 0)

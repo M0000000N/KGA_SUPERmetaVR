@@ -30,6 +30,7 @@ public class FFF_Button : MonoBehaviour
 
     public void OnClickButton()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
         StopCoroutine(SetTimer());
         isStartCouroutine = false;
         FFF_GameManager.Instance.PlusClearCount(true);

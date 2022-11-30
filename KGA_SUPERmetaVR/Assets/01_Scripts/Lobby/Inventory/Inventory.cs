@@ -52,6 +52,15 @@ public class Inventory : MonoBehaviour
         slots = SlotGrid.GetComponentsInChildren<ItemSlot>();
         Initialize();
     }
+    private void OnEnable()
+    {
+        SoundManager.Instance.PlaySE("popup_open.wav");
+    }
+
+    private void OnDisable()
+    {
+        SoundManager.Instance.PlaySE("popup_close.wav");
+    }
 
     private void Initialize()
     {
@@ -93,6 +102,7 @@ public class Inventory : MonoBehaviour
 
     public void PressNextButton()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
         if (nowPage < 3)
         {
             nowPage++;
@@ -102,6 +112,7 @@ public class Inventory : MonoBehaviour
 
     public void PressPreviousButton()
     {
+        SoundManager.Instance.PlaySE("popup_click.wav");
         if (nowPage > 0)
         {
             nowPage--;

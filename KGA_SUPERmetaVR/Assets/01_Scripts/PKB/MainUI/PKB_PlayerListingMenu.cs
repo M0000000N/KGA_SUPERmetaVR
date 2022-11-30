@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using System.Linq;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -21,6 +20,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
     public override void OnEnable()
     {
+        SoundManager.Instance.PlayBGM("PKBOO_Room_bgm.wav");
         GetCurrentRoomPlayers();
         SetReadyUp(false);
         if (PhotonNetwork.IsMasterClient)
@@ -65,7 +65,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        // Debug.Log($"{newPlayer.NickName}°¡ {PhotonNetwork.CurrentRoom.Name}¿¡ µé¾î¿È. ÃÑ¿ø : {PhotonNetwork.CurrentRoom.PlayerCount}");
         AddPlayerListing(newPlayer);
     }
 
@@ -79,7 +78,6 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         else
         {
             PKB_PlayerListing listing = Instantiate(playerListing, content);
-
             if (listing != null)
             {
                 listing.SetPlayerInfo(_newPlayer);
@@ -138,6 +136,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
                     }
                 }
             }
+            SoundManager.Instance.PlaySE("PeekkaBOO_gamestart.wav");
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
@@ -146,6 +145,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
         }
         else
         {
+            SoundManager.Instance.PlaySE("PeekkaBOO_ready.wav");
             SetReadyUp(!playerIsReady);
         }
     }

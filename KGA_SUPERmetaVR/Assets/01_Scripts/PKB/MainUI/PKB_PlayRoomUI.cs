@@ -50,12 +50,15 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickExitRoomButton()
     {
+        SoundManager.Instance.PlaySE("popup_open.wav");
         exitRoomUI.gameObject.SetActive(true);
         Debug.Log($"{LobbyManager.Instance.IsRoom}");
     }
 
     public void OnClickYesExitRoomButton()
     {
+        SoundManager.Instance.PlaySE("popup_close.wav");
+        SoundManager.Instance.PlayBGM("PKBOO_Main_bgm.wav");
         exitRoomUI.gameObject.SetActive(false);
         gameObject.SetActive(false);
         if (PhotonNetwork.InRoom)
@@ -66,6 +69,7 @@ public class PKB_PlayRoomUI : MonoBehaviourPunCallbacks
 
     public void OnClickNoExitRoomButton()
     {
+        SoundManager.Instance.PlaySE("popup_close.wav");
         exitRoomUI.gameObject.SetActive(false);
     }
 #if Ãß¹æ
