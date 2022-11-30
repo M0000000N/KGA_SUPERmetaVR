@@ -1,0 +1,972 @@
+/target:library
+/out:Temp/Assembly-CSharp.dll
+/nowarn:0169
+/nowarn:0649
+/refout:Temp/Assembly-CSharp.dll.ref
+/deterministic
+/debug:portable
+/optimize-
+/nostdlib+
+/preferreduilang:en-US
+/langversion:8.0
+/reference:Library/ScriptAssemblies/PhotonUnityNetworking.Demos.dll
+/reference:Library/ScriptAssemblies/PhotonUnityNetworking.Editor.dll
+/reference:Library/ScriptAssemblies/PhotonUnityNetworking.Utilities.Culling.Editor.dll
+/reference:Library/ScriptAssemblies/PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.dll
+/reference:Library/ScriptAssemblies/PhotonUnityNetworking.Utilities.dll
+/reference:Library/ScriptAssemblies/PhotonUnityNetworking.dll
+/reference:Library/ScriptAssemblies/PhotonVoice.PUN.Editor.dll
+/reference:Library/ScriptAssemblies/PhotonVoice.PUN.dll
+/reference:Library/ScriptAssemblies/PunDemos.DemoHubEditor.dll
+/reference:Library/ScriptAssemblies/PunDemos.DemoSlotcarEditor.dll
+/reference:Assets/05_Packages/Photon/PhotonLibs/WebSocket/websocket-sharp.dll
+/reference:Assets/05_Packages/Photon/PhotonLibs/netstandard2.0/Photon3Unity3D.dll
+/reference:Assets/Plugins/I18N.CJK.dll
+/reference:Assets/Plugins/I18N.MidEast.dll
+/reference:Assets/Plugins/I18N.Other.dll
+/reference:Assets/Plugins/I18N.Rare.dll
+/reference:Assets/Plugins/I18N.West.dll
+/reference:Assets/Plugins/I18N.dll
+/reference:Assets/Plugins/MySql.Data.dll
+/reference:C:/Users/rohgo/Desktop/Unity/SUPERmetaVR/KGA_SUPERmetaVR/KGA_SUPERmetaVR_clone_0/Library/PackageCache/com.unity.burst@1.3.4/Unity.Burst.Unsafe.dll
+/reference:C:/Users/rohgo/Desktop/Unity/SUPERmetaVR/KGA_SUPERmetaVR/KGA_SUPERmetaVR_clone_0/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEditor.CoreModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEditor.GraphViewModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEditor.PackageManagerUIModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEditor.SceneTemplateModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIElementsModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIElementsSamplesModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIServiceModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.AndroidJNIModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.AssetBundleModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.DSPGraphModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.GIModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.HotReloadModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputLegacyModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.LocalizationModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.ProfilerModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.StreamingModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.SubstanceModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.SubsystemsModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.TLSModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextCoreModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsNativeModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UNETModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UmbraModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityCurlModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityTestProtocolModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.VFXModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.VirtualTexturingModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/Extensions/2.0.0/System.Numerics.Vectors.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.ComponentModel.Composition.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Core.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Data.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Drawing.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.IO.Compression.FileSystem.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Net.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Numerics.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Runtime.Serialization.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.ServiceModel.Web.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Transactions.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Web.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Windows.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Linq.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/mscorlib.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/Microsoft.Win32.Primitives.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.AppContext.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.Concurrent.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.NonGeneric.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.Specialized.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.EventBasedAsync.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.Primitives.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.TypeConverter.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Console.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Data.Common.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Contracts.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Debug.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.FileVersionInfo.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Process.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.StackTrace.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.TextWriterTraceListener.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Tools.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.TraceSource.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Tracing.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Drawing.Primitives.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Dynamic.Runtime.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.Calendars.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.Extensions.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Compression.ZipFile.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Compression.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.DriveInfo.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.Primitives.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.Watcher.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.IsolatedStorage.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.MemoryMappedFiles.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Pipes.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.UnmanagedMemoryStream.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Expressions.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Parallel.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Queryable.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Http.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.NameResolution.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.NetworkInformation.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Ping.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Primitives.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Requests.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Security.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Sockets.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebHeaderCollection.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebSockets.Client.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebSockets.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ObjectModel.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.Extensions.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.Primitives.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.Reader.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.ResourceManager.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.Writer.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.CompilerServices.VisualC.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Extensions.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Handles.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.InteropServices.RuntimeInformation.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.InteropServices.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Numerics.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Formatters.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Json.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Primitives.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Xml.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Claims.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Algorithms.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Csp.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Encoding.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Primitives.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.X509Certificates.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Principal.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.SecureString.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.Encoding.Extensions.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.Encoding.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.RegularExpressions.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Overlapped.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Tasks.Parallel.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Tasks.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Thread.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.ThreadPool.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Timer.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ValueTuple.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.ReaderWriter.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XDocument.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XPath.XDocument.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XPath.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XmlDocument.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XmlSerializer.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2020.3.17f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll"
+/reference:Library/ScriptAssemblies/AssistantCoreSDKEditor.dll
+/reference:Library/ScriptAssemblies/AssistantCoreSDKRuntime.dll
+/reference:Library/ScriptAssemblies/Boxophobic.SkyboxCubemapExtended.Editor.dll
+/reference:Library/ScriptAssemblies/Boxophobic.Utils.Editor.dll
+/reference:Library/ScriptAssemblies/Boxophobic.Utils.Scripts.dll
+/reference:Library/ScriptAssemblies/ControllerSample.dll
+/reference:Library/ScriptAssemblies/Facebook.Wit.Conduit.Editor.dll
+/reference:Library/ScriptAssemblies/Facebook.Wit.Conduit.dll
+/reference:Library/ScriptAssemblies/Facebook.Wit.Dictation.dll
+/reference:Library/ScriptAssemblies/Facebook.Wit.Editor.dll
+/reference:Library/ScriptAssemblies/Facebook.Wit.TTS.Editor.dll
+/reference:Library/ScriptAssemblies/Facebook.Wit.TTS.Samples.dll
+/reference:Library/ScriptAssemblies/Facebook.Wit.TTS.dll
+/reference:Library/ScriptAssemblies/Facebook.WitAI.dll
+/reference:Library/ScriptAssemblies/LitJson.dll
+/reference:Library/ScriptAssemblies/NavMeshComponents.dll
+/reference:Library/ScriptAssemblies/NavMeshComponentsEditor.dll
+/reference:Library/ScriptAssemblies/Oculus.AudioManager.Audio.Editor.dll
+/reference:Library/ScriptAssemblies/Oculus.AudioManager.Utils.Editor.dll
+/reference:Library/ScriptAssemblies/Oculus.AudioManager.dll
+/reference:Library/ScriptAssemblies/Oculus.Interaction.Editor.dll
+/reference:Library/ScriptAssemblies/Oculus.Interaction.InterfaceSupport.dll
+/reference:Library/ScriptAssemblies/Oculus.Interaction.dll
+/reference:Library/ScriptAssemblies/Oculus.LipSync.Editor.dll
+/reference:Library/ScriptAssemblies/Oculus.LipSync.dll
+/reference:Library/ScriptAssemblies/Oculus.Platform.Editor.dll
+/reference:Library/ScriptAssemblies/Oculus.Platform.dll
+/reference:Library/ScriptAssemblies/Oculus.Spatializer.Editor.dll
+/reference:Library/ScriptAssemblies/Oculus.Spatializer.dll
+/reference:Library/ScriptAssemblies/Oculus.VR.Editor.dll
+/reference:Library/ScriptAssemblies/Oculus.VR.Scripts.Editor.dll
+/reference:Library/ScriptAssemblies/Oculus.VR.dll
+/reference:Library/ScriptAssemblies/Oculus.Voice.Demo.dll
+/reference:Library/ScriptAssemblies/ParrelSync.dll
+/reference:Library/ScriptAssemblies/PhotonChat.dll
+/reference:Library/ScriptAssemblies/PhotonRealtime.dll
+/reference:Library/ScriptAssemblies/PhotonVoice.API.dll
+/reference:Library/ScriptAssemblies/PhotonVoice.Editor.dll
+/reference:Library/ScriptAssemblies/PhotonVoice.Utilities.Editor.dll
+/reference:Library/ScriptAssemblies/PhotonVoice.dll
+/reference:Library/ScriptAssemblies/Unity.Animation.Rigging.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.Animation.Rigging.dll
+/reference:Library/ScriptAssemblies/Unity.Burst.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.Burst.dll
+/reference:Library/ScriptAssemblies/Unity.InputSystem.dll
+/reference:Library/ScriptAssemblies/Unity.Mathematics.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.Mathematics.dll
+/reference:Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll
+/reference:Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll
+/reference:Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll
+/reference:Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
+/reference:Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll
+/reference:Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll
+/reference:Library/ScriptAssemblies/Unity.Rider.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.Searcher.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.Subsystem.Registration.dll
+/reference:Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.TextMeshPro.dll
+/reference:Library/ScriptAssemblies/Unity.Timeline.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.Timeline.dll
+/reference:Library/ScriptAssemblies/Unity.VSCode.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.XR.ARSubsystems.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.XR.ARSubsystems.dll
+/reference:Library/ScriptAssemblies/Unity.XR.CoreUtils.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.XR.CoreUtils.dll
+/reference:Library/ScriptAssemblies/Unity.XR.Interaction.Toolkit.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.XR.Interaction.Toolkit.dll
+/reference:Library/ScriptAssemblies/Unity.XR.InteractionSubsystems.dll
+/reference:Library/ScriptAssemblies/Unity.XR.Management.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.XR.Management.dll
+/reference:Library/ScriptAssemblies/Unity.XR.Oculus.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.XR.Oculus.dll
+/reference:Library/ScriptAssemblies/Unity.XR.OpenXR.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.XR.OpenXR.Features.ConformanceAutomation.dll
+/reference:Library/ScriptAssemblies/Unity.XR.OpenXR.Features.OculusQuestSupport.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.XR.OpenXR.Features.OculusQuestSupport.dll
+/reference:Library/ScriptAssemblies/Unity.XR.OpenXR.Features.RuntimeDebugger.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.XR.OpenXR.TestHelpers.dll
+/reference:Library/ScriptAssemblies/Unity.XR.OpenXR.dll
+/reference:Library/ScriptAssemblies/Unity.XR.WindowsMixedReality.Editor.dll
+/reference:Library/ScriptAssemblies/Unity.XR.WindowsMixedReality.dll
+/reference:Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll
+/reference:Library/ScriptAssemblies/UnityEditor.UI.dll
+/reference:Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll
+/reference:Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll
+/reference:Library/ScriptAssemblies/UnityEngine.UI.dll
+/reference:Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll
+/reference:Library/ScriptAssemblies/VoiceSDK.Dictation.Editor.dll
+/reference:Library/ScriptAssemblies/VoiceSDK.Dictation.Runtime.dll
+/reference:Library/ScriptAssemblies/VoiceSDK.Editor.dll
+/reference:Library/ScriptAssemblies/VoiceSDK.Runtime.dll
+/define:CROSS_PLATFORM_INPUT
+/define:CSHARP_7_3_OR_NEWER
+/define:CSHARP_7_OR_LATER
+/define:DEBUG
+/define:ENABLE_AR
+/define:ENABLE_AUDIO
+/define:ENABLE_BURST_AOT
+/define:ENABLE_CACHING
+/define:ENABLE_CLOTH
+/define:ENABLE_CLOUD_LICENSE
+/define:ENABLE_CLOUD_SERVICES
+/define:ENABLE_CLOUD_SERVICES_ADS
+/define:ENABLE_CLOUD_SERVICES_ANALYTICS
+/define:ENABLE_CLOUD_SERVICES_BUILD
+/define:ENABLE_CLOUD_SERVICES_COLLAB
+/define:ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS
+/define:ENABLE_CLOUD_SERVICES_CRASH_REPORTING
+/define:ENABLE_CLOUD_SERVICES_PURCHASING
+/define:ENABLE_CLOUD_SERVICES_UNET
+/define:ENABLE_CLOUD_SERVICES_USE_WEBREQUEST
+/define:ENABLE_CLUSTERINPUT
+/define:ENABLE_CLUSTER_SYNC
+/define:ENABLE_CRUNCH_TEXTURE_COMPRESSION
+/define:ENABLE_CUSTOM_RENDER_TEXTURE
+/define:ENABLE_DIRECTOR
+/define:ENABLE_DIRECTOR_AUDIO
+/define:ENABLE_DIRECTOR_TEXTURE
+/define:ENABLE_EDITOR_HUB_LICENSE
+/define:ENABLE_EVENT_QUEUE
+/define:ENABLE_INPUT_SYSTEM
+/define:ENABLE_LEGACY_INPUT_MANAGER
+/define:ENABLE_LOCALIZATION
+/define:ENABLE_LZMA
+/define:ENABLE_MANAGED_ANIMATION_JOBS
+/define:ENABLE_MANAGED_AUDIO_JOBS
+/define:ENABLE_MANAGED_JOBS
+/define:ENABLE_MANAGED_TRANSFORM_JOBS
+/define:ENABLE_MICROPHONE
+/define:ENABLE_MONO
+/define:ENABLE_MONO_BDWGC
+/define:ENABLE_MOVIES
+/define:ENABLE_MULTIPLE_DISPLAYS
+/define:ENABLE_NETWORK
+/define:ENABLE_OUT_OF_PROCESS_CRASH_HANDLER
+/define:ENABLE_PHYSICS
+/define:ENABLE_PROFILER
+/define:ENABLE_RUNTIME_GI
+/define:ENABLE_SCRIPTING_GC_WBARRIERS
+/define:ENABLE_SPRITES
+/define:ENABLE_TERRAIN
+/define:ENABLE_TEXTURE_STREAMING
+/define:ENABLE_TILEMAP
+/define:ENABLE_TIMELINE
+/define:ENABLE_UNET
+/define:ENABLE_UNITYEVENTS
+/define:ENABLE_UNITYWEBREQUEST
+/define:ENABLE_UNITY_COLLECTIONS_CHECKS
+/define:ENABLE_VIDEO
+/define:ENABLE_VIRTUALTEXTURING
+/define:ENABLE_VR
+/define:ENABLE_WEBCAM
+/define:ENABLE_WEBSOCKET_CLIENT
+/define:ENABLE_WEBSOCKET_HOST
+/define:ENABLE_WWW
+/define:GFXDEVICE_WAITFOREVENT_MESSAGEPUMP
+/define:INCLUDE_DYNAMIC_GI
+/define:NET_STANDARD_2_0
+/define:PHOTON_UNITY_NETWORKING
+/define:PLATFORM_ARCH_64
+/define:PLATFORM_STANDALONE
+/define:PLATFORM_STANDALONE_WIN
+/define:PLATFORM_SUPPORTS_MONO
+/define:PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP
+/define:PUN_2_0_OR_NEWER
+/define:PUN_2_19_OR_NEWER
+/define:PUN_2_OR_NEWER
+/define:RENDER_SOFTWARE_CURSOR
+/define:SCENE_TEMPLATE_MODULE
+/define:TRACE
+/define:UNITY_2017_1_OR_NEWER
+/define:UNITY_2017_2_OR_NEWER
+/define:UNITY_2017_3_OR_NEWER
+/define:UNITY_2017_4_OR_NEWER
+/define:UNITY_2018_1_OR_NEWER
+/define:UNITY_2018_2_OR_NEWER
+/define:UNITY_2018_3_OR_NEWER
+/define:UNITY_2018_4_OR_NEWER
+/define:UNITY_2019_1_OR_NEWER
+/define:UNITY_2019_2_OR_NEWER
+/define:UNITY_2019_3_OR_NEWER
+/define:UNITY_2019_4_OR_NEWER
+/define:UNITY_2020
+/define:UNITY_2020_1_OR_NEWER
+/define:UNITY_2020_2_OR_NEWER
+/define:UNITY_2020_3
+/define:UNITY_2020_3_17
+/define:UNITY_2020_3_OR_NEWER
+/define:UNITY_5_3_OR_NEWER
+/define:UNITY_5_4_OR_NEWER
+/define:UNITY_5_5_OR_NEWER
+/define:UNITY_5_6_OR_NEWER
+/define:UNITY_64
+/define:UNITY_ASSERTIONS
+/define:UNITY_EDITOR
+/define:UNITY_EDITOR_64
+/define:UNITY_EDITOR_WIN
+/define:UNITY_INCLUDE_TESTS
+/define:UNITY_POST_PROCESSING_STACK_V2
+/define:UNITY_STANDALONE
+/define:UNITY_STANDALONE_WIN
+/define:UNITY_TEAM_LICENSE
+/define:USE_SEARCH_ENGINE_API
+"Assets\01_Scripts\CSU_Script\Button Controller\ButtonController_script.cs"
+Assets\01_Scripts\CSU_Script\Raycast_Test_CSU\TeleportationController.cs
+Assets\01_Scripts\CSU_Script\Raycast_Test_CSU\TeleportationManager.cs
+Assets\01_Scripts\CSU_Script\XR_Input\Lobby_GetKey.cs
+Assets\01_Scripts\CSU_Script\XR_Input\XRControllerInput.cs
+Assets\01_Scripts\CSU_Script\XR_Input\XR_Move.cs
+Assets\01_Scripts\CSU_Script\photonMrg.cs
+Assets\01_Scripts\DB\CloverColonyDataBase.cs
+Assets\01_Scripts\DB\DataBase.cs
+Assets\01_Scripts\DB\FeeFawFumDataBase.cs
+Assets\01_Scripts\DB\FlyDragonDataBase.cs
+Assets\01_Scripts\DB\PeekabooDataBase.cs
+Assets\01_Scripts\DB\UserDataBase.cs
+Assets\01_Scripts\Data\PlayerData.cs
+Assets\01_Scripts\Data\StaticData.cs
+Assets\01_Scripts\GameManager.cs
+Assets\01_Scripts\GuideUI.cs
+Assets\01_Scripts\KeyboardManager.cs
+Assets\01_Scripts\Lobby\Button\PressedButton_LeftHand.cs
+Assets\01_Scripts\Lobby\Button\PressedButton_OperatingUI.cs
+Assets\01_Scripts\Lobby\Button\PressedButton_RightHand.cs
+Assets\01_Scripts\Lobby\CloverColony\CloverInfo.cs
+Assets\01_Scripts\Lobby\CloverColony\CloverSpawnManager.cs
+Assets\01_Scripts\Lobby\FeeFawFum\FFF_Button.cs
+Assets\01_Scripts\Lobby\FeeFawFum\FFF_GameManager.cs
+Assets\01_Scripts\Lobby\FeeFawFum\FFF_NPC.cs
+Assets\01_Scripts\Lobby\FeeFawFum\FFF_SpeechBubble.cs
+Assets\01_Scripts\Lobby\FlyDragon\FD_Area.cs
+Assets\01_Scripts\Lobby\FlyDragon\FD_Dragon.cs
+Assets\01_Scripts\Lobby\FlyDragon\FD_GameManager.cs
+Assets\01_Scripts\Lobby\FlyDragon\FD_RewardMessage.cs
+Assets\01_Scripts\Lobby\Friend\FriendList.cs
+Assets\01_Scripts\Lobby\Friend\FriendManager.cs
+Assets\01_Scripts\Lobby\Friend\RequestPopupUI.cs
+Assets\01_Scripts\Lobby\Inventory\Inventory.cs
+Assets\01_Scripts\Lobby\Inventory\Item.cs
+Assets\01_Scripts\Lobby\Inventory\ItemCountDelete.cs
+Assets\01_Scripts\Lobby\Inventory\ItemDelete.cs
+Assets\01_Scripts\Lobby\Inventory\ItemEquip.cs
+Assets\01_Scripts\Lobby\Inventory\ItemInfo.cs
+Assets\01_Scripts\Lobby\Inventory\ItemManager.cs
+Assets\01_Scripts\Lobby\Inventory\ItemSelect.cs
+Assets\01_Scripts\Lobby\Inventory\ItemSlot.cs
+Assets\01_Scripts\Lobby\Inventory\ItemSocket.cs
+Assets\01_Scripts\Lobby\Inventory\ItemUse.cs
+Assets\01_Scripts\Lobby\Inventory\Menu.cs
+Assets\01_Scripts\Lobby\NPC\NPC_CommunicationCanvasAnimationEvernt.cs
+Assets\01_Scripts\Lobby\NPC\NPC_CommunicationManager.cs
+Assets\01_Scripts\Lobby\Portal.cs
+Assets\01_Scripts\Lobby\Pumpkin-Punch\Pumpkin.cs
+Assets\01_Scripts\Lobby\RewardManager.cs
+Assets\01_Scripts\Lobby\RewardPopup.cs
+Assets\01_Scripts\Lobby\SetTarget.cs
+Assets\01_Scripts\LobbyManager.cs
+Assets\01_Scripts\Login\ChangePWCanvas.cs
+Assets\01_Scripts\Login\CreateCanvas.cs
+Assets\01_Scripts\Login\FindCanvas.cs
+Assets\01_Scripts\Login\JoinCanvas.cs
+Assets\01_Scripts\Login\LoginManager.cs
+Assets\01_Scripts\Login\PopupUI\ChangePWPopupCanvas.cs
+Assets\01_Scripts\Login\PopupUI\FindIDPopupCanvas.cs
+Assets\01_Scripts\Login\PopupUI\IncorrectPWPopupCanvas.cs
+Assets\01_Scripts\Login\PopupUI\SignUpCompletePopupCanvas.cs
+Assets\01_Scripts\Login\PopupUI\TheIDCanBeUsedPopupCanvas.cs
+Assets\01_Scripts\Login\PowerfulNPC.cs
+Assets\01_Scripts\Login\Tutorial\CreateNickName.cs
+Assets\01_Scripts\Login\Tutorial\RemindSelectPopup.cs
+Assets\01_Scripts\Login\Tutorial\SelectCharacter.cs
+Assets\01_Scripts\OnlyOneSceneSingleton.cs
+Assets\01_Scripts\PKB\Character\InteractTester.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacter.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterFSM.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterFrontToLeftState.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterFrontToRightState.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterIdleState.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterLeftToFrontState.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterLookingLeftState.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterLookingRightState.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterLookingSomeoneState.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterRightToFrontState.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterRotateToSomeoneState.cs
+Assets\01_Scripts\PKB\Character\PeekabooCharacterState.cs
+Assets\01_Scripts\PKB\Character\PeekabooNPC.cs
+Assets\01_Scripts\PKB\Character\PeekabooNPCDieState.cs
+Assets\01_Scripts\PKB\Character\PeekabooNPCFSM.cs
+Assets\01_Scripts\PKB\Character\PeekabooNPCLaughtState.cs
+Assets\01_Scripts\PKB\Character\PeekabooNPCMove.cs
+Assets\01_Scripts\PKB\Character\PeekabooNPCPeekabooState.cs
+Assets\01_Scripts\PKB\Character\PeekabooNPCRotateToAttackerState.cs
+Assets\01_Scripts\PKB\Character\PeekabooPC.cs
+Assets\01_Scripts\PKB\Character\PeekabooPCDieState.cs
+Assets\01_Scripts\PKB\Character\PeekabooPCFSM.cs
+Assets\01_Scripts\PKB\Character\PeekabooPCFlopState.cs
+Assets\01_Scripts\PKB\Character\PeekabooPCLosingSoulState.cs
+Assets\01_Scripts\PKB\Character\PeekabooPCPeekabooState.cs
+Assets\01_Scripts\PKB\Character\PeekabooPCRotateToAttackerState.cs
+Assets\01_Scripts\PKB\Character\PeekabooPCRotateToTargetState.cs
+Assets\01_Scripts\PKB\Character\PeekabooPCSuprisedState.cs
+Assets\01_Scripts\PKB\Character\ServerTester.cs
+Assets\01_Scripts\PKB\Character\TempManager.cs
+Assets\01_Scripts\PKB\MainUI\PKB_CreateRoomUI.cs
+Assets\01_Scripts\PKB\MainUI\PKB_CustomizingCharacter.cs
+Assets\01_Scripts\PKB\MainUI\PKB_CustomizingUI.cs
+Assets\01_Scripts\PKB\MainUI\PKB_ExitUI.cs
+Assets\01_Scripts\PKB\MainUI\PKB_FindRoomUI.cs
+Assets\01_Scripts\PKB\MainUI\PKB_MainUI.cs
+Assets\01_Scripts\PKB\MainUI\PKB_MainUIManager.cs
+Assets\01_Scripts\PKB\MainUI\PKB_NoticePopupUI.cs
+Assets\01_Scripts\PKB\MainUI\PKB_PlayRoomUI.cs
+Assets\01_Scripts\PKB\MainUI\PKB_PlayerListing.cs
+Assets\01_Scripts\PKB\MainUI\PKB_PlayerListingMenu.cs
+Assets\01_Scripts\PKB\MainUI\PKB_RankingDataUI.cs
+Assets\01_Scripts\PKB\MainUI\PKB_RankingUI.cs
+Assets\01_Scripts\PKB\MainUI\PKB_SettingUI.cs
+Assets\01_Scripts\PKB\MainUI\PKB_TitleUI.cs
+Assets\01_Scripts\PKB\Manager\PeekabooGameManager.cs
+Assets\01_Scripts\PKB\Manager\PeekabooSoundManager.cs
+Assets\01_Scripts\PKB\Manager\PeekabooTimeManager.cs
+Assets\01_Scripts\PKB\Manager\PeekabooUIManager.cs
+Assets\01_Scripts\PKB\NPC\Map\PeekabooCreateMap.cs
+Assets\01_Scripts\PKB\NPC\PeekabooNPCAppearance.cs
+Assets\01_Scripts\PKB\PC\PCCameraCulling\PCCameraCulling.cs
+Assets\01_Scripts\PKB\PC\PCInteractor\PCAppearPeekaboo.cs
+Assets\01_Scripts\PKB\PC\PCInteractor\PCAttackNPC.cs
+Assets\01_Scripts\PKB\PC\PCMove\InputManager.cs
+Assets\01_Scripts\PKB\PC\PCMove\Peekaboo_XRPlayerMovement.cs
+Assets\01_Scripts\PKB\PC\PCMove\PlayMove_Photon.cs
+Assets\01_Scripts\PKB\PC\PCMove\PlayerMove.cs
+Assets\01_Scripts\PKB\PC\PCMove\Stamina.cs
+Assets\01_Scripts\PKB\PC\PCMove\Stamina_PCDie.cs
+Assets\01_Scripts\PKB\PlayerUI\PeekabooPlayerUIData.cs
+Assets\01_Scripts\PKB\Spawner\PeekabooCreateEnemy.cs
+Assets\01_Scripts\PKB\Spawner\PeekabooSpawner.cs
+Assets\01_Scripts\Player\CharacterInfomation.cs
+Assets\01_Scripts\Player\LobbyPlayer.cs
+Assets\01_Scripts\Player\LobbyPlayerFSM.cs
+Assets\01_Scripts\Player\LobbyPlayerIdleState.cs
+Assets\01_Scripts\Player\LobbyPlayerSpawningState.cs
+Assets\01_Scripts\Player\LobbyPlayerState.cs
+Assets\01_Scripts\Player\PlayerAnimationController.cs
+Assets\01_Scripts\Player\PlayerCustum.cs
+Assets\01_Scripts\Player\PlayerFootIK.cs
+Assets\01_Scripts\Player\PlayerRigging.cs
+Assets\01_Scripts\Raycast\CanvasPointer.cs
+Assets\01_Scripts\Raycast\LayserPointer.cs
+Assets\01_Scripts\Raycast\PointerEvents.cs
+Assets\01_Scripts\Raycast\VRInput.cs
+Assets\01_Scripts\Raycast\XRRaycast.cs
+Assets\01_Scripts\SingletonBehaviour.cs
+Assets\01_Scripts\SoundManager.cs
+Assets\01_Scripts\Spawner\LobbySpawner.cs
+Assets\01_Scripts\Tutorial\TutorialClover.cs
+Assets\01_Scripts\VoiceScript\LobbyManager_voice.cs
+Assets\01_Scripts\VoiceScript\RestrictedRangeGround.cs
+Assets\01_Scripts\VoiceScript\Robby_InteractionVoiceUI.cs
+Assets\01_Scripts\VoiceScript\SeonMunChoi\VoiceChatViewController.cs
+Assets\01_Scripts\VoiceScript\SeonMunChoi\VoiceChatViewModel.cs
+Assets\01_Scripts\VoiceScript\SeonMunChoi\VoiceChatViewUI.cs
+Assets\01_Scripts\VoiceScript\SoundSetting.cs
+Assets\01_Scripts\VoiceScript\SpeakerMute.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\BasicMessageBox.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\GetInvitationTalkUI.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\InteractionVoiceUI.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\LobbyPlayerCulling.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\Nickname.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\SoundControl.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\VociechatPanel.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\VoiceRoomManager.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\XRRightRaycast.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\usingScripts\FollowingCamera.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\usingScripts\VoiceConfrimOkayBtn.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\usingScripts\VoiceEffect.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\usingScripts\VoiceInvitationUI.cs
+Assets\01_Scripts\VoiceScript\UsingVoiceScripts\usingScripts\VoiceTalkingApprove.cs
+Assets\01_Scripts\VoiceScript\Voiceroom\PlayerData_voice.cs
+Assets\01_Scripts\VoiceScript\Voiceroom\SelectPlayerListView.cs
+Assets\01_Scripts\VoiceScript\Voiceroom\VoiceChatControll.cs
+Assets\01_Scripts\VoiceScript\Voiceroom\VoiceManager.cs
+Assets\01_Scripts\VoiceScript\Voiceroom\VoiceRPCConnect.cs
+Assets\01_Scripts\VoiceScript\VoiceroomManager.cs
+Assets\01_Scripts\testLobby.cs
+Assets\05_Packages\ParrelSync\Examples\CustomArgumentExample.cs
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Attributes\GetSetAttribute.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Attributes\MinAttribute.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Attributes\TrackballAttribute.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Attributes\TrackballGroupAttribute.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\AmbientOcclusionComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\BloomComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\BuiltinDebugViewsComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\ChromaticAberrationComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\ColorGradingComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\DepthOfFieldComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\DitheringComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\EyeAdaptationComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\FogComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\FxaaComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\GrainComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\MotionBlurComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\ScreenSpaceReflectionComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\TaaComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\UserLutComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Components\VignetteComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\AmbientOcclusionModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\AntialiasingModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\BloomModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\BuiltinDebugViewsModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\ChromaticAberrationModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\ColorGradingModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\DepthOfFieldModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\DitheringModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\EyeAdaptationModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\FogModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\GrainModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\MotionBlurModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\ScreenSpaceReflectionModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\UserLutModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Models\VignetteModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\PostProcessingBehaviour.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\PostProcessingComponent.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\PostProcessingContext.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\PostProcessingModel.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\PostProcessingProfile.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Utils\ColorGradingCurve.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Utils\GraphicsUtils.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Utils\MaterialFactory.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Runtime\Utils\RenderTextureFactory.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\Scripts\ManualScripts.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\Scripts\fxController.cs"
+"Assets\05_Packages\Peekaboo_Asset\v.001_Peekaboo_Map Assets\EpicFireflyEffects\Scripts\rotateCamera.cs"
+Assets\05_Packages\Photon\PhotonChat\Demos\Common\EventSystemSpawner.cs
+Assets\05_Packages\Photon\PhotonChat\Demos\Common\OnStartDelete.cs
+Assets\05_Packages\Photon\PhotonChat\Demos\Common\TextButtonTransition.cs
+Assets\05_Packages\Photon\PhotonChat\Demos\Common\TextToggleIsOnTransition.cs
+Assets\05_Packages\Photon\PhotonChat\Demos\DemoChat\AppSettingsExtensions.cs
+Assets\05_Packages\Photon\PhotonChat\Demos\DemoChat\ChannelSelector.cs
+Assets\05_Packages\Photon\PhotonChat\Demos\DemoChat\ChatAppIdCheckerUI.cs
+Assets\05_Packages\Photon\PhotonChat\Demos\DemoChat\ChatGui.cs
+Assets\05_Packages\Photon\PhotonChat\Demos\DemoChat\FriendItem.cs
+Assets\05_Packages\Photon\PhotonChat\Demos\DemoChat\IgnoreUiRaycastWhenInactive.cs
+Assets\05_Packages\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs
+Assets\05_Packages\Photon\PhotonLibs\WebSocket\SocketWebTcp.cs
+Assets\05_Packages\Photon\PhotonLibs\WebSocket\WebSocket.cs
+Assets\05_Packages\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoProximityVoiceChat\Scripts\ChangeColor.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoProximityVoiceChat\Scripts\ChangeName.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoProximityVoiceChat\Scripts\PointersController.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoProximityVoiceChat\Scripts\ProximityVoiceTrigger.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\BaseController.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\BetterToggle.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\ChangePOV.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\CharacterInstantiation.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\FirstPersonController.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\Highlighter.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\MouseLookHelper.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\OrthographicController.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\SoundsForJoinAndLeave.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\ThirdPersonController.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Scripts\VoiceDemoUI.cs
+"Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Standard Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs"
+"Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Standard Assets\CrossPlatformInput\Scripts\ButtonHandler.cs"
+"Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Standard Assets\CrossPlatformInput\Scripts\CrossPlatformInputManager.cs"
+"Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Standard Assets\CrossPlatformInput\Scripts\InputAxisScrollbar.cs"
+"Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Standard Assets\CrossPlatformInput\Scripts\Joystick.cs"
+"Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Standard Assets\CrossPlatformInput\Scripts\MobileControlRig.cs"
+"Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Standard Assets\CrossPlatformInput\Scripts\PlatformSpecific\MobileInput.cs"
+"Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Standard Assets\CrossPlatformInput\Scripts\PlatformSpecific\StandaloneInput.cs"
+"Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Standard Assets\CrossPlatformInput\Scripts\TouchPad.cs"
+"Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoicePun\Standard Assets\CrossPlatformInput\Scripts\VirtualInput.cs"
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoiceUI\Scripts\BackgroundMusicController.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoiceUI\Scripts\CodecSettingsUI.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoiceUI\Scripts\DemoVoiceUI.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoiceUI\Scripts\MicrophoneDropdownFiller.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoiceUI\Scripts\PhotonDemoExtensions.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoiceUI\Scripts\RemoteSpeakerUI.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoiceUI\Scripts\SidebarToggle.cs
+Assets\05_Packages\Photon\PhotonVoice\Demos\DemoVoiceUI\Scripts\UiExtensions.cs
+Assets\05_Packages\QuickOutline\Scripts\Outline.cs
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\Benchmark01.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\Benchmark01_UGUI.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\Benchmark02.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\Benchmark03.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\Benchmark04.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\CameraController.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\ChatController.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\DropdownSample.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\EnvMapAnimator.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\ObjectSpin.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\ShaderPropAnimator.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\SimpleScript.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\SkewTextExample.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMP_DigitValidator.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMP_ExampleScript_01.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMP_FrameRateCounter.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMP_PhoneNumberValidator.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMP_TextEventCheck.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMP_TextEventHandler.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMP_TextInfoDebugTool.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMP_TextSelector_A.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMP_TextSelector_B.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMP_UiFrameRateCounter.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TMPro_InstructionOverlay.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TeleType.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TextConsoleSimulator.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TextMeshProFloatingText.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\TextMeshSpawner.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\VertexColorCycler.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\VertexJitter.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\VertexShakeA.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\VertexShakeB.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\VertexZoom.cs"
+"Assets\05_Packages\TextMesh Pro\Examples & Extras\Scripts\WarpTextExample.cs"
+Assets\05_Packages\VR_Hand\3.Scripts\Share\Hand\XRHandController.cs
+Assets\05_Packages\Ver.1_Lobby\Bitgem\StylisedWater\URP\Scripts\Bitgem\Core\FlagEnumAttribute.cs
+Assets\05_Packages\Ver.1_Lobby\Bitgem\StylisedWater\URP\Scripts\Bitgem\VFX\StylisedWater\WaterVolumeBase.cs
+Assets\05_Packages\Ver.1_Lobby\Bitgem\StylisedWater\URP\Scripts\Bitgem\VFX\StylisedWater\WaterVolumeBox.cs
+Assets\05_Packages\Ver.1_Lobby\Bitgem\StylisedWater\URP\Scripts\Bitgem\VFX\StylisedWater\WaterVolumeHelper.cs
+Assets\05_Packages\Ver.1_Lobby\Bitgem\StylisedWater\URP\Scripts\Bitgem\VFX\StylisedWater\WaterVolumeTransforms.cs
+Assets\05_Packages\Ver.1_Lobby\Bitgem\StylisedWater\URP\Scripts\Bitgem\VFX\StylisedWater\WateverVolumeFloater.cs
+"Assets\05_Packages\Ver.1_Lobby\KUBIKOS - 3D Cube Village And Farm\Scripts\EnableCameraDepthInForward.cs"
+Assets\05_Packages\Ver.1_Lobby\Little_Ghost\Scripts\GhostAnimation.cs
+Assets\05_Packages\Ver.1_Lobby\Polyart\PolyartStudio\DreamscapeCampsite\Scripts\Flickering.cs
+Assets\05_Packages\Ver.1_Lobby\Polyart\PolyartStudio\Scripts\Flythrough.cs
+Assets\05_Packages\Ver.1_Lobby\Polyart\PolyartStudio\Scripts\FoliageInteractor.cs
+Assets\05_Packages\Ver.1_Lobby\Polyart\PolyartStudio\Scripts\NatureManager.cs
+Assets\05_Packages\Ver.1_Lobby\Polyart\PolyartStudio\Scripts\SmoothMouseLook.cs
+Assets\05_Packages\Ver.1_Lobby\Polyart\PolyartStudio\Scripts\WaterReflection.cs
+"Assets\05_Packages\Ver.1_Lobby\Reversed Interactive\The Portal Collection\Scripts\SimpleCameraControllerPortals.cs"
+Assets\05_Packages\Ver.1_Lobby\Scripts\SimpleCameraController.cs
+Assets\05_Packages\Ver.1_Lobby\Suriyun\Scripts\AnimatorController.cs
+"Assets\05_Packages\Ver.1_Lobby\Suriyun\Scripts\Camera Scripts\MouseOrbitImproved.cs"
+Assets\05_Packages\Ver.1_Lobby\Suriyun\Scripts\Swapper.cs
+Assets\05_Packages\Ver.1_Lobby\Tomerinio\LEDLightBlocks\Contents\Scripts\LEDNode.cs
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Attributes\DisplayNameAttribute.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Attributes\MaxAttribute.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Attributes\MinAttribute.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Attributes\MinMaxAttribute.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Attributes\PostProcessAttribute.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Attributes\TrackballAttribute.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\AmbientOcclusion.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\AutoExposure.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\Bloom.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\ChromaticAberration.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\ColorGrading.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\DepthOfField.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\Dithering.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\FastApproximateAntialiasing.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\Fog.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\Grain.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\LensDistortion.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\MotionBlur.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\MultiScaleVO.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\ScalableAO.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\ScreenSpaceReflections.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\SubpixelMorphologicalAntialiasing.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\TemporalAntialiasing.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Effects\Vignette.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Monitors\HistogramMonitor.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Monitors\LightMeterMonitor.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Monitors\Monitor.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Monitors\VectorscopeMonitor.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Monitors\WaveformMonitor.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\ParameterOverride.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessBundle.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessDebug.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessDebugLayer.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessEffectRenderer.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessEffectSettings.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessEvent.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessLayer.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessManager.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessProfile.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessRenderContext.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessResources.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\PostProcessVolume.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\ColorUtilities.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\HableCurve.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\HaltonSeq.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\LogHistogram.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\MeshUtilities.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\PropertySheet.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\PropertySheetFactory.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\RuntimeUtilities.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\ShaderIDs.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\Spline.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\TargetPool.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\TextureFormatUtilities.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\TextureLerper.cs"
+"Assets\05_Packages\Ver.1_Lobby\Translucent Crystals\PostProcessingV2\Runtime\Utils\XRSettings.cs"
+"Assets\05_Packages\Ver.1_Lobby\polyperfect\Alien Toon Plants\Standard Assets\Effects\ImageEffects\Scripts\Antialiasing.cs"
+"Assets\05_Packages\Ver.1_Lobby\polyperfect\Alien Toon Plants\Standard Assets\Effects\ImageEffects\Scripts\ImageEffectBase.cs"
+"Assets\05_Packages\Ver.1_Lobby\polyperfect\Alien Toon Plants\Standard Assets\Effects\ImageEffects\Scripts\ImageEffects.cs"
+"Assets\05_Packages\Ver.1_Lobby\polyperfect\Alien Toon Plants\Standard Assets\Effects\ImageEffects\Scripts\PostEffectsBase.cs"
+"Assets\05_Packages\Ver.1_Lobby\polyperfect\Alien Toon Plants\Standard Assets\Effects\ImageEffects\Scripts\PostEffectsHelper.cs"
+"Assets\05_Packages\Ver.1_Lobby\polyperfect\Poly Halloween Pack\- Scripts\MouseLook.cs"
+"Assets\05_Packages\Ver.1_Lobby\polyperfect\Poly Halloween Pack\- Scripts\PlayerMovement.cs"
+Assets\Data.xlsx\BadNickname.cs
+Assets\Data.xlsx\BadNicknameData.cs
+Assets\Data.xlsx\ItemSheet.cs
+Assets\Data.xlsx\ItemSheetData.cs
+Assets\Data.xlsx\NPCDialogue.cs
+Assets\Data.xlsx\NPCDialogueData.cs
+Assets\Data.xlsx\NPCSheet.cs
+Assets\Data.xlsx\NPCSheetData.cs
+Assets\Data.xlsx\NoticePopup.cs
+Assets\Data.xlsx\NoticePopupData.cs
+Assets\Data.xlsx\PeekabooCharacterBehaviour.cs
+Assets\Data.xlsx\PeekabooCharacterBehaviourData.cs
+Assets\Data.xlsx\PeekabooCustomizing.cs
+Assets\Data.xlsx\PeekabooCustomizingData.cs
+Assets\Data.xlsx\PeekabooNPCData.cs
+Assets\Data.xlsx\RewardSheet.cs
+Assets\Data.xlsx\RewardSheetData.cs
+Assets\Data.xlsx\SpeechBubbleSheet.cs
+Assets\Data.xlsx\SpeechBubbleSheetData.cs
+Assets\Oculus\SampleFramework\Core\CustomHands\Scripts\Hand.cs
+Assets\Oculus\SampleFramework\Core\CustomHands\Scripts\HandPose.cs
+Assets\Oculus\SampleFramework\Core\DebugUI\Scripts\DebugUIBuilder.cs
+Assets\Oculus\SampleFramework\Core\DebugUI\Scripts\HandedInputSelector.cs
+Assets\Oculus\SampleFramework\Core\DebugUI\Scripts\LaserPointer.cs
+Assets\Oculus\SampleFramework\Core\DistanceGrab\Scripts\ColorGrabbable.cs
+Assets\Oculus\SampleFramework\Core\DistanceGrab\Scripts\DistanceGrabbable.cs
+Assets\Oculus\SampleFramework\Core\DistanceGrab\Scripts\DistanceGrabber.cs
+Assets\Oculus\SampleFramework\Core\DistanceGrab\Scripts\GrabManager.cs
+Assets\Oculus\SampleFramework\Core\DistanceGrab\Scripts\GrabbableCrosshair.cs
+Assets\Oculus\SampleFramework\Core\DistanceGrab\Scripts\PauseOnInputLoss.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\BoneCapsuleTriggerLogic.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\ButtonController.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\ButtonTriggerZone.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\ColliderZone.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\HandsManager.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Interactable.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\InteractableRegistry.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\InteractableToolsCreator.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\InteractableToolsInputRouter.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\FingerTipPokeTool.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\FingerTipPokeToolView.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\InteractableTool.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\InteractableToolView.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\PinchStateModule.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\RayTool.cs
+Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\RayToolView.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\CharacterCameraConstraint.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\LocomotionController.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\LocomotionTeleport.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\SimpleCapsuleWithStickMovement.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportAimHandler.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportAimHandlerLaser.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportAimHandlerParabolic.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportAimVisualLaser.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportDestination.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportInputHandler.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportInputHandlerHMD.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportInputHandlerTouch.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportOrientationHandler.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportOrientationHandler360.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportOrientationHandlerHMD.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportOrientationHandlerThumbstick.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportPoint.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportSupport.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportTargetHandler.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportTargetHandlerNavMesh.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportTargetHandlerNode.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportTargetHandlerPhysical.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportTransition.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportTransitionBlink.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportTransitionInstant.cs
+Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportTransitionWarp.cs
+Assets\Oculus\SampleFramework\Core\TouchControllers\TouchController.cs
+Assets\Oculus\SampleFramework\Core\Video\Plugins\Android\NativeVideoPlayer.cs
+Assets\Oculus\SampleFramework\Core\Video\Scripts\ButtonDownListener.cs
+Assets\Oculus\SampleFramework\Core\Video\Scripts\MediaPlayerImage.cs
+Assets\Oculus\SampleFramework\Core\Video\Scripts\MoviePlayerSample.cs
+Assets\Oculus\SampleFramework\Core\Video\Scripts\MoviePlayerSampleControls.cs
+Assets\Oculus\SampleFramework\Core\Video\Scripts\VectorUtil.cs
+Assets\Oculus\SampleFramework\Usage\AppDeeplink\AppDeeplinkUI.cs
+Assets\Oculus\SampleFramework\Usage\AppDeeplink\UI\CustomDebugUI.cs
+Assets\Oculus\SampleFramework\Usage\DebugUI\DebugUISample.cs
+Assets\Oculus\SampleFramework\Usage\DistanceGrab\Scripts\DistanceGrabberSample.cs
+Assets\Oculus\SampleFramework\Usage\Firebase\AnalyticsUI.cs
+Assets\Oculus\SampleFramework\Usage\Firebase\SampleUI.cs
+Assets\Oculus\SampleFramework\Usage\Firebase\StartCrashlytics.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\ControllerBoxController.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\CowController.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\HandsActiveChecker.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\PanelHMDFollower.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\SelectionCylinder.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrackSegment.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrainButtonVisualController.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrainCar.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrainCarBase.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrainCrossingController.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrainLocomotive.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrainTrack.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\Utils\Pose.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\WindmillBladesController.cs
+Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\WindmillController.cs
+Assets\Oculus\SampleFramework\Usage\Locomotion\Scripts\CharacterCapsule.cs
+Assets\Oculus\SampleFramework\Usage\Locomotion\Scripts\LocomotionSampleSupport.cs
+Assets\Oculus\SampleFramework\Usage\OVROverlay\Scripts\OVROverlaySample.cs
+Assets\Oculus\SampleFramework\Usage\OVROverlayCanvas\Scripts\OVROverlayCanvas.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\AugmentedObject.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\BrushController.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\EnableUnpremultipliedAlpha.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\Flashlight.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\FlashlightController.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\GrabObject.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\HandMeshMask.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\HandMeshUI.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\ObjectManipulator.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\OverlayPassthrough.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\PassthroughBrush.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\PassthroughController.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\PassthroughProjectionSurface.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\PassthroughStyler.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\PassthroughSurface.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\SPPquad.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\SceneSampler.cs
+Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\SelectivePassthroughExperience.cs
+Assets\Oculus\SampleFramework\Usage\SceneManager\Scripts\BouncingBallLogic.cs
+Assets\Oculus\SampleFramework\Usage\SceneManager\Scripts\BouncingBallMgr.cs
+Assets\Oculus\SampleFramework\Usage\SceneManager\Scripts\FurnitureSpawner.cs
+Assets\Oculus\SampleFramework\Usage\SceneManager\Scripts\MyCustomSceneModelLoader.cs
+Assets\Oculus\SampleFramework\Usage\SceneManager\Scripts\PassthroughPlayInEditor.cs
+Assets\Oculus\SampleFramework\Usage\SceneManager\Scripts\RequestCaptureFlow.cs
+Assets\Oculus\SampleFramework\Usage\SceneManager\Scripts\SimpleResizer\SimpleResizable.cs
+Assets\Oculus\SampleFramework\Usage\SceneManager\Scripts\SimpleResizer\SimpleResizer.cs
+Assets\Oculus\SampleFramework\Usage\SceneManager\Scripts\Spawnable.cs
+Assets\Oculus\SampleFramework\Usage\SceneManager\Scripts\VolumeAndPlaneSwitcher.cs
+Assets\Oculus\SampleFramework\Usage\SpatialAnchor\Scripts\Anchor.cs
+Assets\Oculus\SampleFramework\Usage\SpatialAnchor\Scripts\AnchorHelpers.cs
+Assets\Oculus\SampleFramework\Usage\SpatialAnchor\Scripts\AnchorSession.cs
+Assets\Oculus\SampleFramework\Usage\SpatialAnchor\Scripts\AnchorSpawner.cs
+Assets\Oculus\SampleFramework\Usage\SpatialAnchor\Scripts\AnchorUIManager.cs
+Assets\Oculus\SampleFramework\Usage\SpatialAnchor\Scripts\SpatialAnchorLoader.cs
+Assets\Oculus\SampleFramework\Usage\SpatialAnchor\Scripts\SpatialAnchorSession.cs
+Assets\Oculus\SampleFramework\Usage\StartScene\Scripts\StartMenu.cs
+Assets\Oculus\Voice\Lib\Wit.ai\AssemblyInfo.cs
+Assets\QuickSheet\Example\Data\Runtime\ExcelExample.cs
+Assets\QuickSheet\Example\Data\Runtime\ExcelExampleData.cs
+Assets\QuickSheet\Example\Difficulty.cs
+Assets\QuickSheet\Runtime\ExposePropertyAttribute.cs
+Assets\QuickSheet\Runtime\Util\ConvertExt.cs

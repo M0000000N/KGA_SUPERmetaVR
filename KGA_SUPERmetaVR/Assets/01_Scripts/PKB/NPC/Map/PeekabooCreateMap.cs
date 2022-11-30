@@ -129,6 +129,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
                     mapdata.NumberOfNPCPlacedInZone = 0;
                     mapData.Add(mapIndex, mapdata);
                     mapIndex++;
+                    Debug.Log($"{mapPosition}");
                 }
             }
         }
@@ -197,6 +198,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
             }
             // 인덱스값이 정해지면 인덱스에 해당하는 범위 중 한 곳을 랜덤으로 정한다
             Vector3 randomMapPosition = mapData[randomPlayerIndex].MapPosition;
+            Debug.Log($"랜덤 맵 포지션 {randomMapPosition}");
             float randomPositonX = Random.Range(randomMapPosition.x - MapLength / 2, randomMapPosition.x + MapLength / 2);
             float randomPositonZ = Random.Range(randomMapPosition.z - MapLength / 2, randomMapPosition.z + MapLength / 2);
 

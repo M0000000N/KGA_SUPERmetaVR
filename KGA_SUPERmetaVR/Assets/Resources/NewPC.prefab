@@ -79,7 +79,7 @@ SpriteRenderer:
   m_Size: {x: 24.247723, y: 6.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4204567686879238656
@@ -560,11 +560,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0123e037c1e48bc4f9bb9a584ac44c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveReference: {fileID: 0}
-  BReference: {fileID: 0}
-  move: {fileID: 0}
-  stamina: {fileID: 0}
+  walkSpeed: 1
   runSpeed: 2
+  BReference: {fileID: 0}
+  stamina: {fileID: 0}
+  camera: {fileID: 0}
+  xRNode: 4
 --- !u!195 &4204567686879239971
 NavMeshAgent:
   m_ObjectHideFlags: 0
