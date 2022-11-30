@@ -6,13 +6,15 @@ using Photon.Pun;
 
 public class FD_Dragon : MonoBehaviourPun
 {
-    private ParticleSystem[] particle;
+    [SerializeField] Material defaultMaterial;
+    [SerializeField] Material fadeMaterial;
+    [SerializeField] ParticleSystem[] grabParticle;
+    [SerializeField] ParticleSystem[] flyParticle;
     private Rigidbody rigidbody;
-    [SerializeField] private Material defaultMaterial;
-    [SerializeField] private Material fadeMaterial;
     private float fadeoutTime = 2f;
     private bool isStartFadedout = false;
-    private bool isParticlePlay = false;
+    private bool isFlyParticlePlay = false;
+    private bool isGrabParticlePlay = false;
 
     public bool IsStartFadedout
     {
@@ -30,25 +32,40 @@ public class FD_Dragon : MonoBehaviourPun
         }
     }
 
-    public bool IsParticlePlay
+    public bool IsFlyParticlePlay
     {
         get
         {
-            return isParticlePlay;
+            return isFlyParticlePlay;
         }
         set
         {
-            isParticlePlay = value;
-            if (isParticlePlay && gameObject.activeSelf)
+            isFlyParticlePlay = value;
+            if (isFlyParticlePlay && gameObject.activeSelf)
             {
-                photonView.RPC("ParticleOn", RpcTarget.AllViaServer);
+                photonView.RPC("GrabParticleOn", RpcTarget.AllViaServer);
+            }
+        }
+    }
+
+    public bool IsGrabParticlePlay
+    {
+        get
+        {
+            return isGrabParticlePlay;
+        }
+        set
+        {
+            isGrabParticlePlay = value;
+            if (isGrabParticlePlay && gameObject.activeSelf)
+            {
+                photonView.RPC("FlyParticleOn", RpcTarget.AllViaServer);
             }
         }
     }
 
     void Start()
     {
-        particle = GetComponentsInChildren<ParticleSystem>();
         rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -61,15 +78,24 @@ public class FD_Dragon : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void ParticleOn()
+    public void GrabParticleOn()
     {
         rigidbody.isKinematic = false;
-        for (int i = 0; i < particle.Length; i++)
+        for (int i = 0; i < grabParticle.Length; i++)
         {
-            particle[i].Play();
+            grabParticle[i].Play();
         }
     }
 
+    [PunRPC]
+    public void FlyParticleOn()
+    {
+        rigidbody.isKinematic = false;
+        for (int i = 0; i < flyParticle.Length; i++)
+        {
+            flyParticle[i].Play();
+        }
+    }
     [PunRPC]
     private void StartFadeOut()
     {
