@@ -36,6 +36,7 @@ public class FFF_Button : MonoBehaviour
         FFF_GameManager.Instance.PlusClearCount(true);
         mybutton.interactable = false;
         timer.gameObject.SetActive(false);
+        mybutton.interactable = true;
     }
 
     private IEnumerator SetTimer()
@@ -53,6 +54,7 @@ public class FFF_Button : MonoBehaviour
         index = 0;
         isStartCouroutine = false;
         FFF_GameManager.Instance.PlusClearCount(false);
+        mybutton.interactable = true;
     }
 
     private void SetImage(int _index)
