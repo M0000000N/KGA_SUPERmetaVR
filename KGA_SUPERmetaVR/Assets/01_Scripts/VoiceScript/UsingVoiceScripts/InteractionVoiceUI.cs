@@ -49,7 +49,7 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             MyNickname = photonView.Owner.NickName;
-            VoicePanel.text = photonView.Owner.NickName;
+           // VoicePanel.text = photonView.Owner.NickName;
         }
         else
         {
@@ -192,6 +192,7 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
 
     public void Approve()
     {
+        //VoicePanel.text = photonView.Owner.NickName;
         myVoicepanel.SetActive(true);
         photonView.RPC(nameof(voiceApprove), otherPlayer, interestGroup, true);
         PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
@@ -212,12 +213,13 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
             interestGroup = (byte)_interestGroup;
             PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
 
-            myVoicepanel.SetActive(_Value);
-            otherVoicePanel.text = OtherNickname;
+            VoicePanel.text = OtherNickname; // 내 닉네임 뜸  
             VoiceTalkingApprove.Instance.OpenPopup();
             VoiceTalkingApprove.Instance.Set(OtherNickname + "님이 1:1 대화를 수락하였습니다");
             // 요청자에게 패널이 떠야하는데 
         }
+        myVoicepanel.SetActive(_Value);
+        otherVoicePanel.text = otherPlayer.NickName; 
     }
 
     [PunRPC]
