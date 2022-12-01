@@ -54,6 +54,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
     private void Start()
     {
         PlayerCustum playerCustum = GameManager.Instance.Player.GetComponentInChildren<PlayerCustum>();
+        UserDataBase.Instance.LoadCustomize();
         if (GameManager.Instance.PlayerData.Customize == GameManager.Instance.PlayerData.DefaultCustomize)
         {
             isEquipItem = false;
