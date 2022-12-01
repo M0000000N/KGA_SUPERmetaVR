@@ -57,7 +57,18 @@ public class NPC_CommunicationManager : MonoBehaviourPun
     }
 
     // Collider
-    private void OnTriggerEnter(Collider other)
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.tag.Equals("Player"))
+    //    {
+    //        // ¥Î»≠ ¡ﬂ
+    //        Initialize();
+    //        handshake.SetActive(true);
+    //        communication.SetActive(false);
+    //    }
+    //}
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.tag.Equals("Player"))
         {
