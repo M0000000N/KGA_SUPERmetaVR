@@ -32,22 +32,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         Debug.Log($"인벤토리 길이 {playerData.ItemSlotData.ItemData.Length}");
-        ///테스트용
-        int randomKey = 2;
-        for (int i = 0; i < 17; i++)
-        {
-            
 
-            playerData.ItemSlotData.ItemData[i].ID = StaticData.GetItemSheet(15000 + randomKey).ID;
-            playerData.ItemSlotData.ItemData[i].Count = 1;
-            playerData.ItemSlotData.ItemData[i].Equip = 0;
-            randomKey += 1;
-        }
-
-        playerData.ItemSlotData.ItemData[17].ID = 12000;
-        playerData.ItemSlotData.ItemData[17].Count = 50;
-        playerData.ItemSlotData.ItemData[17].Equip = 0;
-        ///
 
         slots = SlotGrid.GetComponentsInChildren<ItemSlot>();
         Initialize();

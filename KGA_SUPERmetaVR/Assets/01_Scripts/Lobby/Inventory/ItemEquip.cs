@@ -45,6 +45,7 @@ public class ItemEquip : MonoBehaviour
         PlayerCustum playerCustum = GameManager.Instance.Player.GetComponentInChildren<PlayerCustum>();
         GameManager.Instance.PlayerData.Customize = IDnumber;
         // 바뀐 커스터마이징 서버에 올리는 코드
+        UserDataBase.Instance.SaveCustomize();
         ItemManager.Instance.IsEquipItem = true;
         GameManager.Instance.PlayerData.ItemSlotData.ItemData[_slotNumber].Equip = (int)ITEMSTATE.EQUIP;
         playerCustum.ChangeCustum(IDnumber);
