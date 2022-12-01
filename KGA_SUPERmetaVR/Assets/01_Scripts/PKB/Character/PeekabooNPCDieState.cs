@@ -80,7 +80,7 @@ public class PeekabooNPCDieState : PeekabooCharacterState
         myRenderer.material.color = myColor;
         while (myBody.transform.position.y > 1.2f)
         {
-            myBody.transform.position = Vector3.Lerp(myBody.transform.position, new Vector3(myBody.transform.position.x, 1, myBody.transform.position.z), 0.01f);
+            myBody.transform.position = Vector3.Lerp(myBody.transform.position, new Vector3(myBody.transform.position.x, 2.905f, myBody.transform.position.z), 0.01f);
             yield return new WaitForSeconds(0.01f);
         }
 
