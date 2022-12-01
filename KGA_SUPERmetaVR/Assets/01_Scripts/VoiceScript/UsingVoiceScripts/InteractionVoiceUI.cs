@@ -212,9 +212,10 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
             interestGroup = (byte)_interestGroup;
             PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
 
+            myVoicepanel.SetActive(_Value);
+            otherVoicePanel.text = OtherNickname;
             VoiceTalkingApprove.Instance.OpenPopup();
             VoiceTalkingApprove.Instance.Set(OtherNickname + "님이 1:1 대화를 수락하였습니다");
-            myVoicepanel.SetActive(_Value);
             // 요청자에게 패널이 떠야하는데 
         }
     }
