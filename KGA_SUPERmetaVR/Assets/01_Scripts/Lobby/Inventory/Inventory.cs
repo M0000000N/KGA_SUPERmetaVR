@@ -33,6 +33,7 @@ public class Inventory : MonoBehaviour
     {
         Debug.Log($"인벤토리 길이 {playerData.ItemSlotData.ItemData.Length}");
 
+
         slots = SlotGrid.GetComponentsInChildren<ItemSlot>();
         Initialize();
     }

@@ -179,7 +179,7 @@ public class UserDataBase : SingletonBehaviour<UserDataBase>
 
     public void SaveCustomize()
     {
-        DataBase.Instance.sqlcmdall($"UPDATE {UserTableInfo.table_name} SET {UserTableInfo.customize} = {playerData.Customize} WHERE {UserTableInfo.id} = '{playerData.ID}'");
+        DataBase.Instance.sqlcmdall($"UPDATE {UserTableInfo.table_name} SET {UserTableInfo.customize} = {playerData.Customize} WHERE {UserTableInfo.user_id} = '{playerData.ID}'");
     }
 
     public void LoadCustomize()
