@@ -69,6 +69,8 @@ public class LobbySpawner : MonoBehaviourPun
 
         Vector3 position = new Vector3(positionX, positionY, positionZ);
         LobbyCamera.transform.position = position;
+        Quaternion quaternion = Quaternion.Euler(new Vector3(0f, 90f, 0f));
+        LobbyCamera.transform.rotation = quaternion;
         return LobbyCamera.transform;
     }
 
