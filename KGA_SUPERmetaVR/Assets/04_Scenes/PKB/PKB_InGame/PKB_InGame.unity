@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.57092345, g: 0.32702106, b: 0.476677, a: 1}
+  m_IndirectSpecularColor: {r: 0.5705316, g: 0.32700843, b: 0.47661412, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4488,6 +4488,7 @@ GameObject:
   - component: {fileID: 8750309870422785192}
   - component: {fileID: 8750309870422785194}
   - component: {fileID: 8750309870422785195}
+  - component: {fileID: 8750309870422785196}
   m_Layer: 6
   m_Name: Ingame_Camera
   m_TagString: Untagged
@@ -4598,3 +4599,25 @@ MonoBehaviour:
   TurnOn: 1
   OperatingReference: {fileID: 5280782307248792, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   Operating: {fileID: 5114218451259492104}
+--- !u!195 &8750309870422785196
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8750309870422785190}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
