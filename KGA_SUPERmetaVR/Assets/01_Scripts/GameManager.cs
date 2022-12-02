@@ -46,7 +46,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         PlayerData.PeekabooData.CharacterList.Character[2] = 1;
         PlayerData.PeekabooData.CharacterList.Character[3] = 1;
         PlayerData.PeekabooData.CharacterList.Character[4] = 1;
-        
+
         // -------------------------------------------------------------------------------- 테스트 코드
 
         // [아이템 테스트 코드]
@@ -64,5 +64,6 @@ public class GameManager : SingletonBehaviour<GameManager>
         //playerData.Friends.Friend.Add(56);
 
         // -------------------------------------------------------------------------------- 테스트 코드
+        PlayerData.IsWin = false;
     }
 }
