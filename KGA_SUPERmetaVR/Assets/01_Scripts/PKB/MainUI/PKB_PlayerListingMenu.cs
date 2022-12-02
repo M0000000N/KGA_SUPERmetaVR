@@ -21,6 +21,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
     public override void OnEnable()
     {
         SoundManager.Instance.PlayBGM("PKBOO_Room_bgm.wav");
+        PhotonNetwork.AddCallbackTarget(this);
         GetCurrentRoomPlayers();
         SetReadyUp(false);
         if (PhotonNetwork.IsMasterClient)
