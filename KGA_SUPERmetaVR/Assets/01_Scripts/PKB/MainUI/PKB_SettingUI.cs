@@ -7,6 +7,9 @@ using Photon.Voice.Unity;
 
 public class PKB_SettingUI : MonoBehaviour
 {
+    [SerializeField]
+    GameObject soundSettingUI;
+
     [Header("BGM")]
     [SerializeField] Slider bgmSlider;
     [SerializeField] TextMeshProUGUI bgmValue;
@@ -125,12 +128,12 @@ public class PKB_SettingUI : MonoBehaviour
     public void OnPopupUI()
     {
         SettingSave();
-        gameObject.SetActive(true);
+        soundSettingUI.SetActive(true);
     }
 
     public void OffPopupUI()
     {
         SettingSave();
-        gameObject.SetActive(false);
+        soundSettingUI.SetActive(false);
     }
 }
