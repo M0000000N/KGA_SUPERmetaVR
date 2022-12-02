@@ -57,18 +57,7 @@ public class NPC_CommunicationManager : MonoBehaviourPun
     }
 
     // Collider
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.tag.Equals("Player"))
-    //    {
-    //        // ¥Î»≠ ¡ﬂ
-    //        Initialize();
-    //        handshake.SetActive(true);
-    //        communication.SetActive(false);
-    //    }
-    //}
-
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Equals("Player"))
         {
@@ -211,10 +200,16 @@ public class NPC_CommunicationManager : MonoBehaviourPun
         {
             FFF_GameManager.Instance.StartDance();
             communication.SetActive(false);
+
+            Initialize();
+            handshake.SetActive(true);
         }
         else
         {
             communication.SetActive(false);
+            
+            Initialize();
+            handshake.SetActive(true);
         }
     }
 
