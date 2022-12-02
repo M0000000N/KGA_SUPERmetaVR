@@ -20,6 +20,8 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     [SerializeField] Button InteractionTalking;
     [SerializeField] Button TalkingTogether;
     [SerializeField] Button Exit; // 대화종료 버튼 
+    //[SerializeField] Button SpeakerVoiceMute;
+    //[SerializeField] Button SpeakervoiceMuteOff;
 
     [Header("보이스챗 상호작용 시작")]
     [SerializeField] private GameObject myVoicepanel;
@@ -30,6 +32,7 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     [SerializeField] PhotonView photonView;
 
     Player otherPlayer;
+    Player player;
 
     VoiceClient voiceClient;
 
@@ -49,13 +52,12 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             MyNickname = photonView.Owner.NickName;
-           // VoicePanel.text = photonView.Owner.NickName;
+            VoicePanel.text = photonView.Owner.NickName;
         }
         else
         {
             otherPlayer = photonView.Owner;
             OtherNickname = photonView.Owner.NickName;
-            //  otherVoicePanel.text = OtherNickname;
         }
 
         // otherVoicePanel.text = otherPlayer.NickName; 
@@ -115,6 +117,18 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
 
             //player 정보 
             otherPlayer = other.gameObject.GetPhotonView().Owner; // 부딪친 상대방 포톤뷰 정보
+            AudioSource audioSource = other.GetComponent<AudioSource>();
+            otherVoicePanel.text = otherPlayer.NickName;
+
+            //if (audioSource != null)
+            //{               
+            //    SpeakerVoiceMute.onClick.AddListener(() => { SpeakervoiceMute(audioSource); }); 
+            //}
+            
+            //if(audioSource != null)
+            //{
+            //    SpeakervoiceMuteOff.onClick.AddListener(() => { SpeakervoiceMuteOFF(audioSource); });
+            //}
 
             if (talkUI != null)
             {
@@ -141,6 +155,16 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
             talkUI.GetHandShakeImage.SetActive(false);
         }
     }
+
+    //public void SpeakervoiceMute(AudioSource _audioSource)
+    //{
+    //    _audioSource.volume = 0; 
+    //}
+
+    //public void SpeakervoiceMuteOFF(AudioSource _audioSource)
+    //{
+    //    _audioSource.volume = 1;
+    //}
 
     [PunRPC]
     public void DialogPopUI(int _ViewID, string _targetnickname)
@@ -192,9 +216,8 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
 
     public void Approve()
     {
-        //VoicePanel.text = photonView.Owner.NickName;
-        myVoicepanel.SetActive(true);
         photonView.RPC(nameof(voiceApprove), otherPlayer, interestGroup, true);
+        myVoicepanel.SetActive(true);
         PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
     }
 
@@ -213,13 +236,20 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
             interestGroup = (byte)_interestGroup;
             PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
 
-            VoicePanel.text = OtherNickname; // 내 닉네임 뜸  
+            //myVoicepanel.SetActive(_Value);
             VoiceTalkingApprove.Instance.OpenPopup();
-            VoiceTalkingApprove.Instance.Set(OtherNickname + "님이 1:1 대화를 수락하였습니다");
-            // 요청자에게 패널이 떠야하는데 
+            VoiceTalkingApprove.Instance.Set(OtherNickname + "님이 1:1 대화를 수락하였습니다", MineVoicePannel);
         }
-        myVoicepanel.SetActive(_Value);
-        otherVoicePanel.text = otherPlayer.NickName; 
+    }
+
+    // 요청자에게 보이스패널 띄우기 
+    //[PunRPC]
+    public void MineVoicePannel()
+    {
+        if (photonView.IsMine)
+        {
+            myVoicepanel.SetActive(true);
+        }
     }
 
     [PunRPC]
