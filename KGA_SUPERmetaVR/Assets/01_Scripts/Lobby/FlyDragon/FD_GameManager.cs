@@ -9,7 +9,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
     [SerializeField] private FD_Dragon[] star;
     private PhotonView photonView;
 
-    void Awake()
+    private void Start()
     {
         photonView = PhotonView.Get(this);
         Initialize();
@@ -25,13 +25,13 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
     {
         for (int i = 0; i < star.Length; i++)
         {
-            star[i].Rigidbody.isKinematic = false;
             SpawnObject(star[i]);
         }
     }
 
     public void SpawnObject(FD_Dragon _target)
     {
+        _target.Rigidbody.isKinematic = false;
         FD_Area spawnArea;
         Vector3 spawnPosition;
 

@@ -67,7 +67,7 @@ public class FD_Dragon : MonoBehaviourPun
         }
     }
 
-    void Start()
+    void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
     }
