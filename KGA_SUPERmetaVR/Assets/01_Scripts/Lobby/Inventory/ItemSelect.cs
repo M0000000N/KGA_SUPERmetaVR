@@ -157,6 +157,7 @@ public class ItemSelect : MonoBehaviour
             if (FlyDragonDataBase.Instance.CheckCooltime(0)) // ÄðÅ¸ÀÓ
             {
                 grabStarInfo.IsGrabParticlePlay = true;
+                grabStarInfo.Rigidbody.isKinematic = true;
                 if (FlyDragonDataBase.Instance.UpdatePlayData())
                 {
                     isPlay = true;
