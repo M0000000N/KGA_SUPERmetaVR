@@ -787,7 +787,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6436193812091740819}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9171158940750834017}
+        m_TargetAssemblyTypeName: PKB_SettingUI, Assembly-CSharp
+        m_MethodName: OnPopupUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1201152889042606241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -898,6 +910,34 @@ PrefabInstance:
     - target: {fileID: 1050857099144132574, guid: 839c50e00de4c7f47b8382e418967b70, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 208.574
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841027179006601002, guid: 839c50e00de4c7f47b8382e418967b70, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841027179006601002, guid: 839c50e00de4c7f47b8382e418967b70, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841027179006601002, guid: 839c50e00de4c7f47b8382e418967b70, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9171158940750834017}
+    - target: {fileID: 2841027179006601002, guid: 839c50e00de4c7f47b8382e418967b70, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841027179006601002, guid: 839c50e00de4c7f47b8382e418967b70, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OffPopupUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841027179006601002, guid: 839c50e00de4c7f47b8382e418967b70, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PKB_SettingUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841027179006601002, guid: 839c50e00de4c7f47b8382e418967b70, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4235341851496936311, guid: 839c50e00de4c7f47b8382e418967b70, type: 3}
       propertyPath: m_Name
