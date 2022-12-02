@@ -26,17 +26,17 @@ public class FFF_Button : MonoBehaviour
     {
         StopCoroutine(SetTimer());
         isStartCouroutine = false;
+        mybutton.interactable = true;
     }
 
     public void OnClickButton()
     {
+        mybutton.interactable = false;
         SoundManager.Instance.PlaySE("popup_click.wav");
         StopCoroutine(SetTimer());
         isStartCouroutine = false;
         FFF_GameManager.Instance.PlusClearCount(true);
-        mybutton.interactable = false;
         timer.gameObject.SetActive(false);
-        mybutton.interactable = true;
     }
 
     private IEnumerator SetTimer()
