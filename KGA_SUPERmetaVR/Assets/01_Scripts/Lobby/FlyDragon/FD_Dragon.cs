@@ -11,6 +11,7 @@ public class FD_Dragon : MonoBehaviourPun
     [SerializeField] ParticleSystem[] grabParticle;
     [SerializeField] ParticleSystem[] flyParticle;
     private Rigidbody rigidbody;
+    public Rigidbody Rigidbody { get { return rigidbody; } set { rigidbody = value; } }
     private float fadeoutTime = 2f;
     private bool isStartFadedout = false;
     private bool isFlyParticlePlay = false;
