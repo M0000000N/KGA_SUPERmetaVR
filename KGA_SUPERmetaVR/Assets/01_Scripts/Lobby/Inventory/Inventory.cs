@@ -32,7 +32,12 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         Debug.Log($"인벤토리 길이 {playerData.ItemSlotData.ItemData.Length}");
-
+        if (GameManager.Instance.PlayerData.IsWin)
+        {
+            Item giftBox = new Item();
+            giftBox.ItemID = 12001;
+            AcquireItem(giftBox ,1);
+        }
 
         slots = SlotGrid.GetComponentsInChildren<ItemSlot>();
         Initialize();
