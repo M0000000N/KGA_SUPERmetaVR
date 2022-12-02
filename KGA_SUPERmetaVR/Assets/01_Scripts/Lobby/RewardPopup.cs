@@ -10,7 +10,7 @@ public class RewardPopup : MonoBehaviour
 
     [SerializeField] private Transform itemObjectParent;
     [SerializeField] private Image gradeImage;
-    [SerializeField] private TextMeshProUGUI itemName;
+    // [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private Button button;
 
     private CanvasGroup canvasGroup;
@@ -18,6 +18,7 @@ public class RewardPopup : MonoBehaviour
     private void Start()
     {
         canvasGroup = popupUI.transform.GetComponent<CanvasGroup>();
+        button.onClick.AddListener(OnPress);
     }
 
     public void SetPopupUI(int _itemID)
@@ -32,7 +33,7 @@ public class RewardPopup : MonoBehaviour
 
         gradeImage.sprite = Resources.Load<Sprite>("Item/Grade/" + itemImage[StaticData.GetItemSheet(_itemID).Grade]);
 
-        itemName.text = StaticData.GetItemSheet(_itemID).Name;
+        // itemName.text = StaticData.GetItemSheet(_itemID).Name;
         popupUI.gameObject.SetActive(true);
         StartCoroutine(OpenUICoroutine(item));
     }
