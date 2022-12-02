@@ -12,7 +12,6 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
     void Awake()
     {
         photonView = PhotonView.Get(this);
-        //photonView.RPC("Initialize",RpcTarget.AllViaServer);
         Initialize();
 
         if(PhotonNetwork.IsMasterClient)
@@ -26,13 +25,13 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
     {
         for (int i = 0; i < star.Length; i++)
         {
-            star[i].gameObject.GetComponent<Rigidbody>().isKinematic = true;
             SpawnObject(star[i].transform);
         }
     }
 
     public void SpawnObject(Transform _target)
     {
+        _target.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         FD_Area spawnArea;
         Vector3 spawnPosition;
 
@@ -56,6 +55,7 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
         _target.position = spawnArea.transform.position - spawnPosition;
         _target.rotation = Quaternion.Euler(0, randomRotation, 0);
         _target.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _target.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         _target.gameObject.SetActive(true);
     }
 
@@ -70,15 +70,6 @@ public class FD_GameManager : OnlyOneSceneSingleton<FD_GameManager>
         }
         return true;
     }
-
-    //public void DestroyObject(GameObject _target)
-    //{
-    //    if (_target.CompareTag("Star"))
-    //    {
-    //        _target.SetActive(false);
-    //        FlyDragonDataBase.Instance.UpdatePlayData();
-    //    }
-    //}
 
     IEnumerator RespawnCoroutine()
     {
