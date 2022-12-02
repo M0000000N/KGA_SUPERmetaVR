@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -147,7 +147,7 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
 
                 Vector3 newCameraPosition = new Vector3(player.transform.position.x, -1f, player.transform.position.z);
                 PeekabooGameManager.Instance.OVRCamera.transform.localPosition = player.transform.position;
-                player.transform.parent = PeekabooGameManager.Instance.OVRCamera.transform.GetChild(0).GetChild(0);
+                //player.transform.parent = PeekabooGameManager.Instance.OVRCamera.transform.GetChild(0).GetChild(0);
             }
         }
     }
