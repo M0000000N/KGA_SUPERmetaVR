@@ -140,12 +140,14 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         {
             if (PhotonNetwork.NickName != string.Empty && PhotonNetwork.LocalPlayer.IsLocal)
             {
+                PhotonNetwork.AutomaticallySyncScene = false;
                 SoundManager.Instance.PlayBGM("ROBEE_bgm.mp3");
                 PhotonNetwork.LoadLevel("Ver.1_Lobby");
             }
         }
         else
         {
+            PhotonNetwork.AutomaticallySyncScene = true;
             PKB_MainUIManager.Instance.PlayRoomUI.gameObject.SetActive(true);
             PKB_MainUIManager.Instance.PlayRoomUI.SetRoomInfo(roomOptions);
             Debug.Log($"현재인원 / 최대인원 : {PhotonNetwork.CurrentRoom.PlayerCount} / {PhotonNetwork.CurrentRoom.MaxPlayers}");
