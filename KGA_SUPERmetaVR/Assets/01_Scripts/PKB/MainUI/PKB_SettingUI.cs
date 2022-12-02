@@ -8,6 +8,9 @@ using Photon.Voice.Unity;
 public class PKB_SettingUI : MonoBehaviour
 {
     [SerializeField]
+    Button SettingIcon;
+
+    [SerializeField]
     GameObject soundSettingUI;
 
     [Header("BGM")]
@@ -43,7 +46,15 @@ public class PKB_SettingUI : MonoBehaviour
         bgmSlider.onValueChanged.AddListener(SetBGMVolume);
         seSlider.onValueChanged.AddListener(SetSEVolume);
         micActivate.onValueChanged.AddListener(SetTransmitSound);
+        SettingIcon.onClick.AddListener(soundSettingPopUI);
+
+        soundSettingUI.SetActive(false); 
         TurnOffMute(); // 마이크가 켜져있는 기본 상태 
+    }
+
+    public void soundSettingPopUI()
+    {
+        soundSettingUI.SetActive(true);
     }
 
     public void SetBGMVolume(float _volume)
