@@ -47,6 +47,9 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 
     public int PlayerRanking { get { return playerRanking; } }
 
+    [SerializeField]
+    private PeekabooPlayerUIData peekabooPlayerUIData;
+
     private void Start()
     {
         IsGameOver = false;
@@ -55,11 +58,13 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         if (PhotonNetwork.IsMasterClient)
         {
             playerScoreList = new Dictionary<int, int>();
-            for (int i = 0; i < numberOfPlayers; ++i)
+            for (int i = 1; i <= numberOfPlayers; ++i)
             {
                 playerScoreList.Add(i, 0);
             }
         }
+        Debug.Log($"현재 플레이어 수{numberOfPlayers}");
+        Debug.Log($"현재 플레이어 액터넘버{PhotonNetwork.LocalPlayer.ActorNumber}");
     }
 
     private void Update()
@@ -105,8 +110,9 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         else
         {
             playerRanking = numberOfPlayers;
-            photonView.RPC("RPCRequestPlayerScore", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber - 1);
+            photonView.RPC("RPCRequestPlayerScore", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
         }
+        
     }
 
     // 마스터 클라이언트에게 점수요청
@@ -127,6 +133,7 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         if (_playerActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
         {
             playerScore = _requestPlayerScore;
+            peekabooPlayerUIData.GameOverUI();
         }
     }
 
@@ -134,10 +141,11 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
     [PunRPC]
     private void RPCTimeOverScore(int _playerActorNumber, int _requestPlayerScore, int _playerRanking)
     {
-        if (_playerActorNumber + 1 == PhotonNetwork.LocalPlayer.ActorNumber)
+        if (_playerActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
         {
             playerScore = _requestPlayerScore;
             playerRanking = _playerRanking;
+            peekabooPlayerUIData.GameOverUI();
         }
     }
 
