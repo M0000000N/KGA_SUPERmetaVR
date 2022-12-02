@@ -10,8 +10,13 @@ public class PlayerCustum : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        int playerCustumCount = 0;
+        foreach (Transform child in transform)
+        {
+            playerCustumCount++;
+        }
         Debug.Log("플레이어커스텀");
-        playerCustumList = new GameObject[19];
+        playerCustumList = new GameObject[playerCustumCount];
         int count = 0;
         foreach(Transform child in transform)
         {
