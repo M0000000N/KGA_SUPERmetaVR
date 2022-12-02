@@ -120,7 +120,6 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
     private void RPCRequestPlayerScore(int _playerActorNumber)
     {
         Debug.Log($"RPCRequestPlayerScore 액터 넘버 {_playerActorNumber}");
-        Debug.Log($"RPCRequestPlayerScore 리스트 {playerScoreList[0]}");
         int requestPlayerScore = playerScoreList[_playerActorNumber];
         playerScoreList.Remove(_playerActorNumber);
         photonView.RPC("RPCGivePlayerScore", RpcTarget.All,_playerActorNumber,requestPlayerScore);
@@ -130,6 +129,8 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
     [PunRPC]
     private void RPCGivePlayerScore(int _playerActorNumber, int _requestPlayerScore)
     {
+        Debug.Log($"현재 플레이어 액터넘버{PhotonNetwork.LocalPlayer.ActorNumber}");
+        Debug.Log($"마스터가 준 플레이어 액터넘버{_playerActorNumber}");
         if (_playerActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
         {
             playerScore = _requestPlayerScore;
