@@ -29,18 +29,19 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
     private void Start()
     {
         winnerColor = new Color(255, 192, 0);
-        exitButton.onClick.AddListener(() => { GoRoom(); });
+        
         watchingButton.onClick.AddListener(() => { WatchingStatePlayer(); });
+        exitButton.onClick.AddListener(() => { ExitGame(); });
         gameResultUI.SetActive(false);
     }
 
     private void Update()
     {
-        if (PeekabooGameManager.Instance.IsGameOver)
-        {
-            Debug.Log("헬로");
-            GameOverUI();
-        }
+        //if (PeekabooGameManager.Instance.IsGameOver)
+        //{
+        //    Debug.Log("헬로");
+        //    GameOverUI();
+        //}
     }
 
     public void GameOverUI()
@@ -54,13 +55,11 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
             //}
         }
         // 플레이어가 2명이하 일시 관전하기 버튼 비활성화
-        if (PeekabooGameManager.Instance.NumberOfPlayers == 1 && PeekabooGameManager.Instance.NumberOfPlayers ==2)
+       
+        if (PeekabooGameManager.Instance.NumberOfPlayers == 1)
         {
-            watchingButton.interactable = false;
-            if (PeekabooGameManager.Instance.NumberOfPlayers == 1)
-            {
-                playerRankingText.color = winnerColor;
-            }
+            GameManager.Instance.PlayerData.IsWin = true;
+            playerRankingText.color = winnerColor;
         }
         playerRankingText.text = "# " + PeekabooGameManager.Instance.PlayerRanking.ToString();
         totalPlayerCount.text = "/ " + PeekabooGameManager.Instance.TotalNumberOfPeopleFirstEnterdRoom.ToString();
@@ -70,24 +69,13 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
         gameResultUI.SetActive(true);
     }
 
-    private void GoRoom()
+    public void ExitGame()
     {
-        PhotonNetwork.LeaveRoom();
-    }
-
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby();
-    }
-
-    public override void OnJoinedLobby()
-    {
-        PhotonNetwork.CreateRoom(null);
-    }
-
-    public override void OnJoinedRoom()
-    {
-        PhotonNetwork.LoadLevel("Login");
+        SoundManager.Instance.PlayBGM("PKBOO_Main_bgm.wav");
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
     }
 
     public void WatchingStatePlayer()
