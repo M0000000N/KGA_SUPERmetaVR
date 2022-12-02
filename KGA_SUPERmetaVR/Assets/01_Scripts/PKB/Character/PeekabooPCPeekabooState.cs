@@ -15,7 +15,7 @@ public class PeekabooPCPeekabooState : PeekabooCharacterState
         myFSM.MyAnimator.SetInteger("State", (int)PEEKABOOPCANIMATIONSTATE.PEEKABOO);
 
         PEEKABOOCHARACTERSTATE stateKey;
-        if (myFSM.MyCharacter.AttackTarget.tag == "PC")
+        if (myFSM.MyCharacter.AttackTarget.tag == "Player")
         {
             photonView.RPC("RPCPlayerGetScore", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
             stateKey = PEEKABOOCHARACTERSTATE.IDLE;

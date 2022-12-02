@@ -16,6 +16,8 @@ public class PeekabooNPCDieState : PeekabooCharacterState
     private NavMeshAgent playerNavMeshAgent;
     [SerializeField]
     private GameObject myBody;
+    [SerializeField]
+    private float spawnMoveTime;
    
     protected override void Initialize()
     {
@@ -73,15 +75,19 @@ public class PeekabooNPCDieState : PeekabooCharacterState
 
         playerNavMeshAgent.enabled = false;
         myBody.transform.position = PeekabooGameManager.Instance.PeekabooSpawner.RespawnNPC(transform.position);  
-        myBody.transform.position += Vector3.up * 15f;
+        myBody.transform.position += Vector3.up * 3f;
         //myRenderer.material = opaqueMaterial;
         Color myColor = myRenderer.material.color;
         myColor.a = 1f;
         myRenderer.material.color = myColor;
-        while (myBody.transform.position.y > 1.2f)
+        Vector3 initPosition = myBody.transform.position;
+        float elapsedTime = 0f;
+        float spawnTime = 1 / spawnMoveTime;
+        while (myBody.transform.position.y > -0.5f)
         {
-            myBody.transform.position = Vector3.Lerp(myBody.transform.position, new Vector3(myBody.transform.position.x, 1, myBody.transform.position.z), 0.01f);
-            yield return new WaitForSeconds(0.01f);
+            myBody.transform.position = Vector3.Lerp(initPosition, new Vector3(myBody.transform.position.x, -0.5f, myBody.transform.position.z), spawnTime * elapsedTime);
+            yield return null;
+            elapsedTime += Time.deltaTime;
         }
 
         playerNavMeshAgent.enabled = true;

@@ -6,14 +6,17 @@ using UnityEngine.UI;
 public class FD_RewardMessage : MonoBehaviour
 {
     [SerializeField] private GameObject popupUI;
+    [SerializeField] private Button button;
 
     private CanvasGroup canvasGroup;
     private bool isOpen;
+    
 
     private void Start()
     {
         isOpen = popupUI.gameObject.activeSelf;
         canvasGroup = popupUI.transform.GetComponent<CanvasGroup>();
+        button.onClick.AddListener(OpenUI);
     }
 
     public void OpenUI()

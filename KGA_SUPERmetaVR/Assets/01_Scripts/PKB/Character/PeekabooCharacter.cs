@@ -73,9 +73,9 @@ public abstract class PeekabooCharacter : MonoBehaviourPun
         peekabooTextObject.SetActive(true);
         for (float f = 1f; f > 0; f -= 0.02f)
         {
-            Color c = peekabooTextObject.GetComponent<Image>().color;
+            Color c = peekabooTextObject.GetComponent<SpriteRenderer>().color;
             c.a = f;
-            peekabooTextObject.GetComponent<Image>().color = c;
+            peekabooTextObject.GetComponent<SpriteRenderer>().color = c;
             yield return null;
         }
     }

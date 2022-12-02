@@ -10,7 +10,6 @@ public class RequestPopupUI : SingletonBehaviour<RequestPopupUI>
 {
     [SerializeField] private GameObject popupUI;
 
-    [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI contentText;
     [SerializeField] private GameObject[] buttonType;
     [SerializeField] private Button yesButton;
@@ -21,7 +20,6 @@ public class RequestPopupUI : SingletonBehaviour<RequestPopupUI>
     
     public void SetPopup(int _PopupID, string _PlayerNickname, UnityAction _yesAction = null, UnityAction _noAction = null)
     {
-        titleText.text = StaticData.GetNotificationData(_PopupID).Title;
         contentText.text = string.Format(StaticData.GetNotificationData(_PopupID).Description, _PlayerNickname);
 
         if (StaticData.GetNotificationData(_PopupID).Type == 1)

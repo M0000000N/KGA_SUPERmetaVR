@@ -44,6 +44,9 @@ public class PlayerData
 
     private CloverColonyData cloverColonyData;
     public CloverColonyData CloverColonyData { get { return cloverColonyData; } set { cloverColonyData = value; } }
+
+    private bool isWin;
+    public bool IsWin { get { return isWin; } set { isWin = value; } }
 }
 
 [System.Serializable]

@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -139,11 +139,15 @@ public class PeekabooCreateMap : MonoBehaviourPunCallbacks
     {
         if (index == PhotonNetwork.LocalPlayer.ActorNumber - 1)
         {
+            Vector3 newPosition = _playerList;
+            newPosition.y = 2.905f;
             GameObject player = PhotonNetwork.Instantiate(PeekabooGameManager.Instance.PlayerPrefeb.name, _playerList, Quaternion.identity);
             if(player.GetComponentInChildren<PhotonView>().IsMine)
             {
-                PeekabooGameManager.Instance.OVRCamera.transform.parent = player.transform.Find("2^1PC");
-                PeekabooGameManager.Instance.OVRCamera.transform.localPosition = Vector3.zero;
+
+                Vector3 newCameraPosition = new Vector3(player.transform.position.x, -1f, player.transform.position.z);
+                PeekabooGameManager.Instance.OVRCamera.transform.localPosition = player.transform.position;
+                //player.transform.parent = PeekabooGameManager.Instance.OVRCamera.transform.GetChild(0).GetChild(0);
             }
         }
     }

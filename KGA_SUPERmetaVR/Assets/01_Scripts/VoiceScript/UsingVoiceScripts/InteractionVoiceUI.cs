@@ -20,6 +20,8 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     [SerializeField] Button InteractionTalking;
     [SerializeField] Button TalkingTogether;
     [SerializeField] Button Exit; // 대화종료 버튼 
+    //[SerializeField] Button SpeakerVoiceMute;
+    //[SerializeField] Button SpeakervoiceMuteOff;
 
     [Header("보이스챗 상호작용 시작")]
     [SerializeField] private GameObject myVoicepanel;
@@ -30,10 +32,13 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     [SerializeField] PhotonView photonView;
 
     Player otherPlayer;
+    Player player;
+
     VoiceClient voiceClient;
 
     int actorNumber; // == int channel 
     int ViewID;
+    string MyNickname;
     string OtherNickname;
     // byte interestGroup;
 
@@ -46,15 +51,16 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
+            MyNickname = photonView.Owner.NickName;
             VoicePanel.text = photonView.Owner.NickName;
         }
         else
         {
             otherPlayer = photonView.Owner;
             OtherNickname = photonView.Owner.NickName;
-            //  otherVoicePanel.text = OtherNickname;
         }
 
+        // otherVoicePanel.text = otherPlayer.NickName; 
         // 포톤뷰 자기자신 것 
         int ViewID = photonView.ViewID;
 
@@ -74,15 +80,13 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         VoiceTalkingApprove.Instance.ClosePopup();
 
         // 보이스채널 지정  
-        // interestGroup = 1;
         CreatVoiceRooomChannel(1, 255);
-        interestGroup = CreatVoiceRooomChannel(1, 255);
-        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
     }
 
+    //보이스룸 생성 
     public int CreatVoiceRooomChannel(int _min, int _max)
     {
-       interestGroup = Random.Range(_min, _max);
+        interestGroup = Random.Range(_min, _max);
         for (int i = 0; i < _max;)
         {
             if (channelList.Contains(interestGroup))
@@ -99,7 +103,6 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         return interestGroup;
     }
 
-
     private void Update()
     {
         InteractionTalking.transform.forward = Camera.main.transform.forward;
@@ -114,6 +117,18 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
 
             //player 정보 
             otherPlayer = other.gameObject.GetPhotonView().Owner; // 부딪친 상대방 포톤뷰 정보
+            AudioSource audioSource = other.GetComponent<AudioSource>();
+            otherVoicePanel.text = otherPlayer.NickName;
+
+            //if (audioSource != null)
+            //{               
+            //    SpeakerVoiceMute.onClick.AddListener(() => { SpeakervoiceMute(audioSource); }); 
+            //}
+            
+            //if(audioSource != null)
+            //{
+            //    SpeakervoiceMuteOff.onClick.AddListener(() => { SpeakervoiceMuteOFF(audioSource); });
+            //}
 
             if (talkUI != null)
             {
@@ -140,6 +155,16 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
             talkUI.GetHandShakeImage.SetActive(false);
         }
     }
+
+    //public void SpeakervoiceMute(AudioSource _audioSource)
+    //{
+    //    _audioSource.volume = 0; 
+    //}
+
+    //public void SpeakervoiceMuteOFF(AudioSource _audioSource)
+    //{
+    //    _audioSource.volume = 1;
+    //}
 
     [PunRPC]
     public void DialogPopUI(int _ViewID, string _targetnickname)
@@ -172,7 +197,6 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         VoiceConfrimOkayBtn.Instance.OpenPopup();
         VoiceConfrimOkayBtn.Instance.Set(OtherNickname + "님에게 1:1 대화를 요청하였습니다", SendRequest);
     }
-    //==========여기까지는 닉네임 잘 뜸 
 
     public void SendRequest()
     {
@@ -182,48 +206,50 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
     [PunRPC]
     public void confrimTalkingCheck(int _viewID, string _targetNickname)
     {
-        // 여기서 요청자 닉네임이 떠야함
-        // OtherNickname = photonView.Owner.NickName;
         if (photonView.IsMine)
         {
             OtherNickname = _targetNickname;
             VoiceInvitationUI.Instance.TalkingOpenPopUp();
-            VoiceInvitationUI.Instance.Set(OtherNickname + "님이 1:1 대화를 요청하였습니다\n 수락하시겠습니까?", Approve, Reject);
+            VoiceInvitationUI.Instance.Set(otherPlayer.NickName + "님이 1:1 대화를 요청하였습니다\n 수락하시겠습니까?", Approve, Reject);
         }
     }
 
     public void Approve()
     {
-        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
-        // interestGroup = 1;
-        //interestGroup; 
+        photonView.RPC(nameof(voiceApprove), otherPlayer, interestGroup, true);
         myVoicepanel.SetActive(true);
-        photonView.RPC(nameof(voiceApprove), otherPlayer, actorNumber, interestGroup, true);
+        PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
     }
 
     public void Reject()
     {
         photonView.RPC("voiceReject", otherPlayer);
-        VoiceTalkingApprove.Instance.Set(OtherNickname + "님이 1:1 대화를 수락하였습니다");
     }
 
-    // 대화 참여중인 닉네임 띄우기 
-    // 대화 신청한 사람도 패널이 떠야하는데 왜 안 뜨냔 말이지 
-
     [PunRPC]
-    public void voiceApprove(int _ActorNumber, byte _interestGroup, bool _Value)
+    public void voiceApprove(int _interestGroup, bool _Value)
     {
         if (!photonView.IsMine)
         {
-            PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
             //interestGroup = 1;
-            actorNumber = _ActorNumber;
-            interestGroup = _interestGroup;
+            interestGroup = CreatVoiceRooomChannel(1, 255);
+            interestGroup = (byte)_interestGroup;
+            PhotonVoiceNetwork.Instance.Client.GlobalInterestGroup = (byte)interestGroup;
 
+            //myVoicepanel.SetActive(_Value);
             VoiceTalkingApprove.Instance.OpenPopup();
-            VoiceTalkingApprove.Instance.Set(OtherNickname + "님이 1:1 대화 요청을 거부하였습니다");
+            VoiceTalkingApprove.Instance.Set(OtherNickname + "님이 1:1 대화를 수락하였습니다", MineVoicePannel);
         }
-        myVoicepanel.SetActive(_Value);
+    }
+
+    // 요청자에게 보이스패널 띄우기 
+    //[PunRPC]
+    public void MineVoicePannel()
+    {
+        if (photonView.IsMine)
+        {
+            myVoicepanel.SetActive(true);
+        }
     }
 
     [PunRPC]
@@ -232,7 +258,7 @@ public class InteractionVoiceUI : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
         {
             VoiceTalkingApprove.Instance.OpenPopup();
-            VoiceTalkingApprove.Instance.Set(OtherNickname + "님께서 대화를 거절");
+            VoiceTalkingApprove.Instance.Set(OtherNickname + "님이 1:1 대화 요청을 거부하였습니다");
         }
     }
 

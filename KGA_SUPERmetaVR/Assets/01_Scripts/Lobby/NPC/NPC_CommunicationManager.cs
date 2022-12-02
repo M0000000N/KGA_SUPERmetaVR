@@ -200,10 +200,16 @@ public class NPC_CommunicationManager : MonoBehaviourPun
         {
             FFF_GameManager.Instance.StartDance();
             communication.SetActive(false);
+
+            Initialize();
+            handshake.SetActive(true);
         }
         else
         {
             communication.SetActive(false);
+            
+            Initialize();
+            handshake.SetActive(true);
         }
     }
 
