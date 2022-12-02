@@ -48,14 +48,14 @@ public class PeekabooPCDieState : PeekabooCharacterState
 
             yield return null;
         }
-        PeekabooGameManager.Instance.PlayerGameOver();
-        photonView.RPC("PlayerDie", RpcTarget.All);
+       
+        if (photonView.IsMine)
+        {
+            PeekabooGameManager.Instance.PlayerGameOver();
+            
+        }
         Destroy(gameObject);
     }
     
-    [PunRPC]
-    private void PlayerDie()
-    {
-        PeekabooGameManager.Instance.NumberOfPlayers--;
-    }
+ 
 }
