@@ -55,14 +55,11 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
             //}
         }
         // 플레이어가 2명이하 일시 관전하기 버튼 비활성화
-        if (PeekabooGameManager.Instance.NumberOfPlayers == 1 && PeekabooGameManager.Instance.NumberOfPlayers ==2)
+       
+        if (PeekabooGameManager.Instance.NumberOfPlayers == 1)
         {
-            watchingButton.interactable = false;
-            if (PeekabooGameManager.Instance.NumberOfPlayers == 1)
-            {
-                GameManager.Instance.PlayerData.IsWin = true;
-                playerRankingText.color = winnerColor;
-            }
+            GameManager.Instance.PlayerData.IsWin = true;
+            playerRankingText.color = winnerColor;
         }
         playerRankingText.text = "# " + PeekabooGameManager.Instance.PlayerRanking.ToString();
         totalPlayerCount.text = "/ " + PeekabooGameManager.Instance.TotalNumberOfPeopleFirstEnterdRoom.ToString();
