@@ -288,7 +288,7 @@ public class ItemSelect : MonoBehaviour
         // TODO : 게임 시작 시 코루틴 체크 필요
         while (true)
         {
-            yield return new WaitForSecondsRealtime(300f);
+            yield return new WaitForSecondsRealtime(5f);
             if (FlyDragonDataBase.Instance.CheckCooltime(0)) // 쿨타임
             {
                 GameManager.Instance.PlayerData.PaperSwanData.beRewarded = 0;
