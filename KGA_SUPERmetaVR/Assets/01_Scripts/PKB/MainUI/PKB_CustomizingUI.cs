@@ -15,6 +15,7 @@ public class PKB_CustomizingUI : MonoBehaviour
 
     [SerializeField] private GameObject characterBase;
     [SerializeField] private GameObject[] character;
+    
 
     private int characterCount;
 
@@ -91,6 +92,27 @@ public class PKB_CustomizingUI : MonoBehaviour
     public void OnClickCharacterButton(int _characterValue)
     {
         UnityEngine.Debug.Log("_characterValue : " + _characterValue);
+        if (_characterValue == 1)
+        {
+            SoundManager.Instance.PlaySE("peekaboovoice1");
+        }
+        else if (_characterValue == 2)
+        {
+            SoundManager.Instance.PlaySE("peekaboovoice2");
+        }
+        else if(_characterValue == 3)
+        {
+            SoundManager.Instance.PlaySE("peekaboovoice3");
+        }
+        else if(_characterValue == 4)
+        {
+            SoundManager.Instance.PlaySE("peekaboovoice4");
+        }
+        else if(_characterValue == 5)
+        {
+            SoundManager.Instance.PlaySE("peekaboovoice5");
+        }
+
         GameManager.Instance.PlayerData.PeekabooData.SelectCharacter = _characterValue;
         PKB_MainUIManager.Instance.MainUI.RefreshUI();
         RefreshUI();
