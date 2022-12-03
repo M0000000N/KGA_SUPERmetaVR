@@ -12,7 +12,7 @@ public class PressedButton_LeftHand : MonoBehaviour
 {
     public bool TurnOn = true;
     public InputActionReference FriendList;
-    public GameObject FreindList;
+    // public GameObject FreindList;
 
     private void Start()
     {
@@ -37,7 +37,14 @@ public class PressedButton_LeftHand : MonoBehaviour
 
     private void DoPressedThing(InputAction.CallbackContext context)
     { 
-        FreindList.SetActive(TurnOn);
+        if(TurnOn)
+        {
+            FriendManager.Instance.OpenUI();
+        }
+        else
+        {
+            FriendManager.Instance.CloseUI();
+        }
         TurnOn = !TurnOn;
     }
 
