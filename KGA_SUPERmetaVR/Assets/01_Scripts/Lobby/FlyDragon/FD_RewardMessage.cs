@@ -16,7 +16,7 @@ public class FD_RewardMessage : MonoBehaviour
     {
         isOpen = popupUI.gameObject.activeSelf;
         canvasGroup = popupUI.transform.GetComponent<CanvasGroup>();
-        button.onClick.AddListener(OpenUI);
+        button.onClick.AddListener(OnPress);
     }
 
     public void OpenUI()
