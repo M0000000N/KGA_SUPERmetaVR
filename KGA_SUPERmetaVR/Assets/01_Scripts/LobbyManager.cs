@@ -25,7 +25,7 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
     [SerializeField] int PKBMaxPlayer = 14;
     [SerializeField] int PKBMaxRoomCount = 9999;
     public SCENESTATE CurrentSceneIndex { get { return currentSceneIndex; } set { currentSceneIndex = value; } }
-    [SerializeField] private SCENESTATE currentSceneIndex = SCENESTATE.LOGIN; //0-login, 1-Ver.1_Lobby, 2-PKB_Main, 3-PKB_InGame, 4-Tutorial
+    [SerializeField] private SCENESTATE currentSceneIndex = SCENESTATE.LOGIN; //0-login, 1-Ver.1_Lobby, 2-PKB_Main, 3-PKB_InGame
 
     private void Awake() // 플레이어가 멋대로 방을 나가는 버그 방지용
     {
@@ -88,7 +88,6 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             return;
         }
 
-        // bool isInRoom = false; 추후 튕길 때 사용
         string roomName;
         int maxPlayer;
         if (_isMinimanimo) // 미니마니모는 룸네임 00
@@ -100,7 +99,6 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         {
             if (SetRoomName() == null) return;
             roomName = SetRoomName();
-            //roomName = photonView.RPC("SetRoomName", RpcTarget.All);
             maxPlayer = PKBMaxPlayer;
         }
 
@@ -116,14 +114,12 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
             {
                 { "RoomName", roomName },
                 { "Password", _password },
-                // { "IsInRoom",  isInRoom } 
             };
 
         roomOptions.CustomRoomPropertiesForLobby = new string[]
         {
                 "RoomName",
                 "Password",
-            // "IsInRoom"
         };
         PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
     }
@@ -197,7 +193,6 @@ public class LobbyManager : SingletonBehaviour<LobbyManager>
         }
     }
 
-    [PunRPC]
     public string SetRoomName()
     {
         for (int i = 1; i <= PKBMaxRoomCount; i++)
