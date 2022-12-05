@@ -50,8 +50,11 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
     [SerializeField]
     private PeekabooPlayerUIData peekabooPlayerUIData;
 
+    
+
     private void Start()
     {
+        
         IsGameOver = false;
         TotalNumberOfPeopleFirstEnterdRoom = PhotonNetwork.CurrentRoom.PlayerCount;
         numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
@@ -69,8 +72,9 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
 
     private void Update()
     {
-        if (numberOfPlayers == 1 && IsGameOver == false)
+        if (numberOfPlayers == 1 && isGameOver == false)
         {
+            Debug.Log($"1등이다~~~~~~~~~~{numberOfPlayers}");
             PlayerGameOver();
         }
         //Debug.Log($"게임결과{IsGameOver}");
@@ -109,10 +113,11 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         }
         else
         {
-            playerRanking = numberOfPlayers;
+
+            Debug.Log($"현재 남은 플레이어 수{numberOfPlayers}");
             photonView.RPC("RPCRequestPlayerScore", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
         }
-        
+
     }
 
     // 마스터 클라이언트에게 점수요청
@@ -122,7 +127,7 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         Debug.Log($"RPCRequestPlayerScore 액터 넘버 {_playerActorNumber}");
         int requestPlayerScore = playerScoreList[_playerActorNumber];
         playerScoreList.Remove(_playerActorNumber);
-        photonView.RPC("RPCGivePlayerScore", RpcTarget.All,_playerActorNumber,requestPlayerScore);
+        photonView.RPC("RPCGivePlayerScore", RpcTarget.All, _playerActorNumber, requestPlayerScore);
     }
 
     // 요청한 플레이어에게 점수제공
@@ -133,9 +138,12 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         Debug.Log($"마스터가 준 플레이어 액터넘버{_playerActorNumber}");
         if (_playerActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
         {
+            playerRanking = numberOfPlayers;
+
             playerScore = _requestPlayerScore;
             peekabooPlayerUIData.GameOverUI();
         }
+        numberOfPlayers--;
     }
 
     // 플레이시간이 끝났을 시 점수를 계산해 점수와 등수를 제공
@@ -155,4 +163,5 @@ public class PeekabooGameManager : OnlyOneSceneSingleton<PeekabooGameManager>
         // 강제로 종료할 시 카운트 하나 줄임
         PlayerGameOver();
     }
+
 }
