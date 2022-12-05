@@ -106,7 +106,6 @@ public class ItemSelect : MonoBehaviour
                 }
                 else if (targetLayer.Equals(LayerMask.NameToLayer("Item")))
                 {
-                    Debug.Log("호버레이어드렁옴");
                     targetObject = _leftRayHit.transform.gameObject;
                 }
                 else
@@ -132,7 +131,6 @@ public class ItemSelect : MonoBehaviour
         grabObject = targetObject;
         grabTag = grabObject.tag;
         grabLayer = grabObject.layer;
-        Debug.Log("타겟잇음");
 
         if (grabLayer.Equals(LayerMask.NameToLayer("Item")) || grabLayer.Equals(LayerMask.NameToLayer("GrabItem")))
         {
@@ -143,11 +141,16 @@ public class ItemSelect : MonoBehaviour
                 child.gameObject.layer = LayerMask.NameToLayer("GrabItem");
             }
         }
-        if (grabTag.Equals("ThreeLeafClover")) // 세잎클로버면
+        if (grabTag.Equals("ThreeLeafClover") || grabTag.Equals("FourLeafClover"))
         {
-            if (isDestroyCloverRun == false)
+            grabCloverInfo = grabObject.GetComponent<CloverInfo>();
+            SoundManager.Instance.PlaySE("CC_Pick.mp3");
+            if (grabTag.Equals("ThreeLeafClover")) // 세잎클로버면
             {
-                StartCoroutine(DestroyObject());
+                if (isDestroyCloverRun == false)
+                {
+                    StartCoroutine(DestroyObject());
+                }
             }
         }
         else if (grabTag.Equals("Star"))
@@ -169,11 +172,6 @@ public class ItemSelect : MonoBehaviour
                 grabObject.GetComponent<FD_Dragon>().IsStartFadedout = true;
             }
         }
-
-        if (grabTag.Equals("ThreeLeafClover") || grabTag.Equals("FourLeafClover"))
-        {
-            SoundManager.Instance.PlaySE("CC_Pick.mp3");
-        }
     }
 
     private void GrabOut()
@@ -184,18 +182,14 @@ public class ItemSelect : MonoBehaviour
 
         if (grabTag.Equals("ThreeLeafClover") || grabTag.Equals("FourLeafClover"))
         {
-            grabCloverInfo = grabObject.GetComponent<CloverInfo>();
-
             if (grabCloverInfo == null) return;
-
             if (grabCloverInfo.IsStartFadedout == false)
             {
                 rayInteractor[0].enableInteractions = false;
                 StartCoroutine(Activeinteractor());
                 StopCoroutine(DestroyObject());
-                grabCloverInfo.IsStartFadedout = true;
                 isDestroyCloverRun = false;
-                targetObject = null;
+                grabCloverInfo.IsStartFadedout = true;
                 grabObject = null;
             }
         }
@@ -235,40 +229,35 @@ public class ItemSelect : MonoBehaviour
 
     public void HideRightRay(bool _isHide)
     {
-        Color blueColor = Color.HSVToRGB(196, 62, 100);
-        Color whiteColor = Color.HSVToRGB(0, 0, 97);
         if (_isHide) // 피포팜 게임모드
         {
             isFFFGameStart = true;
-            ContinuousMoveProviderBase.moveSpeed = 0; // 움직임 제한
-            rayInteractor[1].maxRaycastDistance = 0.3f; // 레이길이 제한
-            XRInteractorLineVisual[1].validColorGradient = new Gradient // 레이 투명하게
-            {
-                colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
-                alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
-            };
-            XRInteractorLineVisual[1].invalidColorGradient = new Gradient
-            {
-                colorKeys = new[] { new GradientColorKey(whiteColor, 0f), new GradientColorKey(whiteColor, 1f) },
-                alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
-            };
+            SetRightRay(0, 0.3f, 0);
         }
         else
         {
             isFFFGameStart = false;
-            ContinuousMoveProviderBase.moveSpeed = 2;
-            rayInteractor[1].maxRaycastDistance = 3f;
-            XRInteractorLineVisual[1].validColorGradient = new Gradient
-            {
-                colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
-                alphaKeys = new[] { new GradientAlphaKey(0f, 0f), new GradientAlphaKey(0f, 1f) },
-            };
-            XRInteractorLineVisual[1].invalidColorGradient = new Gradient
-            {
-                colorKeys = new[] { new GradientColorKey(whiteColor, 0f), new GradientColorKey(whiteColor, 1f) },
-                alphaKeys = new[] { new GradientAlphaKey(1f, 0.5f), new GradientAlphaKey(0f, 0.6f) },
-            };
+            SetRightRay(2, 3, 1);
         }
+    }
+
+    private void SetRightRay(float _moveSpeed, float _maxRaycastDistance, float _alphaKey)
+    {
+        ContinuousMoveProviderBase.moveSpeed = _moveSpeed; // 움직임 제한
+        rayInteractor[1].maxRaycastDistance = _maxRaycastDistance; // 레이길이 제한
+
+        Color blueColor = Color.HSVToRGB(196, 62, 100);
+        Color whiteColor = Color.HSVToRGB(0, 0, 97);
+        XRInteractorLineVisual[1].validColorGradient = new Gradient
+        {
+            colorKeys = new[] { new GradientColorKey(blueColor, 0f), new GradientColorKey(blueColor, 1f) },
+            alphaKeys = new[] { new GradientAlphaKey(_alphaKey, 0f), new GradientAlphaKey(_alphaKey, 1f) },
+        };
+        XRInteractorLineVisual[1].invalidColorGradient = new Gradient
+        {
+            colorKeys = new[] { new GradientColorKey(whiteColor, 0f), new GradientColorKey(whiteColor, 1f) },
+            alphaKeys = new[] { new GradientAlphaKey(_alphaKey, 0.5f), new GradientAlphaKey(0f, 0.6f) },
+        };
     }
 
     IEnumerator Activeinteractor()

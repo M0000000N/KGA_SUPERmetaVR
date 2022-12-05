@@ -141,6 +141,7 @@ public class PKB_PlayerListingMenu : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
+            SoundManager.Instance.PlayBGM("PeekkaBOO_playsound_bgm.mp3");
             PhotonNetwork.LoadLevel("PKB_InGame");
             LobbyManager.Instance.CurrentSceneIndex = SCENESTATE.PLAYPEEKABOO;
         }
