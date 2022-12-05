@@ -71,9 +71,9 @@ public class PeekabooPlayerUIData : MonoBehaviourPunCallbacks
 
     public void ExitGame()
     {
-        SoundManager.Instance.PlayBGM("PKBOO_Main_bgm.wav");
         if (PhotonNetwork.InRoom)
         {
+            SoundManager.Instance.PlayBGM("PKBOO_Main_bgm.wav");
             PhotonNetwork.LeaveRoom();
         }
     }
