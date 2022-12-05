@@ -113,18 +113,20 @@ public class PeekabooPC : PeekabooCharacter
     {
         if (IsInteracting == false)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("ChangeMyInteractState", Photon.Pun.RpcTarget.All, true);
-                photonView.RPC("AppearPeekaboo", RpcTarget.All);
-                Attacker = _attacker;
-                myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
-            }
-            else
-            {
-                int targetViewNumber = _attacker.GetPhotonView().ViewID;
-                photonView.RPC("TakeDamageRPC", RpcTarget.MasterClient, targetViewNumber);
-            }
+            int targetViewNumber = _attacker.GetPhotonView().ViewID;
+            photonView.RPC("TakeDamageRPC", photonView.Owner, targetViewNumber);
+            //if (PhotonNetwork.IsMasterClient)
+            //{
+            //    photonView.RPC("ChangeMyInteractState", Photon.Pun.RpcTarget.All, true);
+            //    photonView.RPC("AppearPeekaboo", RpcTarget.All);
+            //    Attacker = _attacker;
+            //    myFSM.ChangeState(PEEKABOOCHARACTERSTATE.PCROTATETOATTACKER);
+            //}
+            //else
+            //{
+            //    int targetViewNumber = _attacker.GetPhotonView().ViewID;
+            //    photonView.RPC("TakeDamageRPC", RpcTarget.MasterClient, targetViewNumber);
+            //}
         }
     }
 }
