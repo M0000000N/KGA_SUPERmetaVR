@@ -52,9 +52,8 @@ public class PeekabooPCDieState : PeekabooCharacterState
         if (photonView.IsMine)
         {
             PeekabooGameManager.Instance.PlayerGameOver();
-            
+            PhotonNetwork.Destroy(gameObject); 
         }
-        Destroy(gameObject);
     }
     
  

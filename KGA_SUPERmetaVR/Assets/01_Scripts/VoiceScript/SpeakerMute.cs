@@ -11,47 +11,46 @@ public class SpeakerMute : MonoBehaviour
     [SerializeField] Recorder recorder; 
 
     [SerializeField] Speaker speaker;
-    // [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioSource audioSource;
     bool mute;
 
-    //public void Start()
-    //{
-    //    SpeakActivate.onValueChanged.AddListener(MuteSpeaker); 
-    //}
-    
+    public void Start()
+    {
+        SpeakActivate.onValueChanged.AddListener(MuteSpeaker);
+    }
 
-    //public void MuteSpeaker()
-    //{
-    //    AudioSource audioSource = speaker.GetComponent<AudioSource>();
-    //    if (mute)
-    //        audioSource.mute = mute;
-    //    else
-    //        audioSource.mute = !mute; 
-    //    //if (recorder.Equals(null))
-    //    //    return; 
+    public void MuteSpeaker(bool mute)
+    {
+        AudioSource audioSource = speaker.GetComponent<AudioSource>();
+        if (mute)
+            audioSource.mute = mute;
+        else
+            audioSource.mute = !mute;
+        if (recorder.Equals(null))
+            return;
 
-    //    //if(mute)
-    //    //{
-    //    //    recorder.IsRecording = !mute;
-    //    //}
-    //    //else
-    //    //{
-    //    //    recorder.IsRecording = mute;
-    //    //}
+        if (mute)
+        {
+            recorder.IsRecording = !mute;
+        }
+        else
+        {
+            recorder.IsRecording = mute;
+        }
 
-    //    //if (audioSource.Equals(null))
-    //    //    return;
+        if (audioSource.Equals(null))
+            return;
 
-    //    //if (mute)
-    //    //{
-    //    //    audioSource.mute = true;
-    //    //    audioSource.volume = 0;
-    //    //}
-    //    //else
-    //    //{
-    //    //    audioSource.mute = false;
-    //    //}
+        if (mute)
+        {
+            audioSource.mute = true;
+            audioSource.volume = 0;
+        }
+        else
+        {
+            audioSource.mute = false;
+        }
 
-    //}
+        }
 
-}
+    }
