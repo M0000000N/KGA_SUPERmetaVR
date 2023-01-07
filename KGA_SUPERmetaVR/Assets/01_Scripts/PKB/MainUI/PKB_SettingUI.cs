@@ -25,7 +25,7 @@ public class PKB_SettingUI : MonoBehaviour
 
     [Header("Voice")]
     [SerializeField] Recorder recorder;
-    [SerializeField] Toggle micActivate;  // ¸¶ÀÌÅ© È°¼ºÈ­, ºñÈ°¼ºÈ­ 
+    [SerializeField] Toggle micActivate;  // ë§ˆì´í¬ í™œì„±í™”, ë¹„í™œì„±í™” 
 
     //[Header("MIC")]
     //[SerializeField] Slider micSlider;
@@ -49,7 +49,7 @@ public class PKB_SettingUI : MonoBehaviour
         SettingIcon.onClick.AddListener(soundSettingPopUI);
 
         soundSettingUI.SetActive(false); 
-        TurnOffMute(); // ¸¶ÀÌÅ©°¡ ÄÑÁ®ÀÖ´Â ±âº» »óÅÂ 
+        TurnOffMute(); // ë§ˆì´í¬ê°€ ì¼œì ¸ìˆëŠ” ê¸°ë³¸ ìƒíƒœ 
     }
 
     public void soundSettingPopUI()
@@ -69,7 +69,7 @@ public class PKB_SettingUI : MonoBehaviour
         RefreshUI();
     }
 
-    // ¸¶ÀÌÅ© À½¼Ò°Å
+    // ë§ˆì´í¬ ìŒì†Œê±°
     private void SetTransmitSound(bool isOn)
     {
         if (isOn)
@@ -84,34 +84,22 @@ public class PKB_SettingUI : MonoBehaviour
 
     public void TurnonMute()
     {
-        // ¸¶ÀÌÅ© ²¨Áü 
+        // ë§ˆì´í¬ êº¼ì§ 
         recorder.TransmitEnabled = false;
-        Debug.Log("¸¶ÀÌÅ©²¨Áü");
+        Debug.Log("ë§ˆì´í¬êº¼ì§");
     }
 
     public void TurnOffMute()
     {
-        // ¸¶ÀÌÅ© ÄÑÁü
+        // ë§ˆì´í¬ ì¼œì§
         recorder.TransmitEnabled = true;
-        Debug.Log("¸¶ÀÌÅ©ÄÑÁü");
+        Debug.Log("ë§ˆì´í¬ì¼œì§");
     }
 
     public void RefreshUI()
     {
         bgmValue.text = ((int)(SoundManager.Instance.BGMValue * 100)).ToString();
         seValue.text = ((int)(SoundManager.Instance.SEValue * 100)).ToString();
-        //voiceValue.text = ((int)(SoundManager.Instance.VoiceValue * 100)).ToString();
-
-        //if (IsChangeSetting())
-        //{
-        //    applyButtonOn.SetActive(true);
-        //    applyButtonOff.SetActive(false);
-        //}
-        //else
-        //{
-        //    applyButtonOn.SetActive(false);
-        //    applyButtonOff.SetActive(true);
-        //}
     }
 
 
